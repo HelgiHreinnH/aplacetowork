@@ -46,7 +46,10 @@ const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, em
           </button>
         </div>
       </div>
-      <div className={`${isFlipped ? 'block' : 'hidden'} p-4`} style={{ transform: 'rotateY(180deg)' }}>
+      <div 
+        className={`${isFlipped ? 'block' : 'hidden'} p-4`} 
+        style={{ transform: 'rotateY(180deg)' }}
+      >
         <div style={{ transform: 'rotateY(180deg)' }}>
           <h2 className="text-2xl font-bold mb-4">{title} - Detailed Information</h2>
           <p className="text-lg mb-4">
