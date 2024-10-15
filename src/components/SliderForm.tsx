@@ -28,12 +28,12 @@ const SliderForm = () => {
             onValueChange={(value) => setSquareMeters(value[0])}
             className="w-full"
           />
-          <div className="flex justify-between text-xs text-gray-600 px-2 mt-1">
+          <div className="flex justify-between text-xs text-gray-600 px-2 mt-2">
             <span>8</span>
             <span>40</span>
           </div>
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-2">
           <span className="text-lg font-bold text-gray-700">{squareMeters} m²</span>
         </div>
       </div>
@@ -51,12 +51,12 @@ const SliderForm = () => {
             onValueChange={(value) => setEmployees(value[0])}
             className="w-full"
           />
-          <div className="flex justify-between text-xs text-gray-600 px-2 mt-1">
+          <div className="flex justify-between text-xs text-gray-600 px-2 mt-2">
             <span>1</span>
             <span>10</span>
           </div>
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-2">
           <span className="text-lg font-bold text-gray-700">{employees}</span>
         </div>
       </div>
@@ -74,12 +74,12 @@ const SliderForm = () => {
             onValueChange={(value) => setUsage(value[0])}
             className="w-full"
           />
-          <div className="flex justify-between text-xs text-gray-600 px-2 mt-1">
+          <div className="flex justify-between text-xs text-gray-600 px-2 mt-2">
             <span>Active</span>
             <span>Passive</span>
           </div>
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-2">
           <span className="text-lg font-bold text-gray-700">
             {usage === 0 ? 'Active' : 'Passive'}
           </span>
