@@ -19,38 +19,39 @@ const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, em
 
   return (
     <motion.div
-      className="bg-gray-100 rounded-lg shadow-md overflow-hidden cursor-pointer"
+      className="bg-gray-100 rounded-lg shadow-md overflow-hidden cursor-pointer h-full flex flex-col"
       initial={false}
       animate={{ rotateY: isFlipped ? 180 : 0 }}
       transition={{ duration: 0.6 }}
       onClick={handleFlip}
     >
-      <div className={`${isFlipped ? 'hidden' : 'block'}`}>
+      <div className={`${isFlipped ? 'hidden' : 'block'} flex-grow`}>
         <img src={image} alt={title} className="w-full h-48 object-cover" />
-        <div className="p-4">
+        <div className="p-4 flex flex-col h-full">
           <h2 className="text-xl font-semibold mb-2">{title}</h2>
           <p className="text-sm text-gray-600 mb-4">{description}</p>
-          <div className="space-y-2">
+          <div className="space-y-2 flex-grow">
             <p><span className="font-semibold">Square Meters:</span> {squareMeters} m²</p>
             <p><span className="font-semibold">Employees:</span> {employees}</p>
             <p><span className="font-semibold">Usage:</span> {usage}</p>
           </div>
-          <button
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleFlip();
-            }}
-          >
-            Show More
-          </button>
+          <div className="mt-auto pt-4">
+            <button
+              className="w-full bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleFlip();
+              }}
+            >
+              Show More
+            </button>
+          </div>
         </div>
       </div>
       <div 
-        className={`${isFlipped ? 'block' : 'hidden'} p-4`} 
-        style={{ transform: 'rotateY(180deg)' }}
+        className={`${isFlipped ? 'block' : 'hidden'} p-4 h-full flex flex-col`} 
       >
-        <div style={{ transform: 'rotateY(180deg)' }}>
+        <div>
           <h2 className="text-2xl font-bold mb-4">{title} - Detailed Information</h2>
           <p className="text-lg mb-4">
             {title} is a crucial component of modern workplace design, offering a space that balances functionality with comfort.
@@ -72,8 +73,10 @@ const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, em
             Whether used for focused individual work, team collaborations, or casual interactions, this {title.toLowerCase()} 
             is designed to adapt to the evolving needs of a dynamic workplace.
           </p>
+        </div>
+        <div className="mt-auto pt-4">
           <button
-            className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+            className="w-full bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-colors"
             onClick={(e) => {
               e.stopPropagation();
               handleFlip();
