@@ -79,3 +79,8 @@
 .slider-track {
   @apply bg-gradient-to-r from-blue-200 to-blue-500;
 }
+
+.backface-hidden {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
