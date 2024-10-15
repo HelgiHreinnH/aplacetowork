@@ -25,9 +25,9 @@ const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, em
       animate={{ rotateY: isFlipped ? 180 : 0 }}
       transition={{ duration: 0.6 }}
     >
-      <div className={`${isFlipped ? 'hidden' : 'block'} flex-grow`}>
+      <div className={`${isFlipped ? 'hidden' : 'flex flex-col h-full'}`}>
         <img src={image} alt={title} className="w-full h-48 object-cover" />
-        <div className="p-4 flex flex-col h-full">
+        <div className="p-4 flex flex-col flex-grow">
           <h2 className="text-xl font-semibold mb-2">{title}</h2>
           <p className="text-sm text-gray-600 mb-4">{description}</p>
           <div className="space-y-2 flex-grow">
@@ -35,14 +35,14 @@ const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, em
             <p><span className="font-semibold">Employees:</span> {employees}</p>
             <p><span className="font-semibold">Usage:</span> {usage}</p>
           </div>
-          <div className="mt-auto pt-4">
-            <button
-              className="w-full bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-colors"
-              onClick={handleFlip}
-            >
-              Show More
-            </button>
-          </div>
+        </div>
+        <div className="mt-auto p-4">
+          <button
+            className="w-full bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-colors"
+            onClick={handleFlip}
+          >
+            Show More
+          </button>
         </div>
       </div>
       <div 
