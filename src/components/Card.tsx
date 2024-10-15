@@ -19,7 +19,7 @@ const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, em
 
   return (
     <motion.div
-      className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
+      className="bg-gray-100 rounded-lg shadow-md overflow-hidden cursor-pointer"
       initial={false}
       animate={{ rotateY: isFlipped ? 180 : 0 }}
       transition={{ duration: 0.6 }}
@@ -46,37 +46,39 @@ const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, em
           </button>
         </div>
       </div>
-      <div className={`${isFlipped ? 'block' : 'hidden'} p-4 transform rotate-y-180`}>
-        <h2 className="text-2xl font-bold mb-4">{title} - Detailed Information</h2>
-        <p className="text-lg mb-4">
-          {title} is a crucial component of modern workplace design, offering a space that balances functionality with comfort.
-        </p>
-        <p className="mb-4">
-          This {squareMeters} m² area is designed to accommodate up to {employees} employees, making it ideal for {usage.toLowerCase()} work environments.
-          The space is equipped with ergonomic furniture and state-of-the-art technology to enhance productivity and collaboration.
-        </p>
-        <p className="mb-4">
-          Key features of this {title.toLowerCase()} include:
-          <ul className="list-disc list-inside mt-2">
-            <li>Adjustable lighting for different work scenarios</li>
-            <li>Sound-absorbing materials for improved acoustics</li>
-            <li>Flexible furniture arrangements to support various activities</li>
-            <li>Integrated power and data connectivity</li>
-          </ul>
-        </p>
-        <p>
-          Whether used for focused individual work, team collaborations, or casual interactions, this {title.toLowerCase()} 
-          is designed to adapt to the evolving needs of a dynamic workplace.
-        </p>
-        <button
-          className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleFlip();
-          }}
-        >
-          Back to Front
-        </button>
+      <div className={`${isFlipped ? 'block' : 'hidden'} p-4`} style={{ transform: 'rotateY(180deg)' }}>
+        <div style={{ transform: 'rotateY(180deg)' }}>
+          <h2 className="text-2xl font-bold mb-4">{title} - Detailed Information</h2>
+          <p className="text-lg mb-4">
+            {title} is a crucial component of modern workplace design, offering a space that balances functionality with comfort.
+          </p>
+          <p className="mb-4">
+            This {squareMeters} m² area is designed to accommodate up to {employees} employees, making it ideal for {usage.toLowerCase()} work environments.
+            The space is equipped with ergonomic furniture and state-of-the-art technology to enhance productivity and collaboration.
+          </p>
+          <p className="mb-4">
+            Key features of this {title.toLowerCase()} include:
+            <ul className="list-disc list-inside mt-2">
+              <li>Adjustable lighting for different work scenarios</li>
+              <li>Sound-absorbing materials for improved acoustics</li>
+              <li>Flexible furniture arrangements to support various activities</li>
+              <li>Integrated power and data connectivity</li>
+            </ul>
+          </p>
+          <p>
+            Whether used for focused individual work, team collaborations, or casual interactions, this {title.toLowerCase()} 
+            is designed to adapt to the evolving needs of a dynamic workplace.
+          </p>
+          <button
+            className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleFlip();
+            }}
+          >
+            Back to Front
+          </button>
+        </div>
       </div>
     </motion.div>
   );
