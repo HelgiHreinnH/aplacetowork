@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from 'react-router-dom';
 
 const SliderForm = () => {
   const [squareMeters, setSquareMeters] = useState(8);
   const [employees, setEmployees] = useState(1);
   const [usage, setUsage] = useState(0);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', { squareMeters, employees, usage });
-    // Add your form submission logic here
+    navigate('/card-overview');
   };
 
   return (
