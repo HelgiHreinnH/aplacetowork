@@ -20,12 +20,16 @@ const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, em
 
   return (
     <motion.div
-      className="bg-gray-100 rounded-lg shadow-md overflow-hidden h-full flex flex-col"
+      className="bg-white rounded-lg shadow-md overflow-hidden h-full flex flex-col"
       initial={false}
       animate={{ rotateY: isFlipped ? 180 : 0 }}
       transition={{ duration: 0.6 }}
+      style={{ transformStyle: 'preserve-3d' }}
     >
-      <div className={`${isFlipped ? 'hidden' : 'flex flex-col h-full'}`}>
+      <div 
+        className={`${isFlipped ? 'hidden' : 'flex flex-col h-full'}`}
+        style={{ backfaceVisibility: 'hidden' }}
+      >
         <img src={image} alt={title} className="w-full h-48 object-cover" />
         <div className="p-4 flex flex-col flex-grow">
           <h2 className="text-xl font-semibold mb-2">{title}</h2>
@@ -46,7 +50,8 @@ const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, em
         </div>
       </div>
       <div 
-        className={`${isFlipped ? 'block' : 'hidden'} p-4 h-full flex flex-col`} 
+        className={`${isFlipped ? 'block' : 'hidden'} p-4 h-full flex flex-col bg-gray-100`} 
+        style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
       >
         <div>
           <h2 className="text-2xl font-bold mb-4">{title} - Detailed Information</h2>
