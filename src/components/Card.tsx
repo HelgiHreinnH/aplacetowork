@@ -13,17 +13,17 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, employees, usage }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const handleFlip = () => {
+  const handleFlip = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsFlipped(!isFlipped);
   };
 
   return (
     <motion.div
-      className="bg-gray-100 rounded-lg shadow-md overflow-hidden cursor-pointer h-full flex flex-col"
+      className="bg-gray-100 rounded-lg shadow-md overflow-hidden h-full flex flex-col"
       initial={false}
       animate={{ rotateY: isFlipped ? 180 : 0 }}
       transition={{ duration: 0.6 }}
-      onClick={handleFlip}
     >
       <div className={`${isFlipped ? 'hidden' : 'block'} flex-grow`}>
         <img src={image} alt={title} className="w-full h-48 object-cover" />
@@ -38,10 +38,7 @@ const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, em
           <div className="mt-auto pt-4">
             <button
               className="w-full bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-colors"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleFlip();
-              }}
+              onClick={handleFlip}
             >
               Show More
             </button>
@@ -77,10 +74,7 @@ const Card: React.FC<CardProps> = ({ title, image, description, squareMeters, em
         <div className="mt-auto pt-4">
           <button
             className="w-full bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-colors"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleFlip();
-            }}
+            onClick={handleFlip}
           >
             Back to Front
           </button>
