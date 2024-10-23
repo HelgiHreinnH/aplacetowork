@@ -2,14 +2,74 @@ import React from 'react';
 import Card from '../components/Card';
 
 const CardOverview = () => {
-  // Mock data for 6 test cards
+  // Mock data for 6 test cards with updated property names
   const cardData = [
-    { id: 1, title: 'Work Table', image: '/images/work-table.jpg', description: 'Ergonomic work table setup', squareMeters: 10, employees: 1, usage: 'Active' },
-    { id: 2, title: 'Lounge Area', image: '/images/lounge-area.jpg', description: 'Comfortable lounge for relaxation', squareMeters: 20, employees: 5, usage: 'Passive' },
-    { id: 3, title: 'Meeting Room', image: '/images/meeting-room.jpg', description: 'Spacious meeting room for team discussions', squareMeters: 30, employees: 8, usage: 'Active' },
-    { id: 4, title: 'Open Area', image: '/images/open-area.jpg', description: 'Collaborative open workspace', squareMeters: 40, employees: 10, usage: 'Active' },
-    { id: 5, title: 'Phone Booth', image: '/images/phone-booth.jpg', description: 'Private space for calls', squareMeters: 8, employees: 1, usage: 'Active' },
-    { id: 6, title: 'Breakout Space', image: '/images/breakout-space.jpg', description: 'Informal meeting and brainstorming area', squareMeters: 25, employees: 6, usage: 'Passive' },
+    { 
+      setting_title: 'Work Table',
+      setting_subtitle: 'Individual Workspace',
+      setting_description: 'Ergonomic work table setup',
+      image: '/images/work-table.jpg',
+      sqm_min: 8,
+      sqm_max: 12,
+      employees_min: 1,
+      employees_max: 1,
+      workplace_setting: 'Active'
+    },
+    {
+      setting_title: 'Lounge Area',
+      setting_subtitle: 'Relaxation Zone',
+      setting_description: 'Comfortable lounge for relaxation',
+      image: '/images/lounge-area.jpg',
+      sqm_min: 15,
+      sqm_max: 25,
+      employees_min: 4,
+      employees_max: 6,
+      workplace_setting: 'Passive'
+    },
+    {
+      setting_title: 'Meeting Room',
+      setting_subtitle: 'Collaboration Space',
+      setting_description: 'Spacious meeting room for team discussions',
+      image: '/images/meeting-room.jpg',
+      sqm_min: 25,
+      sqm_max: 35,
+      employees_min: 6,
+      employees_max: 10,
+      workplace_setting: 'Active'
+    },
+    {
+      setting_title: 'Open Area',
+      setting_subtitle: 'Collaborative Workspace',
+      setting_description: 'Collaborative open workspace',
+      image: '/images/open-area.jpg',
+      sqm_min: 35,
+      sqm_max: 50,
+      employees_min: 8,
+      employees_max: 12,
+      workplace_setting: 'Active'
+    },
+    {
+      setting_title: 'Phone Booth',
+      setting_subtitle: 'Private Communication',
+      setting_description: 'Private space for calls',
+      image: '/images/phone-booth.jpg',
+      sqm_min: 2,
+      sqm_max: 4,
+      employees_min: 1,
+      employees_max: 1,
+      workplace_setting: 'Active'
+    },
+    {
+      setting_title: 'Breakout Space',
+      setting_subtitle: 'Informal Meeting Area',
+      setting_description: 'Informal meeting and brainstorming area',
+      image: '/images/breakout-space.jpg',
+      sqm_min: 20,
+      sqm_max: 30,
+      employees_min: 4,
+      employees_max: 8,
+      workplace_setting: 'Passive'
+    },
   ];
 
   return (
@@ -17,7 +77,7 @@ const CardOverview = () => {
       <h1 className="text-3xl font-bold mb-8">Workplace Settings</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {cardData.map((card) => (
-          <Card key={card.id} {...card} />
+          <Card key={card.setting_title} {...card} />
         ))}
       </div>
     </div>
