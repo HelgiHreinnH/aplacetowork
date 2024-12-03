@@ -9,7 +9,8 @@ interface CardFrontProps {
   taskCategory: string;
   sqmApprox: string;
   usersApprox: string;
-  onFlip: (e: React.MouseEvent) => void;
+  onFlip?: (e: React.MouseEvent) => void;
+  imageId?: string;
 }
 
 const CardFront: React.FC<CardFrontProps> = ({
@@ -19,7 +20,8 @@ const CardFront: React.FC<CardFrontProps> = ({
   taskCategory,
   sqmApprox,
   usersApprox,
-  onFlip
+  onFlip,
+  imageId = 'photo-1488590528505-98d2b5aba04b' // Default image
 }) => {
   const navigate = useNavigate();
 
@@ -33,6 +35,15 @@ const CardFront: React.FC<CardFrontProps> = ({
 
   return (
     <ShadcnCard className="w-full hover:shadow-lg transition-shadow duration-300">
+      {/* Image template */}
+      <div className="w-full h-48 overflow-hidden">
+        <img 
+          src={`https://images.unsplash.com/photo-${imageId}`} 
+          alt={facility} 
+          className="w-full h-full object-cover"
+        />
+      </div>
+
       <CardHeader className="bg-gradient-to-r from-purple-100 to-blue-100 rounded-t-lg">
         <div className="space-y-2">
           <h2 className="text-2xl font-bold text-gray-800">{facility}</h2>

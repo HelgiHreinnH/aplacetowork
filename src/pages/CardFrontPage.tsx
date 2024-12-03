@@ -9,6 +9,7 @@ const CardFrontPage = () => {
     taskCategory: "Group Work",
     sqmApprox: "30",
     usersApprox: "8-12",
+    imageId: "photo-1486312338219-ce68d2c6f44d", // Different image for variety
     onFlip: () => console.log("Flip clicked")
   };
 
