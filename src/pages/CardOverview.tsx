@@ -4,10 +4,15 @@ import { createClient } from '@supabase/supabase-js';
 import Card from '../components/Card';
 import { toast } from "sonner";
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+// Check if environment variables are available
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing Supabase environment variables. Please check your .env file.');
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const CardOverview = () => {
   const { data: facilities, isLoading, error } = useQuery({
