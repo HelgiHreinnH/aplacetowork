@@ -10,14 +10,17 @@ const CardFrontPage = () => {
     "Task Category": "Group Work",
     "Approx. Square Meters": "30",
     "Approx. Users": "8-12",
-    "Facility ID": 1,
     "Notes": null,
-    "Priority (1-5)": null,
+    "Priority": null,
     "Purpose of the Facility": null,
     "Types of Activities Supported": null,
     "Amenities & Features": null,
     "Etiquette and Guidelines": null,
-    "Technology Integration": null
+    "Technology Integration": null,
+    "Sq M Min": null,
+    "Sq M Max": null,
+    "Users Min": null,
+    "Users Max": null
   };
 
   return (

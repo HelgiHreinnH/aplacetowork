@@ -16,8 +16,7 @@ export type Database = {
           "Approx. Users": string | null
           Description: string | null
           "Etiquette and Guidelines": string | null
-          Facility: string | null
-          "Facility ID": number
+          Facility: string
           Notes: string | null
           Priority: number | null
           "Purpose of the Facility": string | null
@@ -36,8 +35,7 @@ export type Database = {
           "Approx. Users"?: string | null
           Description?: string | null
           "Etiquette and Guidelines"?: string | null
-          Facility?: string | null
-          "Facility ID": number
+          Facility: string
           Notes?: string | null
           Priority?: number | null
           "Purpose of the Facility"?: string | null
@@ -56,8 +54,7 @@ export type Database = {
           "Approx. Users"?: string | null
           Description?: string | null
           "Etiquette and Guidelines"?: string | null
-          Facility?: string | null
-          "Facility ID"?: number
+          Facility?: string
           Notes?: string | null
           Priority?: number | null
           "Purpose of the Facility"?: string | null
@@ -74,8 +71,7 @@ export type Database = {
       }
       "Facilities index values": {
         Row: {
-          Facility: string | null
-          "Facility ID": number
+          Facility: string
           Priority: number | null
           "Sq M Max": number | null
           "Sq M Min": number | null
@@ -84,8 +80,7 @@ export type Database = {
           "Users Min": number | null
         }
         Insert: {
-          Facility?: string | null
-          "Facility ID": number
+          Facility: string
           Priority?: number | null
           "Sq M Max"?: number | null
           "Sq M Min"?: number | null
@@ -94,8 +89,7 @@ export type Database = {
           "Users Min"?: number | null
         }
         Update: {
-          Facility?: string | null
-          "Facility ID"?: number
+          Facility?: string
           Priority?: number | null
           "Sq M Max"?: number | null
           "Sq M Min"?: number | null

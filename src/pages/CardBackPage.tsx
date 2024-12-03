@@ -12,12 +12,15 @@ const CardBackPage = () => {
     "Amenities & Features": "75-inch display, video conferencing system, whiteboard wall, adjustable lighting",
     "Etiquette and Guidelines": "Clean after use, no food allowed, maintain quiet in surrounding areas",
     "Technology Integration": "Built-in AV system, wireless presentation capabilities, high-speed internet",
-    "Facility ID": 1,
     "Subtitle": null,
     "Description": null,
-    "Priority (1-5)": null,
+    "Priority": null,
     "Approx. Square Meters": null,
-    "Approx. Users": null
+    "Approx. Users": null,
+    "Sq M Min": null,
+    "Sq M Max": null,
+    "Users Min": null,
+    "Users Max": null
   };
 
   return (

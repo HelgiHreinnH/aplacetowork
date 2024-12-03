@@ -5,7 +5,6 @@ import type { Database } from '@/integrations/supabase/types';
 const CardPage = () => {
   const sampleData: Database['public']['Tables']['Facilities']['Row'] = {
     "Facility": "Meeting Room A",
-    "Facility ID": 1,
     "Subtitle": "Collaborative Space",
     "Description": "A modern meeting room designed for team collaboration and presentations",
     "Task Category": "Group Work",
@@ -17,7 +16,11 @@ const CardPage = () => {
     "Amenities & Features": "75-inch display, video conferencing system, whiteboard wall, adjustable lighting",
     "Etiquette and Guidelines": "Clean after use, no food allowed, maintain quiet in surrounding areas",
     "Technology Integration": "Built-in AV system, wireless presentation capabilities, high-speed internet",
-    "Priority (1-5)": null
+    "Priority": null,
+    "Sq M Min": null,
+    "Sq M Max": null,
+    "Users Min": null,
+    "Users Max": null
   };
 
   return (
