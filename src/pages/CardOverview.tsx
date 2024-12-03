@@ -1,83 +1,59 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { createClient } from '@supabase/supabase-js';
 import Card from '../components/Card';
+import { toast } from "sonner";
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 const CardOverview = () => {
-  // Mock data for 6 test cards with updated property names
-  const cardData = [
-    { 
-      setting_title: 'Work Table',
-      setting_subtitle: 'Individual Workspace',
-      setting_description: 'Ergonomic work table setup',
-      image: '/images/work-table.jpg',
-      sqm_min: 8,
-      sqm_max: 12,
-      employees_min: 1,
-      employees_max: 1,
-      workplace_setting: 'Active'
-    },
-    {
-      setting_title: 'Lounge Area',
-      setting_subtitle: 'Relaxation Zone',
-      setting_description: 'Comfortable lounge for relaxation',
-      image: '/images/lounge-area.jpg',
-      sqm_min: 15,
-      sqm_max: 25,
-      employees_min: 4,
-      employees_max: 6,
-      workplace_setting: 'Passive'
-    },
-    {
-      setting_title: 'Meeting Room',
-      setting_subtitle: 'Collaboration Space',
-      setting_description: 'Spacious meeting room for team discussions',
-      image: '/images/meeting-room.jpg',
-      sqm_min: 25,
-      sqm_max: 35,
-      employees_min: 6,
-      employees_max: 10,
-      workplace_setting: 'Active'
-    },
-    {
-      setting_title: 'Open Area',
-      setting_subtitle: 'Collaborative Workspace',
-      setting_description: 'Collaborative open workspace',
-      image: '/images/open-area.jpg',
-      sqm_min: 35,
-      sqm_max: 50,
-      employees_min: 8,
-      employees_max: 12,
-      workplace_setting: 'Active'
-    },
-    {
-      setting_title: 'Phone Booth',
-      setting_subtitle: 'Private Communication',
-      setting_description: 'Private space for calls',
-      image: '/images/phone-booth.jpg',
-      sqm_min: 2,
-      sqm_max: 4,
-      employees_min: 1,
-      employees_max: 1,
-      workplace_setting: 'Active'
-    },
-    {
-      setting_title: 'Breakout Space',
-      setting_subtitle: 'Informal Meeting Area',
-      setting_description: 'Informal meeting and brainstorming area',
-      image: '/images/breakout-space.jpg',
-      sqm_min: 20,
-      sqm_max: 30,
-      employees_min: 4,
-      employees_max: 8,
-      workplace_setting: 'Passive'
-    },
-  ];
+  const { data: facilities, isLoading, error } = useQuery({
+    queryKey: ['facilities'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('Facilities')
+        .select('*');
+      
+      if (error) {
+        toast.error("Failed to load facilities");
+        throw error;
+      }
+      
+      return data;
+    }
+  });
+
+  if (isLoading) {
+    return <div className="container mx-auto py-8">Loading facilities...</div>;
+  }
+
+  if (error) {
+    return <div className="container mx-auto py-8">Error loading facilities</div>;
+  }
 
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-8">Workplace Settings</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {cardData.map((card) => (
-          <Card key={card.setting_title} {...card} />
+      <div className="grid grid-cols-1 gap-8">
+        {facilities?.map((facility) => (
+          <Card
+            key={facility.id}
+            facility={facility.facility}
+            subtitle={facility.subtitle}
+            description={facility.description}
+            taskCategory={facility.task_category}
+            sqmApprox={facility.sqm_approx}
+            usersApprox={facility.users_approx}
+            notes={facility.notes}
+            purpose={facility.purpose}
+            activities={facility.activities}
+            amenities={facility.amenities}
+            etiquette={facility.etiquette}
+            technology={facility.technology}
+          />
         ))}
       </div>
     </div>
