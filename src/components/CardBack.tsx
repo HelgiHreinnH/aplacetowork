@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { Circle, FoldHorizontal } from "lucide-react";
 import type { Database } from '@/integrations/supabase/types';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
@@ -17,7 +19,33 @@ interface CardBackProps extends Pick<
   | 'Technology Integration'
 > {
   onFlip?: (e: React.MouseEvent) => void;
+  imageId?: string;
 }
+
+interface CategoryDrawerProps {
+  title: string;
+  content?: string | null;
+}
+
+const CategoryDrawer: React.FC<CategoryDrawerProps> = ({ title, content }) => {
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <div className="flex flex-col items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+          <Circle className="h-12 w-12 p-2 bg-gray-100 rounded-full" />
+          <span className="text-sm font-medium text-gray-600">{title}</span>
+        </div>
+      </DrawerTrigger>
+      <DrawerContent className="p-6">
+        <div className="flex justify-between items-start mb-4">
+          <h3 className="text-lg font-semibold">{title}</h3>
+          <FoldHorizontal className="h-6 w-6 text-gray-500 cursor-pointer" />
+        </div>
+        <p className="text-gray-600">{content || 'Not specified'}</p>
+      </DrawerContent>
+    </Drawer>
+  );
+};
 
 const CardBack: React.FC<CardBackProps> = ({
   Facility: facility,
@@ -28,7 +56,8 @@ const CardBack: React.FC<CardBackProps> = ({
   'Amenities & Features': amenities,
   'Etiquette and Guidelines': etiquette,
   'Technology Integration': technology,
-  onFlip
+  onFlip,
+  imageId
 }) => {
   const navigate = useNavigate();
 
@@ -40,21 +69,43 @@ const CardBack: React.FC<CardBackProps> = ({
     }
   };
 
+  const categories = [
+    { title: 'Purpose', content: purpose },
+    { title: 'Activities', content: activities },
+    { title: 'Amenities', content: amenities },
+    { title: 'Guidelines', content: etiquette },
+    { title: 'Technology', content: technology },
+  ];
+
   return (
     <Card className="w-full h-full hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
         <h1 className="text-2xl font-bold tracking-tight text-gray-900">{facility}</h1>
+        {imageId && (
+          <div className="mt-4 w-full h-48 rounded-lg overflow-hidden">
+            <img 
+              src={`/images/${imageId}`} 
+              alt={facility} 
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
       </CardHeader>
       
       <CardContent className="space-y-6">
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+          {categories.map((category) => (
+            <CategoryDrawer 
+              key={category.title} 
+              title={category.title} 
+              content={category.content} 
+            />
+          ))}
+        </div>
+
+        <div className="space-y-4 mt-6">
           <InfoSection title="Task Category" content={taskCategory} />
           <InfoSection title="Notes" content={notes} />
-          <InfoSection title="Purpose of the Facility" content={purpose} />
-          <InfoSection title="Types of Activities Supported" content={activities} />
-          <InfoSection title="Amenities & Features" content={amenities} />
-          <InfoSection title="Etiquette and Guidelines" content={etiquette} />
-          <InfoSection title="Technology Integration" content={technology} />
         </div>
 
         <button
