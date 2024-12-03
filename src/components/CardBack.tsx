@@ -25,15 +25,23 @@ interface CardBackProps extends Pick<
 interface CategoryPopoverProps {
   title: string;
   content?: string | null;
+  rotation: number;
 }
 
-const CategoryPopover: React.FC<CategoryPopoverProps> = ({ title, content }) => {
+const CategoryPopover: React.FC<CategoryPopoverProps> = ({ title, content, rotation }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="flex flex-col items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
-          <Circle className="h-12 w-12 p-2 bg-gray-100 rounded-full" />
-          <span className="text-sm font-medium text-gray-600">{title}</span>
+        <div 
+          className="absolute cursor-pointer hover:opacity-80 transition-opacity"
+          style={{
+            transform: `rotate(${rotation}deg) translateX(120px) rotate(-${rotation}deg)`,
+          }}
+        >
+          <div className="flex flex-col items-center gap-2">
+            <Circle className="h-12 w-12 p-2 bg-gray-100 rounded-full" />
+            <span className="text-sm font-medium text-gray-600 whitespace-nowrap">{title}</span>
+          </div>
         </div>
       </PopoverTrigger>
       <PopoverContent 
@@ -107,14 +115,17 @@ const CardBack: React.FC<CardBackProps> = ({
 
         <div className="mt-auto pt-6 border-t border-gray-200">
           <div className="bg-gray-50 rounded-xl p-6">
-            <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-items-center">
-              {categories.map((category) => (
-                <CategoryPopover 
-                  key={category.title} 
-                  title={category.title} 
-                  content={category.content} 
-                />
-              ))}
+            <div className="relative h-[300px]">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                {categories.map((category, index) => (
+                  <CategoryPopover 
+                    key={category.title} 
+                    title={category.title} 
+                    content={category.content}
+                    rotation={(360 / categories.length) * index}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
