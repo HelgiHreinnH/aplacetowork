@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Card from '../components/Card';
 import { toast } from "sonner";
 
-const CardOverview = () => {
+const CardSearchOutput = () => {
   const { data: facilities, isLoading, error } = useQuery({
     queryKey: ['facilities'],
     queryFn: async () => {
@@ -55,4 +55,4 @@ const CardOverview = () => {
   );
 };
 
-export default CardOverview;
+export default CardSearchOutput;
