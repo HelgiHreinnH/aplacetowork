@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card as ShadcnCard, CardHeader, CardContent } from "@/components/ui/card";
 
 interface CardFrontProps {
@@ -20,6 +21,16 @@ const CardFront: React.FC<CardFrontProps> = ({
   usersApprox,
   onFlip
 }) => {
+  const navigate = useNavigate();
+
+  const handleShowMore = (e: React.MouseEvent) => {
+    if (onFlip) {
+      onFlip(e);
+    } else {
+      navigate('/card-back');
+    }
+  };
+
   return (
     <ShadcnCard className="w-full hover:shadow-lg transition-shadow duration-300">
       <CardHeader className="bg-gradient-to-r from-purple-100 to-blue-100 rounded-t-lg">
@@ -50,7 +61,7 @@ const CardFront: React.FC<CardFrontProps> = ({
         </div>
         
         <button
-          onClick={onFlip}
+          onClick={handleShowMore}
           className="w-full bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors duration-300 mt-4"
         >
           Show More Details

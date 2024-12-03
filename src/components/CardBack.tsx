@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface CardBackProps {
   facility: string;
@@ -23,6 +24,16 @@ const CardBack: React.FC<CardBackProps> = ({
   technology,
   onFlip
 }) => {
+  const navigate = useNavigate();
+
+  const handleBack = (e: React.MouseEvent) => {
+    if (onFlip) {
+      onFlip(e);
+    } else {
+      navigate('/card-front');
+    }
+  };
+
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold mb-4">{facility}</h2>
@@ -51,7 +62,7 @@ const CardBack: React.FC<CardBackProps> = ({
       <div className="mt-auto pt-4">
         <button
           className="w-full bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-colors"
-          onClick={onFlip}
+          onClick={handleBack}
         >
           Back to Front
         </button>
