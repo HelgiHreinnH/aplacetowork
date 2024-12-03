@@ -35,19 +35,19 @@ const CardOverview = () => {
       <div className="grid grid-cols-1 gap-8">
         {facilities?.map((facility) => (
           <Card
-            key={facility.id}
-            facility={facility.facility}
-            subtitle={facility.subtitle}
-            description={facility.description}
-            taskCategory={facility.task_category}
-            sqmApprox={facility.approx_square_meters}
-            usersApprox={facility.approx_users}
-            notes={facility.notes}
-            purpose={facility.purpose_of_the_facility}
-            activities={facility.types_of_activities_supported}
-            amenities={facility.amenities_features}
-            etiquette={facility.etiquette_and_guidelines}
-            technology={facility.technology_integration}
+            key={facility["Facility ID"]}
+            facility={facility["Facility"]}
+            subtitle={facility["Subtitle"]}
+            description={facility["Description"]}
+            taskCategory={facility["Task Category"]}
+            sqmApprox={facility["Approx. Square Meters"]}
+            usersApprox={facility["Approx. Users"]}
+            notes={facility["Notes"]}
+            purpose={facility["Purpose of the Facility"]}
+            activities={facility["Types of Activities Supported"]}
+            amenities={facility["Amenities & Features"]}
+            etiquette={facility["Etiquette and Guidelines"]}
+            technology={facility["Technology Integration"]}
           />
         ))}
       </div>
