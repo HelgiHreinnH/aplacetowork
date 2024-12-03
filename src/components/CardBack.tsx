@@ -84,42 +84,47 @@ const CardBack: React.FC<CardBackProps> = ({
   ];
 
   return (
-    <Card className="w-full h-full hover:shadow-lg transition-shadow duration-300">
-      <CardHeader>
+    <Card className="w-full h-full flex flex-col hover:shadow-lg transition-shadow duration-300">
+      <CardHeader className="flex-none">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900">{facility}</h1>
-        {imageId && (
-          <div className="mt-4 w-full h-48 rounded-lg overflow-hidden">
-            <img 
-              src={`/images/${imageId}`} 
-              alt={facility} 
-              className="w-full h-full object-cover"
-            />
-          </div>
-        )}
       </CardHeader>
       
-      <CardContent className="space-y-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-          {categories.map((category) => (
-            <CategoryPopover 
-              key={category.title} 
-              title={category.title} 
-              content={category.content} 
-            />
-          ))}
+      {imageId && (
+        <div className="flex-none w-full h-48 px-6">
+          <img 
+            src={`/images/${imageId}`} 
+            alt={facility} 
+            className="w-full h-full object-cover rounded-lg"
+          />
         </div>
+      )}
 
-        <div className="space-y-4 mt-6">
+      <CardContent className="flex-1 flex flex-col justify-between space-y-6 mt-6">
+        <div className="space-y-4">
           <InfoSection title="Task Category" content={taskCategory} />
           <InfoSection title="Notes" content={notes} />
         </div>
 
-        <button
-          className="w-full bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors duration-300 mt-6"
-          onClick={handleBack}
-        >
-          Back to Front
-        </button>
+        <div className="mt-auto pt-6 border-t border-gray-200">
+          <div className="bg-gray-50 rounded-xl p-6">
+            <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-items-center">
+              {categories.map((category) => (
+                <CategoryPopover 
+                  key={category.title} 
+                  title={category.title} 
+                  content={category.content} 
+                />
+              ))}
+            </div>
+          </div>
+
+          <button
+            className="w-full bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors duration-300 mt-6"
+            onClick={handleBack}
+          >
+            Back to Front
+          </button>
+        </div>
       </CardContent>
     </Card>
   );
