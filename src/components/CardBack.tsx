@@ -36,7 +36,13 @@ const CategoryPopover: React.FC<CategoryPopoverProps> = ({ title, content }) => 
           <span className="text-sm font-medium text-gray-600">{title}</span>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-6">
+      <PopoverContent 
+        className="w-80 p-6" 
+        align="center" 
+        side="top" 
+        sideOffset={20}
+        alignOffset={0}
+      >
         <div className="flex justify-between items-start mb-4">
           <h3 className="text-lg font-semibold">{title}</h3>
           <FoldHorizontal className="h-6 w-6 text-gray-500 cursor-pointer" />
