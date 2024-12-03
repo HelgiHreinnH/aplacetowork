@@ -1,27 +1,32 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card as ShadcnCard, CardHeader, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import type { Database } from '@/integrations/supabase/types';
 
-interface CardFrontProps {
-  facility: string;
-  subtitle: string;
-  description: string;
-  taskCategory: string;
-  sqmApprox: string;
-  usersApprox: string;
+type Facility = Database['public']['Tables']['Facilities']['Row'];
+
+interface CardFrontProps extends Pick<
+  Facility,
+  | 'Facility'
+  | 'Subtitle'
+  | 'Description'
+  | 'Task Category'
+  | 'Approx. Square Meters'
+  | 'Approx. Users'
+> {
   onFlip?: (e: React.MouseEvent) => void;
   imageId?: string;
 }
 
 const CardFront: React.FC<CardFrontProps> = ({
-  facility,
-  subtitle,
-  description,
-  taskCategory,
-  sqmApprox,
-  usersApprox,
+  Facility: facility,
+  Subtitle: subtitle,
+  Description: description,
+  'Task Category': taskCategory,
+  'Approx. Square Meters': sqmApprox,
+  'Approx. Users': usersApprox,
   onFlip,
-  imageId = 'photo-1488590528505-98d2b5aba04b' // Default image
+  imageId = 'photo-1488590528505-98d2b5aba04b'
 }) => {
   const navigate = useNavigate();
 
@@ -34,23 +39,20 @@ const CardFront: React.FC<CardFrontProps> = ({
   };
 
   return (
-    <ShadcnCard className="w-full hover:shadow-lg transition-shadow duration-300">
-      {/* Title Section */}
+    <Card className="w-full h-full hover:shadow-lg transition-shadow duration-300">
       <CardHeader className="pb-0">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900">{facility}</h1>
       </CardHeader>
 
-      {/* Image template */}
       <div className="w-full h-48 overflow-hidden">
         <img 
           src={`https://images.unsplash.com/photo-${imageId}`} 
-          alt={facility} 
+          alt={facility || 'Facility image'} 
           className="w-full h-full object-cover"
         />
       </div>
 
       <CardContent className="pt-6">
-        {/* Subtitle and Description */}
         <div className="space-y-4">
           <h2 className="text-xl font-semibold text-gray-700">{subtitle}</h2>
           <p className="text-gray-600 leading-relaxed">{description}</p>
@@ -78,7 +80,7 @@ const CardFront: React.FC<CardFrontProps> = ({
           Show More Details
         </button>
       </CardContent>
-    </ShadcnCard>
+    </Card>
   );
 };
 

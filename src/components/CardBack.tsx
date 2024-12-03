@@ -1,27 +1,33 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import type { Database } from '@/integrations/supabase/types';
 
-interface CardBackProps {
-  facility: string;
-  taskCategory: string;
-  notes: string;
-  purpose: string;
-  activities: string;
-  amenities: string;
-  etiquette: string;
-  technology: string;
-  onFlip: (e: React.MouseEvent) => void;
+type Facility = Database['public']['Tables']['Facilities']['Row'];
+
+interface CardBackProps extends Pick<
+  Facility,
+  | 'Facility'
+  | 'Task Category'
+  | 'Notes'
+  | 'Purpose of the Facility'
+  | 'Types of Activities Supported'
+  | 'Amenities & Features'
+  | 'Etiquette and Guidelines'
+  | 'Technology Integration'
+> {
+  onFlip?: (e: React.MouseEvent) => void;
 }
 
 const CardBack: React.FC<CardBackProps> = ({
-  facility,
-  taskCategory,
-  notes,
-  purpose,
-  activities,
-  amenities,
-  etiquette,
-  technology,
+  Facility: facility,
+  'Task Category': taskCategory,
+  Notes: notes,
+  'Purpose of the Facility': purpose,
+  'Types of Activities Supported': activities,
+  'Amenities & Features': amenities,
+  'Etiquette and Guidelines': etiquette,
+  'Technology Integration': technology,
   onFlip
 }) => {
   const navigate = useNavigate();
@@ -35,40 +41,38 @@ const CardBack: React.FC<CardBackProps> = ({
   };
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold mb-4">{facility}</h2>
-      <p><span className="font-semibold">Task Category:</span> {taskCategory}</p>
-      <p><span className="font-semibold">Notes:</span> {notes}</p>
-      <div>
-        <h3 className="font-semibold mb-2">Purpose of the Facility</h3>
-        <p>{purpose}</p>
-      </div>
-      <div>
-        <h3 className="font-semibold mb-2">Types of Activities Supported</h3>
-        <p>{activities}</p>
-      </div>
-      <div>
-        <h3 className="font-semibold mb-2">Amenities & Features</h3>
-        <p>{amenities}</p>
-      </div>
-      <div>
-        <h3 className="font-semibold mb-2">Etiquette and Guidelines</h3>
-        <p>{etiquette}</p>
-      </div>
-      <div>
-        <h3 className="font-semibold mb-2">Technology Integration</h3>
-        <p>{technology}</p>
-      </div>
-      <div className="mt-auto pt-4">
+    <Card className="w-full h-full hover:shadow-lg transition-shadow duration-300">
+      <CardHeader>
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900">{facility}</h1>
+      </CardHeader>
+      
+      <CardContent className="space-y-6">
+        <div className="grid grid-cols-1 gap-6">
+          <InfoSection title="Task Category" content={taskCategory} />
+          <InfoSection title="Notes" content={notes} />
+          <InfoSection title="Purpose of the Facility" content={purpose} />
+          <InfoSection title="Types of Activities Supported" content={activities} />
+          <InfoSection title="Amenities & Features" content={amenities} />
+          <InfoSection title="Etiquette and Guidelines" content={etiquette} />
+          <InfoSection title="Technology Integration" content={technology} />
+        </div>
+
         <button
-          className="w-full bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-colors"
+          className="w-full bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors duration-300 mt-6"
           onClick={handleBack}
         >
           Back to Front
         </button>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
+
+const InfoSection: React.FC<{ title: string; content?: string | null }> = ({ title, content }) => (
+  <div className="space-y-2">
+    <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
+    <p className="text-gray-600">{content || 'Not specified'}</p>
+  </div>
+);
 
 export default CardBack;
