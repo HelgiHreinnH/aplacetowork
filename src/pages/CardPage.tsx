@@ -1,20 +1,21 @@
 import React from 'react';
 import Card from '@/components/Card';
+import type { Database } from '@/integrations/supabase/types';
 
 const CardPage = () => {
-  const sampleData = {
-    facility: "Meeting Room A",
-    subtitle: "Collaborative Space",
-    description: "A modern meeting room designed for team collaboration and presentations",
-    taskCategory: "Group Work",
-    sqmApprox: "30",
-    usersApprox: "8-12",
-    notes: "Booking required for sessions longer than 1 hour",
-    purpose: "Designed for team meetings, presentations, and collaborative sessions",
-    activities: "Team meetings, client presentations, video conferences, workshops",
-    amenities: "75-inch display, video conferencing system, whiteboard wall, adjustable lighting",
-    etiquette: "Clean after use, no food allowed, maintain quiet in surrounding areas",
-    technology: "Built-in AV system, wireless presentation capabilities, high-speed internet"
+  const sampleData: Partial<Database['public']['Tables']['Facilities']['Row']> = {
+    "Facility": "Meeting Room A",
+    "Subtitle": "Collaborative Space",
+    "Description": "A modern meeting room designed for team collaboration and presentations",
+    "Task Category": "Group Work",
+    "Approx. Square Meters": "30",
+    "Approx. Users": "8-12",
+    "Notes": "Booking required for sessions longer than 1 hour",
+    "Purpose of the Facility": "Designed for team meetings, presentations, and collaborative sessions",
+    "Types of Activities Supported": "Team meetings, client presentations, video conferences, workshops",
+    "Amenities & Features": "75-inch display, video conferencing system, whiteboard wall, adjustable lighting",
+    "Etiquette and Guidelines": "Clean after use, no food allowed, maintain quiet in surrounding areas",
+    "Technology Integration": "Built-in AV system, wireless presentation capabilities, high-speed internet"
   };
 
   return (

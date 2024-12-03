@@ -3,13 +3,21 @@ import CardFront from '@/components/CardFront';
 import type { Database } from '@/integrations/supabase/types';
 
 const CardFrontPage = () => {
-  const sampleData: Partial<Database['public']['Tables']['Facilities']['Row']> = {
+  const sampleData: Database['public']['Tables']['Facilities']['Row'] = {
     "Facility": "Meeting Room A",
     "Subtitle": "Collaborative Space",
     "Description": "A modern meeting room designed for team collaboration and presentations",
     "Task Category": "Group Work",
     "Approx. Square Meters": "30",
-    "Approx. Users": "8-12"
+    "Approx. Users": "8-12",
+    "Facility ID": 1,
+    "Notes": null,
+    "Priority (1-5)": null,
+    "Purpose of the Facility": null,
+    "Types of Activities Supported": null,
+    "Amenities & Features": null,
+    "Etiquette and Guidelines": null,
+    "Technology Integration": null
   };
 
   return (
