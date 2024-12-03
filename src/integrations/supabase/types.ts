@@ -19,12 +19,16 @@ export type Database = {
           Facility: string | null
           "Facility ID": number
           Notes: string | null
-          "Priority (1-5)": number | null
+          Priority: number | null
           "Purpose of the Facility": string | null
+          "Sq M Max": number | null
+          "Sq M Min": number | null
           Subtitle: string | null
           "Task Category": string | null
           "Technology Integration": string | null
           "Types of Activities Supported": string | null
+          "Users Max": number | null
+          "Users Min": number | null
         }
         Insert: {
           "Amenities & Features"?: string | null
@@ -35,12 +39,16 @@ export type Database = {
           Facility?: string | null
           "Facility ID": number
           Notes?: string | null
-          "Priority (1-5)"?: number | null
+          Priority?: number | null
           "Purpose of the Facility"?: string | null
+          "Sq M Max"?: number | null
+          "Sq M Min"?: number | null
           Subtitle?: string | null
           "Task Category"?: string | null
           "Technology Integration"?: string | null
           "Types of Activities Supported"?: string | null
+          "Users Max"?: number | null
+          "Users Min"?: number | null
         }
         Update: {
           "Amenities & Features"?: string | null
@@ -51,12 +59,49 @@ export type Database = {
           Facility?: string | null
           "Facility ID"?: number
           Notes?: string | null
-          "Priority (1-5)"?: number | null
+          Priority?: number | null
           "Purpose of the Facility"?: string | null
+          "Sq M Max"?: number | null
+          "Sq M Min"?: number | null
           Subtitle?: string | null
           "Task Category"?: string | null
           "Technology Integration"?: string | null
           "Types of Activities Supported"?: string | null
+          "Users Max"?: number | null
+          "Users Min"?: number | null
+        }
+        Relationships: []
+      }
+      "Facilities index values": {
+        Row: {
+          Facility: string | null
+          "Facility ID": number
+          Priority: number | null
+          "Sq M Max": number | null
+          "Sq M Min": number | null
+          "Task Category": string | null
+          "Users Max": number | null
+          "Users Min": number | null
+        }
+        Insert: {
+          Facility?: string | null
+          "Facility ID": number
+          Priority?: number | null
+          "Sq M Max"?: number | null
+          "Sq M Min"?: number | null
+          "Task Category"?: string | null
+          "Users Max"?: number | null
+          "Users Min"?: number | null
+        }
+        Update: {
+          Facility?: string | null
+          "Facility ID"?: number
+          Priority?: number | null
+          "Sq M Max"?: number | null
+          "Sq M Min"?: number | null
+          "Task Category"?: string | null
+          "Users Max"?: number | null
+          "Users Min"?: number | null
         }
         Relationships: []
       }
