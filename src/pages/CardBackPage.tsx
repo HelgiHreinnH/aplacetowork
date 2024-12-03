@@ -1,24 +1,24 @@
 import React from 'react';
 import CardBack from '@/components/CardBack';
+import type { Database } from '@/integrations/supabase/types';
 
 const CardBackPage = () => {
-  const sampleData = {
-    facility: "Meeting Room A",
-    taskCategory: "Group Work",
-    notes: "Booking required for sessions longer than 1 hour",
-    purpose: "Designed for team meetings, presentations, and collaborative sessions",
-    activities: "Team meetings, client presentations, video conferences, workshops",
-    amenities: "75-inch display, video conferencing system, whiteboard wall, adjustable lighting",
-    etiquette: "Clean after use, no food allowed, maintain quiet in surrounding areas",
-    technology: "Built-in AV system, wireless presentation capabilities, high-speed internet",
-    onFlip: () => console.log("Flip clicked")
+  const sampleData: Partial<Database['public']['Tables']['Facilities']['Row']> = {
+    "Facility": "Meeting Room A",
+    "Task Category": "Group Work",
+    "Notes": "Booking required for sessions longer than 1 hour",
+    "Purpose of the Facility": "Designed for team meetings, presentations, and collaborative sessions",
+    "Types of Activities Supported": "Team meetings, client presentations, video conferences, workshops",
+    "Amenities & Features": "75-inch display, video conferencing system, whiteboard wall, adjustable lighting",
+    "Etiquette and Guidelines": "Clean after use, no food allowed, maintain quiet in surrounding areas",
+    "Technology Integration": "Built-in AV system, wireless presentation capabilities, high-speed internet"
   };
 
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-8">Card Back Component</h1>
       <div className="max-w-md mx-auto">
-        <CardBack {...sampleData} />
+        <CardBack {...sampleData} onFlip={() => console.log("Flip clicked")} />
       </div>
     </div>
   );

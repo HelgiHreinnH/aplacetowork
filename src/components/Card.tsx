@@ -2,20 +2,26 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import CardFront from './CardFront';
 import CardBack from './CardBack';
+import type { Database } from '@/integrations/supabase/types';
 
-interface CardProps {
-  facility: string;
-  subtitle: string;
-  description: string;
-  taskCategory: string;
-  sqmApprox: string;
-  usersApprox: string;
-  notes: string;
-  purpose: string;
-  activities: string;
-  amenities: string;
-  etiquette: string;
-  technology: string;
+type Facility = Database['public']['Tables']['Facilities']['Row'];
+
+interface CardProps extends Pick<
+  Facility,
+  | 'Facility'
+  | 'Subtitle'
+  | 'Description'
+  | 'Task Category'
+  | 'Approx. Square Meters'
+  | 'Approx. Users'
+  | 'Notes'
+  | 'Purpose of the Facility'
+  | 'Types of Activities Supported'
+  | 'Amenities & Features'
+  | 'Etiquette and Guidelines'
+  | 'Technology Integration'
+> {
+  imageId?: string;
 }
 
 const Card: React.FC<CardProps> = (props) => {
