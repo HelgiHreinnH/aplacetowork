@@ -63,7 +63,7 @@ const CardBack: React.FC<CardBackProps> = ({
   'Etiquette and Guidelines': etiquette,
   'Technology Integration': technology,
   onFlip,
-  imageId
+  imageId = 'photo-1488590528505-98d2b5aba04b'
 }) => {
   const navigate = useNavigate();
 
@@ -89,15 +89,13 @@ const CardBack: React.FC<CardBackProps> = ({
         <h1 className="text-2xl font-bold tracking-tight text-gray-900">{facility}</h1>
       </CardHeader>
       
-      {imageId && (
-        <div className="flex-none w-full h-48 px-6">
-          <img 
-            src={`/images/${imageId}`} 
-            alt={facility} 
-            className="w-full h-full object-cover rounded-lg"
-          />
-        </div>
-      )}
+      <div className="flex-none w-full h-48 px-6">
+        <img 
+          src={`https://images.unsplash.com/${imageId}`} 
+          alt={facility} 
+          className="w-full h-full object-cover rounded-lg"
+        />
+      </div>
 
       <CardContent className="flex-1 flex flex-col justify-between space-y-6 mt-6">
         <div className="space-y-4">
