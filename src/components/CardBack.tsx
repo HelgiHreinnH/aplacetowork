@@ -105,6 +105,12 @@ const CardBack: React.FC<CardBackProps> = ({
 
         <div className="mt-auto pt-6 border-t border-gray-200">
           <div className="bg-gray-50 rounded-xl p-6">
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-800 mb-2">Facility Details</h2>
+              <p className="text-gray-600">
+                Explore the key aspects of this facility to understand how to best utilize and implement it in your workplace environment.
+              </p>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
               {categories.map((category) => (
                 <CategoryPopover 
