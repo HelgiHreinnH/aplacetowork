@@ -1,18 +1,8 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from "@/integrations/supabase/client";
 import Card from '../components/Card';
 import { toast } from "sonner";
-
-// Check if environment variables are available
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Missing Supabase environment variables. Please check your .env file.');
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 const CardOverview = () => {
   const { data: facilities, isLoading, error } = useQuery({
@@ -50,14 +40,14 @@ const CardOverview = () => {
             subtitle={facility.subtitle}
             description={facility.description}
             taskCategory={facility.task_category}
-            sqmApprox={facility.sqm_approx}
-            usersApprox={facility.users_approx}
+            sqmApprox={facility.approx_square_meters}
+            usersApprox={facility.approx_users}
             notes={facility.notes}
-            purpose={facility.purpose}
-            activities={facility.activities}
-            amenities={facility.amenities}
-            etiquette={facility.etiquette}
-            technology={facility.technology}
+            purpose={facility.purpose_of_the_facility}
+            activities={facility.types_of_activities_supported}
+            amenities={facility.amenities_features}
+            etiquette={facility.etiquette_and_guidelines}
+            technology={facility.technology_integration}
           />
         ))}
       </div>

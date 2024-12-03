@@ -6,8 +6,8 @@ interface CardProps {
   subtitle: string;
   description: string;
   taskCategory: string;
-  sqmApprox: number;
-  usersApprox: number;
+  sqmApprox: string;
+  usersApprox: string;
   notes: string;
   purpose: string;
   activities: string;
