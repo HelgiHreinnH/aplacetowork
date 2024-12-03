@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { Database } from '@/integrations/supabase/types';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
@@ -15,7 +15,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
   const navigate = useNavigate();
   const [squareMeters, setSquareMeters] = React.useState([30]);
   const [users, setUsers] = React.useState([10]);
-  const [selectedTasks, setSelectedTasks] = React.useState<string[]>([]);
+  const [selectedTask, setSelectedTask] = React.useState<string>('');
 
   // Extract unique task categories
   const uniqueTaskCategories = React.useMemo(() => {
@@ -24,16 +24,6 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
       .filter((category): category is string => category !== null);
     return Array.from(new Set(categories));
   }, [facilities]);
-
-  const handleTaskToggle = (task: string) => {
-    setSelectedTasks(prev => {
-      if (prev.includes(task)) {
-        return prev.filter(t => t !== task);
-      } else {
-        return [...prev, task];
-      }
-    });
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,10 +41,10 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
                         users[0] >= facility["Users Min"] && 
                         users[0] <= facility["Users Max"];
       
-      // Task category filter (multiple selection)
-      const meetsTaskCategory = selectedTasks.length === 0 || 
+      // Task category filter (single selection)
+      const meetsTaskCategory = selectedTask === '' || 
                               (facility["Task Category"] && 
-                               selectedTasks.includes(facility["Task Category"]));
+                               facility["Task Category"] === selectedTask);
       
       return meetsSquareMeters && meetsUsers && meetsTaskCategory;
     });
@@ -108,14 +98,14 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
         <label className="text-sm font-medium leading-none mb-4">
           Task Categories
         </label>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <RadioGroup
+          value={selectedTask}
+          onValueChange={setSelectedTask}
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
           {uniqueTaskCategories.map((task) => (
             <div key={task} className="flex items-center space-x-2">
-              <Checkbox
-                id={task}
-                checked={selectedTasks.includes(task)}
-                onCheckedChange={() => handleTaskToggle(task)}
-              />
+              <RadioGroupItem value={task} id={task} />
               <label
                 htmlFor={task}
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -124,7 +114,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
               </label>
             </div>
           ))}
-        </div>
+        </RadioGroup>
       </div>
       
       <Button type="submit" className="w-full">
