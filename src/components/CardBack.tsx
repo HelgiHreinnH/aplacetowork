@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Circle, FoldHorizontal } from "lucide-react";
 import type { Database } from '@/integrations/supabase/types';
 
@@ -22,28 +22,28 @@ interface CardBackProps extends Pick<
   imageId?: string;
 }
 
-interface CategoryDrawerProps {
+interface CategoryPopoverProps {
   title: string;
   content?: string | null;
 }
 
-const CategoryDrawer: React.FC<CategoryDrawerProps> = ({ title, content }) => {
+const CategoryPopover: React.FC<CategoryPopoverProps> = ({ title, content }) => {
   return (
-    <Drawer>
-      <DrawerTrigger asChild>
+    <Popover>
+      <PopoverTrigger asChild>
         <div className="flex flex-col items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
           <Circle className="h-12 w-12 p-2 bg-gray-100 rounded-full" />
           <span className="text-sm font-medium text-gray-600">{title}</span>
         </div>
-      </DrawerTrigger>
-      <DrawerContent className="p-6">
+      </PopoverTrigger>
+      <PopoverContent className="w-80 p-6">
         <div className="flex justify-between items-start mb-4">
           <h3 className="text-lg font-semibold">{title}</h3>
           <FoldHorizontal className="h-6 w-6 text-gray-500 cursor-pointer" />
         </div>
         <p className="text-gray-600">{content || 'Not specified'}</p>
-      </DrawerContent>
-    </Drawer>
+      </PopoverContent>
+    </Popover>
   );
 };
 
@@ -95,7 +95,7 @@ const CardBack: React.FC<CardBackProps> = ({
       <CardContent className="space-y-6">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {categories.map((category) => (
-            <CategoryDrawer 
+            <CategoryPopover 
               key={category.title} 
               title={category.title} 
               content={category.content} 
