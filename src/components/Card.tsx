@@ -33,23 +33,44 @@ const Card: React.FC<CardProps> = (props) => {
   };
 
   return (
-    <motion.div
-      className="w-full"
-      initial={false}
-      animate={{ rotateY: isFlipped ? 180 : 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      <div className={`${isFlipped ? 'hidden' : 'block'}`}>
-        <CardFront {...props} onFlip={handleFlip} />
-      </div>
-
-      <div 
-        className={`${isFlipped ? 'block' : 'hidden'}`}
-        style={{ transform: 'rotateY(180deg)' }}
+    <div className="relative w-full" style={{ perspective: '1000px' }}>
+      <motion.div
+        className="w-full preserve-3d"
+        initial={false}
+        animate={{ 
+          rotateY: isFlipped ? 180 : 0,
+        }}
+        transition={{ 
+          duration: 0.8, 
+          type: "spring",
+          stiffness: 80,
+          damping: 12
+        }}
+        style={{
+          transformStyle: 'preserve-3d',
+        }}
       >
-        <CardBack {...props} onFlip={handleFlip} />
-      </div>
-    </motion.div>
+        <div 
+          className="absolute w-full backface-hidden" 
+          style={{ 
+            backfaceVisibility: 'hidden',
+            transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          }}
+        >
+          <CardFront {...props} onFlip={handleFlip} />
+        </div>
+
+        <div 
+          className="absolute w-full backface-hidden" 
+          style={{ 
+            backfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg)',
+          }}
+        >
+          <CardBack {...props} onFlip={handleFlip} />
+        </div>
+      </motion.div>
+    </div>
   );
 };
 
