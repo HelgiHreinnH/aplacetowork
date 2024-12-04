@@ -10,10 +10,13 @@ type Facility = Database['public']['Tables']['Facilities']['Row'];
 
 const SearchResults = () => {
   const [searchResults, setSearchResults] = useState<Facility[]>([]);
+  const [isExactMatch, setIsExactMatch] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const results = sessionStorage.getItem('searchResults');
+    const exactMatch = sessionStorage.getItem('isExactMatch');
+    
     if (!results) {
       toast.error("No search results found");
       navigate('/');
@@ -23,6 +26,7 @@ const SearchResults = () => {
     try {
       const parsedResults = JSON.parse(results);
       setSearchResults(parsedResults);
+      setIsExactMatch(exactMatch ? JSON.parse(exactMatch) : true);
     } catch (error) {
       toast.error("Error loading search results");
       navigate('/');
@@ -64,8 +68,13 @@ const SearchResults = () => {
         
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900">Search Results</h2>
-          <p className="mt-4 text-lg text-gray-600">
-            Found {searchResults.length} matching facilities
+          {!isExactMatch && (
+            <p className="mt-4 text-lg text-gray-600">
+              There is no exact match to your desired scenario, but here are our closest results
+            </p>
+          )}
+          <p className="mt-2 text-lg text-gray-600">
+            Found {searchResults.length} {isExactMatch ? 'matching' : 'relevant'} facilities
           </p>
         </div>
         

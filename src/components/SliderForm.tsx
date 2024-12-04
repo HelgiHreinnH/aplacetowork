@@ -37,10 +37,60 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
   const [users, setUsers] = React.useState([10]);
   const [taskValue, setTaskValue] = React.useState([-128]);
 
+  const calculateFacilityScore = (facility: Facility) => {
+    let score = 0;
+    
+    // Square meters score (weighted 30%)
+    if (facility["Sq M Min"] !== null && facility["Sq M Max"] !== null) {
+      const targetSqM = squareMeters[0];
+      const facilityMidPoint = (facility["Sq M Min"] + facility["Sq M Max"]) / 2;
+      const sqmDiff = Math.abs(targetSqM - facilityMidPoint);
+      score += (1 - sqmDiff / 200) * 30; // Normalize by max possible difference
+    }
+    
+    // Users score (weighted 30%)
+    if (facility["Users Min"] !== null && facility["Users Max"] !== null) {
+      const targetUsers = users[0];
+      const facilityMidPoint = (facility["Users Min"] + facility["Users Max"]) / 2;
+      const usersDiff = Math.abs(targetUsers - facilityMidPoint);
+      score += (1 - usersDiff / 50) * 30; // Normalize by max possible difference
+    }
+    
+    // Task category score (weighted 40%)
+    const facilityTaskValue = facility["Task Category"] ? 
+      TaskCategoryMapping[facility["Task Category"] as keyof typeof TaskCategoryMapping] : null;
+    if (facilityTaskValue !== null) {
+      const taskDiff = Math.abs(taskValue[0] - facilityTaskValue);
+      score += (1 - taskDiff / 255) * 40; // Normalize by max possible difference
+    }
+    
+    return score;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const filteredFacilities = facilities.filter(facility => {
+    // Calculate scores for all facilities
+    const facilitiesWithScores = facilities.map(facility => ({
+      facility,
+      score: calculateFacilityScore(facility)
+    }));
+    
+    // Sort by score (highest first)
+    const sortedFacilities = facilitiesWithScores
+      .sort((a, b) => b.score - a.score)
+      .map(item => item.facility);
+    
+    // Take top 4 results
+    const topResults = sortedFacilities.slice(0, 4);
+    
+    if (topResults.length === 0) {
+      toast.error("No facilities found");
+      return;
+    }
+
+    // Store whether this is an exact match or approximate results
+    const exactMatch = topResults.some(facility => {
       const meetsSquareMeters = facility["Sq M Min"] !== null && 
                                facility["Sq M Max"] !== null && 
                                squareMeters[0] >= facility["Sq M Min"] && 
@@ -51,19 +101,15 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
                         users[0] >= facility["Users Min"] && 
                         users[0] <= facility["Users Max"];
       
-      const facilityTaskValue = facilities.find(f => f.Facility === facility.Facility)?.["Task Category"];
-      const meetsTaskCategory = facilityTaskValue ? 
-        TaskCategoryMapping[facilityTaskValue as keyof typeof TaskCategoryMapping] === taskValue[0] : false;
+      const facilityTaskValue = facility["Task Category"] ? 
+        TaskCategoryMapping[facility["Task Category"] as keyof typeof TaskCategoryMapping] : null;
+      const meetsTaskCategory = facilityTaskValue === taskValue[0];
       
       return meetsSquareMeters && meetsUsers && meetsTaskCategory;
     });
-    
-    if (filteredFacilities.length === 0) {
-      toast.error("No facilities match your criteria");
-      return;
-    }
 
-    sessionStorage.setItem('searchResults', JSON.stringify(filteredFacilities));
+    sessionStorage.setItem('searchResults', JSON.stringify(topResults));
+    sessionStorage.setItem('isExactMatch', JSON.stringify(exactMatch));
     navigate('/search-results');
   };
 
