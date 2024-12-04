@@ -14,9 +14,13 @@ const SliderLabels: React.FC<SliderLabelsProps> = ({ label, min, max, currentVal
         {label}
       </h3>
       {currentValue && (
-        <p className="text-lg font-bold text-center text-primary mt-2">
-          {currentValue}
-        </p>
+        <div className="flex justify-center mt-2">
+          <div className="px-3 py-1 border rounded-md bg-secondary/20">
+            <p className="text-sm font-bold text-primary">
+              {currentValue}
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );

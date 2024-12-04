@@ -73,7 +73,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
 
   const sliderContainerClasses = "space-y-4";
   const sliderWrapperClasses = "flex items-center space-x-4 w-full";
-  const valueDisplayClasses = "text-sm font-medium text-muted-foreground min-w-[3rem] text-center";
+  const valueDisplayClasses = "text-xs font-medium text-muted-foreground min-w-[2rem] text-center";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-xl mx-auto">
