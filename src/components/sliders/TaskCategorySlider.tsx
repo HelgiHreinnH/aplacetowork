@@ -22,13 +22,13 @@ const TaskCategorySlider = ({ value, onChange }: TaskCategorySliderProps) => {
   };
 
   return (
-    <Card className="p-4">
-      <div className="space-y-4">
-        <SliderLabels 
-          label="Task Category"
-          min={-128}
-          max={127}
-        />
+    <div className="space-y-2">
+      <SliderLabels 
+        label="Task Category"
+        min={-128}
+        max={127}
+      />
+      <Card className="p-4">
         <div className="space-y-2">
           <div className={sliderWrapperClasses}>
             <span className={`${valueDisplayClasses} text-[10px]`}>Concentrated Work</span>
@@ -49,8 +49,8 @@ const TaskCategorySlider = ({ value, onChange }: TaskCategorySliderProps) => {
             </div>
           </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 };
 

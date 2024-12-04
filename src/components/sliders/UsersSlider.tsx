@@ -13,13 +13,13 @@ const UsersSlider = ({ value, onChange }: UsersSliderProps) => {
   const sliderWrapperClasses = "flex items-center space-x-4 w-full";
 
   return (
-    <Card className="p-4">
-      <div className="space-y-4">
-        <SliderLabels 
-          label="Number of Users"
-          min={1}
-          max={50}
-        />
+    <div className="space-y-2">
+      <SliderLabels 
+        label="Number of Users"
+        min={1}
+        max={50}
+      />
+      <Card className="p-4">
         <div className="space-y-2">
           <div className={sliderWrapperClasses}>
             <span className={valueDisplayClasses}>1</span>
@@ -40,8 +40,8 @@ const UsersSlider = ({ value, onChange }: UsersSliderProps) => {
             </div>
           </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 };
 
