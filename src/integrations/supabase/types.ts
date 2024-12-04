@@ -99,6 +99,24 @@ export type Database = {
         }
         Relationships: []
       }
+      "Facility task values": {
+        Row: {
+          Facility: string
+          "INT8 Task Value": number
+          "Task Category": string | null
+        }
+        Insert: {
+          Facility: string
+          "INT8 Task Value": number
+          "Task Category"?: string | null
+        }
+        Update: {
+          Facility?: string
+          "INT8 Task Value"?: number
+          "Task Category"?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
