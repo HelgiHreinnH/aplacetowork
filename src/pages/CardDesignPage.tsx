@@ -35,9 +35,9 @@ const CardDesignPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
+    <div className="container mx-auto px-4 py-6 sm:py-12">
+      <div className="w-full max-w-md mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <Button
             variant="ghost"
             onClick={handleBack}
@@ -46,16 +46,16 @@ const CardDesignPage = () => {
             <ArrowLeft className="h-4 w-4" />
             Back to Results
           </Button>
-          <Button onClick={handleViewToggle}>
+          <Button onClick={handleViewToggle} className="w-full sm:w-auto">
             Show Card {currentView === 'front' ? 'Back' : 'Front'}
           </Button>
         </div>
 
-        <div className="aspect-[3/4] w-full max-w-2xl mx-auto">
+        <div className="aspect-[3/4] w-full">
           <Card {...sampleFacility} />
         </div>
 
-        <div className="mt-8 text-center text-sm text-gray-500">
+        <div className="mt-6 text-center text-sm text-gray-500 px-4">
           Click the card or use the button above to flip between front and back views
         </div>
       </div>
