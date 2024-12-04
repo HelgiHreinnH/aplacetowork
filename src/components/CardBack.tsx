@@ -39,9 +39,20 @@ const CardBack: React.FC<CardBackProps> = ({
       <FacilityHeader facility={facility} imageId={imageId} />
 
       <CardContent className="space-y-6 pt-6">
-        <div className="space-y-6">
-          <InfoSection title="Task Category" content={taskCategory} />
-          <InfoSection title="Notes" content={notes} />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 h-5 mb-3">Task Category</h3>
+            <div className="bg-gray-50 p-4 rounded-lg flex-1">
+              <p className="text-gray-900 font-medium">{taskCategory}</p>
+            </div>
+          </div>
+          
+          <div className="flex flex-col">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 h-5 mb-3">Notes</h3>
+            <div className="bg-gray-50 p-4 rounded-lg flex-1">
+              <p className="text-gray-600">{notes || 'Not specified'}</p>
+            </div>
+          </div>
         </div>
 
         <div className="pt-6 border-t border-gray-200">
