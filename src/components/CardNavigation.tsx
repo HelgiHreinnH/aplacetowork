@@ -29,7 +29,7 @@ const CardNavigation: React.FC<CardNavigationProps> = (props) => {
   const handleCardClick = () => {
     console.log('Navigating with props:', props);
     sessionStorage.setItem('selectedFacility', JSON.stringify(props));
-    navigate('/design/card', { state: props });
+    navigate('/design/interactive', { state: props });
   };
 
   return (

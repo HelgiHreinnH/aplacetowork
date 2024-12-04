@@ -5,7 +5,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import CardFrontPage from "./pages/CardFrontPage";
 import CardBackPage from "./pages/CardBackPage";
-import CardPage from "./pages/CardPage";
 import CardDesignPage from "./pages/CardDesignPage";
 import SearchResults from "./pages/SearchResults";
 import CardList from "./pages/CardList";
@@ -32,7 +31,6 @@ const App = () => (
             <Route path="/design">
               <Route path="card-front" element={<CardFrontPage />} />
               <Route path="card-back" element={<CardBackPage />} />
-              <Route path="card" element={<CardPage />} />
               <Route path="interactive" element={<CardDesignPage />} />
             </Route>
           </Route>
