@@ -121,8 +121,6 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
         </label>
         <div className="flex justify-between text-xs text-gray-500 mb-2">
           <span>Concentrated</span>
-          <span>Learning</span>
-          <span>Collaborative</span>
           <span>Social</span>
         </div>
         <div className="flex items-center space-x-2">
