@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import type { Database } from '@/integrations/supabase/types';
-import { toast } from "sonner";
+import { calculateFacilityScore, ValueToTaskCategory } from '../utils/facilityScoring';
+import SliderLabels from './SliderLabels';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -11,60 +12,19 @@ interface SliderFormProps {
   facilities?: Facility[];
 }
 
-const TaskCategoryMapping = {
-  'Highly Concentrated Private Task': -128,
-  'Concentrated Private Task': -85,
-  'Focus Work Task': -42,
-  'Learning/Development Task': 0,
-  'Collaborative Task': 42,
-  'Interactive Task': 85,
-  'Social Task': 127,
-} as const;
-
-const ValueToTaskCategory: { [key: number]: string } = {
-  [-128]: 'Highly Concentrated Private Task',
-  [-85]: 'Concentrated Private Task',
-  [-42]: 'Focus Work Task',
-  [0]: 'Learning/Development Task',
-  [42]: 'Collaborative Task',
-  [85]: 'Interactive Task',
-  [127]: 'Social Task',
-};
-
 const SliderForm = ({ facilities = [] }: SliderFormProps) => {
   const navigate = useNavigate();
-  const [squareMeters, setSquareMeters] = React.useState([30]);
-  const [users, setUsers] = React.useState([10]);
-  const [taskValue, setTaskValue] = React.useState([-128]);
+  const [squareMeters, setSquareMeters] = useState([30]);
+  const [users, setUsers] = useState([10]);
+  const [taskValue, setTaskValue] = useState([-128]);
 
-  const calculateFacilityScore = (facility: Facility) => {
-    let score = 0;
-    
-    // Square meters score (weighted 30%)
-    if (facility["Sq M Min"] !== null && facility["Sq M Max"] !== null) {
-      const targetSqM = squareMeters[0];
-      const facilityMidPoint = (facility["Sq M Min"] + facility["Sq M Max"]) / 2;
-      const sqmDiff = Math.abs(targetSqM - facilityMidPoint);
-      score += (1 - sqmDiff / 200) * 30; // Normalize by max possible difference
-    }
-    
-    // Users score (weighted 30%)
-    if (facility["Users Min"] !== null && facility["Users Max"] !== null) {
-      const targetUsers = users[0];
-      const facilityMidPoint = (facility["Users Min"] + facility["Users Max"]) / 2;
-      const usersDiff = Math.abs(targetUsers - facilityMidPoint);
-      score += (1 - usersDiff / 50) * 30; // Normalize by max possible difference
-    }
-    
-    // Task category score (weighted 40%)
-    const facilityTaskValue = facility["Task Category"] ? 
-      TaskCategoryMapping[facility["Task Category"] as keyof typeof TaskCategoryMapping] : null;
-    if (facilityTaskValue !== null) {
-      const taskDiff = Math.abs(taskValue[0] - facilityTaskValue);
-      score += (1 - taskDiff / 255) * 40; // Normalize by max possible difference
-    }
-    
-    return score;
+  const handleTaskValueChange = (value: number[]) => {
+    // Snap to the nearest valid value
+    const validValues = Object.keys(ValueToTaskCategory).map(Number);
+    const nearestValue = validValues.reduce((prev, curr) => {
+      return Math.abs(curr - value[0]) < Math.abs(prev - value[0]) ? curr : prev;
+    });
+    setTaskValue([nearestValue]);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -73,7 +33,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
     // Calculate scores for all facilities
     const facilitiesWithScores = facilities.map(facility => ({
       facility,
-      score: calculateFacilityScore(facility)
+      score: calculateFacilityScore(facility, squareMeters[0], users[0], taskValue[0])
     }));
     
     // Sort by score (highest first)
@@ -85,8 +45,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
     const topResults = sortedFacilities.slice(0, 4);
     
     if (topResults.length === 0) {
-      toast.error("No facilities found");
-      return;
+      return; // Don't navigate if no results
     }
 
     // Store whether this is an exact match or approximate results
@@ -101,37 +60,26 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
                         users[0] >= facility["Users Min"] && 
                         users[0] <= facility["Users Max"];
       
-      const facilityTaskValue = facility["Task Category"] ? 
-        TaskCategoryMapping[facility["Task Category"] as keyof typeof TaskCategoryMapping] : null;
-      const meetsTaskCategory = facilityTaskValue === taskValue[0];
+      const meetsTaskCategory = facility["Task Category"] === ValueToTaskCategory[taskValue[0]];
       
       return meetsSquareMeters && meetsUsers && meetsTaskCategory;
     });
 
+    // Store results in sessionStorage and navigate
     sessionStorage.setItem('searchResults', JSON.stringify(topResults));
     sessionStorage.setItem('isExactMatch', JSON.stringify(exactMatch));
     navigate('/search-results');
   };
 
-  const getCurrentTaskCategory = (value: number) => {
-    return ValueToTaskCategory[value] || 'Unknown Category';
-  };
-
-  const handleTaskValueChange = (value: number[]) => {
-    // Snap to the nearest valid value
-    const validValues = Object.values(TaskCategoryMapping);
-    const nearestValue = validValues.reduce((prev, curr) => {
-      return Math.abs(curr - value[0]) < Math.abs(prev - value[0]) ? curr : prev;
-    });
-    setTaskValue([nearestValue]);
-  };
-
   return (
     <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-xl mx-auto">
       <div className="space-y-4">
-        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-          Square Meters
-        </label>
+        <SliderLabels 
+          label="Square Meters"
+          min={10}
+          max={200}
+          currentValue={squareMeters[0]}
+        />
         <div className="flex items-center space-x-2 w-full">
           <span className="text-sm text-gray-500 min-w-[2rem]">10</span>
           <div className="w-full">
@@ -146,15 +94,15 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
           </div>
           <span className="text-sm text-gray-500 min-w-[2rem]">200</span>
         </div>
-        <div className="text-sm text-gray-500 text-center">
-          Target square meters: {squareMeters}
-        </div>
       </div>
 
       <div className="space-y-4">
-        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-          Number of Users
-        </label>
+        <SliderLabels 
+          label="Number of Users"
+          min={1}
+          max={50}
+          currentValue={users[0]}
+        />
         <div className="flex items-center space-x-2 w-full">
           <span className="text-sm text-gray-500 min-w-[2rem]">1</span>
           <div className="w-full">
@@ -169,19 +117,15 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
           </div>
           <span className="text-sm text-gray-500 min-w-[2rem]">50</span>
         </div>
-        <div className="text-sm text-gray-500 text-center">
-          Target number of users: {users}
-        </div>
       </div>
 
       <div className="space-y-4">
-        <label className="text-sm font-medium leading-none">
-          Task Category
-        </label>
-        <div className="flex justify-between text-xs text-gray-500 mb-2">
-          <span>Highly Concentrated</span>
-          <span>Social</span>
-        </div>
+        <SliderLabels 
+          label="Task Category"
+          min={-128}
+          max={127}
+          currentValue={ValueToTaskCategory[taskValue[0]]}
+        />
         <div className="w-full">
           <Slider
             defaultValue={[-128]}
@@ -191,9 +135,6 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
             value={taskValue}
             onValueChange={handleTaskValueChange}
           />
-        </div>
-        <div className="text-sm text-gray-500 text-center">
-          Selected category: {getCurrentTaskCategory(taskValue[0])}
         </div>
       </div>
       
