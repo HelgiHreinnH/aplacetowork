@@ -34,6 +34,7 @@ const SearchResults = () => {
   }, [navigate]);
 
   const handleCardClick = (facility: Facility) => {
+    sessionStorage.setItem('selectedFacility', JSON.stringify(facility));
     navigate('/design/card', { state: facility });
   };
 

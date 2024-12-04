@@ -14,14 +14,26 @@ const CardPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const facilityData = location.state;
-    if (!facilityData) {
-      toast.error("No facility selected");
-      navigate('/search-results');
+    // First try to get facility from location state
+    if (location.state) {
+      setFacility(location.state);
       return;
     }
 
-    setFacility(facilityData);
+    // If no location state, try to get from sessionStorage
+    const storedFacility = sessionStorage.getItem('selectedFacility');
+    if (storedFacility) {
+      try {
+        const parsedFacility = JSON.parse(storedFacility);
+        setFacility(parsedFacility);
+      } catch (error) {
+        toast.error("Error loading facility data");
+        navigate('/search-results');
+      }
+    } else {
+      toast.error("No facility selected");
+      navigate('/search-results');
+    }
   }, [location.state, navigate]);
 
   const handleBack = () => {
