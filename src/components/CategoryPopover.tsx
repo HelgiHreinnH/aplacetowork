@@ -11,8 +11,8 @@ const CategoryPopover: React.FC<CategoryPopoverProps> = ({ title, content }) => 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="flex flex-col items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
-          <Circle className="h-12 w-12 p-2 bg-gray-100 rounded-full" />
+        <div className="flex flex-col items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
+          <Circle className="h-12 w-12 p-2.5 bg-gray-100 rounded-full" />
           <span className="text-sm font-medium text-gray-600">{title}</span>
         </div>
       </PopoverTrigger>
@@ -21,13 +21,14 @@ const CategoryPopover: React.FC<CategoryPopoverProps> = ({ title, content }) => 
         align="center" 
         side="top" 
         sideOffset={20}
-        alignOffset={0}
       >
-        <div className="flex justify-between items-start mb-4">
-          <h3 className="text-lg font-semibold">{title}</h3>
-          <FoldHorizontal className="h-6 w-6 text-gray-500 cursor-pointer" />
+        <div className="space-y-4">
+          <div className="flex justify-between items-start">
+            <h3 className="text-lg font-semibold">{title}</h3>
+            <FoldHorizontal className="h-6 w-6 text-gray-500 cursor-pointer" />
+          </div>
+          <p className="text-gray-600">{content || 'Not specified'}</p>
         </div>
-        <p className="text-gray-600">{content || 'Not specified'}</p>
       </PopoverContent>
     </Popover>
   );

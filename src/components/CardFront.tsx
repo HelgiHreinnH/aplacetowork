@@ -39,26 +39,26 @@ const CardFront: React.FC<CardFrontProps> = ({
   };
 
   return (
-    <Card className="w-full h-full hover:shadow-lg transition-shadow duration-300">
-      <CardHeader className="pb-0">
+    <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
+      <CardHeader className="space-y-2 pb-4">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900">{facility}</h1>
       </CardHeader>
 
-      <div className="w-full h-48 overflow-hidden">
+      <div className="w-full h-48 px-6 mb-6">
         <img 
-          src={`https://images.unsplash.com/photo-${imageId}`} 
+          src={`https://images.unsplash.com/${imageId}`} 
           alt={facility || 'Facility image'} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-lg"
         />
       </div>
 
-      <CardContent className="pt-6">
+      <CardContent className="space-y-6">
         <div className="space-y-4">
           <h2 className="text-xl font-semibold text-gray-700">{subtitle}</h2>
           <p className="text-gray-600 leading-relaxed">{description}</p>
         </div>
         
-        <div className="grid grid-cols-2 gap-4 mt-6">
+        <div className="grid grid-cols-2 gap-4">
           <div className="bg-gray-50 p-4 rounded-lg">
             <h3 className="font-semibold text-gray-700 mb-2">Task Category</h3>
             <p className="text-gray-600">{taskCategory}</p>

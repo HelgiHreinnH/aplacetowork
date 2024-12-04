@@ -46,16 +46,16 @@ const CardBack: React.FC<CardBackProps> = ({
   };
 
   return (
-    <Card className="w-full h-full flex flex-col hover:shadow-lg transition-shadow duration-300">
+    <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
       <FacilityHeader facility={facility} imageId={imageId} />
 
-      <CardContent className="flex-1 flex flex-col justify-between space-y-6 mt-6">
-        <div className="space-y-4">
+      <CardContent className="space-y-6 pt-6">
+        <div className="space-y-6">
           <InfoSection title="Task Category" content={taskCategory} />
           <InfoSection title="Notes" content={notes} />
         </div>
 
-        <div className="mt-auto pt-6 border-t border-gray-200">
+        <div className="pt-6 border-t border-gray-200">
           <FacilityDetails
             purpose={purpose}
             activities={activities}

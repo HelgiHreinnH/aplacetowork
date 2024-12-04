@@ -32,7 +32,7 @@ const FacilityDetails: React.FC<FacilityDetailsProps> = ({
           Explore the key aspects of this facility to understand how to best utilize and implement it in your workplace environment.
         </p>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
+      <div className="grid grid-cols-3 gap-6">
         {categories.map((category) => (
           <CategoryPopover 
             key={category.title} 
