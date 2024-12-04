@@ -25,14 +25,14 @@ const FacilityDetails: React.FC<FacilityDetailsProps> = ({
   ];
 
   return (
-    <div className="bg-gray-50 rounded-xl p-6">
-      <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">Facility Details</h2>
-        <p className="text-gray-600">
-          Explore the key aspects of this facility to understand how to best utilize and implement it in your workplace environment.
+    <div className="bg-gray-50 rounded-xl p-4">
+      <div className="text-center mb-4">
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Facility Details</h2>
+        <p className="text-sm text-gray-600">
+          Explore the key aspects of this facility
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {categories.map((category) => (
           <CategoryPopover 
             key={category.title} 
