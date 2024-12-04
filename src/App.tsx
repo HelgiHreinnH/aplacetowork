@@ -8,6 +8,7 @@ import CardFrontPage from "./pages/CardFrontPage";
 import CardBackPage from "./pages/CardBackPage";
 import CardPage from "./pages/CardPage";
 import SearchResults from "./pages/SearchResults";
+import CardList from "./pages/CardList";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/card-front" element={<CardFrontPage />} />
           <Route path="/card-back" element={<CardBackPage />} />
           <Route path="/card" element={<CardPage />} />
+          <Route path="/card-list" element={<CardList />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
