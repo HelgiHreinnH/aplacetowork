@@ -10,9 +10,6 @@ interface TaskCategorySliderProps {
 }
 
 const TaskCategorySlider = ({ value, onChange }: TaskCategorySliderProps) => {
-  const valueDisplayClasses = "text-xs font-medium text-muted-foreground min-w-[2rem] text-center";
-  const sliderWrapperClasses = "flex items-center space-x-4 w-full";
-
   const handleTaskValueChange = (value: number[]) => {
     const validValues = Object.keys(ValueToTaskCategory).map(Number);
     const nearestValue = validValues.reduce((prev, curr) => {
@@ -23,15 +20,11 @@ const TaskCategorySlider = ({ value, onChange }: TaskCategorySliderProps) => {
 
   return (
     <div className="space-y-2">
-      <SliderLabels 
-        label="Task Category"
-        min={-128}
-        max={127}
-      />
+      <SliderLabels label="Task Category" />
       <Card className="p-4">
         <div className="space-y-2">
-          <div className={sliderWrapperClasses}>
-            <span className={`${valueDisplayClasses} text-[10px]`}>Concentrated Work</span>
+          <div className="flex items-center space-x-4 w-full">
+            <span className="text-xs font-medium text-muted-foreground min-w-[2rem] text-center text-[10px]">Concentrated Work</span>
             <Slider
               defaultValue={[-128]}
               min={-128}
@@ -41,7 +34,7 @@ const TaskCategorySlider = ({ value, onChange }: TaskCategorySliderProps) => {
               onValueChange={handleTaskValueChange}
               className="w-full"
             />
-            <span className={`${valueDisplayClasses} text-[10px]`}>Collaborative Work</span>
+            <span className="text-xs font-medium text-muted-foreground min-w-[2rem] text-center text-[10px]">Collaborative Work</span>
           </div>
           <div className="flex justify-center">
             <div className="px-3 py-1 border rounded-md bg-secondary/20">
