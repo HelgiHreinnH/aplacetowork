@@ -12,18 +12,23 @@ interface SliderFormProps {
 }
 
 const TaskCategoryMapping = {
-  'Concentrated Private Task': -128,
+  'Highly Concentrated Private Task': -128,
+  'Concentrated Private Task': -85,
+  'Focus Work Task': -42,
   'Learning/Development Task': 0,
-  'Collaborative Task': 64,
+  'Collaborative Task': 42,
+  'Interactive Task': 85,
   'Social Task': 127,
-  'Support Task': 127,
 } as const;
 
 const ValueToTaskCategory: { [key: number]: string } = {
-  [-128]: 'Concentrated Private Task',
+  [-128]: 'Highly Concentrated Private Task',
+  [-85]: 'Concentrated Private Task',
+  [-42]: 'Focus Work Task',
   [0]: 'Learning/Development Task',
-  [64]: 'Collaborative Task',
-  [127]: 'Social/Support Task',
+  [42]: 'Collaborative Task',
+  [85]: 'Interactive Task',
+  [127]: 'Social Task',
 };
 
 const SliderForm = ({ facilities = [] }: SliderFormProps) => {
@@ -65,6 +70,8 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
   const getCurrentTaskCategory = (value: number) => {
     return ValueToTaskCategory[value] || 'Unknown Category';
   };
+
+  const sliderSteps = Object.values(TaskCategoryMapping);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-xl mx-auto">
@@ -119,7 +126,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
           Task Category
         </label>
         <div className="flex justify-between text-xs text-gray-500 mb-2">
-          <span>Concentrated</span>
+          <span>Highly Concentrated</span>
           <span>Social</span>
         </div>
         <div className="w-full">
@@ -129,7 +136,8 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
             max={127}
             step={null}
             value={taskValue}
-            onValueChange={(value) => setTaskValue(value)}
+            onValueChange={setTaskValue}
+            marks={sliderSteps}
           />
         </div>
         <div className="text-sm text-gray-500 text-center">
