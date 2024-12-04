@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import type { Database } from '@/integrations/supabase/types';
 import { calculateFacilityScore, ValueToTaskCategory } from '../utils/facilityScoring';
 import SliderLabels from './SliderLabels';
@@ -70,77 +71,79 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
     navigate('/search-results');
   };
 
-  const sliderContainerClasses = "w-full max-w-lg mx-auto space-y-6";
-  const sliderWrapperClasses = "flex items-center space-x-2 w-full px-4";
-  const valueDisplayClasses = "text-sm text-gray-500 min-w-[2.5rem] text-center";
+  const sliderContainerClasses = "space-y-4";
+  const sliderWrapperClasses = "flex items-center space-x-4 w-full";
+  const valueDisplayClasses = "text-sm font-medium text-muted-foreground min-w-[3rem] text-center";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-xl mx-auto">
-      <div className={sliderContainerClasses}>
-        <SliderLabels 
-          label="Square Meters"
-          min={10}
-          max={200}
-          currentValue={squareMeters[0]}
-        />
-        <div className={sliderWrapperClasses}>
-          <span className={valueDisplayClasses}>10</span>
-          <Slider
-            defaultValue={[30]}
-            max={200}
+      <Card className="p-6 space-y-8">
+        <div className={sliderContainerClasses}>
+          <SliderLabels 
+            label="Square Meters"
             min={10}
-            step={5}
-            value={squareMeters}
-            onValueChange={setSquareMeters}
-            className="w-full"
+            max={200}
+            currentValue={squareMeters[0]}
           />
-          <span className={valueDisplayClasses}>200</span>
+          <div className={sliderWrapperClasses}>
+            <span className={valueDisplayClasses}>10</span>
+            <Slider
+              defaultValue={[30]}
+              max={200}
+              min={10}
+              step={5}
+              value={squareMeters}
+              onValueChange={setSquareMeters}
+              className="w-full"
+            />
+            <span className={valueDisplayClasses}>200</span>
+          </div>
         </div>
-      </div>
 
-      <div className={sliderContainerClasses}>
-        <SliderLabels 
-          label="Number of Users"
-          min={1}
-          max={50}
-          currentValue={users[0]}
-        />
-        <div className={sliderWrapperClasses}>
-          <span className={valueDisplayClasses}>1</span>
-          <Slider
-            defaultValue={[10]}
-            max={50}
+        <div className={sliderContainerClasses}>
+          <SliderLabels 
+            label="Number of Users"
             min={1}
-            step={1}
-            value={users}
-            onValueChange={setUsers}
-            className="w-full"
+            max={50}
+            currentValue={users[0]}
           />
-          <span className={valueDisplayClasses}>50</span>
+          <div className={sliderWrapperClasses}>
+            <span className={valueDisplayClasses}>1</span>
+            <Slider
+              defaultValue={[10]}
+              max={50}
+              min={1}
+              step={1}
+              value={users}
+              onValueChange={setUsers}
+              className="w-full"
+            />
+            <span className={valueDisplayClasses}>50</span>
+          </div>
         </div>
-      </div>
 
-      <div className={sliderContainerClasses}>
-        <SliderLabels 
-          label="Task Category"
-          min={-128}
-          max={127}
-          currentValue={ValueToTaskCategory[taskValue[0]]}
-        />
-        <div className={sliderWrapperClasses}>
-          <span className={valueDisplayClasses}>-128</span>
-          <Slider
-            defaultValue={[-128]}
+        <div className={sliderContainerClasses}>
+          <SliderLabels 
+            label="Task Category"
             min={-128}
             max={127}
-            step={1}
-            value={taskValue}
-            onValueChange={handleTaskValueChange}
-            className="w-full"
+            currentValue={ValueToTaskCategory[taskValue[0]]}
           />
-          <span className={valueDisplayClasses}>127</span>
+          <div className={sliderWrapperClasses}>
+            <span className={valueDisplayClasses}>-128</span>
+            <Slider
+              defaultValue={[-128]}
+              min={-128}
+              max={127}
+              step={1}
+              value={taskValue}
+              onValueChange={handleTaskValueChange}
+              className="w-full"
+            />
+            <span className={valueDisplayClasses}>127</span>
+          </div>
         </div>
-      </div>
+      </Card>
       
       <Button type="submit" className="w-full">
         Search Facilities

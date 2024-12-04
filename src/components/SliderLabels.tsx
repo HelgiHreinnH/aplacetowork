@@ -9,18 +9,14 @@ interface SliderLabelsProps {
 
 const SliderLabels: React.FC<SliderLabelsProps> = ({ label, min, max, currentValue }) => {
   return (
-    <div className="space-y-4">
-      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+    <div className="space-y-2">
+      <h3 className="text-base font-semibold leading-none tracking-tight">
         {label}
-      </label>
-      <div className="flex justify-between text-xs text-gray-500 mb-2">
-        <span>{min}</span>
-        <span>{max}</span>
-      </div>
+      </h3>
       {currentValue && (
-        <div className="text-sm text-gray-500 text-center">
-          Target {label.toLowerCase()}: {currentValue}
-        </div>
+        <p className="text-lg font-bold text-center text-primary mt-2">
+          {currentValue}
+        </p>
       )}
     </div>
   );
