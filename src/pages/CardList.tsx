@@ -2,28 +2,30 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import Card from '@/components/Card';
+import CardNavigation from '@/components/CardNavigation';
 
 const CardList = () => {
   const { data: facilities, isLoading, error } = useQuery({
     queryKey: ['facilities'],
     queryFn: async () => {
-      console.log('Fetching facilities...');
+      console.log('Fetching facilities with related data...');
+      
+      // Fetch main facilities data with joined index values and task values
       const { data, error } = await supabase
         .from('Facilities')
         .select(`
-          Facility,
-          Subtitle,
-          Description,
-          "Task Category",
-          "Approx. Square Meters",
-          "Approx. Users",
-          Notes,
-          "Purpose of the Facility",
-          "Types of Activities Supported",
-          "Amenities & Features",
-          "Etiquette and Guidelines",
-          "Technology Integration"
+          *,
+          Facilities_index_values:Facilities_index_values!inner(
+            Priority,
+            Task_Category,
+            Sq_M_Min,
+            Sq_M_Max,
+            Users_Min,
+            Users_Max
+          ),
+          Facility_task_values:Facility_task_values!inner(
+            INT8_Task_Value
+          )
         `);
       
       if (error) {
@@ -32,7 +34,7 @@ const CardList = () => {
         throw error;
       }
 
-      console.log('Facilities data:', data);
+      console.log('Combined facilities data:', data);
       return data;
     },
     retry: 2,
@@ -46,7 +48,7 @@ const CardList = () => {
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-              {[1, 2, 3, 4, 5, 6].map((n) => (
+              {[1, 2, 3, 4].map((n) => (
                 <div key={n} className="h-[600px] bg-gray-200 rounded-lg"></div>
               ))}
             </div>
@@ -79,14 +81,28 @@ const CardList = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {facilities?.map((facility, index) => (
-            <div key={facility.Facility} className="h-[600px] transform hover:scale-[1.02] transition-transform duration-300">
-              <Card 
-                {...facility} 
-                imageId={`photo-${(index % 4) + 1}`}
-              />
-            </div>
-          ))}
+          {facilities?.map((facility, index) => {
+            // Combine the data from all three tables
+            const combinedFacility = {
+              ...facility,
+              Priority: facility.Facilities_index_values?.[0]?.Priority,
+              'Task Category': facility.Facilities_index_values?.[0]?.Task_Category,
+              'Sq M Min': facility.Facilities_index_values?.[0]?.Sq_M_Min,
+              'Sq M Max': facility.Facilities_index_values?.[0]?.Sq_M_Max,
+              'Users Min': facility.Facilities_index_values?.[0]?.Users_Min,
+              'Users Max': facility.Facilities_index_values?.[0]?.Users_Max,
+              'INT8 Task Value': facility.Facility_task_values?.[0]?.INT8_Task_Value,
+            };
+
+            return (
+              <div key={facility.Facility} className="h-[600px] transform hover:scale-[1.02] transition-transform duration-300">
+                <CardNavigation 
+                  {...combinedFacility} 
+                  imageId={`photo-${(index % 4) + 1}`}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
