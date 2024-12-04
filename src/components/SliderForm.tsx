@@ -19,7 +19,6 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
   const [taskValue, setTaskValue] = useState([-128]);
 
   const handleTaskValueChange = (value: number[]) => {
-    // Snap to the nearest valid value
     const validValues = Object.keys(ValueToTaskCategory).map(Number);
     const nearestValue = validValues.reduce((prev, curr) => {
       return Math.abs(curr - value[0]) < Math.abs(prev - value[0]) ? curr : prev;
@@ -71,62 +70,65 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
     navigate('/search-results');
   };
 
+  const sliderContainerClasses = "w-full max-w-lg mx-auto space-y-6";
+  const sliderWrapperClasses = "flex items-center space-x-2 w-full px-4";
+  const valueDisplayClasses = "text-sm text-gray-500 min-w-[2.5rem] text-center";
+
   return (
     <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-xl mx-auto">
-      <div className="space-y-4">
+      <div className={sliderContainerClasses}>
         <SliderLabels 
           label="Square Meters"
           min={10}
           max={200}
           currentValue={squareMeters[0]}
         />
-        <div className="flex items-center space-x-2 w-full">
-          <span className="text-sm text-gray-500 min-w-[2rem]">10</span>
-          <div className="w-full">
-            <Slider
-              defaultValue={[30]}
-              max={200}
-              min={10}
-              step={5}
-              value={squareMeters}
-              onValueChange={setSquareMeters}
-            />
-          </div>
-          <span className="text-sm text-gray-500 min-w-[2rem]">200</span>
+        <div className={sliderWrapperClasses}>
+          <span className={valueDisplayClasses}>10</span>
+          <Slider
+            defaultValue={[30]}
+            max={200}
+            min={10}
+            step={5}
+            value={squareMeters}
+            onValueChange={setSquareMeters}
+            className="w-full"
+          />
+          <span className={valueDisplayClasses}>200</span>
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className={sliderContainerClasses}>
         <SliderLabels 
           label="Number of Users"
           min={1}
           max={50}
           currentValue={users[0]}
         />
-        <div className="flex items-center space-x-2 w-full">
-          <span className="text-sm text-gray-500 min-w-[2rem]">1</span>
-          <div className="w-full">
-            <Slider
-              defaultValue={[10]}
-              max={50}
-              min={1}
-              step={1}
-              value={users}
-              onValueChange={setUsers}
-            />
-          </div>
-          <span className="text-sm text-gray-500 min-w-[2rem]">50</span>
+        <div className={sliderWrapperClasses}>
+          <span className={valueDisplayClasses}>1</span>
+          <Slider
+            defaultValue={[10]}
+            max={50}
+            min={1}
+            step={1}
+            value={users}
+            onValueChange={setUsers}
+            className="w-full"
+          />
+          <span className={valueDisplayClasses}>50</span>
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className={sliderContainerClasses}>
         <SliderLabels 
           label="Task Category"
           min={-128}
           max={127}
           currentValue={ValueToTaskCategory[taskValue[0]]}
         />
-        <div className="w-full">
+        <div className={sliderWrapperClasses}>
+          <span className={valueDisplayClasses}>-128</span>
           <Slider
             defaultValue={[-128]}
             min={-128}
@@ -134,7 +136,9 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
             step={1}
             value={taskValue}
             onValueChange={handleTaskValueChange}
+            className="w-full"
           />
+          <span className={valueDisplayClasses}>127</span>
         </div>
       </div>
       
