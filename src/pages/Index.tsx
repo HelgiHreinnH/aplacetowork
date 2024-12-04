@@ -52,7 +52,7 @@ const Index = () => {
           <p className="text-gray-600 mb-6 text-center">
             Find the perfect workplace setting for your needs
           </p>
-          <SliderForm facilities={facilities} />
+          {facilities && <SliderForm facilities={facilities} />}
         </div>
       </div>
     </div>
