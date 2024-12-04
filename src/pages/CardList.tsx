@@ -10,21 +10,20 @@ const CardList = () => {
     queryFn: async () => {
       console.log('Fetching facilities with related data...');
       
-      // Fetch main facilities data with joined index values and task values
       const { data, error } = await supabase
         .from('Facilities')
         .select(`
           *,
-          Facilities_index_values:Facilities_index_values!inner(
+          Facilities_index_values:Facilities index values!inner(
             Priority,
-            Task_Category,
-            Sq_M_Min,
-            Sq_M_Max,
-            Users_Min,
-            Users_Max
+            "Task Category",
+            "Sq M Min",
+            "Sq M Max",
+            "Users Min",
+            "Users Max"
           ),
-          Facility_task_values:Facility_task_values!inner(
-            INT8_Task_Value
+          Facility_task_values:Facility task values!inner(
+            "INT8 Task Value"
           )
         `);
       
@@ -82,16 +81,15 @@ const CardList = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {facilities?.map((facility, index) => {
-            // Combine the data from all three tables
             const combinedFacility = {
               ...facility,
-              Priority: facility.Facilities_index_values?.[0]?.Priority,
-              'Task Category': facility.Facilities_index_values?.[0]?.Task_Category,
-              'Sq M Min': facility.Facilities_index_values?.[0]?.Sq_M_Min,
-              'Sq M Max': facility.Facilities_index_values?.[0]?.Sq_M_Max,
-              'Users Min': facility.Facilities_index_values?.[0]?.Users_Min,
-              'Users Max': facility.Facilities_index_values?.[0]?.Users_Max,
-              'INT8 Task Value': facility.Facility_task_values?.[0]?.INT8_Task_Value,
+              Priority: facility['Facilities index values']?.[0]?.Priority,
+              'Task Category': facility['Facilities index values']?.[0]?.['Task Category'],
+              'Sq M Min': facility['Facilities index values']?.[0]?.['Sq M Min'],
+              'Sq M Max': facility['Facilities index values']?.[0]?.['Sq M Max'],
+              'Users Min': facility['Facilities index values']?.[0]?.['Users Min'],
+              'Users Max': facility['Facilities index values']?.[0]?.['Users Max'],
+              'INT8 Task Value': facility['Facility task values']?.[0]?.['INT8 Task Value'],
             };
 
             return (
