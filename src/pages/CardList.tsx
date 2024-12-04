@@ -3,6 +3,16 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import CardNavigation from '@/components/CardNavigation';
+import type { Database } from '@/integrations/supabase/types';
+
+type Facility = Database['public']['Tables']['Facilities']['Row'];
+type FacilityIndexValues = Database['public']['Tables']['Facilities index values']['Row'];
+type FacilityTaskValues = Database['public']['Tables']['Facility task values']['Row'];
+
+interface CombinedFacility extends Facility {
+  'Facilities index values'?: FacilityIndexValues[];
+  'Facility task values'?: FacilityTaskValues[];
+}
 
 const CardList = () => {
   const { data: facilities, isLoading, error } = useQuery({
@@ -14,7 +24,7 @@ const CardList = () => {
         .from('Facilities')
         .select(`
           *,
-          Facilities_index_values:Facilities index values!inner(
+          "Facilities index values" (
             Priority,
             "Task Category",
             "Sq M Min",
@@ -22,7 +32,7 @@ const CardList = () => {
             "Users Min",
             "Users Max"
           ),
-          Facility_task_values:Facility task values!inner(
+          "Facility task values" (
             "INT8 Task Value"
           )
         `);
@@ -34,7 +44,7 @@ const CardList = () => {
       }
 
       console.log('Combined facilities data:', data);
-      return data;
+      return data as CombinedFacility[];
     },
     retry: 2,
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
