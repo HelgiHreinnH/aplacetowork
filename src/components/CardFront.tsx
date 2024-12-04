@@ -46,8 +46,8 @@ const CardFront: React.FC<CardFrontProps> = ({
         <p className="text-gray-600 leading-relaxed text-base">{description}</p>
         
         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-2">Workspace Characteristics</h3>
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">Workspace Characteristics</h3>
             <div className="bg-gray-50 p-4 rounded-lg">
               <div className="space-y-2">
                 <p className="text-gray-900 font-medium">Area: <span className="text-gray-600 font-normal">{sqmApprox} m²</span></p>
@@ -56,8 +56,8 @@ const CardFront: React.FC<CardFrontProps> = ({
             </div>
           </div>
           
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-2">Primary Use</h3>
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">Primary Use</h3>
             <div className="bg-gray-50 p-4 rounded-lg">
               <p className="text-gray-900 font-medium">{taskCategory}</p>
             </div>
