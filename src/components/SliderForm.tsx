@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { Database } from '@/integrations/supabase/types';
 import { calculateFacilityScore, ValueToTaskCategory } from '../utils/facilityScoring';
-import SliderLabels from './SliderLabels';
+import SquareMetersSlider from './sliders/SquareMetersSlider';
+import UsersSlider from './sliders/UsersSlider';
+import TaskCategorySlider from './sliders/TaskCategorySlider';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -18,14 +19,6 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
   const [squareMeters, setSquareMeters] = useState([30]);
   const [users, setUsers] = useState([10]);
   const [taskValue, setTaskValue] = useState([-128]);
-
-  const handleTaskValueChange = (value: number[]) => {
-    const validValues = Object.keys(ValueToTaskCategory).map(Number);
-    const nearestValue = validValues.reduce((prev, curr) => {
-      return Math.abs(curr - value[0]) < Math.abs(prev - value[0]) ? curr : prev;
-    });
-    setTaskValue([nearestValue]);
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,78 +64,12 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
     navigate('/search-results');
   };
 
-  const sliderContainerClasses = "space-y-4";
-  const sliderWrapperClasses = "flex items-center space-x-4 w-full";
-  const valueDisplayClasses = "text-xs font-medium text-muted-foreground min-w-[2rem] text-center";
-
   return (
     <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-xl mx-auto">
       <Card className="p-6 space-y-8">
-        <div className={sliderContainerClasses}>
-          <SliderLabels 
-            label="Square Meters"
-            min={10}
-            max={200}
-            currentValue={squareMeters[0]}
-          />
-          <div className={sliderWrapperClasses}>
-            <span className={valueDisplayClasses}>10</span>
-            <Slider
-              defaultValue={[30]}
-              max={200}
-              min={10}
-              step={5}
-              value={squareMeters}
-              onValueChange={setSquareMeters}
-              className="w-full"
-            />
-            <span className={valueDisplayClasses}>200</span>
-          </div>
-        </div>
-
-        <div className={sliderContainerClasses}>
-          <SliderLabels 
-            label="Number of Users"
-            min={1}
-            max={50}
-            currentValue={users[0]}
-          />
-          <div className={sliderWrapperClasses}>
-            <span className={valueDisplayClasses}>1</span>
-            <Slider
-              defaultValue={[10]}
-              max={50}
-              min={1}
-              step={1}
-              value={users}
-              onValueChange={setUsers}
-              className="w-full"
-            />
-            <span className={valueDisplayClasses}>50</span>
-          </div>
-        </div>
-
-        <div className={sliderContainerClasses}>
-          <SliderLabels 
-            label="Task Category"
-            min={-128}
-            max={127}
-            currentValue={ValueToTaskCategory[taskValue[0]]}
-          />
-          <div className={sliderWrapperClasses}>
-            <span className={`${valueDisplayClasses} text-[10px]`}>Concentrated Work</span>
-            <Slider
-              defaultValue={[-128]}
-              min={-128}
-              max={127}
-              step={1}
-              value={taskValue}
-              onValueChange={handleTaskValueChange}
-              className="w-full"
-            />
-            <span className={`${valueDisplayClasses} text-[10px]`}>Collaborative Work</span>
-          </div>
-        </div>
+        <SquareMetersSlider value={squareMeters} onChange={setSquareMeters} />
+        <UsersSlider value={users} onChange={setUsers} />
+        <TaskCategorySlider value={taskValue} onChange={setTaskValue} />
       </Card>
       
       <Button type="submit" className="w-full">
