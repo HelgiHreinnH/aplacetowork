@@ -112,6 +112,12 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
         <label className="text-sm font-medium leading-none">
           Task Category
         </label>
+        <div className="flex justify-between text-xs text-gray-500 mb-2">
+          <span>Concentrated</span>
+          <span>Learning</span>
+          <span>Collaborative</span>
+          <span>Social</span>
+        </div>
         <Slider
           defaultValue={[-128]}
           min={-128}
@@ -120,12 +126,6 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
           value={taskValue}
           onValueChange={(value) => setTaskValue(value)}
           className="w-full"
-          marks={[
-            { value: -128, label: 'Concentrated' },
-            { value: 0, label: 'Learning' },
-            { value: 64, label: 'Collaborative' },
-            { value: 127, label: 'Social' },
-          ]}
         />
         <div className="text-sm text-gray-500 text-center">
           Selected category: {getCurrentTaskCategory(taskValue[0])}
