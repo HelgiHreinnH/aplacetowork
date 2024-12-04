@@ -71,7 +71,14 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
     return ValueToTaskCategory[value] || 'Unknown Category';
   };
 
-  const sliderSteps = Object.values(TaskCategoryMapping);
+  const handleTaskValueChange = (value: number[]) => {
+    // Snap to the nearest valid value
+    const validValues = Object.values(TaskCategoryMapping);
+    const nearestValue = validValues.reduce((prev, curr) => {
+      return Math.abs(curr - value[0]) < Math.abs(prev - value[0]) ? curr : prev;
+    });
+    setTaskValue([nearestValue]);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-xl mx-auto">
@@ -134,10 +141,9 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
             defaultValue={[-128]}
             min={-128}
             max={127}
-            step={null}
+            step={1}
             value={taskValue}
-            onValueChange={setTaskValue}
-            marks={sliderSteps}
+            onValueChange={handleTaskValueChange}
           />
         </div>
         <div className="text-sm text-gray-500 text-center">
