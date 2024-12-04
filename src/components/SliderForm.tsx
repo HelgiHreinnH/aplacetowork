@@ -86,6 +86,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
             currentValue={squareMeters[0]}
           />
           <div className={sliderWrapperClasses}>
+            <span className={valueDisplayClasses}>10</span>
             <Slider
               defaultValue={[30]}
               max={200}
@@ -95,6 +96,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
               onValueChange={setSquareMeters}
               className="w-full"
             />
+            <span className={valueDisplayClasses}>200</span>
           </div>
         </div>
 
@@ -106,6 +108,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
             currentValue={users[0]}
           />
           <div className={sliderWrapperClasses}>
+            <span className={valueDisplayClasses}>1</span>
             <Slider
               defaultValue={[10]}
               max={50}
@@ -115,6 +118,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
               onValueChange={setUsers}
               className="w-full"
             />
+            <span className={valueDisplayClasses}>50</span>
           </div>
         </div>
 
@@ -126,6 +130,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
             currentValue={ValueToTaskCategory[taskValue[0]]}
           />
           <div className={sliderWrapperClasses}>
+            <span className={valueDisplayClasses}>-128</span>
             <Slider
               defaultValue={[-128]}
               min={-128}
@@ -135,6 +140,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
               onValueChange={handleTaskValueChange}
               className="w-full"
             />
+            <span className={valueDisplayClasses}>127</span>
           </div>
         </div>
       </Card>
