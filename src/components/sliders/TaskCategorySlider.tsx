@@ -43,7 +43,7 @@ const TaskCategorySlider = ({ value, onChange }: TaskCategorySliderProps) => {
             />
             <span className={`${valueDisplayClasses} text-[10px]`}>Collaborative Work</span>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-center">
             <div className="px-3 py-1 border rounded-md bg-secondary/20">
               <p className="text-sm font-bold text-primary">{ValueToTaskCategory[value[0]]}</p>
             </div>
