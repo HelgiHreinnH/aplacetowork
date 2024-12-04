@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Database } from '@/integrations/supabase/types';
-import Card from '@/components/Card';
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import CardNavigation from '@/components/CardNavigation';
 import { toast } from "sonner";
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
@@ -33,11 +31,6 @@ const SearchResults = () => {
     }
   }, [navigate]);
 
-  const handleCardClick = (facility: Facility) => {
-    sessionStorage.setItem('selectedFacility', JSON.stringify(facility));
-    navigate('/design/card', { state: facility });
-  };
-
   const handleBack = () => {
     navigate('/');
   };
@@ -55,16 +48,23 @@ const SearchResults = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center mb-8">
-          <Button
-            variant="ghost"
-            onClick={handleBack}
-            className="flex items-center gap-2"
+        <button
+          onClick={handleBack}
+          className="mb-8 flex items-center text-gray-600 hover:text-gray-900"
+        >
+          <svg
+            className="w-5 h-5 mr-2"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Search
-          </Button>
-        </div>
+            <path d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Search
+        </button>
         
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900">Search Results</h2>
@@ -82,10 +82,9 @@ const SearchResults = () => {
           {searchResults.map((facility) => (
             <div 
               key={facility.Facility} 
-              className="h-[600px] cursor-pointer transform hover:scale-[1.02] transition-transform duration-300"
-              onClick={() => handleCardClick(facility)}
+              className="h-[600px] transform hover:scale-[1.02] transition-transform duration-300"
             >
-              <Card {...facility} />
+              <CardNavigation {...facility} />
             </div>
           ))}
         </div>

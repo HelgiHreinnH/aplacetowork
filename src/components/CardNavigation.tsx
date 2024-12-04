@@ -27,7 +27,8 @@ const CardNavigation: React.FC<CardNavigationProps> = (props) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate('/card', { state: { ...props } });
+    sessionStorage.setItem('selectedFacility', JSON.stringify(props));
+    navigate('/design/card', { state: props });
   };
 
   return (

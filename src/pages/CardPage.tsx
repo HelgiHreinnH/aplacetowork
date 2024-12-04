@@ -27,10 +27,12 @@ const CardPage = () => {
         const parsedFacility = JSON.parse(storedFacility);
         setFacility(parsedFacility);
       } catch (error) {
+        console.error('Error parsing facility data:', error);
         toast.error("Error loading facility data");
         navigate('/search-results');
       }
     } else {
+      console.log('No facility data found in state or storage');
       toast.error("No facility selected");
       navigate('/search-results');
     }
