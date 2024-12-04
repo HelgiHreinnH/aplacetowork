@@ -7,6 +7,7 @@ import CardSearchOutput from "./pages/CardSearchOutput";
 import CardFrontPage from "./pages/CardFrontPage";
 import CardBackPage from "./pages/CardBackPage";
 import CardPage from "./pages/CardPage";
+import SearchResults from "./pages/SearchResults";
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/search-results" element={<SearchResults />} />
           <Route path="/card-overview" element={<CardSearchOutput />} />
           <Route path="/card-front" element={<CardFrontPage />} />
           <Route path="/card-back" element={<CardBackPage />} />

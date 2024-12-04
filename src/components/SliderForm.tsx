@@ -36,19 +36,16 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
     e.preventDefault();
     
     const filteredFacilities = facilities.filter(facility => {
-      // Square meters filter
       const meetsSquareMeters = facility["Sq M Min"] !== null && 
                                facility["Sq M Max"] !== null && 
                                squareMeters[0] >= facility["Sq M Min"] && 
                                squareMeters[0] <= facility["Sq M Max"];
       
-      // Users filter
       const meetsUsers = facility["Users Min"] !== null && 
                         facility["Users Max"] !== null && 
                         users[0] >= facility["Users Min"] && 
                         users[0] <= facility["Users Max"];
       
-      // Task category filter based on INT8 value
       const facilityTaskValue = facilities.find(f => f.Facility === facility.Facility)?.["Task Category"];
       const meetsTaskCategory = facilityTaskValue ? 
         TaskCategoryMapping[facilityTaskValue as keyof typeof TaskCategoryMapping] === taskValue[0] : false;
@@ -62,7 +59,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
     }
 
     sessionStorage.setItem('searchResults', JSON.stringify(filteredFacilities));
-    navigate('/card-overview');
+    navigate('/search-results');
   };
 
   const getCurrentTaskCategory = (value: number) => {
