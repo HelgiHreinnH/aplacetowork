@@ -8,6 +8,7 @@ const CardList = () => {
   const { data: facilities, isLoading, error } = useQuery({
     queryKey: ['facilities'],
     queryFn: async () => {
+      console.log('Fetching facilities...');
       const { data, error } = await supabase
         .from('Facilities')
         .select(`
@@ -26,13 +27,17 @@ const CardList = () => {
         `);
       
       if (error) {
+        console.error('Error fetching facilities:', error);
         toast.error("Failed to load facilities");
         throw error;
       }
       
+      console.log('Fetched facilities:', data);
       return data;
     }
   });
+
+  console.log('Current facilities state:', facilities);
 
   if (isLoading) {
     return (
@@ -60,7 +65,7 @@ const CardList = () => {
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold text-gray-900">All Facilities</h1>
           <p className="mt-4 text-lg text-gray-600">
-            Browse through our collection of {facilities?.length} workplace settings
+            Browse through our collection of {facilities?.length || 0} workplace settings
           </p>
         </div>
         
