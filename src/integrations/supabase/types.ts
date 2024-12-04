@@ -97,7 +97,15 @@ export type Database = {
           "Users Max"?: number | null
           "Users Min"?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_facility_index"
+            columns: ["Facility"]
+            isOneToOne: true
+            referencedRelation: "Facilities"
+            referencedColumns: ["Facility"]
+          },
+        ]
       }
       "Facility task values": {
         Row: {
@@ -115,7 +123,15 @@ export type Database = {
           "INT8 Task Value"?: number
           "Task Category"?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_facility_task"
+            columns: ["Facility"]
+            isOneToOne: true
+            referencedRelation: "Facilities"
+            referencedColumns: ["Facility"]
+          },
+        ]
       }
     }
     Views: {
