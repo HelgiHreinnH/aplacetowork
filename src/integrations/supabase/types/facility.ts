@@ -38,6 +38,15 @@ export type FacilityTaskValues = {
 };
 
 export type CombinedFacility = Facility & {
-  "Facilities index values": Omit<FacilityIndexValues, 'Facility'>;
-  "Facility task values": Omit<FacilityTaskValues, 'Facility'>;
+  "Facilities index values": {
+    Priority: number | null;
+    "Task Category": string | null;
+    "Sq M Min": number | null;
+    "Sq M Max": number | null;
+    "Users Min": number | null;
+    "Users Max": number | null;
+  } | null;
+  "Facility task values": {
+    "INT8 Task Value": number;
+  } | null;
 };
