@@ -13,6 +13,10 @@ const SliderLabels: React.FC<SliderLabelsProps> = ({ label, min, max, currentVal
       <h3 className="text-base font-semibold leading-none tracking-tight">
         {label}
       </h3>
+      <div className="flex justify-between text-xs text-muted-foreground">
+        <span>{min}</span>
+        <span>{max}</span>
+      </div>
       {currentValue && (
         <div className="flex justify-center mt-2">
           <div className="px-3 py-1 border rounded-md bg-secondary/20">
