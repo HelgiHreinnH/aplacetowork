@@ -32,10 +32,20 @@ const Card: React.FC<CardProps> = (props) => {
     setIsFlipped(!isFlipped);
   };
 
+  const getImageUrl = (imageId: string) => {
+    const imageUrls = {
+      'photo-1': 'photo-1488590528505-98d2b5aba04b',
+      'photo-2': 'photo-1649972904349-6e44c42644a7',
+      'photo-3': 'photo-1518770660439-4636190af475',
+      'photo-4': 'photo-1461749280684-dccba630e2f6'
+    };
+    return imageUrls[imageId as keyof typeof imageUrls] || imageUrls['photo-1'];
+  };
+
   return (
-    <div className="relative w-full" style={{ perspective: '1000px' }}>
+    <div className="relative w-full h-full" style={{ perspective: '1000px' }}>
       <motion.div
-        className="w-full preserve-3d"
+        className="w-full h-full preserve-3d"
         initial={false}
         animate={{ 
           rotateY: isFlipped ? 180 : 0,
@@ -51,23 +61,23 @@ const Card: React.FC<CardProps> = (props) => {
         }}
       >
         <div 
-          className="absolute w-full backface-hidden" 
+          className="absolute w-full h-full backface-hidden" 
           style={{ 
             backfaceVisibility: 'hidden',
             transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
           }}
         >
-          <CardFront {...props} onFlip={handleFlip} />
+          <CardFront {...props} onFlip={handleFlip} imageId={getImageUrl(props.imageId || 'photo-1')} />
         </div>
 
         <div 
-          className="absolute w-full backface-hidden" 
+          className="absolute w-full h-full backface-hidden" 
           style={{ 
             backfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
           }}
         >
-          <CardBack {...props} onFlip={handleFlip} />
+          <CardBack {...props} onFlip={handleFlip} imageId={getImageUrl(props.imageId || 'photo-1')} />
         </div>
       </motion.div>
     </div>
