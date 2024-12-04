@@ -1,11 +1,9 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import MainNavigation from '@/components/MainNavigation';
 
 const DesignLayout = () => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <MainNavigation />
       <nav className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex gap-4">
