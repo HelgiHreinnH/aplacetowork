@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import type { Database } from '@/integrations/supabase/types';
 
@@ -28,16 +27,6 @@ const CardFront: React.FC<CardFrontProps> = ({
   onFlip,
   imageId = 'photo-1488590528505-98d2b5aba04b'
 }) => {
-  const navigate = useNavigate();
-
-  const handleShowMore = (e: React.MouseEvent) => {
-    if (onFlip) {
-      onFlip(e);
-    } else {
-      navigate('/card-back');
-    }
-  };
-
   return (
     <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
       <CardHeader className="space-y-2 pb-4">
@@ -74,7 +63,7 @@ const CardFront: React.FC<CardFrontProps> = ({
         </div>
         
         <button
-          onClick={handleShowMore}
+          onClick={onFlip}
           className="w-full bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors duration-300 mt-6"
         >
           Show More Details

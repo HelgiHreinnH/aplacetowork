@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from "@/components/ui/card";
 import type { Database } from '@/integrations/supabase/types';
 import FacilityHeader from './FacilityHeader';
@@ -35,16 +34,6 @@ const CardBack: React.FC<CardBackProps> = ({
   onFlip,
   imageId,
 }) => {
-  const navigate = useNavigate();
-
-  const handleBack = (e: React.MouseEvent) => {
-    if (onFlip) {
-      onFlip(e);
-    } else {
-      navigate('/card-front');
-    }
-  };
-
   return (
     <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
       <FacilityHeader facility={facility} imageId={imageId} />
@@ -66,7 +55,7 @@ const CardBack: React.FC<CardBackProps> = ({
 
           <button
             className="w-full bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors duration-300 mt-6"
-            onClick={handleBack}
+            onClick={onFlip}
           >
             Back to Front
           </button>
