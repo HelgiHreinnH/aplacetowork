@@ -17,6 +17,7 @@ export type Database = {
           Description: string | null
           "Etiquette and Guidelines": string | null
           Facility: string
+          facility_id: string
           Notes: string | null
           Priority: number | null
           "Purpose of the Facility": string | null
@@ -36,6 +37,7 @@ export type Database = {
           Description?: string | null
           "Etiquette and Guidelines"?: string | null
           Facility: string
+          facility_id?: string
           Notes?: string | null
           Priority?: number | null
           "Purpose of the Facility"?: string | null
@@ -55,6 +57,7 @@ export type Database = {
           Description?: string | null
           "Etiquette and Guidelines"?: string | null
           Facility?: string
+          facility_id?: string
           Notes?: string | null
           Priority?: number | null
           "Purpose of the Facility"?: string | null
@@ -72,6 +75,7 @@ export type Database = {
       "Facilities index values": {
         Row: {
           Facility: string
+          facility_id: string
           Priority: number | null
           "Sq M Max": number | null
           "Sq M Min": number | null
@@ -81,6 +85,7 @@ export type Database = {
         }
         Insert: {
           Facility: string
+          facility_id: string
           Priority?: number | null
           "Sq M Max"?: number | null
           "Sq M Min"?: number | null
@@ -90,6 +95,7 @@ export type Database = {
         }
         Update: {
           Facility?: string
+          facility_id?: string
           Priority?: number | null
           "Sq M Max"?: number | null
           "Sq M Min"?: number | null
@@ -105,21 +111,31 @@ export type Database = {
             referencedRelation: "Facilities"
             referencedColumns: ["Facility"]
           },
+          {
+            foreignKeyName: "fk_facility_index_id"
+            columns: ["facility_id"]
+            isOneToOne: false
+            referencedRelation: "Facilities"
+            referencedColumns: ["facility_id"]
+          },
         ]
       }
       "Facility task values": {
         Row: {
           Facility: string
+          facility_id: string
           "INT8 Task Value": number
           "Task Category": string | null
         }
         Insert: {
           Facility: string
+          facility_id: string
           "INT8 Task Value": number
           "Task Category"?: string | null
         }
         Update: {
           Facility?: string
+          facility_id?: string
           "INT8 Task Value"?: number
           "Task Category"?: string | null
         }
@@ -130,6 +146,13 @@ export type Database = {
             isOneToOne: true
             referencedRelation: "Facilities"
             referencedColumns: ["Facility"]
+          },
+          {
+            foreignKeyName: "fk_facility_task_id"
+            columns: ["facility_id"]
+            isOneToOne: false
+            referencedRelation: "Facilities"
+            referencedColumns: ["facility_id"]
           },
         ]
       }

@@ -3,16 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import CardNavigation from '@/components/CardNavigation';
-import type { Database } from '@/integrations/supabase/types';
-
-type Facility = Database['public']['Tables']['Facilities']['Row'];
-type FacilityIndexValues = Database['public']['Tables']['Facilities index values']['Row'];
-type FacilityTaskValues = Database['public']['Tables']['Facility task values']['Row'];
-
-interface CombinedFacility extends Facility {
-  'Facilities index values': Omit<FacilityIndexValues, 'Facility'>;
-  'Facility task values': Omit<FacilityTaskValues, 'Facility'>;
-}
+import type { CombinedFacility } from '@/integrations/supabase/types';
 
 const CardList = () => {
   const { data: facilities, isLoading, error } = useQuery({
@@ -91,7 +82,7 @@ const CardList = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {facilities?.map((facility, index) => (
-            <div key={facility.Facility} className="h-[600px] transform hover:scale-[1.02] transition-transform duration-300">
+            <div key={facility.facility_id} className="h-[600px] transform hover:scale-[1.02] transition-transform duration-300">
               <CardNavigation 
                 {...facility} 
                 imageId={`photo-${(index % 4) + 1}`}
