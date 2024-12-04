@@ -105,13 +105,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_facility_index"
-            columns: ["Facility"]
-            isOneToOne: true
-            referencedRelation: "Facilities"
-            referencedColumns: ["Facility"]
-          },
-          {
             foreignKeyName: "fk_facility_index_id"
             columns: ["facility_id"]
             isOneToOne: false
@@ -140,13 +133,6 @@ export type Database = {
           "Task Category"?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "fk_facility_task"
-            columns: ["Facility"]
-            isOneToOne: true
-            referencedRelation: "Facilities"
-            referencedColumns: ["Facility"]
-          },
           {
             foreignKeyName: "fk_facility_task_id"
             columns: ["facility_id"]

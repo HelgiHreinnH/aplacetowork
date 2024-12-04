@@ -1,52 +1,43 @@
 export type Facility = {
-  "Amenities & Features": string | null;
-  "Approx. Square Meters": string | null;
-  "Approx. Users": string | null;
-  Description: string | null;
-  "Etiquette and Guidelines": string | null;
-  Facility: string;
   facility_id: string;
-  Notes: string | null;
-  Priority: number | null;
-  "Purpose of the Facility": string | null;
-  "Sq M Max": number | null;
-  "Sq M Min": number | null;
+  Facility: string;
   Subtitle: string | null;
-  "Task Category": string | null;
-  "Technology Integration": string | null;
-  "Types of Activities Supported": string | null;
-  "Users Max": number | null;
-  "Users Min": number | null;
+  Description: string | null;
+  'Task Category': string | null;
+  Priority: number | null;
+  'Approx. Square Meters': string | null;
+  'Approx. Users': string | null;
+  Notes: string | null;
+  'Purpose of the Facility': string | null;
+  'Types of Activities Supported': string | null;
+  'Amenities & Features': string | null;
+  'Etiquette and Guidelines': string | null;
+  'Technology Integration': string | null;
+  'Sq M Min': number | null;
+  'Sq M Max': number | null;
+  'Users Min': number | null;
+  'Users Max': number | null;
 };
 
 export type FacilityIndexValues = {
+  facility_id: string;
   Facility: string;
   Priority: number | null;
-  "Task Category": string | null;
-  "Sq M Min": number | null;
-  "Sq M Max": number | null;
-  "Users Min": number | null;
-  "Users Max": number | null;
-  facility_id: string;
+  'Task Category': string | null;
+  'Sq M Min': number | null;
+  'Sq M Max': number | null;
+  'Users Min': number | null;
+  'Users Max': number | null;
 };
 
 export type FacilityTaskValues = {
-  Facility: string;
-  "Task Category": string | null;
-  "INT8 Task Value": number;
   facility_id: string;
+  Facility: string;
+  'Task Category': string | null;
+  'INT8 Task Value': number;
 };
 
 export type CombinedFacility = Facility & {
-  "Facilities index values": {
-    Priority: number | null;
-    "Task Category": string | null;
-    "Sq M Min": number | null;
-    "Sq M Max": number | null;
-    "Users Min": number | null;
-    "Users Max": number | null;
-  } | null;
-  "Facility task values": {
-    "INT8 Task Value": number;
-  } | null;
+  'Facilities index values'?: FacilityIndexValues | null;
+  'Facility task values'?: FacilityTaskValues | null;
 };

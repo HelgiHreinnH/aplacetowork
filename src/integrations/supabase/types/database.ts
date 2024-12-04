@@ -8,12 +8,12 @@ export type Database = {
         Insert: Omit<Facility, 'facility_id'> & { facility_id?: string };
         Update: Partial<Facility>;
       };
-      "Facilities index values": {
+      'Facilities index values': {
         Row: FacilityIndexValues;
         Insert: Omit<FacilityIndexValues, 'facility_id'> & { facility_id?: string };
         Update: Partial<FacilityIndexValues>;
       };
-      "Facility task values": {
+      'Facility task values': {
         Row: FacilityTaskValues;
         Insert: Omit<FacilityTaskValues, 'facility_id'> & { facility_id?: string };
         Update: Partial<FacilityTaskValues>;
