@@ -49,16 +49,16 @@ const CardFront: React.FC<CardFrontProps> = ({
         
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-gray-50 p-4 rounded-lg">
-            <h3 className="font-semibold text-gray-700 mb-2">Task Category</h3>
-            <p className="text-gray-600">{taskCategory}</p>
-          </div>
-          
-          <div className="bg-gray-50 p-4 rounded-lg">
             <h3 className="font-semibold text-gray-700 mb-2">Space Details</h3>
             <div className="space-y-2">
               <p className="text-gray-600">Area: {sqmApprox} m²</p>
               <p className="text-gray-600">Capacity: {usersApprox} users</p>
             </div>
+          </div>
+          
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h3 className="font-semibold text-gray-700 mb-2">Task Category</h3>
+            <p className="text-gray-600">{taskCategory}</p>
           </div>
         </div>
         
