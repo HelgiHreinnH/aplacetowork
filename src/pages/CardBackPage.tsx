@@ -20,7 +20,8 @@ const CardBackPage = () => {
     "Sq M Min": null,
     "Sq M Max": null,
     "Users Min": null,
-    "Users Max": null
+    "Users Max": null,
+    "facility_id": "sample-facility-id-1"
   };
 
   return (
