@@ -123,19 +123,15 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
           <span>Concentrated</span>
           <span>Social</span>
         </div>
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-500">-128</span>
-          <Slider
-            defaultValue={[-128]}
-            min={-128}
-            max={127}
-            step={null}
-            value={taskValue}
-            onValueChange={(value) => setTaskValue(value)}
-            className="w-full"
-          />
-          <span className="text-sm text-gray-500">127</span>
-        </div>
+        <Slider
+          defaultValue={[-128]}
+          min={-128}
+          max={127}
+          step={null}
+          value={taskValue}
+          onValueChange={(value) => setTaskValue(value)}
+          className="w-full"
+        />
         <div className="text-sm text-gray-500 text-center">
           Selected category: {getCurrentTaskCategory(taskValue[0])}
         </div>
