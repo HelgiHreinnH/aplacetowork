@@ -19,7 +19,6 @@ const TaskCategoryMapping = {
   'Support Task': 127,
 } as const;
 
-// Reverse mapping for display purposes
 const ValueToTaskCategory: { [key: number]: string } = {
   [-128]: 'Concentrated Private Task',
   [0]: 'Learning/Development Task',
@@ -76,15 +75,19 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
         <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
           Square Meters
         </label>
-        <Slider
-          defaultValue={[30]}
-          max={200}
-          min={10}
-          step={5}
-          value={squareMeters}
-          onValueChange={setSquareMeters}
-          className="w-full"
-        />
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-500">10</span>
+          <Slider
+            defaultValue={[30]}
+            max={200}
+            min={10}
+            step={5}
+            value={squareMeters}
+            onValueChange={setSquareMeters}
+            className="w-full"
+          />
+          <span className="text-sm text-gray-500">200</span>
+        </div>
         <div className="text-sm text-gray-500 text-center">
           Target square meters: {squareMeters}
         </div>
@@ -94,15 +97,19 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
         <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
           Number of Users
         </label>
-        <Slider
-          defaultValue={[10]}
-          max={50}
-          min={1}
-          step={1}
-          value={users}
-          onValueChange={setUsers}
-          className="w-full"
-        />
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-500">1</span>
+          <Slider
+            defaultValue={[10]}
+            max={50}
+            min={1}
+            step={1}
+            value={users}
+            onValueChange={setUsers}
+            className="w-full"
+          />
+          <span className="text-sm text-gray-500">50</span>
+        </div>
         <div className="text-sm text-gray-500 text-center">
           Target number of users: {users}
         </div>
@@ -118,15 +125,19 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
           <span>Collaborative</span>
           <span>Social</span>
         </div>
-        <Slider
-          defaultValue={[-128]}
-          min={-128}
-          max={127}
-          step={null}
-          value={taskValue}
-          onValueChange={(value) => setTaskValue(value)}
-          className="w-full"
-        />
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-500">-128</span>
+          <Slider
+            defaultValue={[-128]}
+            min={-128}
+            max={127}
+            step={null}
+            value={taskValue}
+            onValueChange={(value) => setTaskValue(value)}
+            className="w-full"
+          />
+          <span className="text-sm text-gray-500">127</span>
+        </div>
         <div className="text-sm text-gray-500 text-center">
           Selected category: {getCurrentTaskCategory(taskValue[0])}
         </div>
