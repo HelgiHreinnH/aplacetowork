@@ -17,20 +17,26 @@ const SquareMetersSlider = ({ value, onChange }: SquareMetersSliderProps) => {
         label="Square Meters"
         min={10}
         max={200}
-        currentValue={value[0]}
       />
-      <div className={sliderWrapperClasses}>
-        <span className={valueDisplayClasses}>10</span>
-        <Slider
-          defaultValue={[30]}
-          max={200}
-          min={10}
-          step={5}
-          value={value}
-          onValueChange={onChange}
-          className="w-full"
-        />
-        <span className={valueDisplayClasses}>200</span>
+      <div className="space-y-2">
+        <div className={sliderWrapperClasses}>
+          <span className={valueDisplayClasses}>10</span>
+          <Slider
+            defaultValue={[30]}
+            max={200}
+            min={10}
+            step={5}
+            value={value}
+            onValueChange={onChange}
+            className="w-full"
+          />
+          <span className={valueDisplayClasses}>200</span>
+        </div>
+        <div className="flex justify-end">
+          <div className="px-3 py-1 border rounded-md bg-secondary/20">
+            <p className="text-sm font-bold text-primary">{value[0]}</p>
+          </div>
+        </div>
       </div>
     </div>
   );

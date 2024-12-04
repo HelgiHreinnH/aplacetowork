@@ -17,20 +17,26 @@ const UsersSlider = ({ value, onChange }: UsersSliderProps) => {
         label="Number of Users"
         min={1}
         max={50}
-        currentValue={value[0]}
       />
-      <div className={sliderWrapperClasses}>
-        <span className={valueDisplayClasses}>1</span>
-        <Slider
-          defaultValue={[10]}
-          max={50}
-          min={1}
-          step={1}
-          value={value}
-          onValueChange={onChange}
-          className="w-full"
-        />
-        <span className={valueDisplayClasses}>50</span>
+      <div className="space-y-2">
+        <div className={sliderWrapperClasses}>
+          <span className={valueDisplayClasses}>1</span>
+          <Slider
+            defaultValue={[10]}
+            max={50}
+            min={1}
+            step={1}
+            value={value}
+            onValueChange={onChange}
+            className="w-full"
+          />
+          <span className={valueDisplayClasses}>50</span>
+        </div>
+        <div className="flex justify-end">
+          <div className="px-3 py-1 border rounded-md bg-secondary/20">
+            <p className="text-sm font-bold text-primary">{value[0]}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
