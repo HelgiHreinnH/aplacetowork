@@ -7,10 +7,8 @@ import CardFrontPage from "./pages/CardFrontPage";
 import CardBackPage from "./pages/CardBackPage";
 import CardDesignPage from "./pages/CardDesignPage";
 import SearchResults from "./pages/SearchResults";
-import CardList from "./pages/CardList";
 import SearchLayout from "./layouts/SearchLayout";
 import DesignLayout from "./layouts/DesignLayout";
-import ListLayout from "./layouts/ListLayout";
 
 const queryClient = new QueryClient();
 
@@ -33,11 +31,6 @@ const App = () => (
               <Route path="card-back" element={<CardBackPage />} />
               <Route path="interactive" element={<CardDesignPage />} />
             </Route>
-          </Route>
-
-          {/* List Routes */}
-          <Route element={<ListLayout />}>
-            <Route path="/list" element={<CardList />} />
           </Route>
         </Routes>
       </BrowserRouter>
