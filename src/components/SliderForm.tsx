@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import type { Database } from '@/integrations/supabase/types';
 import { calculateFacilityScore, ValueToTaskCategory } from '../utils/facilityScoring';
 import SquareMetersSlider from './sliders/SquareMetersSlider';
@@ -66,11 +65,11 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-xl mx-auto">
-      <Card className="p-6 space-y-8">
+      <div className="space-y-4">
         <SquareMetersSlider value={squareMeters} onChange={setSquareMeters} />
         <UsersSlider value={users} onChange={setUsers} />
         <TaskCategorySlider value={taskValue} onChange={setTaskValue} />
-      </Card>
+      </div>
       
       <Button type="submit" className="w-full">
         Search Facilities

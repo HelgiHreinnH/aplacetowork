@@ -1,5 +1,6 @@
 import React from 'react';
 import { Slider } from "@/components/ui/slider";
+import { Card } from "@/components/ui/card";
 import SliderLabels from '../SliderLabels';
 import { ValueToTaskCategory } from '../../utils/facilityScoring';
 
@@ -21,33 +22,35 @@ const TaskCategorySlider = ({ value, onChange }: TaskCategorySliderProps) => {
   };
 
   return (
-    <div className="space-y-4">
-      <SliderLabels 
-        label="Task Category"
-        min={-128}
-        max={127}
-      />
-      <div className="space-y-2">
-        <div className={sliderWrapperClasses}>
-          <span className={`${valueDisplayClasses} text-[10px]`}>Concentrated Work</span>
-          <Slider
-            defaultValue={[-128]}
-            min={-128}
-            max={127}
-            step={1}
-            value={value}
-            onValueChange={handleTaskValueChange}
-            className="w-full"
-          />
-          <span className={`${valueDisplayClasses} text-[10px]`}>Collaborative Work</span>
-        </div>
-        <div className="flex justify-end">
-          <div className="px-3 py-1 border rounded-md bg-secondary/20">
-            <p className="text-sm font-bold text-primary">{ValueToTaskCategory[value[0]]}</p>
+    <Card className="p-4">
+      <div className="space-y-4">
+        <SliderLabels 
+          label="Task Category"
+          min={-128}
+          max={127}
+        />
+        <div className="space-y-2">
+          <div className={sliderWrapperClasses}>
+            <span className={`${valueDisplayClasses} text-[10px]`}>Concentrated Work</span>
+            <Slider
+              defaultValue={[-128]}
+              min={-128}
+              max={127}
+              step={1}
+              value={value}
+              onValueChange={handleTaskValueChange}
+              className="w-full"
+            />
+            <span className={`${valueDisplayClasses} text-[10px]`}>Collaborative Work</span>
+          </div>
+          <div className="flex justify-end">
+            <div className="px-3 py-1 border rounded-md bg-secondary/20">
+              <p className="text-sm font-bold text-primary">{ValueToTaskCategory[value[0]]}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
