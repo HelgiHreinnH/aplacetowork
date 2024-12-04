@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Card from '@/components/Card';
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -9,25 +9,20 @@ import { toast } from "sonner";
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
 const CardPage = () => {
+  const location = useLocation();
   const [facility, setFacility] = useState<Facility | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const selectedFacility = sessionStorage.getItem('selectedFacility');
-    if (!selectedFacility) {
+    const facilityData = location.state;
+    if (!facilityData) {
       toast.error("No facility selected");
       navigate('/search-results');
       return;
     }
 
-    try {
-      const parsedFacility = JSON.parse(selectedFacility);
-      setFacility(parsedFacility);
-    } catch (error) {
-      toast.error("Error loading facility details");
-      navigate('/search-results');
-    }
-  }, [navigate]);
+    setFacility(facilityData);
+  }, [location.state, navigate]);
 
   const handleBack = () => {
     navigate('/search-results');
