@@ -10,8 +10,8 @@ type FacilityIndexValues = Database['public']['Tables']['Facilities index values
 type FacilityTaskValues = Database['public']['Tables']['Facility task values']['Row'];
 
 interface CombinedFacility extends Facility {
-  'Facilities index values'?: FacilityIndexValues[];
-  'Facility task values'?: FacilityTaskValues[];
+  'Facilities index values': Omit<FacilityIndexValues, 'Facility'>;
+  'Facility task values': Omit<FacilityTaskValues, 'Facility'>;
 }
 
 const CardList = () => {
@@ -90,27 +90,14 @@ const CardList = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {facilities?.map((facility, index) => {
-            const combinedFacility = {
-              ...facility,
-              Priority: facility['Facilities index values']?.[0]?.Priority,
-              'Task Category': facility['Facilities index values']?.[0]?.['Task Category'],
-              'Sq M Min': facility['Facilities index values']?.[0]?.['Sq M Min'],
-              'Sq M Max': facility['Facilities index values']?.[0]?.['Sq M Max'],
-              'Users Min': facility['Facilities index values']?.[0]?.['Users Min'],
-              'Users Max': facility['Facilities index values']?.[0]?.['Users Max'],
-              'INT8 Task Value': facility['Facility task values']?.[0]?.['INT8 Task Value'],
-            };
-
-            return (
-              <div key={facility.Facility} className="h-[600px] transform hover:scale-[1.02] transition-transform duration-300">
-                <CardNavigation 
-                  {...combinedFacility} 
-                  imageId={`photo-${(index % 4) + 1}`}
-                />
-              </div>
-            );
-          })}
+          {facilities?.map((facility, index) => (
+            <div key={facility.Facility} className="h-[600px] transform hover:scale-[1.02] transition-transform duration-300">
+              <CardNavigation 
+                {...facility} 
+                imageId={`photo-${(index % 4) + 1}`}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>
