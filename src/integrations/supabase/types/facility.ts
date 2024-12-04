@@ -38,6 +38,6 @@ export type FacilityTaskValues = {
 };
 
 export type CombinedFacility = Facility & {
-  'index_values'?: FacilityIndexValues;
-  'task_values'?: FacilityTaskValues;
+  'Facilities index values'?: FacilityIndexValues;
+  'Facility task values'?: FacilityTaskValues;
 };
