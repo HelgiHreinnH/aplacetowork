@@ -70,23 +70,24 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-xl mx-auto">
       <div className="space-y-4">
         <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
           Square Meters
         </label>
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-500">10</span>
-          <Slider
-            defaultValue={[30]}
-            max={200}
-            min={10}
-            step={5}
-            value={squareMeters}
-            onValueChange={setSquareMeters}
-            className="w-full"
-          />
-          <span className="text-sm text-gray-500">200</span>
+        <div className="flex items-center space-x-2 w-full">
+          <span className="text-sm text-gray-500 min-w-[2rem]">10</span>
+          <div className="w-full">
+            <Slider
+              defaultValue={[30]}
+              max={200}
+              min={10}
+              step={5}
+              value={squareMeters}
+              onValueChange={setSquareMeters}
+            />
+          </div>
+          <span className="text-sm text-gray-500 min-w-[2rem]">200</span>
         </div>
         <div className="text-sm text-gray-500 text-center">
           Target square meters: {squareMeters}
@@ -97,18 +98,19 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
         <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
           Number of Users
         </label>
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-500">1</span>
-          <Slider
-            defaultValue={[10]}
-            max={50}
-            min={1}
-            step={1}
-            value={users}
-            onValueChange={setUsers}
-            className="w-full"
-          />
-          <span className="text-sm text-gray-500">50</span>
+        <div className="flex items-center space-x-2 w-full">
+          <span className="text-sm text-gray-500 min-w-[2rem]">1</span>
+          <div className="w-full">
+            <Slider
+              defaultValue={[10]}
+              max={50}
+              min={1}
+              step={1}
+              value={users}
+              onValueChange={setUsers}
+            />
+          </div>
+          <span className="text-sm text-gray-500 min-w-[2rem]">50</span>
         </div>
         <div className="text-sm text-gray-500 text-center">
           Target number of users: {users}
@@ -123,15 +125,16 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
           <span>Concentrated</span>
           <span>Social</span>
         </div>
-        <Slider
-          defaultValue={[-128]}
-          min={-128}
-          max={127}
-          step={null}
-          value={taskValue}
-          onValueChange={(value) => setTaskValue(value)}
-          className="w-full"
-        />
+        <div className="w-full">
+          <Slider
+            defaultValue={[-128]}
+            min={-128}
+            max={127}
+            step={null}
+            value={taskValue}
+            onValueChange={(value) => setTaskValue(value)}
+          />
+        </div>
         <div className="text-sm text-gray-500 text-center">
           Selected category: {getCurrentTaskCategory(taskValue[0])}
         </div>
