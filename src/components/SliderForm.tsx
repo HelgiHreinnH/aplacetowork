@@ -130,7 +130,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
             currentValue={ValueToTaskCategory[taskValue[0]]}
           />
           <div className={sliderWrapperClasses}>
-            <span className={valueDisplayClasses}>-128</span>
+            <span className={`${valueDisplayClasses} text-[10px]`}>Concentrated Work</span>
             <Slider
               defaultValue={[-128]}
               min={-128}
@@ -140,7 +140,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
               onValueChange={handleTaskValueChange}
               className="w-full"
             />
-            <span className={valueDisplayClasses}>127</span>
+            <span className={`${valueDisplayClasses} text-[10px]`}>Collaborative Work</span>
           </div>
         </div>
       </Card>
