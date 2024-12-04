@@ -34,8 +34,7 @@ const SearchResults = () => {
   }, [navigate]);
 
   const handleCardClick = (facility: Facility) => {
-    sessionStorage.setItem('selectedFacility', JSON.stringify(facility));
-    navigate('/card');
+    navigate('/design/card', { state: facility });
   };
 
   const handleBack = () => {
