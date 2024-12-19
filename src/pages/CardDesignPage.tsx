@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
 import Card from '@/components/Card';
 import { toast } from "sonner";
 
@@ -22,26 +21,15 @@ const CardDesignPage = () => {
     "Technology Integration": "Built-in AV system, wireless presentation capabilities, high-speed internet"
   };
 
-  const handleViewToggle = () => {
-    setCurrentView(currentView === 'front' ? 'back' : 'front');
-    toast.success(`Showing card ${currentView === 'front' ? 'back' : 'front'}`);
-  };
-
   return (
     <div className="container mx-auto px-4 py-6 sm:py-12">
       <div className="w-full max-w-md mx-auto">
-        <div className="flex justify-center mb-6">
-          <Button onClick={handleViewToggle} className="w-full sm:w-auto">
-            Show Card {currentView === 'front' ? 'Back' : 'Front'}
-          </Button>
-        </div>
-
         <div className="aspect-[3/4] w-full">
           <Card {...sampleFacility} />
         </div>
 
         <div className="mt-6 text-center text-sm text-gray-500 px-4">
-          Click the card or use the button above to flip between front and back views
+          Click the card to flip between front and back views
         </div>
       </div>
     </div>
