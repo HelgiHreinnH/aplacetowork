@@ -1,5 +1,17 @@
 import React from 'react';
-import CategoryPopover from './CategoryPopover';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { 
+  Target, 
+  Activity, 
+  Package, 
+  FileText, 
+  Laptop 
+} from 'lucide-react';
 
 interface FacilityDetailsProps {
   purpose?: string | null;
@@ -17,11 +29,31 @@ const FacilityDetails: React.FC<FacilityDetailsProps> = ({
   technology,
 }) => {
   const categories = [
-    { title: 'Purpose', content: purpose },
-    { title: 'Activities', content: activities },
-    { title: 'Amenities', content: amenities },
-    { title: 'Guidelines', content: etiquette },
-    { title: 'Technology', content: technology },
+    { 
+      title: 'Purpose', 
+      content: purpose,
+      icon: <Target className="h-5 w-5" />
+    },
+    { 
+      title: 'Activities', 
+      content: activities,
+      icon: <Activity className="h-5 w-5" />
+    },
+    { 
+      title: 'Amenities', 
+      content: amenities,
+      icon: <Package className="h-5 w-5" />
+    },
+    { 
+      title: 'Guidelines', 
+      content: etiquette,
+      icon: <FileText className="h-5 w-5" />
+    },
+    { 
+      title: 'Technology', 
+      content: technology,
+      icon: <Laptop className="h-5 w-5" />
+    },
   ];
 
   return (
@@ -32,15 +64,24 @@ const FacilityDetails: React.FC<FacilityDetailsProps> = ({
           Explore the key aspects of this facility
         </p>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        {categories.map((category) => (
-          <CategoryPopover 
-            key={category.title} 
-            title={category.title} 
-            content={category.content} 
-          />
+      
+      <Accordion type="single" collapsible className="w-full">
+        {categories.map((category, index) => (
+          <AccordionItem key={category.title} value={`item-${index}`}>
+            <AccordionTrigger className="hover:no-underline">
+              <div className="flex items-center gap-3">
+                {category.icon}
+                <span>{category.title}</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <p className="text-gray-600 pt-2">
+                {category.content || 'Not specified'}
+              </p>
+            </AccordionContent>
+          </AccordionItem>
         ))}
-      </div>
+      </Accordion>
     </div>
   );
 };
