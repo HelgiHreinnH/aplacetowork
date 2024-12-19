@@ -32,15 +32,14 @@ const CardBack: React.FC<CardBackProps> = ({
   'Etiquette and Guidelines': etiquette,
   'Technology Integration': technology,
   onFlip,
-  imageId,
 }) => {
   return (
     <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col overflow-hidden">
-      <div className="flex-none">
-        <FacilityHeader facility={facility} imageId={imageId} />
+      <div className="flex-none py-4 px-6">
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900">{facility}</h1>
       </div>
 
-      <CardContent className="flex-grow pt-4 space-y-3">
+      <CardContent className="flex-grow pt-2 space-y-3">
         <div className="space-y-3">
           <div className="bg-gray-50 p-3 rounded-lg">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-1">Task Category</h3>
