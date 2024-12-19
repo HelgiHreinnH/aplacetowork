@@ -12,6 +12,7 @@ interface CardFrontProps extends Pick<
   | 'Task Category'
   | 'Approx. Square Meters'
   | 'Approx. Users'
+  | 'display_title'
 > {
   onFlip?: (e: React.MouseEvent) => void;
   imageId?: string;
@@ -19,6 +20,7 @@ interface CardFrontProps extends Pick<
 
 const CardFront: React.FC<CardFrontProps> = ({
   Facility: facility,
+  display_title,
   Subtitle: subtitle,
   Description: description,
   'Task Category': taskCategory,
@@ -30,7 +32,9 @@ const CardFront: React.FC<CardFrontProps> = ({
   return (
     <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
       <CardHeader className="space-y-1 pb-4">
-        <h1 className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1">{facility}</h1>
+        <h1 className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1">
+          {display_title || facility}
+        </h1>
         <p className="text-sm font-medium text-gray-500 line-clamp-1">{subtitle}</p>
       </CardHeader>
 
@@ -38,7 +42,7 @@ const CardFront: React.FC<CardFrontProps> = ({
         <div className="aspect-video w-full">
           <img 
             src={`https://images.unsplash.com/${imageId}`} 
-            alt={facility || 'Facility image'} 
+            alt={display_title || facility} 
             className="w-full h-full object-cover rounded-lg"
           />
         </div>

@@ -15,6 +15,7 @@ interface CardBackProps extends Pick<
   | 'Amenities & Features'
   | 'Etiquette and Guidelines'
   | 'Technology Integration'
+  | 'display_title'
 > {
   onFlip?: (e: React.MouseEvent) => void;
   imageId?: string;
@@ -22,6 +23,7 @@ interface CardBackProps extends Pick<
 
 const CardBack: React.FC<CardBackProps> = ({
   Facility: facility,
+  display_title,
   'Task Category': taskCategory,
   Notes: notes,
   'Purpose of the Facility': purpose,
@@ -34,7 +36,9 @@ const CardBack: React.FC<CardBackProps> = ({
   return (
     <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
       <div className="flex-none py-3 px-6 border-b">
-        <h1 className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1">{facility}</h1>
+        <h1 className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1">
+          {display_title || facility}
+        </h1>
       </div>
 
       <CardContent className="flex-1 flex flex-col space-y-4 p-6">
