@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Database } from '@/integrations/supabase/types';
-import CardNavigation from '@/components/CardNavigation';
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
+
+const getImageUrl = (index: number) => {
+  const imageUrls = [
+    'photo-1488590528505-98d2b5aba04b',
+    'photo-1649972904349-6e44c42644a7',
+    'photo-1518770660439-4636190af475',
+    'photo-1461749280684-dccba630e2f6',
+    'photo-1486312338219-ce68d2c6f44d'
+  ];
+  return `https://images.unsplash.com/${imageUrls[index % imageUrls.length]}`;
+};
 
 const SearchResults = () => {
   const [searchResults, setSearchResults] = useState<Facility[]>([]);
@@ -78,14 +90,46 @@ const SearchResults = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {searchResults.map((facility) => (
-            <div 
-              key={facility.Facility} 
-              className="h-[600px] transform hover:scale-[1.02] transition-transform duration-300"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {searchResults.map((facility, index) => (
+            <Card 
+              key={facility.facility_id} 
+              className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden"
             >
-              <CardNavigation {...facility} />
-            </div>
+              <CardHeader className="pb-3 space-y-1">
+                <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+                  {facility.display_title || facility.Facility}
+                </h3>
+                {facility.Subtitle && (
+                  <p className="text-sm text-gray-600 line-clamp-1">
+                    {facility.Subtitle}
+                  </p>
+                )}
+              </CardHeader>
+              
+              <div className="relative aspect-video w-full overflow-hidden">
+                <img
+                  src={getImageUrl(index)}
+                  alt={facility.display_title || facility.Facility}
+                  className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+                />
+              </div>
+              
+              <CardContent className="flex flex-col gap-3 pt-4">
+                <p className="text-sm text-gray-700 line-clamp-2">
+                  {facility.Description || 'No description available'}
+                </p>
+                <div className="mt-auto pt-2">
+                  <Button 
+                    className="w-full"
+                    variant="outline"
+                    onClick={() => navigate('/design/card-front')}
+                  >
+                    View Details
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
