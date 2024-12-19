@@ -21,6 +21,7 @@ const CardFrontPage = () => {
     "Sq M Max": null,
     "Users Min": null,
     "Users Max": null,
+    "display_title": "Modern Collaboration Room",
     "facility_id": "sample-facility-id-2"
   };
 

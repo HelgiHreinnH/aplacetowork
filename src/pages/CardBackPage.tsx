@@ -21,6 +21,7 @@ const CardBackPage = () => {
     "Sq M Max": null,
     "Users Min": null,
     "Users Max": null,
+    "display_title": "Collaborative Meeting Space",
     "facility_id": "sample-facility-id-1"
   };
 
