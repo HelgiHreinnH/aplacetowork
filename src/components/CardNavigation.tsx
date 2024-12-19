@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import Card from './Card';
 import type { Database } from '@/integrations/supabase/types';
 
@@ -25,17 +24,11 @@ interface CardNavigationProps extends Pick<
 }
 
 const CardNavigation: React.FC<CardNavigationProps> = (props) => {
-  const navigate = useNavigate();
-
-  const handleCardClick = () => {
-    console.log('Navigating with props:', props);
-    sessionStorage.setItem('selectedFacility', JSON.stringify(props));
-    navigate('/design/interactive', { state: props });
-  };
-
   return (
-    <div onClick={handleCardClick} className="cursor-pointer">
-      <Card {...props} />
+    <div className="w-full max-w-md mx-auto">
+      <div className="aspect-[3/4] w-full">
+        <Card {...props} />
+      </div>
     </div>
   );
 };

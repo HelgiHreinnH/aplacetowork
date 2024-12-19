@@ -8,7 +8,7 @@ const CardDesignPage = () => {
   // Sample facility data for demonstration
   const sampleFacility = {
     "Facility": "Meeting Room A",
-    "display_title": "Meeting Room A", // Added display_title
+    "display_title": "Meeting Room A",
     "Subtitle": "Collaborative Space",
     "Description": "A modern meeting room designed for team collaboration and presentations",
     "Task Category": "Group Work",
