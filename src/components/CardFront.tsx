@@ -31,14 +31,14 @@ const CardFront: React.FC<CardFrontProps> = ({
 }) => {
   return (
     <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
-      <CardHeader className="space-y-1 pb-4">
+      <CardHeader className="space-y-1 pb-4 px-4 sm:px-6">
         <h1 className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1">
           {display_title || facility}
         </h1>
         <p className="text-sm font-medium text-gray-500 line-clamp-1">{subtitle}</p>
       </CardHeader>
 
-      <div className="w-full px-6 mb-4">
+      <div className="w-full px-4 sm:px-6 mb-4">
         <div className="aspect-video w-full">
           <img 
             src={`https://images.unsplash.com/${imageId}`} 
@@ -48,7 +48,7 @@ const CardFront: React.FC<CardFrontProps> = ({
         </div>
       </div>
 
-      <CardContent className="flex-1 flex flex-col space-y-4">
+      <CardContent className="flex-1 flex flex-col space-y-4 px-4 sm:px-6">
         <p className="text-gray-600 leading-relaxed text-sm line-clamp-3">{description}</p>
         
         <div className="grid grid-cols-2 gap-3">

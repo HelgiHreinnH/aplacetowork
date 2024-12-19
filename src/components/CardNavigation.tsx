@@ -25,7 +25,7 @@ interface CardNavigationProps extends Pick<
 
 const CardNavigation: React.FC<CardNavigationProps> = (props) => {
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto px-3 sm:px-0">
       <div className="aspect-[3/4] w-full">
         <Card {...props} />
       </div>
