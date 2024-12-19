@@ -1,9 +1,9 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
-import Card from '@/components/Card';
 import { Loader2 } from 'lucide-react';
 import { toast } from "sonner";
+import CardOverview from '@/components/overview/CardOverview';
 
 const FacilityOverview = () => {
   const { data: facilities, isLoading, error } = useQuery({
@@ -38,16 +38,17 @@ const FacilityOverview = () => {
     );
   }
 
+  if (!facilities || facilities.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-500">No facilities found</p>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Workplace Facilities</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {facilities?.map((facility) => (
-          <div key={facility.facility_id} className="h-full">
-            <Card {...facility} />
-          </div>
-        ))}
-      </div>
+      <CardOverview facilities={facilities} />
     </div>
   );
 };
