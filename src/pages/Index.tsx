@@ -44,7 +44,7 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background px-3 sm:px-4 py-4 sm:py-12">
+    <div className="min-h-screen bg-background px-2 sm:px-4 py-4 sm:py-12">
       <div className="container mx-auto max-w-md space-y-4 sm:space-y-6">
         <header className="text-center space-y-2">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
@@ -55,7 +55,7 @@ const Index = () => {
           </p>
         </header>
         
-        <div className="bg-card rounded-xl shadow-sm p-3 sm:p-6">
+        <div className="bg-card rounded-xl shadow-sm p-2 sm:p-6">
           {isLoading ? <LoadingState /> : error ? <ErrorState /> : facilities && <SliderForm facilities={facilities} />}
         </div>
       </div>
