@@ -30,8 +30,8 @@ const CardFront: React.FC<CardFrontProps> = ({
   return (
     <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
       <CardHeader className="space-y-1 pb-4">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">{facility}</h1>
-        <p className="text-base font-medium text-gray-500">{subtitle}</p>
+        <h1 className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1">{facility}</h1>
+        <p className="text-sm font-medium text-gray-500 line-clamp-1">{subtitle}</p>
       </CardHeader>
 
       <div className="w-full h-48 px-6 mb-6">
@@ -42,31 +42,31 @@ const CardFront: React.FC<CardFrontProps> = ({
         />
       </div>
 
-      <CardContent className="space-y-6">
-        <p className="text-gray-600 leading-relaxed text-base">{description}</p>
+      <CardContent className="space-y-4">
+        <p className="text-gray-600 leading-relaxed text-sm line-clamp-3">{description}</p>
         
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           <div className="flex flex-col">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 h-5 mb-3">Workspace Characteristics</h3>
-            <div className="bg-gray-50 p-4 rounded-lg flex-1">
-              <div className="space-y-2">
-                <p className="text-gray-900 font-medium">Area: <span className="text-gray-600 font-normal">{sqmApprox} m²</span></p>
-                <p className="text-gray-900 font-medium">Capacity: <span className="text-gray-600 font-normal">{usersApprox} users</span></p>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">Workspace</h3>
+            <div className="bg-gray-50 p-3 rounded-lg flex-1">
+              <div className="space-y-1">
+                <p className="text-sm"><span className="font-medium">Area:</span> <span className="text-gray-600">{sqmApprox} m²</span></p>
+                <p className="text-sm"><span className="font-medium">Users:</span> <span className="text-gray-600">{usersApprox}</span></p>
               </div>
             </div>
           </div>
           
           <div className="flex flex-col">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 h-5 mb-3">Primary Use</h3>
-            <div className="bg-gray-50 p-4 rounded-lg flex-1">
-              <p className="text-gray-900 font-medium">{taskCategory}</p>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">Primary Use</h3>
+            <div className="bg-gray-50 p-3 rounded-lg flex-1">
+              <p className="text-sm text-gray-900 line-clamp-2">{taskCategory}</p>
             </div>
           </div>
         </div>
         
         <button
           onClick={onFlip}
-          className="w-full bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors duration-300"
+          className="w-full bg-black text-white px-4 py-2.5 rounded-full hover:bg-gray-800 transition-colors duration-300 text-sm"
         >
           Show More Details
         </button>

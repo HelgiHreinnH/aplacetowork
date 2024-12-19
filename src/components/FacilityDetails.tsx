@@ -58,8 +58,8 @@ const FacilityDetails: React.FC<FacilityDetailsProps> = ({
 
   return (
     <div className="bg-gray-50 rounded-xl p-2">
-      <div className="text-center mb-2">
-        <h2 className="text-sm font-semibold text-gray-800">Facility Details</h2>
+      <div className="text-center mb-1">
+        <h2 className="text-xs font-semibold text-gray-800 uppercase tracking-wide">Facility Details</h2>
       </div>
       
       <Accordion type="single" collapsible className="w-full space-y-1">
@@ -68,11 +68,11 @@ const FacilityDetails: React.FC<FacilityDetailsProps> = ({
             <AccordionTrigger className="hover:no-underline py-2 px-3">
               <div className="flex items-center gap-2">
                 {category.icon}
-                <span className="text-sm">{category.title}</span>
+                <span className="text-xs font-medium">{category.title}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              <p className="text-gray-600 text-sm px-3 pb-2">
+              <p className="text-xs text-gray-600 px-3 pb-2 leading-relaxed">
                 {category.content || 'Not specified'}
               </p>
             </AccordionContent>

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import type { Database } from '@/integrations/supabase/types';
-import FacilityHeader from './FacilityHeader';
-import InfoSection from './InfoSection';
 import FacilityDetails from './FacilityDetails';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
@@ -35,24 +33,24 @@ const CardBack: React.FC<CardBackProps> = ({
 }) => {
   return (
     <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col overflow-hidden">
-      <div className="flex-none py-4 px-6">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">{facility}</h1>
+      <div className="flex-none py-3 px-6">
+        <h1 className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1">{facility}</h1>
       </div>
 
-      <CardContent className="flex-grow pt-2 space-y-3">
+      <CardContent className="flex-grow pt-0 space-y-3 overflow-auto">
         <div className="space-y-3">
           <div className="bg-gray-50 p-3 rounded-lg">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-1">Task Category</h3>
-            <p className="text-gray-900 font-medium">{taskCategory}</p>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Task Category</h3>
+            <p className="text-sm text-gray-900 line-clamp-1">{taskCategory}</p>
           </div>
           
           <div className="bg-gray-50 p-3 rounded-lg">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-1">Notes</h3>
-            <p className="text-gray-600">{notes || 'Not specified'}</p>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Notes</h3>
+            <p className="text-sm text-gray-600 line-clamp-2">{notes || 'Not specified'}</p>
           </div>
         </div>
 
-        <div className="pt-2">
+        <div className="pt-1">
           <FacilityDetails
             purpose={purpose}
             activities={activities}
@@ -62,7 +60,7 @@ const CardBack: React.FC<CardBackProps> = ({
           />
 
           <button
-            className="w-full bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-colors duration-300 mt-4"
+            className="w-full bg-black text-white px-4 py-2.5 rounded-full hover:bg-gray-800 transition-colors duration-300 mt-4 text-sm"
             onClick={onFlip}
           >
             Back to Front
