@@ -6,6 +6,7 @@ import Index from "./pages/Index";
 import CardFrontPage from "./pages/CardFrontPage";
 import CardBackPage from "./pages/CardBackPage";
 import CardDesignPage from "./pages/CardDesignPage";
+import FacilityOverview from "./pages/FacilityOverview";
 import SearchResults from "./pages/SearchResults";
 import SearchLayout from "./layouts/SearchLayout";
 import DesignLayout from "./layouts/DesignLayout";
@@ -30,6 +31,7 @@ const App = () => (
               <Route path="card-front" element={<CardFrontPage />} />
               <Route path="card-back" element={<CardBackPage />} />
               <Route path="interactive" element={<CardDesignPage />} />
+              <Route path="overview" element={<FacilityOverview />} />
             </Route>
           </Route>
         </Routes>
