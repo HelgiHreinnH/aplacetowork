@@ -25,9 +25,9 @@ const Index = () => {
   });
 
   const LoadingState = () => (
-    <div className="w-full animate-pulse space-y-4">
-      <div className="h-8 bg-muted rounded" />
-      <div className="h-32 bg-muted rounded" />
+    <div className="w-full animate-pulse space-y-2">
+      <div className="h-6 bg-muted rounded" />
+      <div className="h-24 bg-muted rounded" />
     </div>
   );
 
@@ -36,7 +36,7 @@ const Index = () => {
       <p className="text-destructive">Unable to load facilities</p>
       <button 
         onClick={() => window.location.reload()} 
-        className="mt-4 text-sm text-muted-foreground hover:text-primary"
+        className="mt-2 text-sm text-muted-foreground hover:text-primary"
       >
         Try again
       </button>
@@ -44,18 +44,18 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background px-2 sm:px-4 py-4 sm:py-12">
-      <div className="container mx-auto max-w-md space-y-4 sm:space-y-6">
-        <header className="text-center space-y-2">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+    <div className="min-h-screen bg-background px-1 sm:px-4 py-2 sm:py-12">
+      <div className="container mx-auto max-w-md space-y-2 sm:space-y-6">
+        <header className="text-center space-y-1 sm:space-y-2">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
             Find Your Ideal Workspace
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground">
             Discover the perfect workplace setting tailored to your needs
           </p>
         </header>
         
-        <div className="bg-card rounded-xl shadow-sm p-2 sm:p-6">
+        <div className="bg-card rounded-lg sm:rounded-xl shadow-sm p-2 sm:p-6">
           {isLoading ? <LoadingState /> : error ? <ErrorState /> : facilities && <SliderForm facilities={facilities} />}
         </div>
       </div>

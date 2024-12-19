@@ -19,12 +19,12 @@ const TaskCategorySlider = ({ value, onChange }: TaskCategorySliderProps) => {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1 sm:space-y-2">
       <SliderLabels label="Task Category" />
-      <Card className="p-4">
+      <Card className="p-2 sm:p-4">
         <div className="space-y-2">
           <div className="flex items-center space-x-4 w-full">
-            <span className="text-xs font-medium text-muted-foreground min-w-[2rem] text-center text-[10px]">Concentrated Work</span>
+            <span className="text-[8px] sm:text-[10px] font-medium text-muted-foreground min-w-[2rem] text-center">Concentrated Work</span>
             <Slider
               defaultValue={[-128]}
               min={-128}
@@ -34,11 +34,11 @@ const TaskCategorySlider = ({ value, onChange }: TaskCategorySliderProps) => {
               onValueChange={handleTaskValueChange}
               className="w-full"
             />
-            <span className="text-xs font-medium text-muted-foreground min-w-[2rem] text-center text-[10px]">Collaborative Work</span>
+            <span className="text-[8px] sm:text-[10px] font-medium text-muted-foreground min-w-[2rem] text-center">Collaborative Work</span>
           </div>
           <div className="flex justify-center">
-            <div className="px-3 py-1 border rounded-md bg-secondary/20">
-              <p className="text-sm font-bold text-primary">{ValueToTaskCategory[value[0]]}</p>
+            <div className="px-2 py-0.5 sm:px-3 sm:py-1 border rounded-md bg-secondary/20">
+              <p className="text-xs sm:text-sm font-bold text-primary">{ValueToTaskCategory[value[0]]}</p>
             </div>
           </div>
         </div>
