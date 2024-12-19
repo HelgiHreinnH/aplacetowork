@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import Card from '@/components/Card';
 import { toast } from "sonner";
 
 const CardDesignPage = () => {
-  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState<'front' | 'back'>('front');
 
   // Sample facility data for demonstration
@@ -25,10 +22,6 @@ const CardDesignPage = () => {
     "Technology Integration": "Built-in AV system, wireless presentation capabilities, high-speed internet"
   };
 
-  const handleBack = () => {
-    navigate('/search-results');
-  };
-
   const handleViewToggle = () => {
     setCurrentView(currentView === 'front' ? 'back' : 'front');
     toast.success(`Showing card ${currentView === 'front' ? 'back' : 'front'}`);
@@ -37,15 +30,7 @@ const CardDesignPage = () => {
   return (
     <div className="container mx-auto px-4 py-6 sm:py-12">
       <div className="w-full max-w-md mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <Button
-            variant="ghost"
-            onClick={handleBack}
-            className="flex items-center gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Results
-          </Button>
+        <div className="flex justify-center mb-6">
           <Button onClick={handleViewToggle} className="w-full sm:w-auto">
             Show Card {currentView === 'front' ? 'Back' : 'Front'}
           </Button>
