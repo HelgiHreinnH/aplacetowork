@@ -32,12 +32,12 @@ const CardBack: React.FC<CardBackProps> = ({
   onFlip,
 }) => {
   return (
-    <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col overflow-hidden">
-      <div className="flex-none py-3 px-6">
+    <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
+      <div className="flex-none py-3 px-6 border-b">
         <h1 className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1">{facility}</h1>
       </div>
 
-      <CardContent className="flex-grow pt-0 space-y-3 overflow-auto">
+      <CardContent className="flex-1 flex flex-col space-y-4 p-6">
         <div className="space-y-3">
           <div className="bg-gray-50 p-3 rounded-lg">
             <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Task Category</h3>
@@ -50,7 +50,7 @@ const CardBack: React.FC<CardBackProps> = ({
           </div>
         </div>
 
-        <div className="pt-1">
+        <div className="flex-1">
           <FacilityDetails
             purpose={purpose}
             activities={activities}
@@ -58,9 +58,11 @@ const CardBack: React.FC<CardBackProps> = ({
             etiquette={etiquette}
             technology={technology}
           />
+        </div>
 
+        <div className="mt-auto pt-4">
           <button
-            className="w-full bg-black text-white px-4 py-2.5 rounded-full hover:bg-gray-800 transition-colors duration-300 mt-4 text-sm"
+            className="w-full bg-black text-white px-4 py-2.5 rounded-full hover:bg-gray-800 transition-colors duration-300 text-sm"
             onClick={onFlip}
           >
             Back to Front

@@ -28,21 +28,23 @@ const CardFront: React.FC<CardFrontProps> = ({
   imageId = 'photo-1488590528505-98d2b5aba04b'
 }) => {
   return (
-    <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
+    <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
       <CardHeader className="space-y-1 pb-4">
         <h1 className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1">{facility}</h1>
         <p className="text-sm font-medium text-gray-500 line-clamp-1">{subtitle}</p>
       </CardHeader>
 
-      <div className="w-full h-48 px-6 mb-6">
-        <img 
-          src={`https://images.unsplash.com/${imageId}`} 
-          alt={facility || 'Facility image'} 
-          className="w-full h-full object-cover rounded-lg"
-        />
+      <div className="w-full px-6 mb-4">
+        <div className="aspect-video w-full">
+          <img 
+            src={`https://images.unsplash.com/${imageId}`} 
+            alt={facility || 'Facility image'} 
+            className="w-full h-full object-cover rounded-lg"
+          />
+        </div>
       </div>
 
-      <CardContent className="space-y-4">
+      <CardContent className="flex-1 flex flex-col space-y-4">
         <p className="text-gray-600 leading-relaxed text-sm line-clamp-3">{description}</p>
         
         <div className="grid grid-cols-2 gap-3">
@@ -63,13 +65,15 @@ const CardFront: React.FC<CardFrontProps> = ({
             </div>
           </div>
         </div>
-        
-        <button
-          onClick={onFlip}
-          className="w-full bg-black text-white px-4 py-2.5 rounded-full hover:bg-gray-800 transition-colors duration-300 text-sm"
-        >
-          Show More Details
-        </button>
+
+        <div className="mt-auto pt-4">
+          <button
+            onClick={onFlip}
+            className="w-full bg-black text-white px-4 py-2.5 rounded-full hover:bg-gray-800 transition-colors duration-300 text-sm"
+          >
+            Show More Details
+          </button>
+        </div>
       </CardContent>
     </Card>
   );
