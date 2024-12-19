@@ -35,12 +35,12 @@ const CardBack: React.FC<CardBackProps> = ({
   imageId,
 }) => {
   return (
-    <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
+    <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col overflow-hidden">
       <div className="flex-none">
         <FacilityHeader facility={facility} imageId={imageId} />
       </div>
 
-      <CardContent className="flex-grow space-y-4 pt-6">
+      <CardContent className="flex-grow overflow-y-auto space-y-4 pt-6">
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 h-5 mb-3">Task Category</h3>

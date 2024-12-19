@@ -43,7 +43,7 @@ const Card: React.FC<CardProps> = (props) => {
   };
 
   return (
-    <div className="relative w-full h-full" style={{ perspective: '1000px' }}>
+    <div className="relative w-full aspect-[3/4] max-h-[800px]" style={{ perspective: '1000px' }}>
       <motion.div
         className="w-full h-full preserve-3d"
         initial={false}

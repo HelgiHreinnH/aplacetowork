@@ -75,7 +75,7 @@ const FacilityDetails: React.FC<FacilityDetailsProps> = ({
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              <p className="text-gray-600 pt-2">
+              <p className="text-gray-600 pt-2 max-h-40 overflow-y-auto">
                 {category.content || 'Not specified'}
               </p>
             </AccordionContent>
