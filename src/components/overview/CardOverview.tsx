@@ -15,22 +15,19 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Workplace Facilities</h1>
+        <p className="text-lg text-gray-600">Explore our diverse range of workspace settings</p>
+      </div>
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {facilities.map((facility) => (
           <Card 
             key={facility.facility_id} 
             className="flex flex-col h-full transition-all duration-300 hover:shadow-lg"
           >
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-lg">
-              <img
-                src={`https://source.unsplash.com/random/800x600?workspace`}
-                alt={facility.Facility}
-                className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
-              />
-            </div>
-            
-            <CardHeader className="flex-grow">
-              <h3 className="text-xl font-semibold text-gray-900 line-clamp-1">
+            <CardHeader className="pb-3">
+              <h3 className="text-lg font-semibold text-gray-900 line-clamp-1">
                 {facility.Facility}
               </h3>
               {facility.Subtitle && (
@@ -40,12 +37,21 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
               )}
             </CardHeader>
             
-            <CardContent className="flex flex-col gap-4">
-              <p className="text-gray-700 line-clamp-2">
+            <div className="relative aspect-[3/2] w-full">
+              <img
+                src={`https://source.unsplash.com/random/800x600?workspace`}
+                alt={facility.Facility}
+                className="object-cover w-full h-full"
+              />
+            </div>
+            
+            <CardContent className="flex flex-col gap-3 pt-4">
+              <p className="text-sm text-gray-700 line-clamp-2">
                 {facility.Description || 'No description available'}
               </p>
               <Button 
-                className="w-full mt-auto"
+                className="w-full mt-auto text-sm"
+                variant="outline"
                 onClick={() => navigate('/design/card-front')}
               >
                 View Details
