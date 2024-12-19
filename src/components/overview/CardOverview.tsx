@@ -28,7 +28,7 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
           >
             <CardHeader className="pb-3">
               <h3 className="text-lg font-semibold text-gray-900 line-clamp-1">
-                {facility.Facility}
+                {facility.display_title || facility.Facility}
               </h3>
               {facility.Subtitle && (
                 <p className="text-sm text-gray-600 line-clamp-1">
@@ -40,7 +40,7 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
             <div className="relative aspect-[3/2] w-full">
               <img
                 src={`https://source.unsplash.com/random/800x600?workspace`}
-                alt={facility.Facility}
+                alt={facility.display_title || facility.Facility}
                 className="object-cover w-full h-full"
               />
             </div>

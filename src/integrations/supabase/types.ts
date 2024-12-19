@@ -15,6 +15,7 @@ export type Database = {
           "Approx. Square Meters": string | null
           "Approx. Users": string | null
           Description: string | null
+          display_title: string | null
           "Etiquette and Guidelines": string | null
           Facility: string
           facility_id: string
@@ -35,6 +36,7 @@ export type Database = {
           "Approx. Square Meters"?: string | null
           "Approx. Users"?: string | null
           Description?: string | null
+          display_title?: string | null
           "Etiquette and Guidelines"?: string | null
           Facility: string
           facility_id?: string
@@ -55,6 +57,7 @@ export type Database = {
           "Approx. Square Meters"?: string | null
           "Approx. Users"?: string | null
           Description?: string | null
+          display_title?: string | null
           "Etiquette and Guidelines"?: string | null
           Facility?: string
           facility_id?: string
