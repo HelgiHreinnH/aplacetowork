@@ -43,6 +43,12 @@ const SearchResults = () => {
     }
   }, [navigate]);
 
+  const handleCardClick = (facility: Facility) => {
+    console.log('Navigating with facility:', facility);
+    sessionStorage.setItem('selectedFacility', JSON.stringify(facility));
+    navigate('/design/interactive', { state: facility });
+  };
+
   const handleBack = () => {
     navigate('/');
   };
@@ -94,7 +100,8 @@ const SearchResults = () => {
           {searchResults.map((facility, index) => (
             <Card 
               key={facility.facility_id} 
-              className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden"
+              className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden cursor-pointer"
+              onClick={() => handleCardClick(facility)}
             >
               <CardHeader className="pb-3 space-y-1">
                 <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
@@ -123,7 +130,6 @@ const SearchResults = () => {
                   <Button 
                     className="w-full"
                     variant="outline"
-                    onClick={() => navigate('/design/card-front')}
                   >
                     View Details
                   </Button>
