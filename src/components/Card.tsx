@@ -20,6 +20,7 @@ interface CardProps extends Pick<
   | 'Amenities & Features'
   | 'Etiquette and Guidelines'
   | 'Technology Integration'
+  | 'display_title'
 > {
   imageId?: string;
 }
