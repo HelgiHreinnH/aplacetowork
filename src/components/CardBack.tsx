@@ -40,24 +40,20 @@ const CardBack: React.FC<CardBackProps> = ({
         <FacilityHeader facility={facility} imageId={imageId} />
       </div>
 
-      <CardContent className="flex-grow overflow-y-auto space-y-4 pt-6">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 h-5 mb-3">Task Category</h3>
-            <div className="bg-gray-50 p-4 rounded-lg flex-1">
-              <p className="text-gray-900 font-medium">{taskCategory}</p>
-            </div>
+      <CardContent className="flex-grow pt-4 space-y-3">
+        <div className="space-y-3">
+          <div className="bg-gray-50 p-3 rounded-lg">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-1">Task Category</h3>
+            <p className="text-gray-900 font-medium">{taskCategory}</p>
           </div>
           
-          <div className="flex flex-col">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 h-5 mb-3">Notes</h3>
-            <div className="bg-gray-50 p-4 rounded-lg flex-1">
-              <p className="text-gray-600">{notes || 'Not specified'}</p>
-            </div>
+          <div className="bg-gray-50 p-3 rounded-lg">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-1">Notes</h3>
+            <p className="text-gray-600">{notes || 'Not specified'}</p>
           </div>
         </div>
 
-        <div className="pt-4">
+        <div className="pt-2">
           <FacilityDetails
             purpose={purpose}
             activities={activities}
@@ -67,7 +63,7 @@ const CardBack: React.FC<CardBackProps> = ({
           />
 
           <button
-            className="w-full bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors duration-300 mt-6"
+            className="w-full bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-colors duration-300 mt-4"
             onClick={onFlip}
           >
             Back to Front

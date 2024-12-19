@@ -32,50 +32,47 @@ const FacilityDetails: React.FC<FacilityDetailsProps> = ({
     { 
       title: 'Purpose', 
       content: purpose,
-      icon: <Target className="h-5 w-5" />
+      icon: <Target className="h-4 w-4" />
     },
     { 
       title: 'Activities', 
       content: activities,
-      icon: <Activity className="h-5 w-5" />
+      icon: <Activity className="h-4 w-4" />
     },
     { 
       title: 'Amenities', 
       content: amenities,
-      icon: <Package className="h-5 w-5" />
+      icon: <Package className="h-4 w-4" />
     },
     { 
       title: 'Guidelines', 
       content: etiquette,
-      icon: <FileText className="h-5 w-5" />
+      icon: <FileText className="h-4 w-4" />
     },
     { 
       title: 'Technology', 
       content: technology,
-      icon: <Laptop className="h-5 w-5" />
+      icon: <Laptop className="h-4 w-4" />
     },
   ];
 
   return (
-    <div className="bg-gray-50 rounded-xl p-4">
-      <div className="text-center mb-4">
-        <h2 className="text-lg font-semibold text-gray-800 mb-2">Facility Details</h2>
-        <p className="text-sm text-gray-600">
-          Explore the key aspects of this facility
-        </p>
+    <div className="bg-gray-50 rounded-xl p-2">
+      <div className="text-center mb-2">
+        <h2 className="text-sm font-semibold text-gray-800">Facility Details</h2>
       </div>
       
-      <Accordion type="single" collapsible className="w-full">
+      <Accordion type="single" collapsible className="w-full space-y-1">
         {categories.map((category, index) => (
-          <AccordionItem key={category.title} value={`item-${index}`}>
-            <AccordionTrigger className="hover:no-underline">
-              <div className="flex items-center gap-3">
+          <AccordionItem key={category.title} value={`item-${index}`} className="border-0 bg-white rounded-lg">
+            <AccordionTrigger className="hover:no-underline py-2 px-3">
+              <div className="flex items-center gap-2">
                 {category.icon}
-                <span>{category.title}</span>
+                <span className="text-sm">{category.title}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              <p className="text-gray-600 pt-2 max-h-40 overflow-y-auto">
+              <p className="text-gray-600 text-sm px-3 pb-2">
                 {category.content || 'Not specified'}
               </p>
             </AccordionContent>
