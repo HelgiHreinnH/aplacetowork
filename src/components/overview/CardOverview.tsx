@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Database } from '@/integrations/supabase/types';
+import { useNavigate } from 'react-router-dom';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -9,35 +11,50 @@ interface CardOverviewProps {
 }
 
 const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
+  const navigate = useNavigate();
+
   return (
-    <Card className="w-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-      <CardHeader>
-        <h2 className="text-2xl font-bold text-gray-900">Workplace Facilities Overview</h2>
-        <p className="text-sm text-gray-500">A comprehensive look at our workspace settings</p>
-      </CardHeader>
-      
-      <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {facilities.map((facility) => (
-            <div 
-              key={facility.facility_id} 
-              className="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors"
-            >
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {facilities.map((facility) => (
+          <Card 
+            key={facility.facility_id} 
+            className="flex flex-col h-full transition-all duration-300 hover:shadow-lg"
+          >
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-lg">
+              <img
+                src={`https://source.unsplash.com/random/800x600?workspace`}
+                alt={facility.Facility}
+                className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+            
+            <CardHeader className="flex-grow">
+              <h3 className="text-xl font-semibold text-gray-900 line-clamp-1">
                 {facility.Facility}
               </h3>
-              <p className="text-sm text-gray-600 line-clamp-2">
+              {facility.Subtitle && (
+                <p className="text-sm text-gray-600 line-clamp-1">
+                  {facility.Subtitle}
+                </p>
+              )}
+            </CardHeader>
+            
+            <CardContent className="flex flex-col gap-4">
+              <p className="text-gray-700 line-clamp-2">
                 {facility.Description || 'No description available'}
               </p>
-              <div className="mt-2 flex justify-between text-xs text-gray-500">
-                <span>Category: {facility['Task Category'] || 'Unspecified'}</span>
-                <span>Users: {facility['Approx. Users'] || 'N/A'}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+              <Button 
+                className="w-full mt-auto"
+                onClick={() => navigate('/design/card-front')}
+              >
+                View Details
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
   );
 };
 
