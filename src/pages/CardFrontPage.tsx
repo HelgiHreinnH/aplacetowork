@@ -22,7 +22,8 @@ const CardFrontPage = () => {
     "Users Min": null,
     "Users Max": null,
     "display_title": "Modern Collaboration Room",
-    "facility_id": "sample-facility-id-2"
+    "facility_id": "sample-facility-id-2",
+    "Facility Image URL": null  // Added this field
   };
 
   return (

@@ -22,7 +22,8 @@ const CardBackPage = () => {
     "Users Min": null,
     "Users Max": null,
     "display_title": "Collaborative Meeting Space",
-    "facility_id": "sample-facility-id-1"
+    "facility_id": "sample-facility-id-1",
+    "Facility Image URL": null  // Added this field
   };
 
   return (
