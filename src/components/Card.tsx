@@ -49,7 +49,7 @@ const Card: React.FC<CardProps> = (props) => {
   return (
     <div className="relative w-full aspect-[3/4] max-h-[800px]" style={{ perspective: '1000px' }}>
       <motion.div
-        className="w-full h-full preserve-3d"
+        className="w-full h-full preserve-3d card-shadow"
         initial={false}
         animate={{ 
           rotateY: isFlipped ? 180 : 0,
@@ -65,7 +65,7 @@ const Card: React.FC<CardProps> = (props) => {
         }}
       >
         <div 
-          className="absolute w-full h-full backface-hidden" 
+          className="absolute w-full h-full backface-hidden rounded-[32px] overflow-hidden" 
           style={{ 
             backfaceVisibility: 'hidden',
             transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
@@ -79,7 +79,7 @@ const Card: React.FC<CardProps> = (props) => {
         </div>
 
         <div 
-          className="absolute w-full h-full backface-hidden" 
+          className="absolute w-full h-full backface-hidden rounded-[32px] overflow-hidden" 
           style={{ 
             backfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',

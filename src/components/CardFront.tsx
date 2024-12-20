@@ -30,50 +30,48 @@ const CardFront: React.FC<CardFrontProps> = ({
   imageUrl
 }) => {
   return (
-    <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
-      <CardHeader className="space-y-1 pb-4 px-4 sm:px-6">
-        <h1 className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1">
+    <Card className="w-full h-full bg-white shadow-none hover:shadow-none transition-shadow duration-300 flex flex-col rounded-[32px]">
+      <CardHeader className="space-y-1 pb-4 px-6">
+        <h1 className="text-[22px] font-bold tracking-tight text-black line-clamp-1">
           {display_title || facility}
         </h1>
-        <p className="text-sm font-medium text-gray-500 line-clamp-1">{subtitle}</p>
+        <p className="text-sm text-gray-600 line-clamp-1">{subtitle}</p>
       </CardHeader>
 
-      <div className="w-full px-4 sm:px-6 mb-4">
+      <div className="w-full px-6 mb-4">
         <div className="aspect-video w-full">
           <img 
             src={imageUrl} 
             alt={display_title || facility} 
-            className="w-full h-full object-cover rounded-lg"
+            className="w-full h-full object-cover rounded-2xl"
           />
         </div>
       </div>
 
-      <CardContent className="flex-1 flex flex-col space-y-4 px-4 sm:px-6">
-        <p className="text-gray-600 leading-relaxed text-sm line-clamp-3">{description}</p>
+      <CardContent className="flex-1 flex flex-col space-y-4 px-6">
+        <p className="text-[15px] text-gray-600 leading-relaxed line-clamp-3">{description}</p>
         
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex flex-col">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">Workspace</h3>
-            <div className="bg-gray-50 p-3 rounded-lg flex-1">
-              <div className="space-y-1">
-                <p className="text-sm"><span className="font-medium">Area:</span> <span className="text-gray-600">{sqmApprox} m²</span></p>
-                <p className="text-sm"><span className="font-medium">Users:</span> <span className="text-gray-600">{usersApprox}</span></p>
-              </div>
-            </div>
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <span className="text-[15px] text-gray-600">Amount of m²</span>
+            <span className="text-[15px] font-medium text-[#F97316]">{sqmApprox}</span>
           </div>
           
-          <div className="flex flex-col">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">Primary Use</h3>
-            <div className="bg-gray-50 p-3 rounded-lg flex-1">
-              <p className="text-sm text-gray-900 line-clamp-2">{taskCategory}</p>
-            </div>
+          <div className="flex justify-between items-center">
+            <span className="text-[15px] text-gray-600">Amount of employees</span>
+            <span className="text-[15px] font-medium text-black">{usersApprox}</span>
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <span className="text-[15px] text-gray-600">Collab or concentrated</span>
+            <span className="text-[15px] font-medium text-[#F97316]">{taskCategory}</span>
           </div>
         </div>
 
         <div className="mt-auto pt-4">
           <button
             onClick={onFlip}
-            className="w-full bg-black text-white px-4 py-2.5 rounded-full hover:bg-gray-800 transition-colors duration-300 text-sm"
+            className="w-full bg-[#0EA5E9] text-white py-4 px-6 rounded-full hover:bg-[#0284C7] transition-colors text-[15px] font-medium uppercase"
           >
             Show More Details
           </button>

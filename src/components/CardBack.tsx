@@ -34,23 +34,23 @@ const CardBack: React.FC<CardBackProps> = ({
   onFlip,
 }) => {
   return (
-    <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
-      <div className="flex-none py-3 px-4 sm:px-6 border-b">
-        <h1 className="text-xl font-bold tracking-tight text-gray-900 line-clamp-1">
+    <Card className="w-full h-full bg-white shadow-none hover:shadow-none transition-shadow duration-300 flex flex-col rounded-[32px]">
+      <div className="flex-none py-4 px-6 border-b">
+        <h1 className="text-[22px] font-bold tracking-tight text-black line-clamp-1">
           {display_title || facility}
         </h1>
       </div>
 
-      <CardContent className="flex-1 flex flex-col space-y-4 p-4 sm:p-6">
+      <CardContent className="flex-1 flex flex-col space-y-4 p-6">
         <div className="space-y-3">
-          <div className="bg-gray-50 p-3 rounded-lg">
+          <div className="bg-gray-50 p-3 rounded-xl">
             <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Task Category</h3>
-            <p className="text-sm text-gray-900 line-clamp-1">{taskCategory}</p>
+            <p className="text-[15px] text-[#F97316] line-clamp-1">{taskCategory}</p>
           </div>
           
-          <div className="bg-gray-50 p-3 rounded-lg">
+          <div className="bg-gray-50 p-3 rounded-xl">
             <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Notes</h3>
-            <p className="text-sm text-gray-600 line-clamp-2">{notes || 'Not specified'}</p>
+            <p className="text-[15px] text-gray-600 line-clamp-2">{notes || 'Not specified'}</p>
           </div>
         </div>
 
@@ -66,7 +66,7 @@ const CardBack: React.FC<CardBackProps> = ({
 
         <div className="mt-auto pt-4">
           <button
-            className="w-full bg-black text-white px-4 py-2.5 rounded-full hover:bg-gray-800 transition-colors duration-300 text-sm"
+            className="w-full bg-[#0EA5E9] text-white py-4 px-6 rounded-full hover:bg-[#0284C7] transition-colors text-[15px] font-medium uppercase"
             onClick={onFlip}
           >
             Back to Front
