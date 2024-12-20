@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { Database } from '@/integrations/supabase/types';
-import FacilityCard from './FacilityCard';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -64,7 +63,6 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
     
     try {
       if (selectedFacilities.includes(facilityId)) {
-        // Remove from favorites
         const { error } = await supabase
           .from('facility_favorites')
           .delete()
@@ -75,7 +73,6 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
         setSelectedFacilities(prev => prev.filter(id => id !== facilityId));
         toast.success("Removed from favorites");
       } else {
-        // Add to favorites
         const { error } = await supabase
           .from('facility_favorites')
           .insert([{ facility_id: facilityId }]);
@@ -102,10 +99,10 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
   const displayFacilities = supabaseFacilities || facilities;
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="mb-8 text-left">
-        <h1 className="text-2xl font-bold">Workplace Settings</h1>
-        <p className="text-gray-500 mt-2">Select your favorite workplace settings</p>
+    <div className="max-w-md mx-auto px-4 py-8">
+      <div className="mb-8 text-center">
+        <div className="text-3xl font-bold mb-2">logo</div>
+        <p className="text-gray-500 uppercase text-sm tracking-wide">SUB LINE</p>
       </div>
       
       <div className="space-y-4">
@@ -121,9 +118,9 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
 
       <button
         onClick={() => navigate('/')}
-        className="w-full mt-8 bg-blue-600 text-white py-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+        className="w-full mt-8 bg-blue-600 text-white py-4 rounded-xl font-medium hover:bg-blue-700 transition-colors uppercase"
       >
-        BACK
+        Back
       </button>
     </div>
   );

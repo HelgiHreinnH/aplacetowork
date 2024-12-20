@@ -23,54 +23,73 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
 
   return (
     <div
-      className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative"
+      className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative"
       onClick={() => navigate(`/design/card-front`)}
     >
-      <div className="flex">
-        <div 
-          className="absolute right-4 top-4 cursor-pointer"
-          onClick={(e) => onSelect(facility.facility_id, e)}
-        >
-          {isSelected ? (
-            <CircleCheck className="h-6 w-6 text-blue-500" />
-          ) : (
-            <Circle className="h-6 w-6 text-gray-400 hover:text-blue-400" />
-          )}
-        </div>
-
-        <div className="flex-1">
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold text-left">
+      <div className="flex flex-col">
+        <div className="flex justify-between items-start mb-6">
+          <div>
+            <h2 className="text-xl font-bold text-left">
               {facility.display_title || facility.Facility}
             </h2>
             <p className="text-sm text-gray-600 mt-1 text-left">
               {facility.Subtitle}
             </p>
           </div>
-
-          <div className="grid grid-cols-2 gap-4 text-left">
-            <FacilityDetail 
-              label="Amount of m2" 
-              value={facility['Approx. Square Meters']} 
-            />
-            <FacilityDetail 
-              label="Amount of employees" 
-              value={facility['Approx. Users']} 
-            />
-            <FacilityDetail 
-              label="Collab or concentrated" 
-              value={facility['Task Category']} 
-            />
-          </div>
+          <button
+            onClick={(e) => onSelect(facility.facility_id, e)}
+            className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            {isSelected ? (
+              <CircleCheck className="h-6 w-6 text-orange-400" />
+            ) : (
+              <Circle className="h-6 w-6 text-gray-300 hover:text-orange-300" />
+            )}
+          </button>
         </div>
 
         {facility['Facility Image URL'] && (
-          <div className="ml-6 flex items-center justify-center w-32">
+          <div className="mb-6">
             <img
               src={facility['Facility Image URL']}
               alt={facility.Facility}
-              className="w-32 h-32 object-cover rounded-lg"
+              className="w-full h-48 object-cover rounded-xl"
             />
+          </div>
+        )}
+
+        <div className="space-y-3 text-left">
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Amount of m²</span>
+            <span className="text-sm font-medium text-orange-400">
+              {facility['Approx. Square Meters']}
+            </span>
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Amount of employees</span>
+            <span className="text-sm font-medium text-gray-900">
+              {facility['Approx. Users']}
+            </span>
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Collab or concentrated</span>
+            <span className="text-sm font-medium text-orange-400">
+              {facility['Task Category']}
+            </span>
+          </div>
+        </div>
+
+        {facility.Description && (
+          <div className="mt-6 text-sm text-gray-600 text-left">
+            {facility.Description}
+          </div>
+        )}
+
+        {facility.Notes && (
+          <div className="mt-4 text-sm text-gray-500 text-left">
+            {facility.Notes}
           </div>
         )}
       </div>
