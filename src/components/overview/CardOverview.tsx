@@ -2,9 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Circle, CircleCheck } from "lucide-react";
-import { Database } from '@/integrations/supabase/types';
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import type { Database } from '@/integrations/supabase/types';
+import FacilityCard from './FacilityCard';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -67,66 +68,12 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
       
       <div className="space-y-4">
         {displayFacilities.map((facility) => (
-          <div
+          <FacilityCard
             key={facility.facility_id}
-            className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative"
-            onClick={() => navigate(`/design/card-front`)}
-          >
-            <div className="flex">
-              <div 
-                className="absolute right-4 top-4 cursor-pointer"
-                onClick={(e) => handleFacilitySelect(facility.facility_id, e)}
-              >
-                {selectedFacility === facility.facility_id ? (
-                  <CircleCheck className="h-6 w-6 text-blue-500" />
-                ) : (
-                  <Circle className="h-6 w-6 text-gray-400 hover:text-blue-400" />
-                )}
-              </div>
-
-              <div className="flex-1">
-                <div className="mb-4">
-                  <h2 className="text-lg font-semibold text-left">
-                    {facility.display_title || facility.Facility}
-                  </h2>
-                  <p className="text-sm text-gray-600 mt-1 text-left">
-                    {facility.Subtitle}
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 text-left">
-                  <div>
-                    <div className="text-sm text-gray-500">Amount of m2</div>
-                    <div className="text-sm font-medium text-orange-500">
-                      {facility['Approx. Square Meters']}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-500">Amount of employees</div>
-                    <div className="text-sm font-medium text-orange-500">
-                      {facility['Approx. Users']}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-500">Collab or concentrated</div>
-                    <div className="text-sm font-medium text-orange-500">
-                      {facility['Task Category']}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {facility['Facility Image URL'] && (
-                <div className="ml-6 flex items-center justify-center w-32">
-                  <img
-                    src={facility['Facility Image URL']}
-                    alt={facility.Facility}
-                    className="w-32 h-32 object-cover rounded-lg"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
+            facility={facility}
+            isSelected={selectedFacility === facility.facility_id}
+            onSelect={handleFacilitySelect}
+          />
         ))}
       </div>
 
