@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { Database } from '@/integrations/supabase/types';
-import FacilityCard from './FacilityCard';
+import LoadingSpinner from './LoadingSpinner';
+import Header from './Header';
+import FacilitiesList from './FacilitiesList';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -40,7 +40,6 @@ const fetchFavorites = async () => {
 };
 
 const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
-  const navigate = useNavigate();
   const [selectedFacilities, setSelectedFacilities] = React.useState<string[]>([]);
 
   const { data: supabaseFacilities, isLoading: isLoadingFacilities } = useQuery({
@@ -90,32 +89,19 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
   };
 
   if (isLoadingFacilities || isLoadingFavorites) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   const displayFacilities = supabaseFacilities || facilities;
 
   return (
     <div className="max-w-md mx-auto px-4 py-8">
-      <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold mb-2">logo</h1>
-        <p className="text-sm tracking-[0.2em] text-gray-500 uppercase">SUB LINE</p>
-      </div>
-      
-      <div className="space-y-6">
-        {displayFacilities.map((facility) => (
-          <FacilityCard
-            key={facility.facility_id}
-            facility={facility}
-            isSelected={selectedFacilities.includes(facility.facility_id)}
-            onSelect={handleFacilitySelect}
-          />
-        ))}
-      </div>
+      <Header />
+      <FacilitiesList 
+        facilities={displayFacilities}
+        selectedFacilities={selectedFacilities}
+        onFacilitySelect={handleFacilitySelect}
+      />
     </div>
   );
 };
