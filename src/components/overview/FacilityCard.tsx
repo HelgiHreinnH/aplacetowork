@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
 import { toast } from "sonner";
 import type { Database } from '@/integrations/supabase/types';
+import FacilityDetail from './FacilityDetail';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
