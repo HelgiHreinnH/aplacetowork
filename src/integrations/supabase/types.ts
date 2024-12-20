@@ -18,6 +18,7 @@ export type Database = {
           display_title: string | null
           "Etiquette and Guidelines": string | null
           Facility: string
+          "Facility Image URL": string | null
           facility_id: string
           Notes: string | null
           Priority: number | null
@@ -39,6 +40,7 @@ export type Database = {
           display_title?: string | null
           "Etiquette and Guidelines"?: string | null
           Facility: string
+          "Facility Image URL"?: string | null
           facility_id?: string
           Notes?: string | null
           Priority?: number | null
@@ -60,6 +62,7 @@ export type Database = {
           display_title?: string | null
           "Etiquette and Guidelines"?: string | null
           Facility?: string
+          "Facility Image URL"?: string | null
           facility_id?: string
           Notes?: string | null
           Priority?: number | null

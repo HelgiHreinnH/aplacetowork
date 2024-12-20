@@ -3,6 +3,8 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Database } from '@/integrations/supabase/types';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from "@/integrations/supabase/client";
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -10,19 +12,37 @@ interface CardOverviewProps {
   facilities: Facility[];
 }
 
-const getImageUrl = (index: number) => {
-  const imageUrls = [
-    'photo-1488590528505-98d2b5aba04b',
-    'photo-1649972904349-6e44c42644a7',
-    'photo-1518770660439-4636190af475',
-    'photo-1461749280684-dccba630e2f6',
-    'photo-1486312338219-ce68d2c6f44d'
-  ];
-  return `https://images.unsplash.com/${imageUrls[index % imageUrls.length]}`;
+const fetchFacilities = async () => {
+  const { data, error } = await supabase
+    .from('Facilities')
+    .select('*');
+  
+  if (error) {
+    console.error('Error fetching facilities:', error);
+    throw error;
+  }
+  
+  console.log('Fetched facilities:', data);
+  return data;
 };
 
 const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
   const navigate = useNavigate();
+
+  const { data: supabaseFacilities, isLoading, error } = useQuery({
+    queryKey: ['facilities'],
+    queryFn: fetchFacilities,
+  });
+
+  if (isLoading) {
+    return <div>Loading facilities...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading facilities</div>;
+  }
+
+  const displayFacilities = supabaseFacilities || facilities;
 
   return (
     <div className="container mx-auto px-2 py-4">
@@ -32,39 +52,27 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
       </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-        {facilities.map((facility, index) => (
+        {displayFacilities.map((facility, index) => (
           <Card 
             key={facility.facility_id} 
             className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden"
           >
-            <CardHeader className="pb-2 space-y-1">
-              <h3 className="text-base font-semibold text-gray-900 line-clamp-2">
+            <CardHeader className="flex-none">
+              <h2 className="text-xl font-semibold line-clamp-1">
                 {facility.display_title || facility.Facility}
-              </h3>
+              </h2>
               {facility.Subtitle && (
-                <p className="text-xs text-gray-600 line-clamp-1">
-                  {facility.Subtitle}
-                </p>
+                <p className="text-sm text-gray-500 line-clamp-1">{facility.Subtitle}</p>
               )}
             </CardHeader>
-            
-            <div className="relative aspect-video w-full overflow-hidden">
-              <img
-                src={getImageUrl(index)}
-                alt={facility.display_title || facility.Facility}
-                className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
-              />
-            </div>
-            
-            <CardContent className="flex flex-col gap-2 pt-2">
-              <p className="text-xs text-gray-700 line-clamp-2">
-                {facility.Description || 'No description available'}
+            <CardContent className="flex-1 flex flex-col">
+              <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                {facility.Description}
               </p>
-              <div className="mt-auto pt-2">
+              <div className="mt-auto">
                 <Button 
-                  className="w-full text-sm py-1"
-                  variant="outline"
-                  onClick={() => navigate('/design/card-front')}
+                  className="w-full"
+                  onClick={() => navigate(`/design/card-front`)}
                 >
                   View Details
                 </Button>
