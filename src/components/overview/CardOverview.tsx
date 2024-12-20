@@ -66,16 +66,13 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
           >
             <div className="flex">
               <div className="flex-1">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h2 className="text-lg font-semibold text-left">
-                      {facility.display_title || facility.Facility}
-                    </h2>
-                    <p className="text-sm text-gray-600 mt-1 text-left">
-                      {facility.Subtitle}
-                    </p>
-                  </div>
-                  <div className="w-3 h-3 rounded-full bg-orange-400 flex-shrink-0" />
+                <div className="mb-4">
+                  <h2 className="text-lg font-semibold text-left">
+                    {facility.display_title || facility.Facility}
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1 text-left">
+                    {facility.Subtitle}
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 text-left">
