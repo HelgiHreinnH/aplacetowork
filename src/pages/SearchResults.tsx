@@ -116,7 +116,7 @@ const SearchResults = () => {
                 </p>
                 <div className="mt-auto">
                   <Button 
-                    className="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-full py-3 text-sm"
+                    className="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-full py-2 text-xs"
                     variant="default"
                   >
                     View Details
