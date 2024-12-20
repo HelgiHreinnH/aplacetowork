@@ -23,14 +23,18 @@ const CardBackPage = () => {
     "Users Max": null,
     "display_title": "Collaborative Meeting Space",
     "facility_id": "sample-facility-id-1",
-    "Facility Image URL": null  // Added this field
+    "Facility Image URL": null
   };
 
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-8">Card Back Component</h1>
       <div className="max-w-md mx-auto">
-        <CardBack {...sampleData} onFlip={() => console.log("Flip clicked")} />
+        <CardBack 
+          {...sampleData} 
+          onFlip={() => console.log("Flip clicked")}
+          imageUrl="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
+        />
       </div>
     </div>
   );

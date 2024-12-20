@@ -23,7 +23,7 @@ const CardFrontPage = () => {
     "Users Max": null,
     "display_title": "Modern Collaboration Room",
     "facility_id": "sample-facility-id-2",
-    "Facility Image URL": null  // Added this field
+    "Facility Image URL": null
   };
 
   return (
@@ -32,7 +32,7 @@ const CardFrontPage = () => {
       <div className="max-w-md mx-auto">
         <CardFront 
           {...sampleData} 
-          imageId="photo-1486312338219-ce68d2c6f44d"
+          imageUrl="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
           onFlip={() => console.log("Flip clicked")}
         />
       </div>

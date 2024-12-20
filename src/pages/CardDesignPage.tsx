@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Card from '@/components/Card';
-import { toast } from "sonner";
 
 const CardDesignPage = () => {
-  const [currentView, setCurrentView] = useState<'front' | 'back'>('front');
-
   // Sample facility data for demonstration
   const sampleFacility = {
     "Facility": "Meeting Room A",
@@ -19,7 +16,14 @@ const CardDesignPage = () => {
     "Types of Activities Supported": "Team meetings, client presentations, video conferences, workshops",
     "Amenities & Features": "75-inch display, video conferencing system, whiteboard wall, adjustable lighting",
     "Etiquette and Guidelines": "Clean after use, no food allowed, maintain quiet in surrounding areas",
-    "Technology Integration": "Built-in AV system, wireless presentation capabilities, high-speed internet"
+    "Technology Integration": "Built-in AV system, wireless presentation capabilities, high-speed internet",
+    "Facility Image URL": null,
+    "facility_id": "sample-id",
+    "Priority": null,
+    "Sq M Min": null,
+    "Sq M Max": null,
+    "Users Min": null,
+    "Users Max": null
   };
 
   return (
