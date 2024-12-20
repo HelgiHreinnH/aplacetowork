@@ -102,21 +102,21 @@ const SearchResults = () => {
                 />
               </div>
               
-              <div className="flex flex-col gap-3 p-6">
-                <h3 className="text-[22px] font-bold text-foreground line-clamp-2">
+              <div className="flex flex-col flex-grow p-6">
+                <h3 className="text-[22px] font-bold text-foreground line-clamp-2 mb-2">
                   {facility.display_title || facility.Facility}
                 </h3>
                 {facility.Subtitle && (
-                  <p className="text-sm text-muted-foreground line-clamp-1">
+                  <p className="text-sm text-muted-foreground line-clamp-1 mb-2">
                     {facility.Subtitle}
                   </p>
                 )}
-                <p className="text-[15px] text-muted-foreground line-clamp-2">
+                <p className="text-[15px] text-muted-foreground line-clamp-2 mb-4">
                   {facility.Description || 'No description available'}
                 </p>
-                <div className="mt-auto pt-4">
+                <div className="mt-auto">
                   <Button 
-                    className="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-full py-4"
+                    className="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-full py-3 text-sm"
                     variant="default"
                   >
                     View Details
