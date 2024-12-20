@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
@@ -26,33 +26,75 @@ const fetchFacilities = async () => {
   return data;
 };
 
+const fetchFavorites = async () => {
+  const { data, error } = await supabase
+    .from('facility_favorites')
+    .select('facility_id');
+  
+  if (error) {
+    console.error('Error fetching favorites:', error);
+    throw error;
+  }
+  
+  return data.map(fav => fav.facility_id);
+};
+
 const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
   const navigate = useNavigate();
-  const [selectedFacility, setSelectedFacility] = React.useState<string | null>(null);
+  const [selectedFacilities, setSelectedFacilities] = React.useState<string[]>([]);
 
-  const { data: supabaseFacilities, isLoading, error } = useQuery({
+  const { data: supabaseFacilities, isLoading: isLoadingFacilities } = useQuery({
     queryKey: ['facilities'],
     queryFn: fetchFacilities,
   });
 
-  const handleFacilitySelect = (facilityId: string, event: React.MouseEvent) => {
+  const { data: favorites, isLoading: isLoadingFavorites } = useQuery({
+    queryKey: ['favorites'],
+    queryFn: fetchFavorites,
+  });
+
+  useEffect(() => {
+    if (favorites) {
+      setSelectedFacilities(favorites);
+    }
+  }, [favorites]);
+
+  const handleFacilitySelect = async (facilityId: string, event: React.MouseEvent) => {
     event.stopPropagation();
-    setSelectedFacility(facilityId);
-    toast.success("Facility selected");
+    
+    try {
+      if (selectedFacilities.includes(facilityId)) {
+        // Remove from favorites
+        const { error } = await supabase
+          .from('facility_favorites')
+          .delete()
+          .eq('facility_id', facilityId);
+
+        if (error) throw error;
+
+        setSelectedFacilities(prev => prev.filter(id => id !== facilityId));
+        toast.success("Removed from favorites");
+      } else {
+        // Add to favorites
+        const { error } = await supabase
+          .from('facility_favorites')
+          .insert([{ facility_id: facilityId }]);
+
+        if (error) throw error;
+
+        setSelectedFacilities(prev => [...prev, facilityId]);
+        toast.success("Added to favorites");
+      }
+    } catch (error) {
+      console.error('Error updating favorites:', error);
+      toast.error("Failed to update favorites");
+    }
   };
 
-  if (isLoading) {
+  if (isLoadingFacilities || isLoadingFavorites) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-12 text-red-500">
-        Error loading facilities
       </div>
     );
   }
@@ -63,7 +105,7 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="mb-8 text-left">
         <h1 className="text-2xl font-bold">Workplace Settings</h1>
-        <p className="text-gray-500 mt-2">SUB LINE</p>
+        <p className="text-gray-500 mt-2">Select your favorite workplace settings</p>
       </div>
       
       <div className="space-y-4">
@@ -71,7 +113,7 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
           <FacilityCard
             key={facility.facility_id}
             facility={facility}
-            isSelected={selectedFacility === facility.facility_id}
+            isSelected={selectedFacilities.includes(facility.facility_id)}
             onSelect={handleFacilitySelect}
           />
         ))}
