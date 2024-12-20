@@ -101,12 +101,12 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
 
   return (
     <div className="max-w-md mx-auto px-4 py-8">
-      <div className="mb-8 text-center">
-        <div className="text-3xl font-bold mb-2">logo</div>
-        <p className="text-gray-500 uppercase text-sm tracking-wide">SUB LINE</p>
+      <div className="mb-12 text-center">
+        <h1 className="text-4xl font-bold mb-2">logo</h1>
+        <p className="text-sm tracking-[0.2em] text-gray-500 uppercase">SUB LINE</p>
       </div>
       
-      <div className="space-y-4">
+      <div className="space-y-6">
         {displayFacilities.map((facility) => (
           <FacilityCard
             key={facility.facility_id}
@@ -116,13 +116,6 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
           />
         ))}
       </div>
-
-      <button
-        onClick={() => navigate('/')}
-        className="w-full mt-8 bg-blue-600 text-white py-4 rounded-xl font-medium hover:bg-blue-700 transition-colors uppercase"
-      >
-        Back
-      </button>
     </div>
   );
 };

@@ -2,9 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import type { Database } from '@/integrations/supabase/types';
-import FacilityDetail from './FacilityDetail';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -22,77 +20,90 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
   const navigate = useNavigate();
 
   return (
-    <div
-      className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative"
-      onClick={() => navigate(`/design/card-front`)}
-    >
-      <div className="flex flex-col">
-        <div className="flex justify-between items-start mb-6">
+    <div className="bg-white rounded-[32px] shadow-sm hover:shadow-md transition-shadow relative">
+      <div 
+        className="p-6 pb-20 cursor-pointer"
+        onClick={() => navigate(`/design/card-front`)}
+      >
+        {/* Header with favorite button */}
+        <div className="flex justify-between items-start mb-8">
           <div>
-            <h2 className="text-xl font-bold text-left">
+            <h2 className="text-[22px] font-bold text-black leading-tight">
               {facility.display_title || facility.Facility}
             </h2>
-            <p className="text-sm text-gray-600 mt-1 text-left">
+            <p className="text-sm text-gray-600 mt-1">
               {facility.Subtitle}
             </p>
           </div>
           <button
             onClick={(e) => onSelect(facility.facility_id, e)}
-            className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-1 rounded-full hover:bg-gray-50 transition-colors"
           >
             {isSelected ? (
-              <CircleCheck className="h-6 w-6 text-orange-400" />
+              <CircleCheck className="h-6 w-6 text-[#F97316]" />
             ) : (
-              <Circle className="h-6 w-6 text-gray-300 hover:text-orange-300" />
+              <Circle className="h-6 w-6 text-gray-300 hover:text-[#FEC6A1]" />
             )}
           </button>
         </div>
 
+        {/* Facility Image */}
         {facility['Facility Image URL'] && (
-          <div className="mb-6">
+          <div className="mb-8">
             <img
               src={facility['Facility Image URL']}
               alt={facility.Facility}
-              className="w-full h-48 object-cover rounded-xl"
+              className="w-full h-48 object-contain"
             />
           </div>
         )}
 
-        <div className="space-y-3 text-left">
+        {/* Specifications */}
+        <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Amount of m²</span>
-            <span className="text-sm font-medium text-orange-400">
+            <span className="text-[15px] text-gray-600">Amount of m²</span>
+            <span className="text-[15px] font-medium text-[#F97316]">
               {facility['Approx. Square Meters']}
             </span>
           </div>
           
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Amount of employees</span>
-            <span className="text-sm font-medium text-gray-900">
+            <span className="text-[15px] text-gray-600">Amount of employees</span>
+            <span className="text-[15px] font-medium text-black">
               {facility['Approx. Users']}
             </span>
           </div>
           
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Collab or concentrated</span>
-            <span className="text-sm font-medium text-orange-400">
+            <span className="text-[15px] text-gray-600">Collab or concentrated</span>
+            <span className="text-[15px] font-medium text-[#F97316]">
               {facility['Task Category']}
             </span>
           </div>
         </div>
 
+        {/* Description */}
         {facility.Description && (
-          <div className="mt-6 text-sm text-gray-600 text-left">
+          <div className="mt-6 text-[15px] text-gray-600 leading-relaxed">
             {facility.Description}
           </div>
         )}
 
+        {/* Notes */}
         {facility.Notes && (
-          <div className="mt-4 text-sm text-gray-500 text-left">
+          <div className="mt-4 text-sm text-gray-500">
             {facility.Notes}
           </div>
         )}
       </div>
+
+      {/* Back Button */}
+      <button
+        onClick={() => navigate('/')}
+        className="absolute bottom-0 left-0 right-0 bg-[#0EA5E9] text-white py-4 px-6 rounded-b-[32px] font-medium hover:bg-[#0284C7] transition-colors uppercase text-center w-full"
+      >
+        Back
+      </button>
     </div>
   );
 };
