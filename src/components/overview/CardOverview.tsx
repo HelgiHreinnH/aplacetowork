@@ -52,7 +52,7 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="mb-8 text-center">
+      <div className="mb-8 text-left">
         <h1 className="text-2xl font-bold">Workplace Settings</h1>
         <p className="text-gray-500 mt-2">SUB LINE</p>
       </div>
@@ -64,48 +64,52 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
             className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
             onClick={() => navigate(`/design/card-front`)}
           >
-            <div className="flex justify-between items-start">
-              <div>
-                <h2 className="text-lg font-semibold">
-                  {facility.display_title || facility.Facility}
-                </h2>
-                <p className="text-sm text-gray-600 mt-1">
-                  {facility.Subtitle}
-                </p>
-              </div>
-              <div className="w-3 h-3 rounded-full bg-orange-400" />
-            </div>
+            <div className="flex">
+              <div className="flex-1">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h2 className="text-lg font-semibold text-left">
+                      {facility.display_title || facility.Facility}
+                    </h2>
+                    <p className="text-sm text-gray-600 mt-1 text-left">
+                      {facility.Subtitle}
+                    </p>
+                  </div>
+                  <div className="w-3 h-3 rounded-full bg-orange-400 flex-shrink-0" />
+                </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-4">
-              <div>
-                <div className="text-sm text-gray-500">Amount of m2</div>
-                <div className="text-sm font-medium text-orange-500">
-                  {facility['Approx. Square Meters']}
+                <div className="grid grid-cols-2 gap-4 text-left">
+                  <div>
+                    <div className="text-sm text-gray-500">Amount of m2</div>
+                    <div className="text-sm font-medium text-orange-500">
+                      {facility['Approx. Square Meters']}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-500">Amount of employees</div>
+                    <div className="text-sm font-medium text-orange-500">
+                      {facility['Approx. Users']}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-500">Collab or concentrated</div>
+                    <div className="text-sm font-medium text-orange-500">
+                      {facility['Task Category']}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div>
-                <div className="text-sm text-gray-500">Amount of employees</div>
-                <div className="text-sm font-medium text-orange-500">
-                  {facility['Approx. Users']}
-                </div>
-              </div>
-              <div>
-                <div className="text-sm text-gray-500">Collab or concentrated</div>
-                <div className="text-sm font-medium text-orange-500">
-                  {facility['Task Category']}
-                </div>
-              </div>
-            </div>
 
-            {facility['Facility Image URL'] && (
-              <div className="mt-6">
-                <img
-                  src={facility['Facility Image URL']}
-                  alt={facility.Facility}
-                  className="w-32 h-32 object-contain ml-auto"
-                />
-              </div>
-            )}
+              {facility['Facility Image URL'] && (
+                <div className="ml-6 flex items-center justify-center w-32">
+                  <img
+                    src={facility['Facility Image URL']}
+                    alt={facility.Facility}
+                    className="w-32 h-32 object-cover rounded-lg"
+                  />
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
