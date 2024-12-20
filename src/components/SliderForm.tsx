@@ -64,15 +64,18 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-8 w-full max-w-xl mx-auto">
-      <div className="space-y-3 sm:space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-12">
+      <div className="space-y-10">
         <SquareMetersSlider value={squareMeters} onChange={setSquareMeters} />
         <UsersSlider value={users} onChange={setUsers} />
         <TaskCategorySlider value={taskValue} onChange={setTaskValue} />
       </div>
       
-      <Button type="submit" className="w-full h-8 sm:h-10 text-sm sm:text-base">
-        Search Facilities
+      <Button 
+        type="submit" 
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-md text-base font-medium"
+      >
+        SEARCH
       </Button>
     </form>
   );

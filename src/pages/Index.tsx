@@ -44,18 +44,18 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background px-1 sm:px-4 py-2 sm:py-12">
-      <div className="container mx-auto max-w-md space-y-2 sm:space-y-6">
-        <header className="text-center space-y-1 sm:space-y-2">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
-            Find Your Ideal Workspace
+    <div className="min-h-screen bg-white px-4 py-8">
+      <div className="container mx-auto max-w-sm">
+        <header className="text-center space-y-6 mb-12">
+          <h1 className="text-3xl font-bold tracking-tight">
+            logo
           </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            Discover the perfect workplace setting tailored to your needs
+          <p className="text-sm uppercase tracking-widest text-gray-500">
+            SUB LINE
           </p>
         </header>
         
-        <div className="bg-card rounded-lg sm:rounded-xl shadow-sm p-2 sm:p-6">
+        <div className="bg-white rounded-lg">
           {isLoading ? <LoadingState /> : error ? <ErrorState /> : facilities && <SliderForm facilities={facilities} />}
         </div>
       </div>
