@@ -148,6 +148,32 @@ export type Database = {
           },
         ]
       }
+      facility_favorites: {
+        Row: {
+          created_at: string
+          facility_id: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          facility_id: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          facility_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "facility_favorites_facility_id_fkey"
+            columns: ["facility_id"]
+            isOneToOne: false
+            referencedRelation: "Facilities"
+            referencedColumns: ["facility_id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

@@ -2,8 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2 } from "lucide-react";
+import { Loader2, Circle, CircleCheck } from "lucide-react";
 import { Database } from '@/integrations/supabase/types';
+import { toast } from "sonner";
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -26,11 +27,18 @@ const fetchFacilities = async () => {
 
 const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
   const navigate = useNavigate();
+  const [selectedFacility, setSelectedFacility] = React.useState<string | null>(null);
 
   const { data: supabaseFacilities, isLoading, error } = useQuery({
     queryKey: ['facilities'],
     queryFn: fetchFacilities,
   });
+
+  const handleFacilitySelect = (facilityId: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    setSelectedFacility(facilityId);
+    toast.success("Facility selected");
+  };
 
   if (isLoading) {
     return (
@@ -61,10 +69,21 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
         {displayFacilities.map((facility) => (
           <div
             key={facility.facility_id}
-            className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+            className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative"
             onClick={() => navigate(`/design/card-front`)}
           >
             <div className="flex">
+              <div 
+                className="absolute right-4 top-4 cursor-pointer"
+                onClick={(e) => handleFacilitySelect(facility.facility_id, e)}
+              >
+                {selectedFacility === facility.facility_id ? (
+                  <CircleCheck className="h-6 w-6 text-blue-500" />
+                ) : (
+                  <Circle className="h-6 w-6 text-gray-400 hover:text-blue-400" />
+                )}
+              </div>
+
               <div className="flex-1">
                 <div className="mb-4">
                   <h2 className="text-lg font-semibold text-left">
