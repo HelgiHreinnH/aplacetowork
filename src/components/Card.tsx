@@ -74,7 +74,7 @@ const Card: React.FC<CardProps> = (props) => {
           <CardFront 
             {...props} 
             onFlip={handleFlip} 
-            imageUrl={getImageUrl(props['Facility Image URL'], props.imageId || 'photo-1')} 
+            imageUrl={props['Facility Image URL'] || getImageUrl(null, props.imageId || 'photo-1')} 
           />
         </div>
 
@@ -88,7 +88,7 @@ const Card: React.FC<CardProps> = (props) => {
           <CardBack 
             {...props} 
             onFlip={handleFlip} 
-            imageUrl={getImageUrl(props['Facility Image URL'], props.imageId || 'photo-1')} 
+            imageUrl={props['Facility Image URL'] || getImageUrl(null, props.imageId || 'photo-1')} 
           />
         </div>
       </motion.div>

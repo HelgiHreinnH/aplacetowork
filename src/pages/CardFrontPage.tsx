@@ -23,7 +23,7 @@ const CardFrontPage = () => {
     "Users Max": null,
     "display_title": "Modern Collaboration Room",
     "facility_id": "sample-facility-id-2",
-    "Facility Image URL": null
+    "Facility Image URL": "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/sign/facilities_images/Table%20settings%20coworking.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJmYWNpbGl0aWVzX2ltYWdlcy9UYWJsZSBzZXR0aW5ncyBjb3dvcmtpbmcucG5nIiwiaWF0IjoxNzM0NjkzNzI1LCJleHAiOjE3MzcyODU3MjV9.lOprascu1tXHY_UEooMRBXdaW0ks5y_AK8f_5nGY-cc"
   };
 
   return (
@@ -32,7 +32,7 @@ const CardFrontPage = () => {
       <div className="max-w-md mx-auto">
         <CardFront 
           {...sampleData} 
-          imageUrl="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+          imageUrl={sampleData['Facility Image URL'] || "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"}
           onFlip={() => console.log("Flip clicked")}
         />
       </div>
