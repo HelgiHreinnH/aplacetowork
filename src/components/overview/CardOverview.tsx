@@ -1,10 +1,9 @@
 import React from 'react';
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Database } from '@/integrations/supabase/types';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
+import { Loader2 } from "lucide-react";
+import { Database } from '@/integrations/supabase/types';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -22,7 +21,6 @@ const fetchFacilities = async () => {
     throw error;
   }
   
-  console.log('Fetched facilities:', data);
   return data;
 };
 
@@ -35,52 +33,89 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
   });
 
   if (isLoading) {
-    return <div>Loading facilities...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error loading facilities</div>;
+    return (
+      <div className="text-center py-12 text-red-500">
+        Error loading facilities
+      </div>
+    );
   }
 
   const displayFacilities = supabaseFacilities || facilities;
 
   return (
-    <div className="container mx-auto px-2 py-4">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Workplace Facilities</h1>
-        <p className="text-sm text-gray-600 mb-4">Explore our diverse range of workspace settings</p>
+    <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="mb-8 text-center">
+        <h1 className="text-2xl font-bold">Workplace Settings</h1>
+        <p className="text-gray-500 mt-2">SUB LINE</p>
       </div>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-        {displayFacilities.map((facility, index) => (
-          <Card 
-            key={facility.facility_id} 
-            className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden"
+      <div className="space-y-4">
+        {displayFacilities.map((facility) => (
+          <div
+            key={facility.facility_id}
+            className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => navigate(`/design/card-front`)}
           >
-            <CardHeader className="flex-none">
-              <h2 className="text-xl font-semibold line-clamp-1">
-                {facility.display_title || facility.Facility}
-              </h2>
-              {facility.Subtitle && (
-                <p className="text-sm text-gray-500 line-clamp-1">{facility.Subtitle}</p>
-              )}
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col">
-              <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                {facility.Description}
-              </p>
-              <div className="mt-auto">
-                <Button 
-                  className="w-full"
-                  onClick={() => navigate(`/design/card-front`)}
-                >
-                  View Details
-                </Button>
+            <div className="flex justify-between items-start">
+              <div>
+                <h2 className="text-lg font-semibold">
+                  {facility.display_title || facility.Facility}
+                </h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  {facility.Subtitle}
+                </p>
               </div>
-            </CardContent>
-          </Card>
+              <div className="w-3 h-3 rounded-full bg-orange-400" />
+            </div>
+
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div>
+                <div className="text-sm text-gray-500">Amount of m2</div>
+                <div className="text-sm font-medium text-orange-500">
+                  {facility['Approx. Square Meters']}
+                </div>
+              </div>
+              <div>
+                <div className="text-sm text-gray-500">Amount of employees</div>
+                <div className="text-sm font-medium text-orange-500">
+                  {facility['Approx. Users']}
+                </div>
+              </div>
+              <div>
+                <div className="text-sm text-gray-500">Collab or concentrated</div>
+                <div className="text-sm font-medium text-orange-500">
+                  {facility['Task Category']}
+                </div>
+              </div>
+            </div>
+
+            {facility['Facility Image URL'] && (
+              <div className="mt-6">
+                <img
+                  src={facility['Facility Image URL']}
+                  alt={facility.Facility}
+                  className="w-32 h-32 object-contain ml-auto"
+                />
+              </div>
+            )}
+          </div>
         ))}
       </div>
+
+      <button
+        onClick={() => navigate('/')}
+        className="w-full mt-8 bg-blue-600 text-white py-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+      >
+        BACK
+      </button>
     </div>
   );
 };
