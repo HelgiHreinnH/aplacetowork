@@ -18,7 +18,7 @@ interface CardBackProps extends Pick<
   | 'display_title'
 > {
   onFlip?: (e: React.MouseEvent) => void;
-  imageId?: string;
+  imageUrl: string;
 }
 
 const CardBack: React.FC<CardBackProps> = ({

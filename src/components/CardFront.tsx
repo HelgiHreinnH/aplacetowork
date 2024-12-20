@@ -15,7 +15,7 @@ interface CardFrontProps extends Pick<
   | 'display_title'
 > {
   onFlip?: (e: React.MouseEvent) => void;
-  imageId?: string;
+  imageUrl: string;
 }
 
 const CardFront: React.FC<CardFrontProps> = ({
@@ -27,7 +27,7 @@ const CardFront: React.FC<CardFrontProps> = ({
   'Approx. Square Meters': sqmApprox,
   'Approx. Users': usersApprox,
   onFlip,
-  imageId = 'photo-1488590528505-98d2b5aba04b'
+  imageUrl
 }) => {
   return (
     <Card className="w-full h-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
@@ -41,7 +41,7 @@ const CardFront: React.FC<CardFrontProps> = ({
       <div className="w-full px-4 sm:px-6 mb-4">
         <div className="aspect-video w-full">
           <img 
-            src={`https://images.unsplash.com/${imageId}`} 
+            src={imageUrl} 
             alt={display_title || facility} 
             className="w-full h-full object-cover rounded-lg"
           />

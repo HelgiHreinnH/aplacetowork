@@ -21,6 +21,7 @@ interface CardProps extends Pick<
   | 'Etiquette and Guidelines'
   | 'Technology Integration'
   | 'display_title'
+  | 'Facility Image URL'
 > {
   imageId?: string;
 }
@@ -33,14 +34,16 @@ const Card: React.FC<CardProps> = (props) => {
     setIsFlipped(!isFlipped);
   };
 
-  const getImageUrl = (imageId: string) => {
+  const getImageUrl = (facilityImageUrl: string | null, fallbackImageId: string) => {
+    if (facilityImageUrl) return facilityImageUrl;
+    
     const imageUrls = {
       'photo-1': 'photo-1488590528505-98d2b5aba04b',
       'photo-2': 'photo-1649972904349-6e44c42644a7',
       'photo-3': 'photo-1518770660439-4636190af475',
       'photo-4': 'photo-1461749280684-dccba630e2f6'
     };
-    return imageUrls[imageId as keyof typeof imageUrls] || imageUrls['photo-1'];
+    return `https://images.unsplash.com/${imageUrls[fallbackImageId as keyof typeof imageUrls] || imageUrls['photo-1']}`;
   };
 
   return (
@@ -68,7 +71,11 @@ const Card: React.FC<CardProps> = (props) => {
             transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
           }}
         >
-          <CardFront {...props} onFlip={handleFlip} imageId={getImageUrl(props.imageId || 'photo-1')} />
+          <CardFront 
+            {...props} 
+            onFlip={handleFlip} 
+            imageUrl={getImageUrl(props['Facility Image URL'], props.imageId || 'photo-1')} 
+          />
         </div>
 
         <div 
@@ -78,7 +85,11 @@ const Card: React.FC<CardProps> = (props) => {
             transform: 'rotateY(180deg)',
           }}
         >
-          <CardBack {...props} onFlip={handleFlip} imageId={getImageUrl(props.imageId || 'photo-1')} />
+          <CardBack 
+            {...props} 
+            onFlip={handleFlip} 
+            imageUrl={getImageUrl(props['Facility Image URL'], props.imageId || 'photo-1')} 
+          />
         </div>
       </motion.div>
     </div>

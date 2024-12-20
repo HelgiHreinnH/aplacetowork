@@ -19,6 +19,7 @@ interface CardNavigationProps extends Pick<
   | 'Etiquette and Guidelines'
   | 'Technology Integration'
   | 'display_title'
+  | 'Facility Image URL'
 > {
   imageId?: string;
 }
