@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { Database } from '@/integrations/supabase/types';
+import FacilityCard from './FacilityCard';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
