@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Search, Heart, User } from 'lucide-react';
+import { Search, Heart } from 'lucide-react';
 import MenuSheet from './MenuSheet';
 import NavButton from './NavButton';
 
@@ -33,12 +33,6 @@ const IndexBottomNav = () => {
           to="/favorites"
           icon={Heart}
           label="Favorites"
-        />
-        
-        <NavButton 
-          to="/profile"
-          icon={User}
-          label="Profile"
         />
       </div>
     </nav>
