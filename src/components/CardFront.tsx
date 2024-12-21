@@ -30,31 +30,28 @@ const CardFront: React.FC<CardFrontProps> = ({
   imageUrl
 }) => {
   return (
-    <Card className="w-full h-full bg-white shadow-none hover:shadow-none transition-shadow duration-300 flex flex-col rounded-[32px]">
-      <CardHeader className="space-y-1 pb-4 px-6">
-        <h1 className="text-[22px] font-bold tracking-tight text-black line-clamp-1">
-          {display_title || facility}
-        </h1>
-        <p className="text-sm text-gray-600 line-clamp-1">{subtitle}</p>
-      </CardHeader>
-
-      <div className="w-full px-6 mb-4">
-        <div className="aspect-video w-full">
-          <img 
-            src={imageUrl} 
-            alt={display_title || facility} 
-            className="w-full h-full object-cover rounded-2xl"
-          />
+    <Card className="w-full h-full bg-white shadow-none hover:shadow-none transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
+      <div className="relative h-[45%] w-full">
+        <img 
+          src={imageUrl} 
+          alt={display_title || facility} 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white/90 to-transparent">
+          <h1 className="text-[22px] font-bold tracking-tight text-black line-clamp-1">
+            {display_title || facility}
+          </h1>
+          <p className="text-sm text-gray-600 line-clamp-1 mt-1">{subtitle}</p>
         </div>
       </div>
 
-      <CardContent className="flex-1 flex flex-col space-y-4 px-6">
+      <CardContent className="flex-1 flex flex-col space-y-6 p-6">
         <p className="text-[15px] text-gray-600 leading-relaxed line-clamp-3">{description}</p>
         
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <span className="text-[15px] text-gray-600">Amount of m²</span>
-            <span className="text-[15px] font-medium text-[#F97316]">{sqmApprox}</span>
+            <span className="text-[15px] font-medium text-[#FEC6A1]">{sqmApprox}</span>
           </div>
           
           <div className="flex justify-between items-center">
@@ -64,14 +61,14 @@ const CardFront: React.FC<CardFrontProps> = ({
           
           <div className="flex justify-between items-center">
             <span className="text-[15px] text-gray-600">Collab or concentrated</span>
-            <span className="text-[15px] font-medium text-[#F97316]">{taskCategory}</span>
+            <span className="text-[15px] font-medium text-[#FEC6A1]">{taskCategory}</span>
           </div>
         </div>
 
-        <div className="mt-auto pt-4">
+        <div className="mt-auto">
           <button
             onClick={onFlip}
-            className="w-full bg-[#0EA5E9] text-white py-4 px-6 rounded-full hover:bg-[#0284C7] transition-colors text-[15px] font-medium uppercase"
+            className="w-full bg-[#D3E4FD] text-[#1A1F2C] py-4 px-6 rounded-full hover:bg-[#B3D4FD] transition-colors text-[15px] font-medium uppercase"
           >
             Show More Details
           </button>
