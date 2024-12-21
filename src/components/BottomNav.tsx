@@ -6,18 +6,18 @@ import { Button } from './ui/button';
 const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const isIndexPage = location.pathname === '/';
 
   const handleBack = () => {
-    if (location.pathname === '/search-results') {
-      navigate('/');
-    } else {
+    if (!isIndexPage) {
       navigate(-1);
     }
   };
 
   const handleSearch = () => {
-    // Navigate to search page instead of root
-    navigate('/search-results');
+    if (!isIndexPage) {
+      navigate('/');
+    }
   };
 
   return (
@@ -27,7 +27,8 @@ const BottomNav = () => {
           variant="ghost" 
           size="icon"
           onClick={handleBack}
-          className="text-gray-600 hover:text-gray-900"
+          className={`${isIndexPage ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:text-gray-900'}`}
+          disabled={isIndexPage}
         >
           <ArrowLeft className="h-6 w-6" />
         </Button>
@@ -36,7 +37,8 @@ const BottomNav = () => {
           variant="ghost" 
           size="icon"
           onClick={handleSearch}
-          className="text-gray-600 hover:text-gray-900"
+          className={`${isIndexPage ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:text-gray-900'}`}
+          disabled={isIndexPage}
         >
           <Search className="h-6 w-6" />
         </Button>
