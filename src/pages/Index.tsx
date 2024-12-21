@@ -5,10 +5,14 @@ import SliderForm from '../components/SliderForm';
 import { toast } from "sonner";
 import type { Database } from '@/integrations/supabase/types';
 import Header from '@/components/overview/Header';
+import { useNavigate } from 'react-router-dom';
+import { calculateFacilityScore, ValueToTaskCategory } from '../utils/facilityScoring';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
 const Index = () => {
+  const navigate = useNavigate();
+  
   const { data: facilities, isLoading, error } = useQuery({
     queryKey: ['facilities'],
     queryFn: async () => {
@@ -24,6 +28,55 @@ const Index = () => {
       return data as Facility[];
     }
   });
+
+  const handleSearch = () => {
+    const searchParamsString = sessionStorage.getItem('searchParams');
+    if (!searchParamsString) return;
+
+    const { squareMeters, users, taskValue } = JSON.parse(searchParamsString);
+    
+    if (!facilities) return;
+
+    // Calculate scores for all facilities
+    const facilitiesWithScores = facilities.map(facility => ({
+      facility,
+      score: calculateFacilityScore(facility, squareMeters, users, taskValue)
+    }));
+    
+    // Sort by score (highest first)
+    const sortedFacilities = facilitiesWithScores
+      .sort((a, b) => b.score - a.score)
+      .map(item => item.facility);
+    
+    // Take top 4 results
+    const topResults = sortedFacilities.slice(0, 4);
+    
+    if (topResults.length === 0) {
+      return; // Don't navigate if no results
+    }
+
+    // Store whether this is an exact match or approximate results
+    const exactMatch = topResults.some(facility => {
+      const meetsSquareMeters = facility["Sq M Min"] !== null && 
+                               facility["Sq M Max"] !== null && 
+                               squareMeters >= facility["Sq M Min"] && 
+                               squareMeters <= facility["Sq M Max"];
+      
+      const meetsUsers = facility["Users Min"] !== null && 
+                        facility["Users Max"] !== null && 
+                        users >= facility["Users Min"] && 
+                        users <= facility["Users Max"];
+      
+      const meetsTaskCategory = facility["Task Category"] === ValueToTaskCategory[taskValue];
+      
+      return meetsSquareMeters && meetsUsers && meetsTaskCategory;
+    });
+
+    // Store results in sessionStorage and navigate
+    sessionStorage.setItem('searchResults', JSON.stringify(topResults));
+    sessionStorage.setItem('isExactMatch', JSON.stringify(exactMatch));
+    navigate('/search-results');
+  };
 
   const LoadingState = () => (
     <div className="w-full animate-pulse space-y-2">
@@ -58,7 +111,7 @@ const Index = () => {
         ) : error ? (
           <ErrorState />
         ) : (
-          facilities && <SliderForm facilities={facilities} />
+          facilities && <SliderForm facilities={facilities} onSearch={handleSearch} />
         )}
       </div>
 
