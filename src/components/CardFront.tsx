@@ -31,7 +31,7 @@ const CardFront: React.FC<CardFrontProps> = ({
 }) => {
   return (
     <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
-      <div className="relative h-[220px] flex-shrink-0">
+      <div className="relative h-[200px] flex-shrink-0">
         <img 
           src={imageUrl} 
           alt={display_title || facility} 
@@ -45,29 +45,31 @@ const CardFront: React.FC<CardFrontProps> = ({
         </div>
       </div>
 
-      <CardContent className="flex-1 flex flex-col p-6">
-        <p className="text-[15px] text-gray-600 leading-relaxed mb-6 overflow-auto">
-          {description}
-        </p>
-        
-        <div className="space-y-4 mb-6">
-          <div className="flex justify-between items-center">
-            <span className="text-[15px] text-gray-600">Amount of m²</span>
-            <span className="text-[15px] font-medium text-[#FEC6A1]">{sqmApprox}</span>
-          </div>
+      <CardContent className="flex-1 flex flex-col p-6 overflow-auto">
+        <div className="flex-1 overflow-auto">
+          <p className="text-[15px] text-gray-600 leading-relaxed mb-6">
+            {description}
+          </p>
           
-          <div className="flex justify-between items-center">
-            <span className="text-[15px] text-gray-600">Amount of employees</span>
-            <span className="text-[15px] font-medium text-black">{usersApprox}</span>
-          </div>
-          
-          <div className="flex justify-between items-center">
-            <span className="text-[15px] text-gray-600">Collab or concentrated</span>
-            <span className="text-[15px] font-medium text-[#FEC6A1]">{taskCategory}</span>
+          <div className="space-y-4 mb-6">
+            <div className="flex justify-between items-center">
+              <span className="text-[15px] text-gray-600">Amount of m²</span>
+              <span className="text-[15px] font-medium text-[#FEC6A1]">{sqmApprox}</span>
+            </div>
+            
+            <div className="flex justify-between items-center">
+              <span className="text-[15px] text-gray-600">Amount of employees</span>
+              <span className="text-[15px] font-medium text-black">{usersApprox}</span>
+            </div>
+            
+            <div className="flex justify-between items-center">
+              <span className="text-[15px] text-gray-600">Collab or concentrated</span>
+              <span className="text-[15px] font-medium text-[#FEC6A1]">{taskCategory}</span>
+            </div>
           </div>
         </div>
 
-        <div className="mt-auto pt-4">
+        <div className="mt-auto pt-4 flex-shrink-0">
           <button
             onClick={onFlip}
             className="w-full bg-[#D3E4FD] text-[#1A1F2C] py-4 px-6 rounded-full hover:bg-[#B3D4FD] transition-colors text-[15px] font-medium uppercase"

@@ -47,9 +47,9 @@ const Card: React.FC<CardProps> = (props) => {
   };
 
   return (
-    <div className="relative w-full min-h-[700px] max-w-[450px] mx-auto" style={{ perspective: '1000px' }}>
+    <div className="relative w-full h-[800px] max-w-[450px] mx-auto bg-transparent" style={{ perspective: '1000px' }}>
       <motion.div
-        className="w-full h-full preserve-3d"
+        className="absolute w-full h-full preserve-3d"
         initial={false}
         animate={{ 
           rotateY: isFlipped ? 180 : 0,

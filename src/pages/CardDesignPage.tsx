@@ -7,7 +7,7 @@ const CardDesignPage = () => {
     "Facility": "Meeting Room A",
     "display_title": "Meeting Room A",
     "Subtitle": "Collaborative Space",
-    "Description": "A modern meeting room designed for team collaboration and presentations",
+    "Description": "A modern meeting room designed for team collaboration and presentations. The space features state-of-the-art technology and flexible furniture arrangements to accommodate various meeting styles and group sizes. Natural lighting and acoustic treatments create an optimal environment for productive discussions.",
     "Task Category": "Group Work",
     "Approx. Square Meters": "30",
     "Approx. Users": "8-12",
@@ -27,14 +27,13 @@ const CardDesignPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 sm:py-12">
-      <div className="w-full max-w-md mx-auto">
-        <div className="aspect-[3/4] w-full">
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="container mx-auto px-4">
+        <div className="w-full max-w-lg mx-auto">
           <Card {...sampleFacility} />
-        </div>
-
-        <div className="mt-6 text-center text-sm text-gray-500 px-4">
-          Click the card to flip between front and back views
+          <div className="mt-6 text-center text-sm text-gray-500">
+            Click the card to flip between front and back views
+          </div>
         </div>
       </div>
     </div>
