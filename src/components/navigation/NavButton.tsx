@@ -25,7 +25,7 @@ const NavButton = ({ to, icon: Icon, label, onClick, variant = "ghost", classNam
         variant={variant} 
         size="icon"
         asChild
-        className={`hover:bg-gray-100 active:scale-95 transition-all ${className || ''}`}
+        className={className}
       >
         <Link to={to}>
           {buttonContent}
@@ -39,7 +39,7 @@ const NavButton = ({ to, icon: Icon, label, onClick, variant = "ghost", classNam
       variant={variant} 
       size="icon"
       onClick={onClick}
-      className={`hover:bg-gray-100 active:scale-95 transition-all ${className || ''}`}
+      className={className}
     >
       {buttonContent}
     </Button>
