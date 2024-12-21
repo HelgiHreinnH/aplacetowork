@@ -24,22 +24,32 @@ const Index = () => {
         throw error;
       }
       
+      console.log('Fetched facilities:', data);
       return data as Facility[];
     }
   });
 
   const handleSearch = () => {
     const searchParamsString = sessionStorage.getItem('searchParams');
-    if (!searchParamsString) return;
+    if (!searchParamsString) {
+      toast.error("Please set search parameters first");
+      return;
+    }
 
     const { squareMeters, users, taskValue } = JSON.parse(searchParamsString);
+    console.log('Search parameters:', { squareMeters, users, taskValue });
     
-    if (!facilities) return;
+    if (!facilities || facilities.length === 0) {
+      toast.error("No facilities available to search");
+      return;
+    }
 
     const facilitiesWithScores = facilities.map(facility => ({
       facility,
       score: calculateFacilityScore(facility, squareMeters, users, taskValue)
     }));
+    
+    console.log('Facilities with scores:', facilitiesWithScores);
     
     const sortedFacilities = facilitiesWithScores
       .sort((a, b) => b.score - a.score)
@@ -48,9 +58,11 @@ const Index = () => {
     const topResults = sortedFacilities.slice(0, 4);
     
     if (topResults.length === 0) {
+      toast.error("No matching facilities found");
       return;
     }
 
+    console.log('Top results:', topResults);
     sessionStorage.setItem('searchResults', JSON.stringify(topResults));
     sessionStorage.setItem('isExactMatch', JSON.stringify(false));
     navigate('/search-results');
