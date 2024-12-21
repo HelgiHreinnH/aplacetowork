@@ -4,24 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Menu, Star, Home, HelpCircle, Info, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 
-interface FloatingMenuProps {
-  trigger?: React.ReactNode;
-}
-
-const FloatingMenu = ({ trigger }: FloatingMenuProps) => {
+const FloatingMenu = () => {
   return (
     <div className="fixed bottom-6 right-6 z-50">
       <Sheet>
         <SheetTrigger asChild>
-          {trigger || (
-            <Button 
-              size="icon" 
-              className="h-12 w-12 rounded-full bg-primary shadow-lg hover:bg-primary/90"
-              aria-label="Open menu"
-            >
-              <Menu className="h-6 w-6" />
-            </Button>
-          )}
+          <Button 
+            size="icon" 
+            className="h-12 w-12 rounded-full bg-primary shadow-lg hover:bg-primary/90"
+            aria-label="Open menu"
+          >
+            <Menu className="h-6 w-6 text-white" />
+          </Button>
         </SheetTrigger>
         <SheetContent side="right" className="w-72">
           <nav className="flex flex-col gap-4 mt-8">

@@ -10,6 +10,7 @@ import FacilityOverview from "./pages/FacilityOverview";
 import SearchResults from "./pages/SearchResults";
 import SearchLayout from "./layouts/SearchLayout";
 import DesignLayout from "./layouts/DesignLayout";
+import FloatingMenu from "./components/FloatingMenu";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <BrowserRouter>
+        <FloatingMenu />
         <Routes>
           {/* Search Journey Routes */}
           <Route element={<SearchLayout />}>
