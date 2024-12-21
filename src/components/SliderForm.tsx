@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Database } from '@/integrations/supabase/types';
-import { calculateFacilityScore, ValueToTaskCategory } from '../utils/facilityScoring';
+import { calculateFacilityScore, ValueToTaskCategory, type TaskValue } from '../utils/facilityScoring';
 import SquareMetersSlider from './sliders/SquareMetersSlider';
 import UsersSlider from './sliders/UsersSlider';
 import TaskCategorySlider from './sliders/TaskCategorySlider';
@@ -18,7 +18,7 @@ interface SliderFormProps {
 const SliderForm = ({ facilities = [], onSearch }: SliderFormProps) => {
   const [squareMeters, setSquareMeters] = useState([30]);
   const [users, setUsers] = useState([10]);
-  const [taskValue, setTaskValue] = useState([-128]);
+  const [taskValue, setTaskValue] = useState([-128] as [TaskValue]);
   const navigate = useNavigate();
 
   const handleSearch = () => {

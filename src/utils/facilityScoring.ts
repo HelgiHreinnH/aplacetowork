@@ -3,7 +3,7 @@ import type { Database } from '@/integrations/supabase/types';
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
 // Define valid task values as a union type
-type TaskValue = -128 | -85 | -42 | 0 | 42 | 85 | 127;
+export type TaskValue = -128 | -85 | -42 | 0 | 42 | 85 | 127;
 
 export const TaskCategoryMapping = {
   'Highly Concentrated Private Task': -128 as TaskValue,
