@@ -6,12 +6,14 @@ import NavButton from './navigation/NavButton';
 const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const isIndexPage = location.pathname === '/';
 
   const handleSearch = () => {
-    if (!isIndexPage) {
+    const searchParamsString = sessionStorage.getItem('searchParams');
+    if (!searchParamsString) {
       navigate('/');
+      return;
     }
+    navigate('/search-results');
   };
 
   return (
@@ -30,7 +32,7 @@ const BottomNav = () => {
             icon={Search}
             label="Search"
             onClick={handleSearch}
-            className="bg-[#F97316] hover:bg-[#F97316]/90 text-white rounded-full w-14 h-14 shadow-lg"
+            className="bg-[#F97316] hover:bg-[#F97316]/90 text-white rounded-full w-14 h-14 shadow-lg animate-bounce"
           />
         </div>
 
