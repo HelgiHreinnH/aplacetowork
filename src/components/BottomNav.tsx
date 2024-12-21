@@ -15,7 +15,7 @@ const BottomNav = () => {
   };
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-lg px-6 py-4 z-50 w-[90%] max-w-md">
+    <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-lg px-6 py-4 w-[90%] max-w-md">
       <div className="flex justify-between items-center">
         <NavButton 
           to="/"
@@ -46,7 +46,7 @@ const BottomNav = () => {
           label="Profile"
         />
       </div>
-    </div>
+    </nav>
   );
 };
 
