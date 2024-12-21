@@ -30,7 +30,6 @@ const Index = () => {
   });
 
   const handleSearch = () => {
-    // Get search parameters from session storage
     const searchParamsString = sessionStorage.getItem('searchParams');
     if (!searchParamsString) {
       console.log('No search parameters found');
@@ -39,7 +38,7 @@ const Index = () => {
     }
 
     const searchParams = JSON.parse(searchParamsString);
-    console.log('Search parameters:', searchParams);
+    console.log('Using search parameters:', searchParams);
 
     if (!facilities || facilities.length === 0) {
       console.log('No facilities available');
@@ -48,12 +47,18 @@ const Index = () => {
     }
 
     // Calculate scores for all facilities
-    const facilitiesWithScores = facilities.map(facility => ({
-      facility,
-      score: calculateFacilityScore(facility, searchParams.squareMeters, searchParams.users, searchParams.taskValue)
-    }));
+    const facilitiesWithScores = facilities.map(facility => {
+      const score = calculateFacilityScore(
+        facility, 
+        searchParams.squareMeters, 
+        searchParams.users, 
+        searchParams.taskValue
+      );
+      console.log(`Score for ${facility.Facility}:`, score);
+      return { facility, score };
+    });
     
-    console.log('Facilities with scores:', facilitiesWithScores);
+    console.log('All facilities with scores:', facilitiesWithScores);
     
     // Sort by score and take top 6
     const sortedFacilities = facilitiesWithScores
@@ -61,7 +66,7 @@ const Index = () => {
       .slice(0, 6)
       .map(item => item.facility);
     
-    console.log('Top sorted facilities:', sortedFacilities);
+    console.log('Final sorted facilities:', sortedFacilities);
 
     if (sortedFacilities.length === 0) {
       toast.error("No matching facilities found");
@@ -70,6 +75,7 @@ const Index = () => {
     
     // Store results and navigate
     sessionStorage.setItem('searchResults', JSON.stringify(sortedFacilities));
+    sessionStorage.setItem('isExactMatch', JSON.stringify(true));
     navigate('/search-results');
   };
 
@@ -82,7 +88,6 @@ const Index = () => {
         facilities={facilities}
         onSearch={handleSearch}
       />
-      {/* Bottom Container - Navigation */}
       <div className="flex-none h-20">
         {/* This space is reserved for the bottom navigation */}
       </div>
