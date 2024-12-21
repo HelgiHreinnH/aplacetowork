@@ -9,15 +9,9 @@ const BottomNav = () => {
   const isIndexPage = location.pathname === '/';
 
   const handleSearch = () => {
-    // If we're not on the index page, navigate to it
     if (!isIndexPage) {
       navigate('/');
-      return;
     }
-    
-    // If we are on the index page, trigger the search
-    const event = new CustomEvent('triggerSearch');
-    window.dispatchEvent(event);
   };
 
   return (

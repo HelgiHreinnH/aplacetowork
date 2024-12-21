@@ -42,3 +42,8 @@
 .bg-action {
   background-color: #0EA5E9;
 }
+
+/* Action button hover effect */
+.bg-action:hover {
+  background-color: #0284C7;
+}
