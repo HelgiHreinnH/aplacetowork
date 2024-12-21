@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Search, Home, Heart } from 'lucide-react';
+import { Home, Heart } from 'lucide-react';
 import MenuSheet from './MenuSheet';
 import NavButton from './NavButton';
 
@@ -22,8 +22,8 @@ const StandardBottomNav = () => {
         
         <div className="relative">
           <NavButton 
-            icon={Search}
-            label="Search"
+            icon={Home}
+            label="Home"
             onClick={handleSearch}
             className="bg-[#F97316] hover:bg-[#F97316]/90 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
           />
