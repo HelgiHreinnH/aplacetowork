@@ -30,21 +30,19 @@ const Index = () => {
   });
 
   const handleSearch = () => {
-    // Always get the search parameters, use defaults if none exist
-    let searchParams;
-    try {
-      const searchParamsString = sessionStorage.getItem('searchParams');
-      searchParams = searchParamsString 
-        ? JSON.parse(searchParamsString)
-        : { squareMeters: 30, users: 10, taskValue: -128 }; // Default values
-    } catch (e) {
-      searchParams = { squareMeters: 30, users: 10, taskValue: -128 }; // Fallback to defaults
+    // Get search parameters from session storage
+    const searchParamsString = sessionStorage.getItem('searchParams');
+    if (!searchParamsString) {
+      console.log('No search parameters found');
+      toast.error("Please adjust the sliders before searching");
+      return;
     }
 
-    const { squareMeters, users, taskValue } = searchParams;
-    console.log('Search parameters:', { squareMeters, users, taskValue });
-    
+    const searchParams = JSON.parse(searchParamsString);
+    console.log('Search parameters:', searchParams);
+
     if (!facilities || facilities.length === 0) {
+      console.log('No facilities available');
       toast.error("No facilities available");
       return;
     }
@@ -52,7 +50,7 @@ const Index = () => {
     // Calculate scores for all facilities
     const facilitiesWithScores = facilities.map(facility => ({
       facility,
-      score: calculateFacilityScore(facility, squareMeters, users, taskValue)
+      score: calculateFacilityScore(facility, searchParams.squareMeters, searchParams.users, searchParams.taskValue)
     }));
     
     console.log('Facilities with scores:', facilitiesWithScores);
@@ -60,14 +58,18 @@ const Index = () => {
     // Sort by score and take top 6
     const sortedFacilities = facilitiesWithScores
       .sort((a, b) => b.score - a.score)
-      .map(item => item.facility)
-      .slice(0, 6); // Always take top 6 facilities
+      .slice(0, 6)
+      .map(item => item.facility);
     
-    console.log('Top results:', sortedFacilities);
+    console.log('Top sorted facilities:', sortedFacilities);
+
+    if (sortedFacilities.length === 0) {
+      toast.error("No matching facilities found");
+      return;
+    }
     
     // Store results and navigate
     sessionStorage.setItem('searchResults', JSON.stringify(sortedFacilities));
-    sessionStorage.setItem('isExactMatch', JSON.stringify(false));
     navigate('/search-results');
   };
 
