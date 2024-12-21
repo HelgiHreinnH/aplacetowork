@@ -2,8 +2,6 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
 import FloatingMenu from '../components/FloatingMenu';
-import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
 
 const DesignLayout = () => {
   return (
@@ -12,11 +10,7 @@ const DesignLayout = () => {
         <Outlet />
       </div>
       <BottomNav />
-      <FloatingMenu trigger={
-        <Button size="icon" className="h-12 w-12 rounded-full bg-accent shadow-lg hover:bg-accent/90">
-          <Menu className="h-6 w-6" />
-        </Button>
-      } />
+      <FloatingMenu />
     </div>
   );
 };
