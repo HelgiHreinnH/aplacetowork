@@ -16,8 +16,11 @@ const MenuSheet = () => {
           <span className="sr-only">Menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-72">
-        <nav className="flex flex-col gap-4 mt-8">
+      <SheetContent 
+        side="bottom" 
+        className="h-[80vh] rounded-t-3xl border-t-0 mt-4 pb-24"
+      >
+        <nav className="flex flex-col gap-4 mt-8 animate-slide-up">
           <Link to="/favorites" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
             <Star className="h-5 w-5" />
             <span>Favourites</span>
