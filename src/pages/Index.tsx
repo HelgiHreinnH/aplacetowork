@@ -1,12 +1,11 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
-import SliderForm from '../components/SliderForm';
 import { toast } from "sonner";
-import type { Database } from '@/integrations/supabase/types';
-import Header from '@/components/overview/Header';
 import { useNavigate } from 'react-router-dom';
-import { calculateFacilityScore, ValueToTaskCategory } from '../utils/facilityScoring';
+import type { Database } from '@/integrations/supabase/types';
+import TitleContainer from '@/components/containers/TitleContainer';
+import SlidersContainer from '@/components/containers/SlidersContainer';
+import { calculateFacilityScore } from '../utils/facilityScoring';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -57,47 +56,15 @@ const Index = () => {
     navigate('/search-results');
   };
 
-  const LoadingState = () => (
-    <div className="w-full animate-pulse space-y-2">
-      <div className="h-6 bg-muted rounded" />
-      <div className="h-24 bg-muted rounded" />
-    </div>
-  );
-
-  const ErrorState = () => (
-    <div className="text-center">
-      <p className="text-destructive">Unable to load facilities</p>
-      <button 
-        onClick={() => window.location.reload()} 
-        className="mt-2 text-sm text-muted-foreground hover:text-primary"
-      >
-        Try again
-      </button>
-    </div>
-  );
-
   return (
     <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
-      {/* Top Container - Title and Subtitle */}
-      <div className="flex-none p-6">
-        <div className="bg-white/50 backdrop-blur-sm rounded-lg shadow-sm p-6">
-          <Header />
-        </div>
-      </div>
-
-      {/* Middle Container - Sliders */}
-      <div className="flex-1 px-4">
-        <div className="bg-white/50 backdrop-blur-sm rounded-lg shadow-sm p-6">
-          {isLoading ? (
-            <LoadingState />
-          ) : error ? (
-            <ErrorState />
-          ) : (
-            facilities && <SliderForm facilities={facilities} onSearch={handleSearch} />
-          )}
-        </div>
-      </div>
-
+      <TitleContainer />
+      <SlidersContainer 
+        isLoading={isLoading}
+        error={error}
+        facilities={facilities}
+        onSearch={handleSearch}
+      />
       {/* Bottom Container - Navigation */}
       <div className="flex-none h-20">
         {/* This space is reserved for the bottom navigation */}
