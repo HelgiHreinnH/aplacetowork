@@ -18,7 +18,7 @@ interface SliderFormProps {
 const SliderForm = ({ facilities = [], onSearch }: SliderFormProps) => {
   const [squareMeters, setSquareMeters] = useState([30]);
   const [users, setUsers] = useState([10]);
-  const [taskValue, setTaskValue] = useState([-128] as [TaskValue]);
+  const [taskValue, setTaskValue] = useState<[TaskValue]>([-128]);
   const navigate = useNavigate();
 
   const handleSearch = () => {
@@ -87,11 +87,17 @@ const SliderForm = ({ facilities = [], onSearch }: SliderFormProps) => {
     }));
   }, [squareMeters, users, taskValue]);
 
+  // Create a wrapper function to handle the type conversion
+  const handleTaskValueChange = (value: number[]) => {
+    const taskVal = value[0] as TaskValue;
+    setTaskValue([taskVal]);
+  };
+
   return (
     <div className="space-y-8">
       <SquareMetersSlider value={squareMeters} onChange={setSquareMeters} />
       <UsersSlider value={users} onChange={setUsers} />
-      <TaskCategorySlider value={taskValue} onChange={setTaskValue} />
+      <TaskCategorySlider value={taskValue} onChange={handleTaskValueChange} />
       <Button 
         onClick={handleSearch}
         className="w-full bg-[#F97316] hover:bg-[#EA580C] text-white"
