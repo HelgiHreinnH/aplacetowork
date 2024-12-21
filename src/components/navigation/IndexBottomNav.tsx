@@ -1,11 +1,10 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Search, Home, Heart, User } from 'lucide-react';
-import MenuSheet from './navigation/MenuSheet';
-import NavButton from './navigation/NavButton';
+import MenuSheet from './MenuSheet';
+import NavButton from './NavButton';
 
-const BottomNav = () => {
+const IndexBottomNav = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleSearch = () => {
     const searchParamsString = sessionStorage.getItem('searchParams');
@@ -52,4 +51,4 @@ const BottomNav = () => {
   );
 };
 
-export default BottomNav;
+export default IndexBottomNav;
