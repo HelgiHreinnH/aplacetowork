@@ -18,11 +18,7 @@ const IndexBottomNav = () => {
   return (
     <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-lg px-6 py-4 w-[90%] max-w-md z-50">
       <div className="flex justify-between items-center">
-        <NavButton 
-          to="/favorites"
-          icon={Heart}
-          label="Favorites"
-        />
+        <MenuSheet />
         
         <div className="relative -mt-10">
           <NavButton 
@@ -34,12 +30,16 @@ const IndexBottomNav = () => {
         </div>
 
         <NavButton 
+          to="/favorites"
+          icon={Heart}
+          label="Favorites"
+        />
+        
+        <NavButton 
           to="/profile"
           icon={User}
           label="Profile"
         />
-        
-        <MenuSheet />
       </div>
     </nav>
   );
