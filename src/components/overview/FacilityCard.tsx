@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
+import { toast } from "sonner";
 import type { Database } from '@/integrations/supabase/types';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
@@ -24,6 +25,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
         className="p-6 pb-20 cursor-pointer"
         onClick={() => navigate(`/design/card-front`)}
       >
+        {/* Header with favorite button */}
         <div className="flex justify-between items-start mb-8">
           <div>
             <h2 className="text-[22px] font-bold text-black leading-tight">
@@ -40,21 +42,23 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
             {isSelected ? (
               <CircleCheck className="h-6 w-6 text-[#F97316]" />
             ) : (
-              <Circle className="h-6 w-6 text-gray-300 hover:text-[#F97316]" />
+              <Circle className="h-6 w-6 text-gray-300 hover:text-[#FEC6A1]" />
             )}
           </button>
         </div>
 
+        {/* Facility Image */}
         {facility['Facility Image URL'] && (
           <div className="mb-8">
             <img
               src={facility['Facility Image URL']}
               alt={facility.Facility}
-              className="w-full h-48 object-cover rounded-2xl"
+              className="w-full h-48 object-contain"
             />
           </div>
         )}
 
+        {/* Specifications */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <span className="text-[15px] text-gray-600">Amount of m²</span>
@@ -78,18 +82,27 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           </div>
         </div>
 
+        {/* Description */}
         {facility.Description && (
-          <div className="mt-6 text-[15px] text-gray-600 leading-relaxed line-clamp-3">
+          <div className="mt-6 text-[15px] text-gray-600 leading-relaxed">
             {facility.Description}
+          </div>
+        )}
+
+        {/* Notes */}
+        {facility.Notes && (
+          <div className="mt-4 text-sm text-gray-500">
+            {facility.Notes}
           </div>
         )}
       </div>
 
+      {/* Back Button */}
       <button
-        onClick={() => navigate('/design/card-front')}
+        onClick={() => navigate('/')}
         className="absolute bottom-0 left-0 right-0 bg-[#0EA5E9] text-white py-4 px-6 rounded-b-[32px] font-medium hover:bg-[#0284C7] transition-colors uppercase text-center w-full"
       >
-        View Details
+        Back
       </button>
     </div>
   );
