@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import type { Database } from '@/integrations/supabase/types';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
@@ -29,6 +30,19 @@ const CardFront: React.FC<CardFrontProps> = ({
   onFlip,
   imageUrl
 }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleDescription = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsExpanded(!isExpanded);
+  };
+
+  const truncateDescription = (text: string, maxLength: number) => {
+    if (!text) return '';
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + '...';
+  };
+
   return (
     <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
       <div className="relative h-[200px] flex-shrink-0">
@@ -45,31 +59,44 @@ const CardFront: React.FC<CardFrontProps> = ({
         </div>
       </div>
 
-      <CardContent className="flex-1 flex flex-col p-6 overflow-auto">
-        <div className="flex-1 overflow-auto">
-          <p className="text-[15px] text-gray-600 leading-relaxed mb-6">
-            {description}
-          </p>
+      <CardContent className="flex-1 flex flex-col p-6">
+        <div className="relative">
+          <div className={`transition-all duration-300 ${isExpanded ? 'max-h-none' : 'max-h-24 overflow-hidden'}`}>
+            <p className="text-[15px] text-gray-600 leading-relaxed">
+              {isExpanded ? description : truncateDescription(description || '', 100)}
+            </p>
+          </div>
+          {(description?.length || 0) > 100 && (
+            <button
+              onClick={toggleDescription}
+              className="w-full text-blue-500 hover:text-blue-600 flex items-center justify-center gap-1 py-2 mt-1"
+            >
+              <span className="text-sm font-medium">
+                {isExpanded ? 'Show less' : 'Read more'}
+              </span>
+              {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
+          )}
+        </div>
+        
+        <div className="space-y-4 mt-4">
+          <div className="flex justify-between items-center">
+            <span className="text-[15px] text-gray-600">Amount of m²</span>
+            <span className="text-[15px] font-medium text-[#FEC6A1]">{sqmApprox}</span>
+          </div>
           
-          <div className="space-y-4 mb-6">
-            <div className="flex justify-between items-center">
-              <span className="text-[15px] text-gray-600">Amount of m²</span>
-              <span className="text-[15px] font-medium text-[#FEC6A1]">{sqmApprox}</span>
-            </div>
-            
-            <div className="flex justify-between items-center">
-              <span className="text-[15px] text-gray-600">Amount of employees</span>
-              <span className="text-[15px] font-medium text-black">{usersApprox}</span>
-            </div>
-            
-            <div className="flex justify-between items-center">
-              <span className="text-[15px] text-gray-600">Collab or concentrated</span>
-              <span className="text-[15px] font-medium text-[#FEC6A1]">{taskCategory}</span>
-            </div>
+          <div className="flex justify-between items-center">
+            <span className="text-[15px] text-gray-600">Amount of employees</span>
+            <span className="text-[15px] font-medium text-black">{usersApprox}</span>
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <span className="text-[15px] text-gray-600">Collab or concentrated</span>
+            <span className="text-[15px] font-medium text-[#FEC6A1]">{taskCategory}</span>
           </div>
         </div>
 
-        <div className="mt-auto pt-4 flex-shrink-0">
+        <div className="mt-auto pt-4">
           <button
             onClick={onFlip}
             className="w-full bg-[#D3E4FD] text-[#1A1F2C] py-4 px-6 rounded-full hover:bg-[#B3D4FD] transition-colors text-[15px] font-medium uppercase"
