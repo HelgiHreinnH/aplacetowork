@@ -15,7 +15,7 @@ const BottomNav = () => {
   };
 
   return (
-    <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-lg px-6 py-4 w-[90%] max-w-md">
+    <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-lg px-6 py-4 w-[90%] max-w-md z-50">
       <div className="flex justify-between items-center">
         <NavButton 
           to="/"
