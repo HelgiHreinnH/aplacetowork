@@ -30,8 +30,8 @@ const CardFront: React.FC<CardFrontProps> = ({
   imageUrl
 }) => {
   return (
-    <Card className="w-full h-full bg-white shadow-none hover:shadow-none transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
-      <div className="relative h-[250px] flex-shrink-0">
+    <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
+      <div className="relative h-[220px] flex-shrink-0">
         <img 
           src={imageUrl} 
           alt={display_title || facility} 
@@ -46,7 +46,9 @@ const CardFront: React.FC<CardFrontProps> = ({
       </div>
 
       <CardContent className="flex-1 flex flex-col p-6">
-        <p className="text-[15px] text-gray-600 leading-relaxed line-clamp-3 mb-6">{description}</p>
+        <p className="text-[15px] text-gray-600 leading-relaxed mb-6 overflow-auto">
+          {description}
+        </p>
         
         <div className="space-y-4 mb-6">
           <div className="flex justify-between items-center">
@@ -65,7 +67,7 @@ const CardFront: React.FC<CardFrontProps> = ({
           </div>
         </div>
 
-        <div className="mt-auto">
+        <div className="mt-auto pt-4">
           <button
             onClick={onFlip}
             className="w-full bg-[#D3E4FD] text-[#1A1F2C] py-4 px-6 rounded-full hover:bg-[#B3D4FD] transition-colors text-[15px] font-medium uppercase"
