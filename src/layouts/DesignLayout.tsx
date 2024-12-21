@@ -1,7 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
-import FloatingMenu from '../components/FloatingMenu';
 
 const DesignLayout = () => {
   return (
@@ -10,7 +9,6 @@ const DesignLayout = () => {
         <Outlet />
       </div>
       <BottomNav />
-      <FloatingMenu />
     </div>
   );
 };
