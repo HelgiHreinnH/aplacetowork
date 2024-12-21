@@ -31,7 +31,7 @@ const CardFront: React.FC<CardFrontProps> = ({
 }) => {
   return (
     <Card className="w-full h-full bg-white shadow-none hover:shadow-none transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
-      <div className="relative h-[45%] w-full">
+      <div className="relative h-[250px] flex-shrink-0">
         <img 
           src={imageUrl} 
           alt={display_title || facility} 
@@ -45,10 +45,10 @@ const CardFront: React.FC<CardFrontProps> = ({
         </div>
       </div>
 
-      <CardContent className="flex-1 flex flex-col space-y-6 p-6">
-        <p className="text-[15px] text-gray-600 leading-relaxed line-clamp-3">{description}</p>
+      <CardContent className="flex-1 flex flex-col p-6">
+        <p className="text-[15px] text-gray-600 leading-relaxed line-clamp-3 mb-6">{description}</p>
         
-        <div className="space-y-4">
+        <div className="space-y-4 mb-6">
           <div className="flex justify-between items-center">
             <span className="text-[15px] text-gray-600">Amount of m²</span>
             <span className="text-[15px] font-medium text-[#FEC6A1]">{sqmApprox}</span>
