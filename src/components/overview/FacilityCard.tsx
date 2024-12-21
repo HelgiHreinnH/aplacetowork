@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import type { Database } from '@/integrations/supabase/types';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
@@ -19,26 +21,16 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
   const navigate = useNavigate();
 
   return (
-    <div 
-      className="bg-white rounded-[32px] shadow-sm hover:shadow-md transition-shadow duration-300"
+    <Card 
+      className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden cursor-pointer rounded-[32px] border-0"
       onClick={() => navigate(`/design/card-front`)}
     >
       <div className="relative">
         {/* Header with favorite button */}
-        <div className="flex justify-between items-start p-6">
-          <div>
-            <h3 className="text-[22px] font-bold text-foreground line-clamp-2 mb-2">
-              {facility.display_title || facility.Facility}
-            </h3>
-            {facility.Subtitle && (
-              <p className="text-sm text-muted-foreground line-clamp-1">
-                {facility.Subtitle}
-              </p>
-            )}
-          </div>
+        <div className="absolute top-4 right-4 z-10">
           <button
             onClick={(e) => onSelect(facility.facility_id, e)}
-            className="p-1 rounded-full hover:bg-gray-50 transition-colors"
+            className="p-1 rounded-full bg-white/90 hover:bg-white transition-colors shadow-sm"
           >
             {isSelected ? (
               <CircleCheck className="h-6 w-6 text-[#F97316]" />
@@ -49,7 +41,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
         </div>
 
         {/* Facility Image */}
-        <div className="relative aspect-video w-full overflow-hidden">
+        <div className="relative aspect-video w-full overflow-hidden rounded-t-[32px]">
           <img
             src={facility['Facility Image URL'] || '/placeholder-facility.jpg'}
             alt={facility.display_title || facility.Facility}
@@ -61,49 +53,75 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           />
         </div>
 
-        {/* Specifications */}
-        <div className="p-6 space-y-4">
-          <div className="flex justify-between items-center">
-            <span className="text-[15px] text-gray-600">Amount of m²</span>
-            <span className="text-[15px] font-medium text-[#F97316]">
-              {facility['Approx. Square Meters']}
-            </span>
-          </div>
+        {/* Content */}
+        <div className="flex flex-col flex-grow p-6">
+          <h3 className="text-[22px] font-bold text-foreground line-clamp-2 mb-2">
+            {facility.display_title || facility.Facility}
+          </h3>
+          {facility.Subtitle && (
+            <p className="text-sm text-muted-foreground line-clamp-1 mb-2">
+              {facility.Subtitle}
+            </p>
+          )}
           
-          <div className="flex justify-between items-center">
-            <span className="text-[15px] text-gray-600">Amount of employees</span>
-            <span className="text-[15px] font-medium text-black">
-              {facility['Approx. Users']}
-            </span>
-          </div>
-          
-          <div className="flex justify-between items-center">
-            <span className="text-[15px] text-gray-600">Collab or concentrated</span>
-            <span className="text-[15px] font-medium text-[#F97316]">
-              {facility['Task Category']}
-            </span>
+          {/* Specifications */}
+          <div className="space-y-2 mb-4">
+            <div className="flex justify-between items-center">
+              <span className="text-[15px] text-muted-foreground">Amount of m²</span>
+              <span className="text-[15px] font-medium text-[#F97316]">
+                {facility['Approx. Square Meters']}
+              </span>
+            </div>
+            
+            <div className="flex justify-between items-center">
+              <span className="text-[15px] text-muted-foreground">Amount of employees</span>
+              <span className="text-[15px] font-medium text-foreground">
+                {facility['Approx. Users']}
+              </span>
+            </div>
+            
+            <div className="flex justify-between items-center">
+              <span className="text-[15px] text-muted-foreground">Collab or concentrated</span>
+              <span className="text-[15px] font-medium text-[#F97316]">
+                {facility['Task Category']}
+              </span>
+            </div>
           </div>
 
           {/* Description */}
           {facility.Description && (
-            <p className="text-[15px] text-gray-600 leading-relaxed mt-4">
+            <p className="text-[15px] text-muted-foreground line-clamp-2 mb-4">
               {facility.Description}
             </p>
           )}
-        </div>
 
-        {/* Back Button */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate('/');
-          }}
-          className="w-full bg-[#0EA5E9] text-white py-4 px-6 rounded-b-[32px] font-medium hover:bg-[#0284C7] transition-colors uppercase text-center"
-        >
-          Back
-        </button>
+          {/* Actions */}
+          <div className="mt-auto space-y-2">
+            <Button 
+              className="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-full py-2 text-xs"
+              variant="default"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate('/design/card-front');
+              }}
+            >
+              View Details
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="w-full rounded-full py-2 text-xs border-gray-200 hover:bg-gray-50"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate('/');
+              }}
+            >
+              Back
+            </Button>
+          </div>
+        </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
