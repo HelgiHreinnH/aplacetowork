@@ -24,7 +24,7 @@ const FacilityOverview = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen pb-24">
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
@@ -32,7 +32,7 @@ const FacilityOverview = () => {
 
   if (error) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-12 pb-24">
         <p className="text-red-500">Error loading facilities</p>
       </div>
     );
@@ -40,14 +40,14 @@ const FacilityOverview = () => {
 
   if (!facilities || facilities.length === 0) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-12 pb-24">
         <p className="text-gray-500">No facilities found</p>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 pb-24">
       <CardOverview facilities={facilities} />
     </div>
   );
