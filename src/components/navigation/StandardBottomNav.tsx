@@ -6,13 +6,13 @@ import NavButton from './NavButton';
 const StandardBottomNav = () => {
   const navigate = useNavigate();
 
-  const handleSearch = () => {
+  const handleHomeClick = () => {
     const searchParamsString = sessionStorage.getItem('searchParams');
     if (!searchParamsString) {
       navigate('/');
       return;
     }
-    navigate('/search-results');
+    navigate('/');
   };
 
   return (
@@ -24,7 +24,7 @@ const StandardBottomNav = () => {
           <NavButton 
             icon={Home}
             label="Home"
-            onClick={handleSearch}
+            onClick={handleHomeClick}
             className="bg-[#F97316] hover:bg-[#F97316]/90 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
           />
         </div>

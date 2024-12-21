@@ -4,20 +4,8 @@ import type { Database } from '@/integrations/supabase/types';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
-import { ArrowLeft } from 'lucide-react';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
-
-const getImageUrl = (index: number) => {
-  const imageUrls = [
-    'photo-1488590528505-98d2b5aba04b',
-    'photo-1649972904349-6e44c42644a7',
-    'photo-1518770660439-4636190af475',
-    'photo-1461749280684-dccba630e2f6',
-    'photo-1486312338219-ce68d2c6f44d'
-  ];
-  return `https://images.unsplash.com/${imageUrls[index % imageUrls.length]}`;
-};
 
 const SearchResults = () => {
   const [searchResults, setSearchResults] = useState<Facility[]>([]);
@@ -50,10 +38,6 @@ const SearchResults = () => {
     navigate('/design/interactive', { state: facility });
   };
 
-  const handleBack = () => {
-    navigate('/');
-  };
-
   if (searchResults.length === 0) {
     return (
       <div className="min-h-screen bg-background py-12 px-4">
@@ -67,14 +51,6 @@ const SearchResults = () => {
   return (
     <div className="min-h-screen bg-background py-12 px-4">
       <div className="max-w-7xl mx-auto">
-        <button
-          onClick={handleBack}
-          className="mb-8 flex items-center text-[#F97316] hover:text-[#EA580C] transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5 mr-2" />
-          Back to Search
-        </button>
-        
         <div className="text-center mb-12">
           <h2 className="text-[32px] font-bold text-foreground mb-4">Search Results</h2>
           {!isExactMatch && (
@@ -96,7 +72,7 @@ const SearchResults = () => {
             >
               <div className="relative aspect-video w-full overflow-hidden rounded-t-[32px]">
                 <img
-                  src={facility['Facility Image URL'] || getImageUrl(index)}
+                  src={facility['Facility Image URL'] || `https://images.unsplash.com/photo-1488590528505-98d2b5aba04b`}
                   alt={facility.display_title || facility.Facility}
                   className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
                 />
