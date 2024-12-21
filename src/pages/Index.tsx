@@ -77,7 +77,7 @@ const Index = () => {
   );
 
   return (
-    <div className="h-[100dvh] flex flex-col overflow-hidden">
+    <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
       {/* Top Container - Title and Subtitle */}
       <div className="flex-none p-6">
         <Header />

@@ -3,6 +3,8 @@
   margin: 0;
   padding: 0;
   text-align: center;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 @media (max-width: 640px) {
