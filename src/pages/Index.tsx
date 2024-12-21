@@ -77,14 +77,14 @@ const Index = () => {
   );
 
   return (
-    <div className="h-[100dvh] flex flex-col">
+    <div className="h-[100dvh] flex flex-col overflow-hidden">
       {/* Top Container - Title and Subtitle */}
-      <div className="flex-none p-8">
+      <div className="flex-none p-6">
         <Header />
       </div>
 
       {/* Middle Container - Sliders */}
-      <div className="flex-1 overflow-y-auto px-4 pb-4">
+      <div className="flex-1 px-4 overflow-hidden">
         {isLoading ? (
           <LoadingState />
         ) : error ? (

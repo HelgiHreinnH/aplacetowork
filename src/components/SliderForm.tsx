@@ -20,7 +20,6 @@ const SliderForm = ({ facilities = [], onSearch }: SliderFormProps) => {
   const [taskValue, setTaskValue] = useState([-128]);
 
   React.useEffect(() => {
-    // Store the current values in sessionStorage
     sessionStorage.setItem('searchParams', JSON.stringify({
       squareMeters: squareMeters[0],
       users: users[0],
@@ -29,12 +28,10 @@ const SliderForm = ({ facilities = [], onSearch }: SliderFormProps) => {
   }, [squareMeters, users, taskValue]);
 
   return (
-    <div className="space-y-12 mt-12">
-      <div className="space-y-10">
-        <SquareMetersSlider value={squareMeters} onChange={setSquareMeters} />
-        <UsersSlider value={users} onChange={setUsers} />
-        <TaskCategorySlider value={taskValue} onChange={setTaskValue} />
-      </div>
+    <div className="space-y-8">
+      <SquareMetersSlider value={squareMeters} onChange={setSquareMeters} />
+      <UsersSlider value={users} onChange={setUsers} />
+      <TaskCategorySlider value={taskValue} onChange={setTaskValue} />
     </div>
   );
 };
