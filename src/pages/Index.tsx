@@ -37,44 +37,23 @@ const Index = () => {
     
     if (!facilities) return;
 
-    // Calculate scores for all facilities
     const facilitiesWithScores = facilities.map(facility => ({
       facility,
       score: calculateFacilityScore(facility, squareMeters, users, taskValue)
     }));
     
-    // Sort by score (highest first)
     const sortedFacilities = facilitiesWithScores
       .sort((a, b) => b.score - a.score)
       .map(item => item.facility);
     
-    // Take top 4 results
     const topResults = sortedFacilities.slice(0, 4);
     
     if (topResults.length === 0) {
-      return; // Don't navigate if no results
+      return;
     }
 
-    // Store whether this is an exact match or approximate results
-    const exactMatch = topResults.some(facility => {
-      const meetsSquareMeters = facility["Sq M Min"] !== null && 
-                               facility["Sq M Max"] !== null && 
-                               squareMeters >= facility["Sq M Min"] && 
-                               squareMeters <= facility["Sq M Max"];
-      
-      const meetsUsers = facility["Users Min"] !== null && 
-                        facility["Users Max"] !== null && 
-                        users >= facility["Users Min"] && 
-                        users <= facility["Users Max"];
-      
-      const meetsTaskCategory = facility["Task Category"] === ValueToTaskCategory[taskValue];
-      
-      return meetsSquareMeters && meetsUsers && meetsTaskCategory;
-    });
-
-    // Store results in sessionStorage and navigate
     sessionStorage.setItem('searchResults', JSON.stringify(topResults));
-    sessionStorage.setItem('isExactMatch', JSON.stringify(exactMatch));
+    sessionStorage.setItem('isExactMatch', JSON.stringify(false));
     navigate('/search-results');
   };
 
@@ -98,14 +77,14 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-[100dvh] flex flex-col">
       {/* Top Container - Title and Subtitle */}
-      <div className="flex-none p-8 bg-white">
+      <div className="flex-none p-8">
         <Header />
       </div>
 
       {/* Middle Container - Sliders */}
-      <div className="flex-grow overflow-y-auto p-4 bg-gray-50">
+      <div className="flex-1 overflow-y-auto px-4 pb-4">
         {isLoading ? (
           <LoadingState />
         ) : error ? (
@@ -115,7 +94,7 @@ const Index = () => {
         )}
       </div>
 
-      {/* Bottom Container is handled by the layout */}
+      {/* Bottom Container - Navigation */}
       <div className="flex-none h-20">
         {/* This space is reserved for the bottom navigation */}
       </div>
