@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface NavButtonProps {
   to?: string;
@@ -11,12 +12,27 @@ interface NavButtonProps {
   className?: string;
 }
 
-const NavButton = ({ to, icon: Icon, label, onClick, variant = "ghost", className }: NavButtonProps) => {
+const NavButton = ({ 
+  to, 
+  icon: Icon, 
+  label, 
+  onClick, 
+  variant = "ghost", 
+  className 
+}: NavButtonProps) => {
+  const location = useLocation();
+  const isIndexPage = location.pathname === '/';
+  
   const buttonContent = (
     <>
       <Icon className="h-6 w-6" />
       <span className="sr-only">{label}</span>
     </>
+  );
+
+  const searchButtonClassName = cn(
+    className,
+    label === 'Search' && isIndexPage ? 'animate-bounce' : ''
   );
 
   if (to) {
@@ -25,7 +41,7 @@ const NavButton = ({ to, icon: Icon, label, onClick, variant = "ghost", classNam
         variant={variant} 
         size="icon"
         asChild
-        className={className}
+        className={searchButtonClassName}
       >
         <Link to={to}>
           {buttonContent}
@@ -39,7 +55,7 @@ const NavButton = ({ to, icon: Icon, label, onClick, variant = "ghost", classNam
       variant={variant} 
       size="icon"
       onClick={onClick}
-      className={className}
+      className={searchButtonClassName}
     >
       {buttonContent}
     </Button>
