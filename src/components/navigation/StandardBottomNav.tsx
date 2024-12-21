@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Search, Home, Heart, User } from 'lucide-react';
+import { Search, Home, Heart } from 'lucide-react';
 import MenuSheet from './MenuSheet';
 import NavButton from './NavButton';
 
@@ -16,22 +16,16 @@ const StandardBottomNav = () => {
   };
 
   return (
-    <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-lg px-6 py-4 w-[90%] max-w-md z-50">
-      <div className="flex justify-between items-center">
-        <NavButton 
-          to="/"
-          icon={Home}
-          label="Home"
-        />
-
+    <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-lg px-8 py-3 w-[85%] max-w-md z-50">
+      <div className="flex items-center justify-between gap-4">
         <MenuSheet />
         
-        <div className="relative -mt-10">
+        <div className="relative">
           <NavButton 
             icon={Search}
             label="Search"
             onClick={handleSearch}
-            className="bg-[#F97316] hover:bg-[#F97316]/90 text-white rounded-full w-14 h-14 shadow-lg"
+            className="bg-[#F97316] hover:bg-[#F97316]/90 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
           />
         </div>
 
@@ -39,12 +33,6 @@ const StandardBottomNav = () => {
           to="/favorites"
           icon={Heart}
           label="Favorites"
-        />
-        
-        <NavButton 
-          to="/profile"
-          icon={User}
-          label="Profile"
         />
       </div>
     </nav>
