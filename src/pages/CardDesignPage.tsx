@@ -1,12 +1,7 @@
 import React from 'react';
 import Card from '@/components/Card';
-import { Button } from '@/components/ui/button';
-import { ChevronLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 
 const CardDesignPage = () => {
-  const navigate = useNavigate();
-  
   // Sample facility data for demonstration
   const sampleFacility = {
     "Facility": "Meeting Room A",
@@ -33,18 +28,6 @@ const CardDesignPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-6 sm:py-12">
-      <div className="mb-6">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-gray-600 hover:text-gray-900"
-          onClick={() => navigate(-1)}
-        >
-          <ChevronLeft className="h-4 w-4 mr-1" />
-          Back
-        </Button>
-      </div>
-      
       <div className="w-full max-w-md mx-auto">
         <div className="aspect-[3/4] w-full">
           <Card {...sampleFacility} />
