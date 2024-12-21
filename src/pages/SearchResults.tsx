@@ -40,7 +40,7 @@ const SearchResults = () => {
 
   if (searchResults.length === 0) {
     return (
-      <div className="min-h-screen bg-background py-12 px-4 pb-24">
+      <div className="min-h-screen bg-background py-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-2xl font-semibold text-foreground">Loading results...</h2>
         </div>
@@ -49,7 +49,7 @@ const SearchResults = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background py-12 px-4 pb-24">
+    <div className="min-h-screen bg-background py-12 px-4 pb-24 overflow-auto">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-[32px] font-bold text-foreground mb-4">Search Results</h2>

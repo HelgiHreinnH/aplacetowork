@@ -71,13 +71,12 @@
     @apply border-border;
   }
 
-  html, body {
-    @apply overflow-hidden;
-    height: 100%;
+  html {
+    @apply h-full;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground min-h-full;
   }
 }
 
