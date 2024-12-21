@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import SliderForm from '../components/SliderForm';
 import { toast } from "sonner";
 import type { Database } from '@/integrations/supabase/types';
+import Header from '@/components/overview/Header';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -44,20 +45,26 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen bg-white px-4">
-      <div className="container mx-auto max-w-sm flex flex-col min-h-screen pb-24">
-        <header className="text-center space-y-6 pt-8 mb-12">
-          <h1 className="text-3xl font-bold tracking-tight">
-            logo
-          </h1>
-          <p className="text-sm uppercase tracking-widest text-gray-500">
-            SUB LINE
-          </p>
-        </header>
-        
-        <div className="flex-grow">
-          {isLoading ? <LoadingState /> : error ? <ErrorState /> : facilities && <SliderForm facilities={facilities} />}
-        </div>
+    <div className="min-h-screen flex flex-col">
+      {/* Top Container - Title and Subtitle */}
+      <div className="flex-none p-8 bg-white">
+        <Header />
+      </div>
+
+      {/* Middle Container - Sliders */}
+      <div className="flex-grow overflow-y-auto p-4 bg-gray-50">
+        {isLoading ? (
+          <LoadingState />
+        ) : error ? (
+          <ErrorState />
+        ) : (
+          facilities && <SliderForm facilities={facilities} />
+        )}
+      </div>
+
+      {/* Bottom Container is handled by the layout */}
+      <div className="flex-none h-20">
+        {/* This space is reserved for the bottom navigation */}
       </div>
     </div>
   );
