@@ -1,43 +1,37 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import CardFrontPage from "./pages/CardFrontPage";
-import CardBackPage from "./pages/CardBackPage";
-import CardDesignPage from "./pages/CardDesignPage";
-import FacilityOverview from "./pages/FacilityOverview";
-import SearchResults from "./pages/SearchResults";
-import SearchLayout from "./layouts/SearchLayout";
-import DesignLayout from "./layouts/DesignLayout";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'sonner';
+import Index from './pages/Index';
+import SearchResults from './pages/SearchResults';
+import FacilityOverview from './pages/FacilityOverview';
+import CardFrontPage from './pages/CardFrontPage';
+import CardBackPage from './pages/CardBackPage';
+import DesignOverview from './pages/DesignOverview';
+import SearchLayout from './layouts/SearchLayout';
+import DesignLayout from './layouts/DesignLayout';
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <BrowserRouter>
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Router>
         <Routes>
-          {/* Search Journey Routes */}
+          <Route path="/" element={<Index />} />
           <Route element={<SearchLayout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/search-results" element={<SearchResults />} />
+            <Route path="/search/results" element={<SearchResults />} />
           </Route>
-
-          {/* Design Routes */}
           <Route element={<DesignLayout />}>
-            <Route path="/design">
-              <Route path="card-front" element={<CardFrontPage />} />
-              <Route path="card-back" element={<CardBackPage />} />
-              <Route path="interactive" element={<CardDesignPage />} />
-              <Route path="overview" element={<FacilityOverview />} />
-            </Route>
+            <Route path="/design/overview" element={<DesignOverview />} />
+            <Route path="/design/card-front" element={<CardFrontPage />} />
+            <Route path="/design/card-back" element={<CardBackPage />} />
           </Route>
+          <Route path="/facility/overview" element={<FacilityOverview />} />
         </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+      </Router>
+      <Toaster />
+    </QueryClientProvider>
+  );
+}
 
 export default App;
