@@ -8,11 +8,16 @@ const BottomNav = () => {
   const location = useLocation();
 
   const handleBack = () => {
-    navigate(-1);
+    if (location.pathname === '/search-results') {
+      navigate('/');
+    } else {
+      navigate(-1);
+    }
   };
 
   const handleSearch = () => {
-    navigate('/');
+    // Navigate to search page instead of root
+    navigate('/search-results');
   };
 
   return (
