@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
-import { toast } from "sonner";
 import type { Database } from '@/integrations/supabase/types';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
@@ -20,20 +19,22 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white rounded-[32px] shadow-sm hover:shadow-md transition-shadow relative">
-      <div 
-        className="p-6 pb-20 cursor-pointer"
-        onClick={() => navigate(`/design/card-front`)}
-      >
+    <div 
+      className="bg-white rounded-[32px] shadow-sm hover:shadow-md transition-shadow duration-300"
+      onClick={() => navigate(`/design/card-front`)}
+    >
+      <div className="relative">
         {/* Header with favorite button */}
-        <div className="flex justify-between items-start mb-8">
+        <div className="flex justify-between items-start p-6">
           <div>
-            <h2 className="text-[22px] font-bold text-black leading-tight">
+            <h3 className="text-[22px] font-bold text-foreground line-clamp-2 mb-2">
               {facility.display_title || facility.Facility}
-            </h2>
-            <p className="text-sm text-gray-600 mt-1">
-              {facility.Subtitle}
-            </p>
+            </h3>
+            {facility.Subtitle && (
+              <p className="text-sm text-muted-foreground line-clamp-1">
+                {facility.Subtitle}
+              </p>
+            )}
           </div>
           <button
             onClick={(e) => onSelect(facility.facility_id, e)}
@@ -48,18 +49,20 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
         </div>
 
         {/* Facility Image */}
-        {facility['Facility Image URL'] && (
-          <div className="mb-8">
-            <img
-              src={facility['Facility Image URL']}
-              alt={facility.Facility}
-              className="w-full h-48 object-contain"
-            />
-          </div>
-        )}
+        <div className="relative aspect-video w-full overflow-hidden">
+          <img
+            src={facility['Facility Image URL'] || '/placeholder-facility.jpg'}
+            alt={facility.display_title || facility.Facility}
+            className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = '/placeholder-facility.jpg';
+            }}
+          />
+        </div>
 
         {/* Specifications */}
-        <div className="space-y-4">
+        <div className="p-6 space-y-4">
           <div className="flex justify-between items-center">
             <span className="text-[15px] text-gray-600">Amount of m²</span>
             <span className="text-[15px] font-medium text-[#F97316]">
@@ -80,30 +83,26 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
               {facility['Task Category']}
             </span>
           </div>
+
+          {/* Description */}
+          {facility.Description && (
+            <p className="text-[15px] text-gray-600 leading-relaxed mt-4">
+              {facility.Description}
+            </p>
+          )}
         </div>
 
-        {/* Description */}
-        {facility.Description && (
-          <div className="mt-6 text-[15px] text-gray-600 leading-relaxed">
-            {facility.Description}
-          </div>
-        )}
-
-        {/* Notes */}
-        {facility.Notes && (
-          <div className="mt-4 text-sm text-gray-500">
-            {facility.Notes}
-          </div>
-        )}
+        {/* Back Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate('/');
+          }}
+          className="w-full bg-[#0EA5E9] text-white py-4 px-6 rounded-b-[32px] font-medium hover:bg-[#0284C7] transition-colors uppercase text-center"
+        >
+          Back
+        </button>
       </div>
-
-      {/* Back Button */}
-      <button
-        onClick={() => navigate('/')}
-        className="absolute bottom-0 left-0 right-0 bg-[#0EA5E9] text-white py-4 px-6 rounded-b-[32px] font-medium hover:bg-[#0284C7] transition-colors uppercase text-center w-full"
-      >
-        Back
-      </button>
     </div>
   );
 };
