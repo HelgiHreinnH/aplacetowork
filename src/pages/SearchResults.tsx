@@ -33,7 +33,6 @@ const SearchResults = () => {
   }, [navigate]);
 
   const handleCardClick = (facility: Facility) => {
-    console.log('Navigating with facility:', facility);
     sessionStorage.setItem('selectedFacility', JSON.stringify(facility));
     navigate('/design/interactive', { state: facility });
   };
@@ -72,9 +71,13 @@ const SearchResults = () => {
             >
               <div className="relative aspect-video w-full overflow-hidden rounded-t-[32px]">
                 <img
-                  src={facility['Facility Image URL'] || `https://images.unsplash.com/photo-1488590528505-98d2b5aba04b`}
+                  src={facility['Facility Image URL'] || '/placeholder-facility.jpg'}
                   alt={facility.display_title || facility.Facility}
                   className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/placeholder-facility.jpg';
+                  }}
                 />
               </div>
               
