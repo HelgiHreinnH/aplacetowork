@@ -30,20 +30,26 @@ const Index = () => {
   });
 
   const handleSearch = () => {
-    const searchParamsString = sessionStorage.getItem('searchParams');
-    if (!searchParamsString) {
-      toast.error("Please set search parameters first");
-      return;
+    // Always get the search parameters, use defaults if none exist
+    let searchParams;
+    try {
+      const searchParamsString = sessionStorage.getItem('searchParams');
+      searchParams = searchParamsString 
+        ? JSON.parse(searchParamsString)
+        : { squareMeters: 30, users: 10, taskValue: -128 }; // Default values
+    } catch (e) {
+      searchParams = { squareMeters: 30, users: 10, taskValue: -128 }; // Fallback to defaults
     }
 
-    const { squareMeters, users, taskValue } = JSON.parse(searchParamsString);
+    const { squareMeters, users, taskValue } = searchParams;
     console.log('Search parameters:', { squareMeters, users, taskValue });
     
     if (!facilities || facilities.length === 0) {
-      toast.error("No facilities available to search");
+      toast.error("No facilities available");
       return;
     }
 
+    // Calculate scores for all facilities
     const facilitiesWithScores = facilities.map(facility => ({
       facility,
       score: calculateFacilityScore(facility, squareMeters, users, taskValue)
@@ -51,19 +57,16 @@ const Index = () => {
     
     console.log('Facilities with scores:', facilitiesWithScores);
     
+    // Sort by score and take top 6
     const sortedFacilities = facilitiesWithScores
       .sort((a, b) => b.score - a.score)
-      .map(item => item.facility);
+      .map(item => item.facility)
+      .slice(0, 6); // Always take top 6 facilities
     
-    const topResults = sortedFacilities.slice(0, 4);
+    console.log('Top results:', sortedFacilities);
     
-    if (topResults.length === 0) {
-      toast.error("No matching facilities found");
-      return;
-    }
-
-    console.log('Top results:', topResults);
-    sessionStorage.setItem('searchResults', JSON.stringify(topResults));
+    // Store results and navigate
+    sessionStorage.setItem('searchResults', JSON.stringify(sortedFacilities));
     sessionStorage.setItem('isExactMatch', JSON.stringify(false));
     navigate('/search-results');
   };
