@@ -32,8 +32,8 @@ const SlidersContainer = ({ isLoading, error, facilities, onSearch }: SlidersCon
   );
 
   return (
-    <div className="flex-1 px-4">
-      <div className="bg-white/50 backdrop-blur-sm rounded-lg shadow-sm p-6">
+    <div className="flex-1 px-4 flex items-center justify-center min-h-[calc(100vh-12rem)]">
+      <div className="bg-white/50 backdrop-blur-sm rounded-lg shadow-sm p-6 w-full max-w-md">
         {isLoading ? (
           <LoadingState />
         ) : error ? (
