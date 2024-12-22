@@ -43,7 +43,7 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       <SquareMetersSlider value={squareMeters} onChange={setSquareMeters} />
       <UsersSlider value={users} onChange={setUsers} />
       <TaskCategorySlider value={taskValue} onChange={handleTaskValueChange} />
