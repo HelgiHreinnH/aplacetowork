@@ -96,7 +96,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           )}
 
           {/* Actions */}
-          <div className="mt-auto space-y-2">
+          <div className="mt-auto">
             <Button 
               className="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-full py-2 text-xs"
               variant="default"
@@ -106,17 +106,6 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
               }}
             >
               View Details
-            </Button>
-            
-            <Button
-              variant="outline"
-              className="w-full rounded-full py-2 text-xs border-gray-200 hover:bg-gray-50"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate('/');
-              }}
-            >
-              Back
             </Button>
           </div>
         </div>
