@@ -4,6 +4,7 @@ import type { Database } from '@/integrations/supabase/types';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
+import SearchHeader from '@/components/search/SearchHeader';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -50,17 +51,10 @@ const SearchResults = () => {
   return (
     <div className="min-h-screen bg-background py-12 px-4 pb-24 overflow-auto">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-[32px] font-bold text-foreground mb-4">Search Results</h2>
-          {!isExactMatch && (
-            <p className="text-lg text-muted-foreground">
-              There is no exact match to your desired scenario, but here are our closest results
-            </p>
-          )}
-          <p className="mt-2 text-lg text-[#F97316]">
-            Found {searchResults.length} {isExactMatch ? 'matching' : 'relevant'} facilities
-          </p>
-        </div>
+        <SearchHeader 
+          resultsCount={searchResults.length}
+          isExactMatch={isExactMatch}
+        />
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {searchResults.map((facility) => (
