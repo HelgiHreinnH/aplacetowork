@@ -18,9 +18,9 @@ const MenuSheet = () => {
       </SheetTrigger>
       <SheetContent 
         side="bottom" 
-        className="fixed inset-x-0 bottom-0 w-[90%] max-w-md mx-auto h-[80vh] rounded-t-3xl border-t-0 pb-24 origin-bottom animate-slide-up z-40 bg-white"
+        className="fixed inset-x-0 bottom-0 w-[90%] max-w-md mx-auto h-[60vh] rounded-t-3xl border-t-0 pb-12 origin-bottom animate-slide-up z-40 bg-white"
       >
-        <nav className="flex flex-col gap-4 mt-8">
+        <nav className="flex flex-col gap-3 mt-6">
           <Link to="/favorites" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
             <Star className="h-5 w-5" />
             <span>Favourites</span>
