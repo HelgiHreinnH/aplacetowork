@@ -23,7 +23,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
   return (
     <Card 
       className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden cursor-pointer rounded-[32px] border-0"
-      onClick={() => navigate(`/design/card-front`)}
+      onClick={() => navigate(`/design/interactive`)}
     >
       <div className="relative">
         {/* Header with favorite button */}
@@ -102,7 +102,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
               variant="default"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate('/design/card-front');
+                navigate('/design/interactive');
               }}
             >
               View Details
