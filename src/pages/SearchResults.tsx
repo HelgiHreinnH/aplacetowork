@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import type { Database } from '@/integrations/supabase/types';
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import SearchHeader from '@/components/search/SearchHeader';
+import FacilityCard from '@/components/overview/FacilityCard';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
 const SearchResults = () => {
   const [searchResults, setSearchResults] = useState<Facility[]>([]);
   const [isExactMatch, setIsExactMatch] = useState(true);
-  const navigate = useNavigate();
+  const [selectedFacilities, setSelectedFacilities] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const results = sessionStorage.getItem('searchResults');
@@ -19,7 +17,6 @@ const SearchResults = () => {
     
     if (!results) {
       toast.error("No search results found");
-      navigate('/');
       return;
     }
 
@@ -29,13 +26,20 @@ const SearchResults = () => {
       setIsExactMatch(exactMatch ? JSON.parse(exactMatch) : true);
     } catch (error) {
       toast.error("Error loading search results");
-      navigate('/');
     }
-  }, [navigate]);
+  }, []);
 
-  const handleCardClick = (facility: Facility) => {
-    sessionStorage.setItem('selectedFacility', JSON.stringify(facility));
-    navigate('/design/interactive', { state: facility });
+  const handleSelect = (facilityId: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    setSelectedFacilities(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(facilityId)) {
+        newSet.delete(facilityId);
+      } else {
+        newSet.add(facilityId);
+      }
+      return newSet;
+    });
   };
 
   if (searchResults.length === 0) {
@@ -58,45 +62,12 @@ const SearchResults = () => {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {searchResults.map((facility) => (
-            <Card 
-              key={facility.facility_id} 
-              className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden cursor-pointer rounded-[32px] border-0"
-              onClick={() => handleCardClick(facility)}
-            >
-              <div className="relative aspect-video w-full overflow-hidden rounded-t-[32px]">
-                <img
-                  src={facility['Facility Image URL'] || '/placeholder-facility.jpg'}
-                  alt={facility.display_title || facility.Facility}
-                  className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = '/placeholder-facility.jpg';
-                  }}
-                />
-              </div>
-              
-              <div className="flex flex-col flex-grow p-6">
-                <h3 className="text-[22px] font-bold text-foreground line-clamp-2 mb-2">
-                  {facility.display_title || facility.Facility}
-                </h3>
-                {facility.Subtitle && (
-                  <p className="text-sm text-muted-foreground line-clamp-1 mb-2">
-                    {facility.Subtitle}
-                  </p>
-                )}
-                <p className="text-[15px] text-muted-foreground line-clamp-2 mb-4">
-                  {facility.Description || 'No description available'}
-                </p>
-                <div className="mt-auto">
-                  <Button 
-                    className="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-full py-2 text-xs"
-                    variant="default"
-                  >
-                    View Details
-                  </Button>
-                </div>
-              </div>
-            </Card>
+            <FacilityCard
+              key={facility.facility_id}
+              facility={facility}
+              isSelected={selectedFacilities.has(facility.facility_id)}
+              onSelect={handleSelect}
+            />
           ))}
         </div>
       </div>
