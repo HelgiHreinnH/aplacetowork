@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -36,7 +35,6 @@ const CardFront: React.FC<CardFrontProps> = ({
   const [imageError, setImageError] = useState(false);
   const [defaultImageUrl, setDefaultImageUrl] = useState<string | null>(null);
 
-  // Fetch the default image URL for testing on component mount
   React.useEffect(() => {
     const fetchDefaultImage = async () => {
       const { data } = await supabase
@@ -61,7 +59,6 @@ const CardFront: React.FC<CardFrontProps> = ({
     return text.slice(0, maxLength) + '...';
   };
 
-  // Fallback image in case of error
   const fallbackImageUrl = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d";
 
   const handleImageError = () => {
@@ -69,7 +66,6 @@ const CardFront: React.FC<CardFrontProps> = ({
     setImageError(true);
   };
 
-  // Use the defaultImageUrl if available, otherwise use the provided imageUrl or fallback
   const displayImageUrl = defaultImageUrl || (imageError ? fallbackImageUrl : imageUrl);
 
   return (
@@ -78,9 +74,8 @@ const CardFront: React.FC<CardFrontProps> = ({
         <img 
           src={displayImageUrl} 
           alt={display_title || facility} 
-          className="w-full h-full object-contain bg-gray-50 max-w-full"
+          className="w-full h-full object-cover bg-gray-50"
           onError={handleImageError}
-          style={{ maxWidth: '100%', maxHeight: '100%' }}
         />
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white/90 to-transparent">
           <h1 className="text-xl font-bold tracking-tight text-black line-clamp-1">
