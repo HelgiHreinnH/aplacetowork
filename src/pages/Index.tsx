@@ -1,3 +1,4 @@
+
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -48,6 +49,11 @@ const Index = () => {
 
     // Calculate scores for all facilities
     const facilitiesWithScores = facilities.map(facility => {
+      // If users slider is at maximum (16), include all facilities with Users Min >= 16
+      if (searchParams.users === 16 && facility["Users Min"] && facility["Users Min"] >= 16) {
+        return { facility, score: 100 }; // Give maximum score to match the criteria
+      }
+      
       const score = calculateFacilityScore(
         facility, 
         searchParams.squareMeters, 

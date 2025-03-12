@@ -1,3 +1,4 @@
+
 import { useNavigate } from 'react-router-dom';
 import { Search, Heart } from 'lucide-react';
 import { toast } from "sonner";
@@ -30,6 +31,11 @@ const IndexBottomNav = () => {
 
     // Calculate scores for all facilities
     const facilitiesWithScores = facilities.map((facility: any) => {
+      // If users slider is at maximum (16), include all facilities with Users Min >= 16
+      if (searchParams.users === 16 && facility["Users Min"] && facility["Users Min"] >= 16) {
+        return { facility, score: 100 }; // Give maximum score to match the criteria
+      }
+      
       const score = calculateFacilityScore(
         facility, 
         searchParams.squareMeters, 
