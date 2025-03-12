@@ -15,8 +15,8 @@ const SquareMetersSlider = ({ value, onChange }: SquareMetersSliderProps) => (
     </div>
     <Slider
       defaultValue={[84]}
-      max={200}
-      min={10}
+      max={84}
+      min={4}
       step={5}
       value={value}
       onValueChange={onChange}
