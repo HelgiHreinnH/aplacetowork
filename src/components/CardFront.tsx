@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -31,6 +32,7 @@ const CardFront: React.FC<CardFrontProps> = ({
   imageUrl
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const toggleDescription = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -43,13 +45,22 @@ const CardFront: React.FC<CardFrontProps> = ({
     return text.slice(0, maxLength) + '...';
   };
 
+  // Fallback image in case of error
+  const fallbackImageUrl = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d";
+
+  const handleImageError = () => {
+    console.log("Image failed to load, using fallback");
+    setImageError(true);
+  };
+
   return (
     <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
       <div className="relative h-[160px] flex-shrink-0">
         <img 
-          src={imageUrl} 
+          src={imageError ? fallbackImageUrl : imageUrl} 
           alt={display_title || facility} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain bg-gray-50"
+          onError={handleImageError}
         />
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white/90 to-transparent">
           <h1 className="text-xl font-bold tracking-tight text-black line-clamp-1">

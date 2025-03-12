@@ -1,8 +1,39 @@
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import CardFront from '@/components/CardFront';
+import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 
 const CardFrontPage = () => {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        // Try to get the Dump.pdf file from scenarios bucket
+        const { data, error } = await supabase
+          .storage
+          .from('scenarios')
+          .getPublicUrl('Dump.pdf');
+
+        if (error) {
+          console.error('Error fetching image:', error);
+          setIsLoading(false);
+          return;
+        }
+
+        setImageUrl(data.publicUrl);
+        setIsLoading(false);
+      } catch (err) {
+        console.error('Error in fetchImage:', err);
+        setIsLoading(false);
+      }
+    };
+
+    fetchImage();
+  }, []);
+
   const sampleData: Database['public']['Tables']['Facilities']['Row'] = {
     "Facility": "Meeting Room A",
     "Subtitle": "Collaborative Space",
@@ -23,18 +54,24 @@ const CardFrontPage = () => {
     "Users Max": null,
     "display_title": "Modern Collaboration Room",
     "facility_id": "sample-facility-id-2",
-    "Facility Image URL": "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/sign/facilities_images/Table%20settings%20coworking.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJmYWNpbGl0aWVzX2ltYWdlcy9UYWJsZSBzZXR0aW5ncyBjb3dvcmtpbmcucG5nIiwiaWF0IjoxNzM0NjkzNzI1LCJleHAiOjE3MzcyODU3MjV9.lOprascu1tXHY_UEooMRBXdaW0ks5y_AK8f_5nGY-cc"
+    "Facility Image URL": imageUrl || "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/sign/facilities_images/Table%20settings%20coworking.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJmYWNpbGl0aWVzX2ltYWdlcy9UYWJsZSBzZXR0aW5ncyBjb3dvcmtpbmcucG5nIiwiaWF0IjoxNzM0NjkzNzI1LCJleHAiOjE3MzcyODU3MjV9.lOprascu1tXHY_UEooMRBXdaW0ks5y_AK8f_5nGY-cc"
   };
 
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-8">Card Front Component</h1>
       <div className="max-w-md mx-auto">
-        <CardFront 
-          {...sampleData} 
-          imageUrl={sampleData['Facility Image URL'] || "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"}
-          onFlip={() => console.log("Flip clicked")}
-        />
+        {isLoading ? (
+          <div className="flex justify-center items-center h-40">
+            <p>Loading image...</p>
+          </div>
+        ) : (
+          <CardFront 
+            {...sampleData} 
+            imageUrl={imageUrl || sampleData['Facility Image URL']}
+            onFlip={() => console.log("Flip clicked")}
+          />
+        )}
       </div>
     </div>
   );
