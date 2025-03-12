@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import CardFront from '@/components/CardFront';
 import { supabase } from '@/integrations/supabase/client';
@@ -11,17 +10,10 @@ const CardFrontPage = () => {
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        // Try to get the Dump.pdf file from scenarios bucket
-        const { data, error } = await supabase
+        const { data } = await supabase
           .storage
           .from('scenarios')
           .getPublicUrl('Dump.pdf');
-
-        if (error) {
-          console.error('Error fetching image:', error);
-          setIsLoading(false);
-          return;
-        }
 
         setImageUrl(data.publicUrl);
         setIsLoading(false);
