@@ -15,7 +15,7 @@ const UsersSlider = ({ value, onChange }: UsersSliderProps) => (
     </div>
     <Slider
       defaultValue={[10]}
-      max={50}
+      max={16}
       min={1}
       step={1}
       value={value}
