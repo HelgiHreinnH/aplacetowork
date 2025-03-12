@@ -59,8 +59,9 @@ const CardFront: React.FC<CardFrontProps> = ({
         <img 
           src={imageError ? fallbackImageUrl : imageUrl} 
           alt={display_title || facility} 
-          className="w-full h-full object-contain bg-gray-50"
+          className="w-full h-full object-contain bg-gray-50 max-w-full"
           onError={handleImageError}
+          style={{ maxWidth: '100%', maxHeight: '100%' }}
         />
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white/90 to-transparent">
           <h1 className="text-xl font-bold tracking-tight text-black line-clamp-1">
