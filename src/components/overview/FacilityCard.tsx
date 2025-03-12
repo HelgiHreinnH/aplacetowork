@@ -1,8 +1,10 @@
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 import type { Database } from '@/integrations/supabase/types';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
@@ -19,6 +21,20 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
   onSelect 
 }) => {
   const navigate = useNavigate();
+  const [defaultImageUrl, setDefaultImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDefaultImage = async () => {
+      const { data } = await supabase
+        .storage
+        .from('scenarios')
+        .getPublicUrl('Dump.pdf');
+
+      setDefaultImageUrl(data.publicUrl);
+    };
+
+    fetchDefaultImage();
+  }, []);
 
   return (
     <Card 
@@ -43,9 +59,9 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
         {/* Facility Image */}
         <div className="relative aspect-video w-full overflow-hidden rounded-t-[32px]">
           <img
-            src={facility['Facility Image URL'] || '/placeholder-facility.jpg'}
+            src={defaultImageUrl || facility['Facility Image URL'] || '/placeholder-facility.jpg'}
             alt={facility.display_title || facility.Facility}
-            className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+            className="object-contain w-full h-full transition-transform duration-300 hover:scale-105"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = '/placeholder-facility.jpg';

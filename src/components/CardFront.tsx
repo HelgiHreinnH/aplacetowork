@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import type { Database } from '@/integrations/supabase/types';
+import { supabase } from '@/integrations/supabase/client';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -33,6 +34,21 @@ const CardFront: React.FC<CardFrontProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [defaultImageUrl, setDefaultImageUrl] = useState<string | null>(null);
+
+  // Fetch the default image URL for testing on component mount
+  React.useEffect(() => {
+    const fetchDefaultImage = async () => {
+      const { data } = await supabase
+        .storage
+        .from('scenarios')
+        .getPublicUrl('Dump.pdf');
+
+      setDefaultImageUrl(data.publicUrl);
+    };
+
+    fetchDefaultImage();
+  }, []);
 
   const toggleDescription = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -53,11 +69,14 @@ const CardFront: React.FC<CardFrontProps> = ({
     setImageError(true);
   };
 
+  // Use the defaultImageUrl if available, otherwise use the provided imageUrl or fallback
+  const displayImageUrl = defaultImageUrl || (imageError ? fallbackImageUrl : imageUrl);
+
   return (
     <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
       <div className="relative h-[160px] flex-shrink-0">
         <img 
-          src={imageError ? fallbackImageUrl : imageUrl} 
+          src={displayImageUrl} 
           alt={display_title || facility} 
           className="w-full h-full object-contain bg-gray-50 max-w-full"
           onError={handleImageError}
