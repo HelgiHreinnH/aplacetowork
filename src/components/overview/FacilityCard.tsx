@@ -74,11 +74,9 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           <h3 className="text-[22px] font-bold text-foreground line-clamp-2 mb-2">
             {facility.display_title || facility.Facility}
           </h3>
-          {facility.Subtitle && (
-            <p className="text-sm text-muted-foreground line-clamp-1 mb-2">
-              {facility.Subtitle}
-            </p>
-          )}
+          <p className="text-sm text-muted-foreground line-clamp-1 mb-2">
+            Inspiration for the ideal Workspace
+          </p>
           
           {/* Specifications */}
           <div className="space-y-2 mb-4">

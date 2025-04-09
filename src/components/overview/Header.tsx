@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 const Header = () => {
   const [iconUrl, setIconUrl] = useState<string | null>(null);
+  const [iconError, setIconError] = useState(false);
   
   useEffect(() => {
     const fetchIcon = async () => {
@@ -14,6 +15,7 @@ const Header = () => {
         
         if (error) {
           console.error('Error fetching icon:', error);
+          setIconError(true);
           return;
         }
         
@@ -21,6 +23,7 @@ const Header = () => {
         setIconUrl(url);
       } catch (error) {
         console.error('Failed to fetch icon:', error);
+        setIconError(true);
       }
     };
     
@@ -36,12 +39,12 @@ const Header = () => {
 
   return (
     <div className="text-center flex items-center justify-center gap-3">
-      {iconUrl && (
+      {!iconError && iconUrl && (
         <img src={iconUrl} alt="Workspace icon" className="h-8 w-8 object-contain" />
       )}
       <div>
         <h1 className="text-2xl font-bold text-[#9b87f5] mb-2">A Place to Work</h1>
-        <p className="text-sm tracking-[0.2em] text-[#8E9196] uppercase">Find your ideal workspace</p>
+        <p className="text-sm tracking-[0.2em] text-[#8E9196] uppercase">Inspiration for the ideal Workspace</p>
       </div>
     </div>
   );
