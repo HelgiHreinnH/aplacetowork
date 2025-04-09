@@ -31,6 +31,7 @@ const CardFront: React.FC<CardFrontProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const defaultImageUrl = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b";
+  const fixedImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
 
   const toggleDescription = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -43,11 +44,14 @@ const CardFront: React.FC<CardFrontProps> = ({
     return text.slice(0, maxLength) + '...';
   };
 
+  // Use the fixed image URL or the provided imageUrl (which should now be the fixed URL)
+  const displayImageUrl = imageUrl || fixedImageUrl;
+
   return (
     <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
       <div className="relative h-[280px] flex-shrink-0 flex items-center justify-center">
         <img 
-          src={imageUrl || defaultImageUrl} 
+          src={displayImageUrl} 
           alt={display_title || facility} 
           className="w-full h-full object-cover bg-gray-50"
           onError={(e) => {

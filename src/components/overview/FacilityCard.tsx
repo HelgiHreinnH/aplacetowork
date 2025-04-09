@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
@@ -21,23 +20,9 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
 }) => {
   const navigate = useNavigate();
   const defaultImageUrl = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b";
+  const fixedImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
   
-  // Function to get image URL (same as in Card.tsx for consistency)
-  const getValidImageUrl = (url: string | null) => {
-    if (!url) return defaultImageUrl;
-    
-    // If the URL is from Supabase storage and contains a token, it's likely valid
-    if (url.includes('supabase.co/storage') && url.includes('token=')) {
-      return url;
-    }
-    
-    // Fallback to default Unsplash image
-    return defaultImageUrl;
-  };
-
-  const imageUrl = getValidImageUrl(facility['Facility Image URL']);
-  
-  console.log("Facility Card Image URL:", imageUrl);
+  console.log("Facility Card using fixed image URL:", fixedImageUrl);
 
   return (
     <Card 
@@ -62,7 +47,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
         {/* Facility Image */}
         <div className="relative aspect-video w-full overflow-hidden rounded-t-[32px]">
           <img
-            src={imageUrl}
+            src={fixedImageUrl}
             alt={facility.display_title || facility.Facility}
             className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 bg-gray-50"
             onError={(e) => {

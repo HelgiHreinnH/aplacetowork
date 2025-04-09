@@ -35,24 +35,10 @@ const Card: React.FC<CardProps> = (props) => {
     setIsFlipped(!isFlipped);
   };
 
-  const getValidImageUrl = (facilityImageUrl: string | null) => {
-    if (facilityImageUrl) {
-      // If it's a Supabase URL with a token, use it
-      if (facilityImageUrl.includes('supabase.co/storage') && facilityImageUrl.includes('token=')) {
-        console.log("Using Supabase image URL:", facilityImageUrl);
-        return facilityImageUrl;
-      }
-    }
-    
-    // Fallback to Unsplash images
-    const defaultImage = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b";
-    console.log("Using default image URL:", defaultImage);
-    return defaultImage;
-  };
-
-  // Generate the image URL once to ensure consistency
-  const imageUrl = getValidImageUrl(props['Facility Image URL']);
-  console.log("Card component image URL:", imageUrl);
+  // Using the fixed image URL provided instead of the dynamic one
+  const fixedImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
+  
+  console.log("Card component using fixed image URL:", fixedImageUrl);
 
   return (
     <div className="relative w-full h-[600px] max-w-[400px] mx-auto bg-transparent" style={{ perspective: '1000px' }}>
@@ -82,7 +68,7 @@ const Card: React.FC<CardProps> = (props) => {
           <CardFront 
             {...props} 
             onFlip={handleFlip} 
-            imageUrl={imageUrl} 
+            imageUrl={fixedImageUrl} 
           />
         </div>
 
@@ -96,7 +82,7 @@ const Card: React.FC<CardProps> = (props) => {
           <CardBack 
             {...props} 
             onFlip={handleFlip} 
-            imageUrl={imageUrl} 
+            imageUrl={fixedImageUrl} 
           />
         </div>
       </motion.div>

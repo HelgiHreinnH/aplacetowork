@@ -14,6 +14,7 @@ const CardOverlay = () => {
   const { facilityId } = useParams();
   const navigate = useNavigate();
   const [facility, setFacility] = useState<Facility | null>(null);
+  const fixedImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
 
   const { data, isLoading } = useQuery({
     queryKey: ['facility', facilityId],
@@ -33,8 +34,13 @@ const CardOverlay = () => {
 
   useEffect(() => {
     if (data) {
-      setFacility(data);
-      console.log("Facility data loaded:", data);
+      // Override the image URL with our fixed one
+      const facilityWithFixedImage = {
+        ...data,
+        'Facility Image URL': fixedImageUrl
+      };
+      setFacility(facilityWithFixedImage);
+      console.log("Facility data loaded with fixed image:", facilityWithFixedImage);
     }
   }, [data]);
 
@@ -56,8 +62,7 @@ const CardOverlay = () => {
     );
   }
 
-  // Just use the facility image URL directly without manipulation
-  console.log("Image URL in overlay:", facility['Facility Image URL']);
+  console.log("Using fixed image URL in overlay:", fixedImageUrl);
 
   return (
     <AnimatePresence>
