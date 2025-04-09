@@ -56,7 +56,7 @@ const CardOverlay = () => {
 
   if (isLoading || !facility) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
         <div className="w-16 h-16 border-4 border-white/20 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     );
@@ -67,16 +67,21 @@ const CardOverlay = () => {
   return (
     <AnimatePresence>
       <motion.div 
-        className="fixed inset-0 z-50 flex items-center justify-center bg-[#9b87f5]/40 backdrop-blur-sm p-4"
+        className="fixed inset-0 z-40 flex items-center justify-center bg-transparent"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
-        onClick={handleBackdropClick}
       >
-        <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-10">
+        {/* Backdrop with glassmorphism effect */}
+        <div 
+          className="absolute inset-0 bg-[#9b87f5]/30 backdrop-blur-[3px]"
+          onClick={handleBackdropClick}
+        ></div>
+        
+        <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-50">
           <button 
-            className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors backdrop-blur-sm"
+            className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors backdrop-blur-sm shadow-md"
             onClick={handleClose}
           >
             <X className="h-6 w-6 text-white" />
@@ -84,7 +89,7 @@ const CardOverlay = () => {
         </div>
         
         <motion.div
-          className="relative z-10 w-full max-w-md mx-auto"
+          className="relative z-50 w-full max-w-md mx-auto"
           initial={{ scale: 0.9, y: 20 }}
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.9, y: 20 }}
