@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -54,11 +55,11 @@ const CardFront: React.FC<CardFrontProps> = ({
 
   return (
     <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
-      <div className="relative h-[200px] flex-shrink-0">
+      <div className="relative h-[280px] flex-shrink-0 flex items-center justify-center">
         <img 
           src={displayImageUrl} 
           alt={display_title || facility} 
-          className="w-full h-full object-cover bg-gray-50"
+          className="w-full h-full object-contain bg-gray-50"
           onError={handleImageError}
         />
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white/90 to-transparent">
