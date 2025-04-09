@@ -58,7 +58,7 @@ const SlidersContainer = ({ isLoading, error, facilities, onSearch }: SlidersCon
         </div>
       </div>
       
-      <div className="bg-white/50 backdrop-blur-sm rounded-lg shadow-sm p-6 w-full max-w-md">
+      <div className="bg-white/50 backdrop-blur-sm rounded-lg shadow-sm p-6 w-full max-w-md relative">
         {isLoading ? (
           <LoadingState />
         ) : error ? (
