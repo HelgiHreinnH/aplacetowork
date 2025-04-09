@@ -24,20 +24,24 @@ const TaskCategorySlider = ({ value, onChange, showInfo = false }: TaskCategoryS
         <span className="text-sm font-medium">Concentrated Task</span>
         <span className="text-sm font-medium text-gray-400">Collaborative Task</span>
       </div>
-      <Slider
-        defaultValue={[-128]}
-        min={-128}
-        max={127}
-        step={1}
-        value={value}
-        onValueChange={handleTaskValueChange}
-        className="w-full"
-      />
-      {showInfo && (
-        <div className="absolute right-0 mt-2 w-60 text-sm text-gray-500 animate-fade-in">
-          <p>Just slide the bars to choose whether the space is better for focused work or team collaboration!</p>
+      <div className="flex items-end">
+        <div className="flex-grow">
+          <Slider
+            defaultValue={[-128]}
+            min={-128}
+            max={127}
+            step={1}
+            value={value}
+            onValueChange={handleTaskValueChange}
+            className="w-full"
+          />
         </div>
-      )}
+        {showInfo && (
+          <div className="ml-4 text-xs text-gray-500 w-60 animate-fade-in pb-1">
+            <p>Just slide the bars to choose whether the space is better for focused work or team collaboration!</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
