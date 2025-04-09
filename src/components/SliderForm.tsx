@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import type { Database } from '@/integrations/supabase/types';
 import { type TaskValue } from '../utils/facilityScoring';
@@ -10,9 +11,10 @@ type Facility = Database['public']['Tables']['Facilities']['Row'];
 interface SliderFormProps {
   facilities?: Facility[];
   onSearch: () => void;
+  showInfo?: boolean;
 }
 
-const SliderForm = ({ facilities = [] }: SliderFormProps) => {
+const SliderForm = ({ facilities = [], onSearch, showInfo = false }: SliderFormProps) => {
   const [squareMeters, setSquareMeters] = useState([30]);
   const [users, setUsers] = useState([10]);
   const [taskValue, setTaskValue] = useState<[TaskValue]>([-128]);
@@ -44,9 +46,9 @@ const SliderForm = ({ facilities = [] }: SliderFormProps) => {
 
   return (
     <div className="space-y-16">
-      <SquareMetersSlider value={squareMeters} onChange={setSquareMeters} />
-      <UsersSlider value={users} onChange={setUsers} />
-      <TaskCategorySlider value={taskValue} onChange={handleTaskValueChange} />
+      <SquareMetersSlider value={squareMeters} onChange={setSquareMeters} showInfo={showInfo} />
+      <UsersSlider value={users} onChange={setUsers} showInfo={showInfo} />
+      <TaskCategorySlider value={taskValue} onChange={handleTaskValueChange} showInfo={showInfo} />
     </div>
   );
 };
