@@ -22,7 +22,7 @@ const CardOverlay = () => {
         .from('Facilities')
         .select('*')
         .eq('facility_id', facilityId)
-        .single();
+        .maybeSingle(); // Use maybeSingle to handle cases where no facility is found
       
       if (error) throw error;
       return data;
@@ -46,6 +46,19 @@ const CardOverlay = () => {
     }
   };
 
+  // Function to get a fallback image URL if no specific image is provided
+  const getImageUrl = (facilityImageUrl: string | null) => {
+    if (facilityImageUrl) return facilityImageUrl;
+    
+    const imageUrls = {
+      'photo-1': 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b',
+      'photo-2': 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7',
+      'photo-3': 'https://images.unsplash.com/photo-1518770660439-4636190af475',
+      'photo-4': 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6'
+    };
+    return imageUrls['photo-1'];
+  };
+
   if (isLoading || !facility) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
@@ -53,6 +66,13 @@ const CardOverlay = () => {
       </div>
     );
   }
+
+  // Enhance the facility object with an image URL
+  const facilityWithImage = {
+    ...facility,
+    'Facility Image URL': getImageUrl(facility['Facility Image URL']),
+    imageId: 'photo-1' // Add a default imageId if needed
+  };
 
   return (
     <AnimatePresence>
@@ -89,7 +109,7 @@ const CardOverlay = () => {
           exit={{ scale: 0.9, y: 20 }}
           transition={{ type: "spring", bounce: 0.4, duration: 0.6 }}
         >
-          <Card {...facility} />
+          <Card {...facilityWithImage} />
         </motion.div>
       </motion.div>
     </AnimatePresence>
