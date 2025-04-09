@@ -7,34 +7,21 @@ const Header = () => {
   const [iconError, setIconError] = useState(false);
   
   useEffect(() => {
-    const fetchIcon = async () => {
-      try {
-        const { data, error } = await supabase.storage
-          .from('facilitytempimage')
-          .download('icon.png');
-        
-        if (error) {
-          console.error('Error fetching icon:', error);
-          setIconError(true);
-          return;
-        }
-        
-        const url = URL.createObjectURL(data);
-        setIconUrl(url);
-      } catch (error) {
-        console.error('Failed to fetch icon:', error);
-        setIconError(true);
-      }
-    };
+    const iconUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//Icon.png";
     
-    fetchIcon();
-    
-    // Clean up the object URL on component unmount
-    return () => {
-      if (iconUrl) {
-        URL.revokeObjectURL(iconUrl);
-      }
+    const img = new Image();
+    img.onload = () => {
+      setIconUrl(iconUrl);
+      setIconError(false);
     };
+    img.onerror = () => {
+      console.error('Failed to load icon');
+      setIconError(true);
+    };
+    img.src = iconUrl;
+
+    // No need to clean up the object URL in this case
+    return () => {};
   }, []);
 
   return (
