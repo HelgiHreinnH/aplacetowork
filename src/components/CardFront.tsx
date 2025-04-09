@@ -33,20 +33,8 @@ const CardFront: React.FC<CardFrontProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [defaultImageUrl, setDefaultImageUrl] = useState<string | null>(null);
 
-  React.useEffect(() => {
-    const fetchDefaultImage = async () => {
-      const { data } = await supabase
-        .storage
-        .from('scenarios')
-        .getPublicUrl('Dump.pdf');
-
-      setDefaultImageUrl(data.publicUrl);
-    };
-
-    fetchDefaultImage();
-  }, []);
+  const temporaryImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
 
   const toggleDescription = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -66,7 +54,7 @@ const CardFront: React.FC<CardFrontProps> = ({
     setImageError(true);
   };
 
-  const displayImageUrl = defaultImageUrl || (imageError ? fallbackImageUrl : imageUrl);
+  const displayImageUrl = imageError ? fallbackImageUrl : temporaryImageUrl;
 
   return (
     <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
