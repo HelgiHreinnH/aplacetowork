@@ -14,7 +14,6 @@ interface CardFrontProps extends Pick<
   | 'display_title'
 > {
   onFlip?: (e: React.MouseEvent) => void;
-  imageUrl: string;
 }
 
 const CardFront: React.FC<CardFrontProps> = ({
@@ -26,13 +25,9 @@ const CardFront: React.FC<CardFrontProps> = ({
   'Approx. Square Meters': sqmApprox,
   'Approx. Users': usersApprox,
   onFlip,
-  imageUrl
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [imageError, setImageError] = useState(false);
-
-  const temporaryImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
-  const fallbackImageUrl = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d";
+  const defaultImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
 
   const toggleDescription = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -45,21 +40,13 @@ const CardFront: React.FC<CardFrontProps> = ({
     return text.slice(0, maxLength) + '...';
   };
 
-  const handleImageError = () => {
-    console.log("Image failed to load, using fallback");
-    setImageError(true);
-  };
-
-  const displayImageUrl = imageError ? fallbackImageUrl : temporaryImageUrl;
-
   return (
     <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
       <div className="relative h-[280px] flex-shrink-0 flex items-center justify-center">
         <img 
-          src={displayImageUrl} 
+          src={defaultImageUrl} 
           alt={display_title || facility} 
           className="w-full h-full object-contain bg-gray-50"
-          onError={handleImageError}
         />
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white/90 to-transparent">
           <h1 className="text-xl font-bold tracking-tight text-black line-clamp-1">
