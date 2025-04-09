@@ -1,3 +1,4 @@
+
 import type { Database } from '@/integrations/supabase/types';
 import FacilityCard from './FacilityCard';
 
@@ -15,7 +16,7 @@ const FacilitiesList = ({
   onFacilitySelect 
 }: FacilitiesListProps) => {
   return (
-    <div className="space-y-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {facilities.map((facility) => (
         <FacilityCard
           key={facility.facility_id}

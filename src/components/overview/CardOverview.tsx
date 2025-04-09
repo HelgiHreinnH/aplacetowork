@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
@@ -95,7 +96,7 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
   const displayFacilities = supabaseFacilities || facilities;
 
   return (
-    <div className="max-w-md mx-auto px-4 py-8">
+    <div className="mx-auto px-4 py-8">
       <Header />
       <FacilitiesList 
         facilities={displayFacilities}
