@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
@@ -25,8 +24,6 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
   const defaultImageUrl = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b";
   const fixedImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
   
-  console.log("Facility Card using fixed image URL:", fixedImageUrl);
-
   const handleCardClick = () => {
     if (onClick) {
       onClick(facility.facility_id);
@@ -41,7 +38,6 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
       onClick={handleCardClick}
     >
       <div className="relative">
-        {/* Header with favorite button */}
         <div className="absolute top-4 right-4 z-10">
           <button
             onClick={(e) => onSelect(facility.facility_id, e)}
@@ -55,7 +51,6 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           </button>
         </div>
 
-        {/* Facility Image */}
         <div className="relative aspect-video w-full overflow-hidden rounded-t-[32px]">
           <img
             src={fixedImageUrl}
@@ -69,7 +64,6 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           />
         </div>
 
-        {/* Content */}
         <div className="flex flex-col flex-grow p-6">
           <h3 className="text-[22px] font-bold text-foreground line-clamp-2 mb-2">
             {facility.display_title || facility.Facility}
@@ -78,7 +72,6 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
             Inspiration for the ideal Workspace
           </p>
           
-          {/* Specifications */}
           <div className="space-y-2 mb-4">
             <div className="flex justify-between items-center">
               <span className="text-[15px] text-muted-foreground">Amount of m²</span>
@@ -102,14 +95,12 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
             </div>
           </div>
 
-          {/* Description */}
           {facility.Description && (
             <p className="text-[15px] text-muted-foreground line-clamp-2 mb-4">
               {facility.Description}
             </p>
           )}
 
-          {/* Actions */}
           <div className="mt-auto">
             <Button 
               className="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-full py-2 text-xs"
