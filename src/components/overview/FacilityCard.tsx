@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
@@ -11,12 +12,14 @@ interface FacilityCardProps {
   facility: Facility;
   isSelected: boolean;
   onSelect: (facilityId: string, event: React.MouseEvent) => void;
+  onClick?: (facilityId: string) => void;
 }
 
 const FacilityCard: React.FC<FacilityCardProps> = ({ 
   facility, 
   isSelected,
-  onSelect 
+  onSelect,
+  onClick
 }) => {
   const navigate = useNavigate();
   const defaultImageUrl = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b";
@@ -24,10 +27,18 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
   
   console.log("Facility Card using fixed image URL:", fixedImageUrl);
 
+  const handleCardClick = () => {
+    if (onClick) {
+      onClick(facility.facility_id);
+    } else {
+      navigate(`/card-overlay/${facility.facility_id}`);
+    }
+  };
+
   return (
     <Card 
       className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden cursor-pointer rounded-[32px] border-0 transform scale-80 origin-center"
-      onClick={() => navigate(`/card-overlay/${facility.facility_id}`)}
+      onClick={handleCardClick}
     >
       <div className="relative">
         {/* Header with favorite button */}

@@ -1,5 +1,7 @@
+
 import React, { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type { Database } from '@/integrations/supabase/types';
@@ -39,6 +41,8 @@ const fetchFavorites = async () => {
 };
 
 const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [selectedFacilities, setSelectedFacilities] = React.useState<string[]>([]);
 
   const { data: supabaseFacilities, isLoading: isLoadingFacilities } = useQuery({
@@ -62,6 +66,7 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
     
     try {
       if (selectedFacilities.includes(facilityId)) {
+        // Remove from favorites
         const { error } = await supabase
           .from('facility_favorites')
           .delete()
@@ -69,22 +74,39 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
 
         if (error) throw error;
 
+        // Update local state
         setSelectedFacilities(prev => prev.filter(id => id !== facilityId));
+        
+        // Invalidate queries to refresh data across components
+        queryClient.invalidateQueries({ queryKey: ['favorites'] });
+        queryClient.invalidateQueries({ queryKey: ['favorited_facilities'] });
+        
         toast.success("Removed from favorites");
       } else {
+        // Add to favorites
         const { error } = await supabase
           .from('facility_favorites')
           .insert([{ facility_id: facilityId }]);
 
         if (error) throw error;
 
+        // Update local state
         setSelectedFacilities(prev => [...prev, facilityId]);
+        
+        // Invalidate queries to refresh data across components
+        queryClient.invalidateQueries({ queryKey: ['favorites'] });
+        queryClient.invalidateQueries({ queryKey: ['favorited_facilities'] });
+        
         toast.success("Added to favorites");
       }
     } catch (error) {
       console.error('Error updating favorites:', error);
       toast.error("Failed to update favorites");
     }
+  };
+
+  const handleCardClick = (facilityId: string) => {
+    navigate(`/card-overlay/${facilityId}`);
   };
 
   if (isLoadingFacilities || isLoadingFavorites) {
@@ -99,6 +121,7 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
         facilities={displayFacilities}
         selectedFacilities={selectedFacilities}
         onFacilitySelect={handleFacilitySelect}
+        onCardClick={handleCardClick}
       />
     </div>
   );

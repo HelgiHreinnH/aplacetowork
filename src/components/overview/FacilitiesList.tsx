@@ -8,12 +8,14 @@ interface FacilitiesListProps {
   facilities: Facility[];
   selectedFacilities: string[];
   onFacilitySelect: (facilityId: string, event: React.MouseEvent) => void;
+  onCardClick?: (facilityId: string) => void;
 }
 
 const FacilitiesList = ({ 
   facilities, 
   selectedFacilities, 
-  onFacilitySelect 
+  onFacilitySelect,
+  onCardClick
 }: FacilitiesListProps) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -23,6 +25,7 @@ const FacilitiesList = ({
           facility={facility}
           isSelected={selectedFacilities.includes(facility.facility_id)}
           onSelect={onFacilitySelect}
+          onClick={onCardClick ? (facilityId) => onCardClick(facilityId) : undefined}
         />
       ))}
     </div>

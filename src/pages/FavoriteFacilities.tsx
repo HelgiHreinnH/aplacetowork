@@ -1,26 +1,19 @@
 
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2 } from 'lucide-react';
 import FacilityCard from '@/components/overview/FacilityCard';
 
 const FavoriteFacilities = () => {
-  const [selectedFacilities, setSelectedFacilities] = useState<Set<string>>(new Set());
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   
-  const { data: session } = useQuery({
-    queryKey: ['session'],
-    queryFn: async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) throw error;
-      return data.session;
-    },
-  });
-  
-  const { data: favorites, isLoading: isLoadingFavorites } = useQuery({
-    queryKey: ['favorites', session?.user?.id],
-    enabled: !!session?.user?.id,
+  // Fetch favorite IDs
+  const { data: favoriteIds, isLoading: isLoadingFavoriteIds } = useQuery({
+    queryKey: ['favorites'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('facility_favorites')
@@ -35,16 +28,17 @@ const FavoriteFacilities = () => {
     },
   });
   
+  // Fetch facilities that are in favorites
   const { data: facilities, isLoading: isLoadingFacilities } = useQuery({
-    queryKey: ['favorited_facilities', favorites],
-    enabled: !!favorites && favorites.length > 0,
+    queryKey: ['favorited_facilities', favoriteIds],
+    enabled: !!favoriteIds && favoriteIds.length > 0,
     queryFn: async () => {
-      if (!favorites || favorites.length === 0) return [];
+      if (!favoriteIds || favoriteIds.length === 0) return [];
       
       const { data, error } = await supabase
         .from('Facilities')
         .select('*')
-        .in('facility_id', favorites);
+        .in('facility_id', favoriteIds);
       
       if (error) {
         toast.error("Failed to load facility details");
@@ -58,49 +52,31 @@ const FavoriteFacilities = () => {
   const handleSelect = async (facilityId: string, event: React.MouseEvent) => {
     event.stopPropagation();
     
-    if (!session?.user?.id) {
-      toast.error("Please log in to manage favorites");
-      return;
-    }
-    
     try {
-      if (selectedFacilities.has(facilityId)) {
-        // Remove from favorites
-        const { error } = await supabase
-          .from('facility_favorites')
-          .delete()
-          .eq('facility_id', facilityId);
+      // We're in favorites page, so clicking will always remove from favorites
+      const { error } = await supabase
+        .from('facility_favorites')
+        .delete()
+        .eq('facility_id', facilityId);
 
-        if (error) throw error;
-
-        setSelectedFacilities(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(facilityId);
-          return newSet;
-        });
-        toast.success("Removed from favorites");
-      } else {
-        // Add to favorites
-        const { error } = await supabase
-          .from('facility_favorites')
-          .insert([{ facility_id: facilityId }]);
-
-        if (error) throw error;
-
-        setSelectedFacilities(prev => {
-          const newSet = new Set(prev);
-          newSet.add(facilityId);
-          return newSet;
-        });
-        toast.success("Added to favorites");
-      }
+      if (error) throw error;
+      
+      // Invalidate queries to refresh the data
+      queryClient.invalidateQueries({ queryKey: ['favorites'] });
+      queryClient.invalidateQueries({ queryKey: ['favorited_facilities'] });
+      
+      toast.success("Removed from favorites");
     } catch (error) {
-      console.error('Error updating favorites:', error);
+      console.error('Error removing from favorites:', error);
       toast.error("Failed to update favorites");
     }
   };
 
-  if (isLoadingFavorites || isLoadingFacilities) {
+  const handleCardClick = (facilityId: string) => {
+    navigate(`/card-overlay/${facilityId}`);
+  };
+
+  if (isLoadingFavoriteIds || isLoadingFacilities) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />
@@ -130,8 +106,9 @@ const FavoriteFacilities = () => {
           <FacilityCard
             key={facility.facility_id}
             facility={facility}
-            isSelected={favorites?.includes(facility.facility_id)}
+            isSelected={true} // Always true in favorites page
             onSelect={handleSelect}
+            onClick={() => handleCardClick(facility.facility_id)}
           />
         ))}
       </div>

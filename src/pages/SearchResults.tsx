@@ -1,4 +1,8 @@
+
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { supabase } from "@/integrations/supabase/client";
 import type { Database } from '@/integrations/supabase/types';
 import { toast } from "sonner";
 import SearchHeader from '@/components/search/SearchHeader';
@@ -7,9 +11,27 @@ import FacilityCard from '@/components/overview/FacilityCard';
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
 const SearchResults = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [searchResults, setSearchResults] = useState<Facility[]>([]);
   const [isExactMatch, setIsExactMatch] = useState(true);
-  const [selectedFacilities, setSelectedFacilities] = useState<Set<string>>(new Set());
+  
+  // Fetch favorites to show correct selection state
+  const { data: favorites } = useQuery({
+    queryKey: ['favorites'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('facility_favorites')
+        .select('facility_id');
+      
+      if (error) {
+        console.error('Error fetching favorites:', error);
+        return [];
+      }
+      
+      return data.map(fav => fav.facility_id);
+    },
+  });
 
   useEffect(() => {
     const results = sessionStorage.getItem('searchResults');
@@ -29,17 +51,48 @@ const SearchResults = () => {
     }
   }, []);
 
-  const handleSelect = (facilityId: string, event: React.MouseEvent) => {
+  const handleSelect = async (facilityId: string, event: React.MouseEvent) => {
     event.stopPropagation();
-    setSelectedFacilities(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(facilityId)) {
-        newSet.delete(facilityId);
+    
+    try {
+      const isFavorite = favorites?.includes(facilityId);
+      
+      if (isFavorite) {
+        // Remove from favorites
+        const { error } = await supabase
+          .from('facility_favorites')
+          .delete()
+          .eq('facility_id', facilityId);
+
+        if (error) throw error;
+        
+        // Invalidate queries to refresh data across components
+        queryClient.invalidateQueries({ queryKey: ['favorites'] });
+        queryClient.invalidateQueries({ queryKey: ['favorited_facilities'] });
+        
+        toast.success("Removed from favorites");
       } else {
-        newSet.add(facilityId);
+        // Add to favorites
+        const { error } = await supabase
+          .from('facility_favorites')
+          .insert([{ facility_id: facilityId }]);
+
+        if (error) throw error;
+        
+        // Invalidate queries to refresh data across components
+        queryClient.invalidateQueries({ queryKey: ['favorites'] });
+        queryClient.invalidateQueries({ queryKey: ['favorited_facilities'] });
+        
+        toast.success("Added to favorites");
       }
-      return newSet;
-    });
+    } catch (error) {
+      console.error('Error updating favorites:', error);
+      toast.error("Failed to update favorites");
+    }
+  };
+
+  const handleCardClick = (facilityId: string) => {
+    navigate(`/card-overlay/${facilityId}`);
   };
 
   if (searchResults.length === 0) {
@@ -65,8 +118,9 @@ const SearchResults = () => {
             <FacilityCard
               key={facility.facility_id}
               facility={facility}
-              isSelected={selectedFacilities.has(facility.facility_id)}
+              isSelected={favorites?.includes(facility.facility_id) || false}
               onSelect={handleSelect}
+              onClick={() => handleCardClick(facility.facility_id)}
             />
           ))}
         </div>
