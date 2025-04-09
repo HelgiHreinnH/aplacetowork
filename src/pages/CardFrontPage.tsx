@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import CardFront from '@/components/CardFront';
+import TitleContainer from '@/components/containers/TitleContainer';
 import type { Database } from '@/integrations/supabase/types';
 
 const CardFrontPage = () => {
@@ -31,11 +32,11 @@ const CardFrontPage = () => {
 
   return (
     <div className="container mx-auto py-8 px-4">
+      <TitleContainer />
       <h1 className="text-3xl font-bold mb-8">Card Front Component</h1>
       <div className="max-w-md mx-auto">
         <CardFront 
           {...sampleData} 
-          imageUrl={temporaryImageUrl}
           onFlip={() => console.log("Flip clicked")}
         />
       </div>

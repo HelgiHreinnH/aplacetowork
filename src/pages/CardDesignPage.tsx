@@ -1,5 +1,7 @@
+
 import React from 'react';
 import Card from '@/components/Card';
+import TitleContainer from '@/components/containers/TitleContainer';
 
 const CardDesignPage = () => {
   // Sample facility data for demonstration
@@ -29,6 +31,7 @@ const CardDesignPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
+        <TitleContainer />
         <div className="w-full max-w-lg mx-auto">
           <Card {...sampleFacility} />
           <div className="mt-6 text-center text-sm text-gray-500">

@@ -1,5 +1,7 @@
+
 import React from 'react';
 import CardBack from '@/components/CardBack';
+import TitleContainer from '@/components/containers/TitleContainer';
 import type { Database } from '@/integrations/supabase/types';
 
 const CardBackPage = () => {
@@ -28,6 +30,7 @@ const CardBackPage = () => {
 
   return (
     <div className="container mx-auto py-8 px-4">
+      <TitleContainer />
       <h1 className="text-3xl font-bold mb-8">Card Back Component</h1>
       <div className="max-w-md mx-auto">
         <CardBack 

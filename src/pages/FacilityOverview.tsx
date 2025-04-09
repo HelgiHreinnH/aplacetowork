@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from 'lucide-react';
 import { toast } from "sonner";
 import CardOverview from '@/components/overview/CardOverview';
+import TitleContainer from '@/components/containers/TitleContainer';
 
 const FacilityOverview = () => {
   const { data: facilities, isLoading, error } = useQuery({
@@ -49,6 +50,7 @@ const FacilityOverview = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 pb-24 overflow-auto">
+      <TitleContainer />
       <CardOverview facilities={facilities} />
     </div>
   );
