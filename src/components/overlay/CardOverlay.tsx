@@ -67,7 +67,7 @@ const CardOverlay = () => {
   return (
     <AnimatePresence>
       <motion.div 
-        className="fixed inset-0 z-50 flex items-center justify-center bg-purple-800/60 backdrop-blur-md p-4"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-[#9b87f5]/40 backdrop-blur-sm p-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
