@@ -25,11 +25,15 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="text-center flex items-center justify-center gap-3">
+    <div className="text-center flex items-center justify-start gap-6 relative">
       {!iconError && iconUrl && (
-        <img src={iconUrl} alt="Workspace icon" className="h-8 w-8 object-contain" />
+        <img 
+          src={iconUrl} 
+          alt="Workspace icon" 
+          className="h-16 w-16 object-contain absolute left-0 top-1/2 transform -translate-y-1/2" 
+        />
       )}
-      <div>
+      <div className="flex-grow pl-20">
         <h1 className="text-2xl font-bold text-[#9b87f5] mb-2">A Place to Work</h1>
         <p className="text-sm tracking-[0.2em] text-[#8E9196] uppercase">Inspiration for the ideal Workspace</p>
       </div>
