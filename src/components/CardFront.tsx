@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -14,6 +15,7 @@ interface CardFrontProps extends Pick<
   | 'display_title'
 > {
   onFlip?: (e: React.MouseEvent) => void;
+  imageUrl?: string; // Added imageUrl prop
 }
 
 const CardFront: React.FC<CardFrontProps> = ({
@@ -25,6 +27,7 @@ const CardFront: React.FC<CardFrontProps> = ({
   'Approx. Square Meters': sqmApprox,
   'Approx. Users': usersApprox,
   onFlip,
+  imageUrl, // Use the prop
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const defaultImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
@@ -44,7 +47,7 @@ const CardFront: React.FC<CardFrontProps> = ({
     <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
       <div className="relative h-[280px] flex-shrink-0 flex items-center justify-center">
         <img 
-          src={defaultImageUrl} 
+          src={imageUrl || defaultImageUrl} 
           alt={display_title || facility} 
           className="w-full h-full object-contain bg-gray-50"
         />

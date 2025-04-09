@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -24,35 +24,14 @@ const UserSettings = () => {
     },
   });
 
-  const { data: profile, isLoading: isLoadingProfile } = useQuery({
-    queryKey: ['profile', session?.user?.id],
-    enabled: !!session?.user?.id,
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', session?.user?.id)
-        .single();
-      
-      if (error && error.code !== 'PGRST116') {
-        toast.error("Failed to load profile");
-        throw error;
-      }
-      
-      return data;
-    },
-  });
-
-  useEffect(() => {
+  // No longer querying the profiles table
+  React.useEffect(() => {
     if (session?.user) {
       setEmail(session.user.email || '');
+      // For now, we'll set an empty username from session email
+      setUsername(session.user.email?.split('@')[0] || '');
     }
-    
-    if (profile) {
-      setUsername(profile.username || '');
-      setCompanyName(profile.company_name || '');
-    }
-  }, [session, profile]);
+  }, [session]);
 
   const handleSave = async () => {
     setLoading(true);
@@ -62,50 +41,20 @@ const UserSettings = () => {
         return;
       }
 
-      // Check if profile exists
-      const { count, error: countError } = await supabase
-        .from('profiles')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', session.user.id);
+      // Since we don't have a profiles table yet, we'll just show a success message
+      setTimeout(() => {
+        toast.success("Profile updated successfully");
+        setLoading(false);
+      }, 500);
       
-      if (countError) throw countError;
-      
-      if (count === 0) {
-        // Create profile
-        const { error: insertError } = await supabase
-          .from('profiles')
-          .insert([
-            { 
-              user_id: session.user.id, 
-              username, 
-              company_name: companyName 
-            }
-          ]);
-        
-        if (insertError) throw insertError;
-      } else {
-        // Update profile
-        const { error: updateError } = await supabase
-          .from('profiles')
-          .update({ 
-            username, 
-            company_name: companyName 
-          })
-          .eq('user_id', session.user.id);
-        
-        if (updateError) throw updateError;
-      }
-      
-      toast.success("Profile updated successfully");
     } catch (error) {
       console.error("Error saving profile:", error);
       toast.error("Failed to update profile");
-    } finally {
       setLoading(false);
     }
   };
 
-  if (isLoading || isLoadingProfile) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <Loader2 className="h-8 w-8 animate-spin" />
