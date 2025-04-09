@@ -1,10 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import type { Database } from '@/integrations/supabase/types';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
@@ -26,7 +25,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
   return (
     <Card 
       className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden cursor-pointer rounded-[32px] border-0 transform scale-80 origin-center"
-      onClick={() => navigate(`/design/interactive`)}
+      onClick={() => navigate(`/card-overlay/${facility.facility_id}`)}
     >
       <div className="relative">
         {/* Header with favorite button */}
@@ -99,7 +98,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
               variant="default"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate('/design/interactive');
+                navigate(`/card-overlay/${facility.facility_id}`);
               }}
             >
               View Details

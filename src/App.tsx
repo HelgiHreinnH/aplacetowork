@@ -15,6 +15,7 @@ import UserSettings from "./pages/UserSettings";
 import FavoriteFacilities from "./pages/FavoriteFacilities";
 import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
+import CardOverlay from "./components/overlay/CardOverlay";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,9 @@ const App = () => (
               <Route path="overview" element={<FacilityOverview />} />
             </Route>
           </Route>
+
+          {/* Overlay Routes */}
+          <Route path="/card-overlay/:facilityId" element={<CardOverlay />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
