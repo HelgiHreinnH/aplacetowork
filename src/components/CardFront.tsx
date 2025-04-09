@@ -15,7 +15,7 @@ interface CardFrontProps extends Pick<
   | 'display_title'
 > {
   onFlip?: (e: React.MouseEvent) => void;
-  imageUrl?: string; // Added imageUrl prop
+  imageUrl?: string;
 }
 
 const CardFront: React.FC<CardFrontProps> = ({
@@ -27,10 +27,10 @@ const CardFront: React.FC<CardFrontProps> = ({
   'Approx. Square Meters': sqmApprox,
   'Approx. Users': usersApprox,
   onFlip,
-  imageUrl, // Use the prop
+  imageUrl,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const defaultImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
+  const defaultImageUrl = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b";
 
   const toggleDescription = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -49,7 +49,12 @@ const CardFront: React.FC<CardFrontProps> = ({
         <img 
           src={imageUrl || defaultImageUrl} 
           alt={display_title || facility} 
-          className="w-full h-full object-contain bg-gray-50"
+          className="w-full h-full object-cover bg-gray-50"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            console.log("Image error, falling back to default:", target.src);
+            target.src = defaultImageUrl;
+          }}
         />
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white/90 to-transparent">
           <h1 className="text-xl font-bold tracking-tight text-black line-clamp-1">

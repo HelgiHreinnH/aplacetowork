@@ -35,20 +35,24 @@ const Card: React.FC<CardProps> = (props) => {
     setIsFlipped(!isFlipped);
   };
 
-  const getImageUrl = (facilityImageUrl: string | null, fallbackImageId: string) => {
-    if (facilityImageUrl) return facilityImageUrl;
+  const getValidImageUrl = (facilityImageUrl: string | null) => {
+    if (facilityImageUrl) {
+      // If it's a Supabase URL with a token, use it
+      if (facilityImageUrl.includes('supabase.co/storage') && facilityImageUrl.includes('token=')) {
+        console.log("Using Supabase image URL:", facilityImageUrl);
+        return facilityImageUrl;
+      }
+    }
     
-    const imageUrls = {
-      'photo-1': 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b',
-      'photo-2': 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7',
-      'photo-3': 'https://images.unsplash.com/photo-1518770660439-4636190af475',
-      'photo-4': 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6'
-    };
-    return `https://images.unsplash.com/${imageUrls[fallbackImageId as keyof typeof imageUrls] || imageUrls['photo-1']}`;
+    // Fallback to Unsplash images
+    const defaultImage = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b";
+    console.log("Using default image URL:", defaultImage);
+    return defaultImage;
   };
 
   // Generate the image URL once to ensure consistency
-  const imageUrl = props['Facility Image URL'] || getImageUrl(null, props.imageId || 'photo-1');
+  const imageUrl = getValidImageUrl(props['Facility Image URL']);
+  console.log("Card component image URL:", imageUrl);
 
   return (
     <div className="relative w-full h-[600px] max-w-[400px] mx-auto bg-transparent" style={{ perspective: '1000px' }}>
