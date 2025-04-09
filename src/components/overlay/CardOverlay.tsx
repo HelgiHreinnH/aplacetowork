@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { X, ChevronLeft } from 'lucide-react';
+import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
@@ -67,25 +67,16 @@ const CardOverlay = () => {
   return (
     <AnimatePresence>
       <motion.div 
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-purple-800/60 backdrop-blur-md p-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
         onClick={handleBackdropClick}
       >
-        <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-10">
-          <button 
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
-            onClick={handleClose}
-          >
-            <ChevronLeft className="h-6 w-6 text-white" />
-          </button>
-        </div>
-        
         <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-10">
           <button 
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
+            className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors backdrop-blur-sm"
             onClick={handleClose}
           >
             <X className="h-6 w-6 text-white" />
