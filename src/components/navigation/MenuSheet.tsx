@@ -1,7 +1,8 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Star, Home, HelpCircle, Info, MessageSquare } from "lucide-react";
+import { Menu, Star, Home, HelpCircle, Info, MessageSquare, Settings, Grid } from "lucide-react";
 
 const MenuSheet = () => {
   return (
@@ -23,23 +24,31 @@ const MenuSheet = () => {
         <nav className="flex flex-col gap-3 mt-6">
           <Link to="/favorites" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
             <Star className="h-5 w-5" />
-            <span>Favourites</span>
+            <span>Favorites</span>
+          </Link>
+          <Link to="/overview" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
+            <Grid className="h-5 w-5" />
+            <span>All Facilities</span>
           </Link>
           <Link to="/" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
             <Home className="h-5 w-5" />
-            <span>All facilities</span>
+            <span>Search Facilities</span>
+          </Link>
+          <Link to="/settings" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
+            <Settings className="h-5 w-5" />
+            <span>Settings</span>
+          </Link>
+          <Link to="/contact" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
+            <MessageSquare className="h-5 w-5" />
+            <span>What are you missing?</span>
+          </Link>
+          <Link to="/about" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
+            <Info className="h-5 w-5" />
+            <span>About</span>
           </Link>
           <Link to="/help" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
             <HelpCircle className="h-5 w-5" />
             <span>Help</span>
-          </Link>
-          <Link to="/about" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
-            <Info className="h-5 w-5" />
-            <span>About us</span>
-          </Link>
-          <Link to="/feedback" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
-            <MessageSquare className="h-5 w-5" />
-            <span>Feedback</span>
           </Link>
         </nav>
       </SheetContent>
