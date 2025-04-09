@@ -33,6 +33,7 @@ const CardOverlay = () => {
   useEffect(() => {
     if (data) {
       setFacility(data);
+      console.log("Facility data loaded:", data);
     }
   }, [data]);
 
@@ -70,9 +71,11 @@ const CardOverlay = () => {
   // Enhance the facility object with an image URL
   const facilityWithImage = {
     ...facility,
-    'Facility Image URL': getImageUrl(facility['Facility Image URL']),
+    'Facility Image URL': facility['Facility Image URL'] || getImageUrl(null),
     imageId: 'photo-1' // Add a default imageId if needed
   };
+
+  console.log("Image URL in overlay:", facilityWithImage['Facility Image URL']);
 
   return (
     <AnimatePresence>

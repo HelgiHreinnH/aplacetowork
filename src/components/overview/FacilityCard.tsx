@@ -21,6 +21,22 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
 }) => {
   const navigate = useNavigate();
   const defaultImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
+  
+  // Function to get image URL (same as in Card.tsx for consistency)
+  const getImageUrl = (facilityImageUrl: string | null) => {
+    if (facilityImageUrl) return facilityImageUrl;
+    
+    const imageUrls = {
+      'photo-1': 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b',
+      'photo-2': 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7',
+      'photo-3': 'https://images.unsplash.com/photo-1518770660439-4636190af475',
+      'photo-4': 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6'
+    };
+    return `https://images.unsplash.com/${imageUrls['photo-1']}`;
+  };
+
+  // Get actual image URL or use fallback
+  const imageUrl = facility['Facility Image URL'] || getImageUrl(null);
 
   return (
     <Card 
@@ -45,7 +61,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
         {/* Facility Image */}
         <div className="relative aspect-video w-full overflow-hidden rounded-t-[32px]">
           <img
-            src={defaultImageUrl}
+            src={imageUrl}
             alt={facility.display_title || facility.Facility}
             className="object-contain w-full h-full transition-transform duration-300 hover:scale-105 bg-gray-50"
           />

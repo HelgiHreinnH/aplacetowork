@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import CardFront from './CardFront';
@@ -38,13 +39,16 @@ const Card: React.FC<CardProps> = (props) => {
     if (facilityImageUrl) return facilityImageUrl;
     
     const imageUrls = {
-      'photo-1': 'photo-1488590528505-98d2b5aba04b',
-      'photo-2': 'photo-1649972904349-6e44c42644a7',
-      'photo-3': 'photo-1518770660439-4636190af475',
-      'photo-4': 'photo-1461749280684-dccba630e2f6'
+      'photo-1': 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b',
+      'photo-2': 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7',
+      'photo-3': 'https://images.unsplash.com/photo-1518770660439-4636190af475',
+      'photo-4': 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6'
     };
     return `https://images.unsplash.com/${imageUrls[fallbackImageId as keyof typeof imageUrls] || imageUrls['photo-1']}`;
   };
+
+  // Generate the image URL once to ensure consistency
+  const imageUrl = props['Facility Image URL'] || getImageUrl(null, props.imageId || 'photo-1');
 
   return (
     <div className="relative w-full h-[600px] max-w-[400px] mx-auto bg-transparent" style={{ perspective: '1000px' }}>
@@ -74,7 +78,7 @@ const Card: React.FC<CardProps> = (props) => {
           <CardFront 
             {...props} 
             onFlip={handleFlip} 
-            imageUrl={props['Facility Image URL'] || getImageUrl(null, props.imageId || 'photo-1')} 
+            imageUrl={imageUrl} 
           />
         </div>
 
@@ -88,7 +92,7 @@ const Card: React.FC<CardProps> = (props) => {
           <CardBack 
             {...props} 
             onFlip={handleFlip} 
-            imageUrl={props['Facility Image URL'] || getImageUrl(null, props.imageId || 'photo-1')} 
+            imageUrl={imageUrl} 
           />
         </div>
       </motion.div>
