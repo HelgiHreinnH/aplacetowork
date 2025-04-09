@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -66,7 +65,9 @@ const CardFront: React.FC<CardFrontProps> = ({
           <h1 className="text-xl font-bold tracking-tight text-black line-clamp-1">
             {display_title || facility}
           </h1>
-          <p className="text-sm text-gray-600 line-clamp-1 mt-1">{subtitle}</p>
+          <p className="text-sm text-gray-600 line-clamp-1 mt-1">
+            Inspiration for the ideal Workspace
+          </p>
         </div>
       </div>
 
