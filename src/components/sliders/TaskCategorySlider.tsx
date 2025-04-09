@@ -38,7 +38,7 @@ const TaskCategorySlider = ({ value, onChange, showInfo = false }: TaskCategoryS
         </div>
       </div>
       {showInfo && (
-        <div className="absolute left-full ml-4 text-xs text-gray-500 w-60 bottom-0 pb-1">
+        <div className="absolute left-full ml-4 px-2 text-[10px] text-gray-500 w-60 bottom-0 pb-1">
           <p>Just slide the bars to choose whether the space is better for focused work or team collaboration!</p>
         </div>
       )}
