@@ -98,7 +98,7 @@ const SearchResults = () => {
 
   if (searchResults.length === 0) {
     return (
-      <div className="min-h-screen bg-background py-12 px-6">
+      <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
         <TitleContainer />
         <div className="max-w-7xl mx-auto text-center mt-8">
           <h2 className="text-xl font-semibold text-foreground">Loading results...</h2>
@@ -108,31 +108,35 @@ const SearchResults = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background overflow-auto">
-      <div className="py-6">
-        <TitleContainer />
-      </div>
-      <div className="max-w-6xl mx-auto px-8 pb-32">
-        <SearchHeader 
-          resultsCount={searchResults.length}
-          isExactMatch={isExactMatch}
-        />
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {searchResults.map((facility) => (
-            <div key={facility.facility_id} className="flex justify-center transform scale-90">
-              <FacilityCard
-                facility={facility}
-                isSelected={favorites?.includes(facility.facility_id) || false}
-                onSelect={handleSelect}
-                onClick={() => handleCardClick(facility.facility_id)}
-              />
-            </div>
-          ))}
+    <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
+      <TitleContainer />
+      <div className="flex-1 overflow-auto">
+        <div className="max-w-6xl mx-auto px-8 pb-32">
+          <SearchHeader 
+            resultsCount={searchResults.length}
+            isExactMatch={isExactMatch}
+          />
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {searchResults.map((facility) => (
+              <div key={facility.facility_id} className="flex justify-center transform scale-90">
+                <FacilityCard
+                  facility={facility}
+                  isSelected={favorites?.includes(facility.facility_id) || false}
+                  onSelect={handleSelect}
+                  onClick={() => handleCardClick(facility.facility_id)}
+                />
+              </div>
+            ))}
+          </div>
         </div>
+      </div>
+      <div className="flex-none h-20">
+        {/* This space is reserved for the bottom navigation */}
       </div>
     </div>
   );
 };
 
 export default SearchResults;
+
