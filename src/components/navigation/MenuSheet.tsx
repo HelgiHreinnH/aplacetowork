@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Star, Grid, Settings, MessageSquare, Info } from "lucide-react";
+import { Menu, Heart, Grid, Settings, MessageSquare, Info } from "lucide-react";
 
 const MenuSheet = () => {
   return (
@@ -23,7 +23,7 @@ const MenuSheet = () => {
       >
         <nav className="flex flex-col gap-3 mt-6">
           <Link to="/favorites" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
-            <Star className="h-5 w-5" />
+            <Heart className="h-5 w-5" />
             <span>Favorites</span>
           </Link>
           <Link to="/overview" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
@@ -49,3 +49,4 @@ const MenuSheet = () => {
 };
 
 export default MenuSheet;
+
