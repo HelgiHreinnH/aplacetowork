@@ -30,10 +30,6 @@ const MenuSheet = () => {
             <Grid className="h-5 w-5" />
             <span>All Facilities</span>
           </Link>
-          <Link to="/" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
-            <Home className="h-5 w-5" />
-            <span>Search Facilities</span>
-          </Link>
           <Link to="/settings" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
             <Settings className="h-5 w-5" />
             <span>Settings</span>
