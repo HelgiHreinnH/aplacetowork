@@ -7,6 +7,7 @@ import type { Database } from '@/integrations/supabase/types';
 import { toast } from "sonner";
 import SearchHeader from '@/components/search/SearchHeader';
 import FacilityCard from '@/components/overview/FacilityCard';
+import TitleContainer from '@/components/containers/TitleContainer';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -98,7 +99,8 @@ const SearchResults = () => {
   if (searchResults.length === 0) {
     return (
       <div className="min-h-screen bg-background py-12 px-6">
-        <div className="max-w-7xl mx-auto text-center">
+        <TitleContainer />
+        <div className="max-w-7xl mx-auto text-center mt-8">
           <h2 className="text-xl font-semibold text-foreground">Loading results...</h2>
         </div>
       </div>
@@ -106,8 +108,11 @@ const SearchResults = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background py-16 px-8 pb-32 overflow-auto">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-background overflow-auto">
+      <div className="py-6">
+        <TitleContainer />
+      </div>
+      <div className="max-w-6xl mx-auto px-8 pb-32">
         <SearchHeader 
           resultsCount={searchResults.length}
           isExactMatch={isExactMatch}
