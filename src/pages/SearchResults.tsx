@@ -99,7 +99,7 @@ const SearchResults = () => {
     return (
       <div className="min-h-screen bg-background py-12 px-6">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-2xl font-semibold text-foreground">Loading results...</h2>
+          <h2 className="text-xl font-semibold text-foreground">Loading results...</h2>
         </div>
       </div>
     );
