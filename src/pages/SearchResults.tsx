@@ -97,7 +97,7 @@ const SearchResults = () => {
 
   if (searchResults.length === 0) {
     return (
-      <div className="min-h-screen bg-background py-12 px-4">
+      <div className="min-h-screen bg-background py-12 px-6">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-2xl font-semibold text-foreground">Loading results...</h2>
         </div>
@@ -106,22 +106,23 @@ const SearchResults = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background py-12 px-4 pb-24 overflow-auto">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-background py-16 px-8 pb-32 overflow-auto">
+      <div className="max-w-6xl mx-auto">
         <SearchHeader 
           resultsCount={searchResults.length}
           isExactMatch={isExactMatch}
         />
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {searchResults.map((facility) => (
-            <FacilityCard
-              key={facility.facility_id}
-              facility={facility}
-              isSelected={favorites?.includes(facility.facility_id) || false}
-              onSelect={handleSelect}
-              onClick={() => handleCardClick(facility.facility_id)}
-            />
+            <div key={facility.facility_id} className="flex justify-center transform scale-90">
+              <FacilityCard
+                facility={facility}
+                isSelected={favorites?.includes(facility.facility_id) || false}
+                onSelect={handleSelect}
+                onClick={() => handleCardClick(facility.facility_id)}
+              />
+            </div>
           ))}
         </div>
       </div>
