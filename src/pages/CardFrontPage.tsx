@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import CardFront from '@/components/CardFront';
 import TitleContainer from '@/components/containers/TitleContainer';
 import type { Database } from '@/integrations/supabase/types';
@@ -31,14 +31,21 @@ const CardFrontPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
       <TitleContainer />
-      <h1 className="text-3xl font-bold mb-8">Card Front Component</h1>
-      <div className="max-w-md mx-auto">
-        <CardFront 
-          {...sampleData} 
-          onFlip={() => console.log("Flip clicked")}
-        />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold mb-8">Card Front Component</h1>
+          <div className="max-w-md mx-auto">
+            <CardFront 
+              {...sampleData} 
+              onFlip={() => console.log("Flip clicked")}
+            />
+          </div>
+        </div>
+      </div>
+      <div className="flex-none h-20">
+        {/* This space is reserved for the bottom navigation */}
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
@@ -8,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Save } from "lucide-react";
+import TitleContainer from '@/components/containers/TitleContainer';
 
 const UserSettings = () => {
   const [username, setUsername] = useState('');
@@ -24,11 +24,9 @@ const UserSettings = () => {
     },
   });
 
-  // No longer querying the profiles table
   React.useEffect(() => {
     if (session?.user) {
       setEmail(session.user.email || '');
-      // For now, we'll set an empty username from session email
       setUsername(session.user.email?.split('@')[0] || '');
     }
   }, [session]);
@@ -41,7 +39,6 @@ const UserSettings = () => {
         return;
       }
 
-      // Since we don't have a profiles table yet, we'll just show a success message
       setTimeout(() => {
         toast.success("Profile updated successfully");
         setLoading(false);
@@ -56,70 +53,81 @@ const UserSettings = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="h-8 w-8 animate-spin" />
+      <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
+        <TitleContainer />
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-md">
-      <h1 className="text-2xl font-bold mb-6">User Settings</h1>
-      
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle>My Profile</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="username">Username</Label>
-            <Input 
-              id="username" 
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)} 
-              placeholder="Enter your username"
-            />
-          </div>
+    <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
+      <TitleContainer />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto px-4 py-8 max-w-md">
+          <h1 className="text-2xl font-bold mb-6">User Settings</h1>
           
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input 
-              id="email" 
-              value={email} 
-              readOnly 
-              disabled
-              className="bg-gray-50"
-            />
-            <p className="text-xs text-gray-500">Email cannot be changed</p>
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="company">Company Name</Label>
-            <Input 
-              id="company" 
-              value={companyName} 
-              onChange={(e) => setCompanyName(e.target.value)} 
-              placeholder="Enter your company name"
-            />
-          </div>
-          
-          <Button 
-            onClick={handleSave} 
-            disabled={loading} 
-            className="w-full"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
-              </>
-            ) : (
-              <>
-                <Save className="mr-2 h-4 w-4" /> Save Changes
-              </>
-            )}
-          </Button>
-        </CardContent>
-      </Card>
+          <Card className="shadow-md">
+            <CardHeader>
+              <CardTitle>My Profile</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input 
+                  id="username" 
+                  value={username} 
+                  onChange={(e) => setUsername(e.target.value)} 
+                  placeholder="Enter your username"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input 
+                  id="email" 
+                  value={email} 
+                  readOnly 
+                  disabled
+                  className="bg-gray-50"
+                />
+                <p className="text-xs text-gray-500">Email cannot be changed</p>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="company">Company Name</Label>
+                <Input 
+                  id="company" 
+                  value={companyName} 
+                  onChange={(e) => setCompanyName(e.target.value)} 
+                  placeholder="Enter your company name"
+                />
+              </div>
+              
+              <Button 
+                onClick={handleSave} 
+                disabled={loading} 
+                className="w-full"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
+                  </>
+                ) : (
+                  <>
+                    <Save className="mr-2 h-4 w-4" /> Save Changes
+                  </>
+                )}
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+      <div className="flex-none h-20">
+        {/* This space is reserved for the bottom navigation */}
+      </div>
     </div>
   );
 };

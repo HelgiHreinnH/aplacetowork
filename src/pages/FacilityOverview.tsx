@@ -26,32 +26,48 @@ const FacilityOverview = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin" />
+      <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
+        <TitleContainer />
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center py-12">
-        <p className="text-red-500">Error loading facilities</p>
+      <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
+        <TitleContainer />
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-red-500">Error loading facilities</p>
+        </div>
       </div>
     );
   }
 
   if (!facilities || facilities.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-500">No facilities found</p>
+      <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
+        <TitleContainer />
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-gray-500">No facilities found</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 pb-24 overflow-auto">
+    <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
       <TitleContainer />
-      <CardOverview facilities={facilities} />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto px-4 py-8 pb-24">
+          <CardOverview facilities={facilities} />
+        </div>
+      </div>
+      <div className="flex-none h-20">
+        {/* This space is reserved for the bottom navigation */}
+      </div>
     </div>
   );
 };

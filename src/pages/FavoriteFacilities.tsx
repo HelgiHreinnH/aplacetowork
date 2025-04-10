@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2 } from 'lucide-react';
 import FacilityCard from '@/components/overview/FacilityCard';
+import TitleContainer from '@/components/containers/TitleContainer';
 
 const FavoriteFacilities = () => {
   const navigate = useNavigate();
@@ -78,39 +79,55 @@ const FavoriteFacilities = () => {
 
   if (isLoadingFavoriteIds || isLoadingFacilities) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin" />
+      <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
+        <TitleContainer />
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
       </div>
     );
   }
 
   if (!facilities || facilities.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-12 max-w-md text-center">
-        <h1 className="text-2xl font-bold mb-8">My Favorites</h1>
-        <div className="bg-white p-8 rounded-lg shadow-md">
-          <p className="text-gray-600">You don't have any favorite facilities yet.</p>
-          <p className="mt-2 text-sm text-gray-500">
-            Browse the catalog and click on the heart icon to add facilities to your favorites.
-          </p>
+      <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
+        <TitleContainer />
+        <div className="flex-1 overflow-auto">
+          <div className="container mx-auto px-4 py-8 max-w-md text-center">
+            <h1 className="text-2xl font-bold mb-8">My Favorites</h1>
+            <div className="bg-white p-8 rounded-lg shadow-md">
+              <p className="text-gray-600">You don't have any favorite facilities yet.</p>
+              <p className="mt-2 text-sm text-gray-500">
+                Browse the catalog and click on the heart icon to add facilities to your favorites.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 pb-24">
-      <h1 className="text-2xl font-bold mb-6">My Favorites</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {facilities.map((facility) => (
-          <FacilityCard
-            key={facility.facility_id}
-            facility={facility}
-            isSelected={true} // Always true in favorites page
-            onSelect={handleSelect}
-            onClick={() => handleCardClick(facility.facility_id)}
-          />
-        ))}
+    <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
+      <TitleContainer />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto px-4 py-8 pb-24">
+          <h1 className="text-2xl font-bold mb-6">My Favorites</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {facilities.map((facility) => (
+              <FacilityCard
+                key={facility.facility_id}
+                facility={facility}
+                isSelected={true} // Always true in favorites page
+                onSelect={handleSelect}
+                onClick={() => handleCardClick(facility.facility_id)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="flex-none h-20">
+        {/* This space is reserved for the bottom navigation */}
       </div>
     </div>
   );

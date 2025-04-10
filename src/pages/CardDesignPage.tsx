@@ -29,15 +29,18 @@ const CardDesignPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
-        <TitleContainer />
-        <div className="w-full max-w-lg mx-auto">
+    <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
+      <TitleContainer />
+      <div className="flex-1 overflow-auto">
+        <div className="w-full max-w-lg mx-auto py-8 px-4">
           <Card {...sampleFacility} />
           <div className="mt-6 text-center text-sm text-gray-500">
             Click the card to flip between front and back views
           </div>
         </div>
+      </div>
+      <div className="flex-none h-20">
+        {/* This space is reserved for the bottom navigation */}
       </div>
     </div>
   );

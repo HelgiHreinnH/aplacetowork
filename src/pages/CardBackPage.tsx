@@ -29,15 +29,22 @@ const CardBackPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
       <TitleContainer />
-      <h1 className="text-3xl font-bold mb-8">Card Back Component</h1>
-      <div className="max-w-md mx-auto">
-        <CardBack 
-          {...sampleData} 
-          onFlip={() => console.log("Flip clicked")}
-          imageUrl="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
-        />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold mb-8">Card Back Component</h1>
+          <div className="max-w-md mx-auto">
+            <CardBack 
+              {...sampleData} 
+              onFlip={() => console.log("Flip clicked")}
+              imageUrl="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="flex-none h-20">
+        {/* This space is reserved for the bottom navigation */}
       </div>
     </div>
   );
