@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Star, Grid, Settings, MessageSquare, Info } from "lucide-react";
+import { Menu, Star, Grid, Settings, MessageSquare, Info } from "lucide-react";
 
 const MenuSheet = () => {
   return (
