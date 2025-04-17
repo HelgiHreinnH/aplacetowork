@@ -6,7 +6,7 @@ import { Loader2 } from 'lucide-react';
 import { toast } from "sonner";
 import CardOverview from '@/components/overview/CardOverview';
 import TitleContainer from '@/components/containers/TitleContainer';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Location } from 'react-router-dom';
 
 const FacilityOverview = () => {
   const location = useLocation();
