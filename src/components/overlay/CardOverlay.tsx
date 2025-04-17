@@ -130,9 +130,9 @@ const CardOverlay = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
       >
-        {/* Backdrop with glassmorphism effect */}
+        {/* Backdrop with light glassmorphism effect */}
         <div 
-          className="absolute inset-0 bg-[#9b87f5]/30 backdrop-blur-[3px]"
+          className="absolute inset-0 bg-black/10 backdrop-blur-[3px]"
           onClick={handleBackdropClick}
         ></div>
         
