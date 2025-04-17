@@ -1,11 +1,10 @@
-
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
 import type { Database } from '@/integrations/supabase/types';
 import TitleContainer from '@/components/containers/TitleContainer';
-import SlidersContainer from '@/components/containers/SlidersContainer';
+import InfoContainer from '@/components/containers/InfoContainer';
 import { calculateFacilityScore } from '../utils/facilityScoring';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
@@ -88,7 +87,7 @@ const Index = () => {
   return (
     <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
       <TitleContainer />
-      <SlidersContainer 
+      <InfoContainer 
         isLoading={isLoading}
         error={error}
         facilities={facilities}

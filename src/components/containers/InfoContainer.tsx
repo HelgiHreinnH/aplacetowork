@@ -7,14 +7,14 @@ import { Info } from "lucide-react";
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
-interface SlidersContainerProps {
+interface InfoContainerProps {
   isLoading: boolean;
   error: Error | null;
   facilities: Facility[] | undefined;
   onSearch: () => void;
 }
 
-const SlidersContainer = ({ isLoading, error, facilities, onSearch }: SlidersContainerProps) => {
+const InfoContainer = ({ isLoading, error, facilities, onSearch }: InfoContainerProps) => {
   const [showInfoText, setShowInfoText] = useState(false);
   
   const toggleInfoText = () => {
@@ -71,5 +71,4 @@ const SlidersContainer = ({ isLoading, error, facilities, onSearch }: SlidersCon
   );
 };
 
-export default SlidersContainer;
-
+export default InfoContainer;
