@@ -41,8 +41,8 @@ const InfoContainer = ({ isLoading, error, facilities, onSearch }: InfoContainer
   );
 
   return (
-    <div className="flex-1 px-4 flex flex-col items-center justify-center min-h-[calc(100vh-12rem)] space-y-2"> {/* Reduced space-y-4 to space-y-2 */}
-      <div className="w-full max-w-5xl flex justify-center">
+    <div className="flex-1 px-4 flex flex-col items-center pt-0 mt-0"> {/* Removed justify-center, min-height, added pt-0 and mt-0 */}
+      <div className="w-full max-w-5xl flex justify-center mb-4"> {/* Added mb-4 */}
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium mr-2">
             Want to learn more about the way to find the correct facility just push the Info button
