@@ -41,9 +41,9 @@ const SlidersContainer = ({ isLoading, error, facilities, onSearch }: SlidersCon
   );
 
   return (
-    <div className="flex-1 px-4 flex flex-col items-center justify-center min-h-[calc(100vh-12rem)]">
-      <div className="w-full max-w-5xl mb-8 flex justify-center">
-        <div className="flex items-center">
+    <div className="flex-1 px-4 flex flex-col items-center justify-center min-h-[calc(100vh-12rem)] space-y-4">
+      <div className="w-full max-w-5xl flex justify-center">
+        <div className="flex items-center space-x-2">
           <p className="text-sm font-medium mr-2">
             Want to learn more about the way to find the correct facility just push the Info button
           </p>
@@ -72,3 +72,4 @@ const SlidersContainer = ({ isLoading, error, facilities, onSearch }: SlidersCon
 };
 
 export default SlidersContainer;
+
