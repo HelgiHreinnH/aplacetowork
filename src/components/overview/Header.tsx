@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from "react";
+import { H1 } from "@/components/ui/typography";
 
 const Header = () => {
   const [iconUrl, setIconUrl] = useState<string | null>(null);
@@ -32,11 +33,14 @@ const Header = () => {
         />
       )}
       <div>
-        <h1 className="font-playfair text-h2 font-bold text-[#9b87f5] mb-2">A Place to Work</h1>
-        <p className="font-inter text-small tracking-[0.2em] text-[#8E9196] uppercase">Inspiration for the ideal Workspace</p>
+        <H1 className="!text-[#9b87f5] !mb-2">A Place to Work</H1>
+        <p className="font-inter text-small tracking-[0.2em] text-[#8E9196] uppercase">
+          Inspiration for the ideal Workspace
+        </p>
       </div>
     </div>
   );
 };
 
 export default Header;
+
