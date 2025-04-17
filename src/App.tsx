@@ -17,15 +17,36 @@ import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
 import CardOverlay from "./components/overlay/CardOverlay";
 
-// This component renders the CardOverlay when the path matches
-const RouteWithOverlay = ({ children }: { children: React.ReactNode }) => {
+// This component renders the CardOverlay when the path matches but preserves the background page
+const RouteWithOverlay = () => {
   const location = useLocation();
-  const background = location.state?.background;
+  const state = location.state as { backgroundLocation?: Location };
+  const showOverlay = location.pathname.startsWith('/card-overlay/');
 
   return (
     <>
-      {children}
-      {location.pathname.startsWith('/card-overlay/') && <CardOverlay />}
+      <Routes location={state?.backgroundLocation || location}>
+        <Route element={<SearchLayout />}>
+          <Route path="/" element={<Index />} />
+          <Route path="/search-results" element={<SearchResults />} />
+          <Route path="/settings" element={<UserSettings />} />
+          <Route path="/favorites" element={<FavoriteFacilities />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/overview" element={<FacilityOverview />} />
+          <Route path="/about" element={<About />} />
+        </Route>
+        <Route element={<DesignLayout />}>
+          <Route path="/design">
+            <Route path="card-front" element={<CardFrontPage />} />
+            <Route path="card-back" element={<CardBackPage />} />
+            <Route path="interactive" element={<CardDesignPage />} />
+            <Route path="overview" element={<FacilityOverview />} />
+          </Route>
+        </Route>
+      </Routes>
+      
+      {/* Show the overlay when needed */}
+      {showOverlay && <CardOverlay />}
     </>
   );
 };
@@ -37,33 +58,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <BrowserRouter>
-        <Routes>
-          {/* Search Journey Routes */}
-          <Route element={
-            <RouteWithOverlay>
-              <SearchLayout />
-            </RouteWithOverlay>
-          }>
-            <Route path="/" element={<Index />} />
-            <Route path="/search-results" element={<SearchResults />} />
-            <Route path="/settings" element={<UserSettings />} />
-            <Route path="/favorites" element={<FavoriteFacilities />} />
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="/overview" element={<FacilityOverview />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/card-overlay/:facilityId" element={<></>} />
-          </Route>
-
-          {/* Design Routes */}
-          <Route element={<DesignLayout />}>
-            <Route path="/design">
-              <Route path="card-front" element={<CardFrontPage />} />
-              <Route path="card-back" element={<CardBackPage />} />
-              <Route path="interactive" element={<CardDesignPage />} />
-              <Route path="overview" element={<FacilityOverview />} />
-            </Route>
-          </Route>
-        </Routes>
+        <RouteWithOverlay />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

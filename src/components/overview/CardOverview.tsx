@@ -1,7 +1,6 @@
-
 import React, { useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type { Database } from '@/integrations/supabase/types';
@@ -12,6 +11,7 @@ type Facility = Database['public']['Tables']['Facilities']['Row'];
 
 interface CardOverviewProps {
   facilities: Facility[];
+  currentLocation?: Location;
 }
 
 const fetchFacilities = async () => {
@@ -40,8 +40,12 @@ const fetchFavorites = async () => {
   return data.map(fav => fav.facility_id);
 };
 
-const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
+const CardOverview: React.FC<CardOverviewProps> = ({ 
+  facilities,
+  currentLocation
+}) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
   const [selectedFacilities, setSelectedFacilities] = React.useState<string[]>([]);
 
@@ -106,7 +110,9 @@ const CardOverview: React.FC<CardOverviewProps> = ({ facilities }) => {
   };
 
   const handleCardClick = (facilityId: string) => {
-    navigate(`/card-overlay/${facilityId}`);
+    navigate(`/card-overlay/${facilityId}`, { 
+      state: { backgroundLocation: currentLocation || location }
+    });
   };
 
   if (isLoadingFacilities || isLoadingFavorites) {

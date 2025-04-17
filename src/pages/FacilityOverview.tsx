@@ -6,8 +6,11 @@ import { Loader2 } from 'lucide-react';
 import { toast } from "sonner";
 import CardOverview from '@/components/overview/CardOverview';
 import TitleContainer from '@/components/containers/TitleContainer';
+import { useLocation } from 'react-router-dom';
 
 const FacilityOverview = () => {
+  const location = useLocation();
+
   const { data: facilities, isLoading, error } = useQuery({
     queryKey: ['facilities'],
     queryFn: async () => {
@@ -62,7 +65,10 @@ const FacilityOverview = () => {
       <TitleContainer />
       <div className="flex-1 overflow-auto">
         <div className="container mx-auto px-4 py-8 pb-24">
-          <CardOverview facilities={facilities} />
+          <CardOverview 
+            facilities={facilities} 
+            currentLocation={location} 
+          />
         </div>
       </div>
       <div className="flex-none h-20">

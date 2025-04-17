@@ -93,9 +93,9 @@ const SearchResults = () => {
   };
 
   const handleCardClick = (facilityId: string) => {
-    // Navigate to card overlay but keep the current location in state
+    // Navigate to card overlay but preserve the background
     navigate(`/card-overlay/${facilityId}`, { 
-      state: { from: location.pathname }
+      state: { backgroundLocation: location }
     });
   };
 

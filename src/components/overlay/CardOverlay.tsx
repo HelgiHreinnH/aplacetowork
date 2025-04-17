@@ -19,8 +19,8 @@ const CardOverlay = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const fixedImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
   
-  // Store the previous path to return to
-  const previousPath = location.state?.from || '/overview';
+  // Determine return path - either from state or default to previous page
+  const returnTo = location.pathname.replace('/card-overlay/', '');
 
   const { data, isLoading } = useQuery({
     queryKey: ['facility', facilityId],
@@ -72,8 +72,11 @@ const CardOverlay = () => {
   }, [favorites, facilityId]);
 
   const handleClose = () => {
-    // Navigate back to the previous page
-    navigate(previousPath);
+    // Navigate back to the previous route without the overlay
+    const currentPath = location.pathname;
+    // Extract the path before "/card-overlay/"
+    const basePath = currentPath.split('/card-overlay/')[0] || '/overview';
+    navigate(basePath);
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -123,14 +126,14 @@ const CardOverlay = () => {
   return (
     <AnimatePresence>
       <motion.div 
-        className="fixed inset-0 z-50 flex items-center justify-center"
+        className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
       >
         <div 
-          className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/40 backdrop-blur-sm"
           onClick={handleBackdropClick}
         ></div>
         
@@ -155,7 +158,7 @@ const CardOverlay = () => {
         </div>
         
         <motion.div
-          className="relative z-50 w-full max-w-2xl mx-auto px-4 sm:px-0"
+          className="relative z-50 w-full max-w-2xl mx-auto px-4 sm:px-0 pt-12 pb-12"
           initial={{ scale: 0.9, y: 20 }}
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.9, y: 20 }}
