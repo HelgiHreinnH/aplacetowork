@@ -18,6 +18,9 @@ const CardOverlay = () => {
     }
   };
 
+  console.log('CardOverlay rendering with facilityId:', facilityId);
+  console.log('Background location state:', state);
+
   return (
     <AnimatedOverlay onClose={handleClose}>
       {facilityId && <FacilityOverlayCard facilityId={facilityId} />}

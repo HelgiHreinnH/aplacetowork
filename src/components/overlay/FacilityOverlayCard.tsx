@@ -13,7 +13,7 @@ const FacilityOverlayCard = ({ facilityId }: FacilityOverlayCardProps) => {
   const { data: facility, isLoading } = useQuery({
     queryKey: ['facility', facilityId],
     queryFn: async () => {
-      if (!facilityId) return null;
+      console.log('Fetching facility data for ID:', facilityId);
       
       const { data, error } = await supabase
         .from('Facilities')
@@ -22,19 +22,39 @@ const FacilityOverlayCard = ({ facilityId }: FacilityOverlayCardProps) => {
         .maybeSingle();
       
       if (error) {
+        console.error('Error fetching facility:', error);
         toast.error("Failed to load facility details");
         throw error;
       }
+
+      if (!data) {
+        console.error('No facility found for ID:', facilityId);
+        toast.error("Facility not found");
+        return null;
+      }
       
+      console.log('Fetched facility data:', data);
       return data;
     },
   });
 
-  if (!facility && !isLoading) {
-    return null;
+  if (isLoading) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="animate-pulse text-foreground">Loading facility details...</div>
+      </div>
+    );
   }
 
-  return facility ? <Card {...facility} /> : null;
+  if (!facility) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="text-foreground">No facility found</div>
+      </div>
+    );
+  }
+
+  return <Card {...facility} />;
 };
 
 export default FacilityOverlayCard;
