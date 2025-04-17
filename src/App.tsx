@@ -46,7 +46,9 @@ const RouteWithOverlay = () => {
       </Routes>
       
       {/* Show the overlay when needed */}
-      {showOverlay && <CardOverlay />}
+      {showOverlay && <Routes>
+        <Route path="/card-overlay/:facilityId" element={<CardOverlay />} />
+      </Routes>}
     </>
   );
 };

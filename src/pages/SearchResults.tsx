@@ -94,7 +94,20 @@ const SearchResults = () => {
 
   const handleCardClick = (facilityId: string) => {
     console.log("Navigating to facility:", facilityId, "with background location:", location);
-    // Ensure we're correctly passing the current location
+    // Pre-fetch the facility data to improve load time in the overlay
+    queryClient.prefetchQuery({
+      queryKey: ['facility', facilityId],
+      queryFn: async () => {
+        const { data } = await supabase
+          .from('Facilities')
+          .select('*')
+          .eq('facility_id', facilityId)
+          .maybeSingle();
+        return data;
+      }
+    });
+    
+    // Navigate to the card overlay with the background location preserved
     navigate(`/card-overlay/${facilityId}`, { 
       state: { backgroundLocation: location }
     });

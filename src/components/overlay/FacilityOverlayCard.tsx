@@ -10,7 +10,7 @@ interface FacilityOverlayCardProps {
 }
 
 const FacilityOverlayCard = ({ facilityId }: FacilityOverlayCardProps) => {
-  const { data: facility, isLoading } = useQuery({
+  const { data: facility, isLoading, error } = useQuery({
     queryKey: ['facility', facilityId],
     queryFn: async () => {
       console.log('Fetching facility data for ID:', facilityId);
@@ -37,6 +37,15 @@ const FacilityOverlayCard = ({ facilityId }: FacilityOverlayCardProps) => {
       return data;
     },
   });
+
+  if (error) {
+    console.error('Error in query:', error);
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="text-red-500">Error loading facility. Please try again.</div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
