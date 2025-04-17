@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { X, Circle, CircleCheck } from 'lucide-react';
@@ -34,7 +33,6 @@ const CardOverlay = () => {
     enabled: !!facilityId,
   });
 
-  // Fetch favorite status
   const { data: favorites } = useQuery({
     queryKey: ['favorites'],
     queryFn: async () => {
@@ -53,7 +51,6 @@ const CardOverlay = () => {
 
   useEffect(() => {
     if (data) {
-      // Override the image URL with our fixed one
       const facilityWithFixedImage = {
         ...data,
         'Facility Image URL': fixedImageUrl
@@ -86,7 +83,6 @@ const CardOverlay = () => {
 
     try {
       if (isFavorite) {
-        // Remove from favorites
         const { error } = await supabase
           .from('facility_favorites')
           .delete()
@@ -96,7 +92,6 @@ const CardOverlay = () => {
         setIsFavorite(false);
         toast.success("Removed from favorites");
       } else {
-        // Add to favorites
         const { error } = await supabase
           .from('facility_favorites')
           .insert([{ facility_id: facilityId }]);
@@ -119,25 +114,21 @@ const CardOverlay = () => {
     );
   }
 
-  console.log("Using fixed image URL in overlay:", fixedImageUrl);
-
   return (
     <AnimatePresence>
       <motion.div 
-        className="fixed inset-0 z-40 flex items-center justify-center bg-transparent"
+        className="fixed inset-0 z-40 flex items-center justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
       >
-        {/* Backdrop with light glassmorphism effect */}
         <div 
-          className="absolute inset-0 bg-black/10 backdrop-blur-[3px]"
+          className="absolute inset-0 bg-black/30 backdrop-blur-md"
           onClick={handleBackdropClick}
         ></div>
         
         <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-50 flex items-center gap-4">
-          {/* Favorite button */}
           <button
             onClick={handleToggleFavorite}
             className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors backdrop-blur-sm shadow-md"
@@ -149,7 +140,6 @@ const CardOverlay = () => {
             )}
           </button>
           
-          {/* Close button */}
           <button 
             className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors backdrop-blur-sm shadow-md"
             onClick={handleClose}
@@ -159,7 +149,7 @@ const CardOverlay = () => {
         </div>
         
         <motion.div
-          className="relative z-50 w-full max-w-md mx-auto"
+          className="relative z-50 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 scale-90 sm:scale-100"
           initial={{ scale: 0.9, y: 20 }}
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.9, y: 20 }}
