@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,6 +19,21 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        playfair: ['Playfair Display', 'serif'],
+        inter: ['Inter', 'sans-serif'],
+      },
+      fontSize: {
+        'display': ['4rem', { lineHeight: '1.2', letterSpacing: '-0.02em' }],
+        'h1': ['2.5rem', { lineHeight: '1.3', letterSpacing: '-0.01em' }],
+        'h2': ['2rem', { lineHeight: '1.35', letterSpacing: '-0.008em' }],
+        'h3': ['1.5rem', { lineHeight: '1.4' }],
+        'h4': ['1.25rem', { lineHeight: '1.4' }],
+        'body-lg': ['1.125rem', { lineHeight: '1.5' }],
+        'body': ['1rem', { lineHeight: '1.5' }],
+        'small': ['0.875rem', { lineHeight: '1.5' }],
+        'xs': ['0.75rem', { lineHeight: '1.5' }],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

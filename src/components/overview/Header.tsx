@@ -32,8 +32,8 @@ const Header = () => {
         />
       )}
       <div>
-        <h1 className="text-2xl font-bold text-[#9b87f5] mb-2">A Place to Work</h1>
-        <p className="text-sm tracking-[0.2em] text-[#8E9196] uppercase">Inspiration for the ideal Workspace</p>
+        <h1 className="font-playfair text-h2 font-bold text-[#9b87f5] mb-2">A Place to Work</h1>
+        <p className="font-inter text-small tracking-[0.2em] text-[#8E9196] uppercase">Inspiration for the ideal Workspace</p>
       </div>
     </div>
   );
