@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -18,7 +17,6 @@ const SearchResults = () => {
   const [searchResults, setSearchResults] = useState<Facility[]>([]);
   const [isExactMatch, setIsExactMatch] = useState(true);
   
-  // Fetch favorites to show correct selection state
   const { data: favorites } = useQuery({
     queryKey: ['favorites'],
     queryFn: async () => {

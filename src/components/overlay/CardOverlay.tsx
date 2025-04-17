@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { X, Circle, CircleCheck } from 'lucide-react';
@@ -20,7 +19,6 @@ const CardOverlay = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const fixedImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
   
-  // Get the background location from state, if available
   const state = location.state as { backgroundLocation?: Location };
   const backgroundLocation = state?.backgroundLocation;
 
@@ -81,7 +79,6 @@ const CardOverlay = () => {
   }, [favorites, facilityId]);
 
   const handleClose = () => {
-    // Navigate back to the background location if available, otherwise go to overview
     if (backgroundLocation) {
       navigate(backgroundLocation.pathname);
     } else {
@@ -110,7 +107,6 @@ const CardOverlay = () => {
         if (error) throw error;
         setIsFavorite(false);
         
-        // Invalidate queries to refresh data across components
         queryClient.invalidateQueries({ queryKey: ['favorites'] });
         queryClient.invalidateQueries({ queryKey: ['favorited_facilities'] });
         
@@ -123,7 +119,6 @@ const CardOverlay = () => {
         if (error) throw error;
         setIsFavorite(true);
         
-        // Invalidate queries to refresh data across components
         queryClient.invalidateQueries({ queryKey: ['favorites'] });
         queryClient.invalidateQueries({ queryKey: ['favorited_facilities'] });
         
