@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -93,7 +94,7 @@ const SearchResults = () => {
   };
 
   const handleCardClick = (facilityId: string) => {
-    // Navigate to card overlay but preserve the background
+    // Pass the current location state correctly
     navigate(`/card-overlay/${facilityId}`, { 
       state: { backgroundLocation: location }
     });
