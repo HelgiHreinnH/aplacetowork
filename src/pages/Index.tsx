@@ -1,3 +1,4 @@
+
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -87,6 +88,7 @@ const Index = () => {
   return (
     <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
       <TitleContainer />
+      <div className="mb-4"></div> {/* Added spacer to increase gap */}
       <InfoContainer 
         isLoading={isLoading}
         error={error}
