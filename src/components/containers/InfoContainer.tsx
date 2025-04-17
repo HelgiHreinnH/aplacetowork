@@ -41,7 +41,7 @@ const InfoContainer = ({ isLoading, error, facilities, onSearch }: InfoContainer
   );
 
   return (
-    <div className="flex-1 px-4 flex flex-col items-center justify-center min-h-[calc(100vh-12rem)] space-y-4">
+    <div className="flex-1 px-4 flex flex-col items-center justify-center min-h-[calc(100vh-12rem)] space-y-2"> {/* Reduced space-y-4 to space-y-2 */}
       <div className="w-full max-w-5xl flex justify-center">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium mr-2">
