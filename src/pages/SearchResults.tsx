@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -44,9 +45,11 @@ const SearchResults = () => {
 
     try {
       const parsedResults = JSON.parse(results);
+      console.log("Loaded search results:", parsedResults);
       setSearchResults(parsedResults);
       setIsExactMatch(exactMatch ? JSON.parse(exactMatch) : true);
     } catch (error) {
+      console.error("Error parsing search results:", error);
       toast.error("Error loading search results");
     }
   }, []);
@@ -66,7 +69,6 @@ const SearchResults = () => {
 
         if (error) throw error;
         
-        // Invalidate queries to refresh data across components
         queryClient.invalidateQueries({ queryKey: ['favorites'] });
         queryClient.invalidateQueries({ queryKey: ['favorited_facilities'] });
         
@@ -79,7 +81,6 @@ const SearchResults = () => {
 
         if (error) throw error;
         
-        // Invalidate queries to refresh data across components
         queryClient.invalidateQueries({ queryKey: ['favorites'] });
         queryClient.invalidateQueries({ queryKey: ['favorited_facilities'] });
         
@@ -92,7 +93,8 @@ const SearchResults = () => {
   };
 
   const handleCardClick = (facilityId: string) => {
-    // Pass the current location state correctly
+    console.log("Navigating to facility:", facilityId, "with background location:", location);
+    // Ensure we're correctly passing the current location
     navigate(`/card-overlay/${facilityId}`, { 
       state: { backgroundLocation: location }
     });

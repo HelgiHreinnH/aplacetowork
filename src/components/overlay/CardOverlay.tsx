@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { X, Circle, CircleCheck } from 'lucide-react';
+import { X, Circle, CircleCheck, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from "sonner";
@@ -15,18 +16,23 @@ const CardOverlay = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
-  const [facility, setFacility] = useState<Facility | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const fixedImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
   
   const state = location.state as { backgroundLocation?: Location };
   const backgroundLocation = state?.backgroundLocation;
 
-  const { data, isLoading, error } = useQuery({
+  // Query for facility data with proper error handling
+  const { data: facility, isLoading, error } = useQuery({
     queryKey: ['facility', facilityId],
     queryFn: async () => {
-      if (!facilityId) return null;
+      if (!facilityId) {
+        console.error("No facilityId provided");
+        return null;
+      }
 
+      console.log("Fetching facility with ID:", facilityId);
+      
       const { data, error } = await supabase
         .from('Facilities')
         .select('*')
@@ -39,12 +45,24 @@ const CardOverlay = () => {
         throw error;
       }
       
+      if (!data) {
+        console.error("No facility found with ID:", facilityId);
+        toast.error("Facility not found");
+        return null;
+      }
+      
       console.log("Facility data loaded:", data);
-      return data;
+      
+      // Add the fixed image URL to the facility data
+      return {
+        ...data,
+        'Facility Image URL': fixedImageUrl
+      };
     },
     enabled: !!facilityId,
   });
 
+  // Query for favorites
   const { data: favorites } = useQuery({
     queryKey: ['favorites'],
     queryFn: async () => {
@@ -61,17 +79,7 @@ const CardOverlay = () => {
     },
   });
 
-  useEffect(() => {
-    if (data) {
-      const facilityWithFixedImage = {
-        ...data,
-        'Facility Image URL': fixedImageUrl
-      };
-      setFacility(facilityWithFixedImage);
-      console.log("Facility data processed with fixed image:", facilityWithFixedImage);
-    }
-  }, [data]);
-
+  // Update favorite status when favorites data changes
   useEffect(() => {
     if (favorites && facilityId) {
       setIsFavorite(favorites.includes(facilityId));
@@ -132,24 +140,31 @@ const CardOverlay = () => {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
-        <div className="w-16 h-16 border-4 border-white/20 border-t-blue-500 rounded-full animate-spin"></div>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div className="bg-white p-8 rounded-xl shadow-lg flex items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+          <p className="text-lg font-medium">Loading facility details...</p>
+        </div>
       </div>
     );
   }
 
   if (error || !facility) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold text-red-500">Error loading facility</h2>
-          <p className="mt-2 text-gray-600">Could not load the facility details. Please try again.</p>
-          <button
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            onClick={handleClose}
-          >
-            Go Back
-          </button>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+          <h2 className="text-xl font-semibold text-red-500 mb-2">Error Loading Facility</h2>
+          <p className="mb-4 text-gray-600">
+            Could not load the facility details. Please try again or check if the facility exists.
+          </p>
+          <div className="flex justify-end">
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              onClick={handleClose}
+            >
+              Go Back
+            </button>
+          </div>
         </div>
       </div>
     );
