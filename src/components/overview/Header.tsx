@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from "react";
 import { H1 } from "@/components/ui/typography";
-import { Info } from "lucide-react";
 
 const Header = () => {
   const [iconUrl, setIconUrl] = useState<string | null>(null);
@@ -38,23 +37,10 @@ const Header = () => {
         <p className="font-inter text-small tracking-[0.2em] text-[#8E9196] uppercase">
           Inspiration for the ideal Workspace
         </p>
-        <div className="flex items-center justify-center space-x-2 mt-2">
-          <p className="text-sm font-medium text-[#8E9196]">
-            Want to learn more
-          </p>
-          <button 
-            className="inline-flex items-center justify-center rounded-full h-6 w-6 bg-transparent hover:bg-gray-100 transition-colors"
-            aria-label="More information"
-          >
-            <Info 
-              className="h-5 w-5 text-[#8E9196] hover:text-[#9b87f5]" 
-              strokeWidth={1.5} 
-            />
-          </button>
-        </div>
       </div>
     </div>
   );
 };
 
 export default Header;
+
