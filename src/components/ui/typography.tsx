@@ -53,7 +53,7 @@ export function H4({ children, className }: TypographyProps) {
 export function Note({ children, className }: TypographyProps) {
   return (
     <div className={cn(
-      "font-inter text-sm sm:text-base lg:text-body bg-[#F1F0FB] border-l-4 border-[#9b87f5] p-3 sm:p-4 rounded-r-lg my-3 sm:my-4",
+      "font-inter text-sm sm:text-base lg:text-body bg-[#F1F0FB] border-l-4 border-[#9b87f5] p-3 sm:p-4 rounded-r-lg my-3 sm:my-4 text-[#8E9196]",
       className
     )}>
       {children}
