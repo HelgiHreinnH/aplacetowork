@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { X, Circle, CircleCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
@@ -13,9 +14,13 @@ type Facility = Database['public']['Tables']['Facilities']['Row'];
 const CardOverlay = () => {
   const { facilityId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [facility, setFacility] = useState<Facility | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const fixedImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
+  
+  // Store the previous path to return to
+  const previousPath = location.state?.from || '/overview';
 
   const { data, isLoading } = useQuery({
     queryKey: ['facility', facilityId],
@@ -67,7 +72,8 @@ const CardOverlay = () => {
   }, [favorites, facilityId]);
 
   const handleClose = () => {
-    navigate('/overview');
+    // Navigate back to the previous page
+    navigate(previousPath);
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -117,14 +123,14 @@ const CardOverlay = () => {
   return (
     <AnimatePresence>
       <motion.div 
-        className="fixed inset-0 z-40 flex items-center justify-center"
+        className="fixed inset-0 z-50 flex items-center justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
       >
         <div 
-          className="absolute inset-0 bg-black/30 backdrop-blur-md"
+          className="absolute inset-0 bg-black/30 backdrop-blur-sm"
           onClick={handleBackdropClick}
         ></div>
         
@@ -149,7 +155,7 @@ const CardOverlay = () => {
         </div>
         
         <motion.div
-          className="relative z-50 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 scale-90 sm:scale-100"
+          className="relative z-50 w-full max-w-2xl mx-auto px-4 sm:px-0"
           initial={{ scale: 0.9, y: 20 }}
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.9, y: 20 }}

@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from '@/integrations/supabase/types';
@@ -13,6 +12,7 @@ type Facility = Database['public']['Tables']['Facilities']['Row'];
 
 const SearchResults = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
   const [searchResults, setSearchResults] = useState<Facility[]>([]);
   const [isExactMatch, setIsExactMatch] = useState(true);
@@ -93,7 +93,10 @@ const SearchResults = () => {
   };
 
   const handleCardClick = (facilityId: string) => {
-    navigate(`/card-overlay/${facilityId}`);
+    // Navigate to card overlay but keep the current location in state
+    navigate(`/card-overlay/${facilityId}`, { 
+      state: { from: location.pathname }
+    });
   };
 
   if (searchResults.length === 0) {
@@ -139,4 +142,3 @@ const SearchResults = () => {
 };
 
 export default SearchResults;
-

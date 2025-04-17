@@ -2,7 +2,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import CardFrontPage from "./pages/CardFrontPage";
 import CardBackPage from "./pages/CardBackPage";
@@ -17,6 +17,19 @@ import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
 import CardOverlay from "./components/overlay/CardOverlay";
 
+// This component renders the CardOverlay when the path matches
+const RouteWithOverlay = ({ children }: { children: React.ReactNode }) => {
+  const location = useLocation();
+  const background = location.state?.background;
+
+  return (
+    <>
+      {children}
+      {location.pathname.startsWith('/card-overlay/') && <CardOverlay />}
+    </>
+  );
+};
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -26,7 +39,11 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           {/* Search Journey Routes */}
-          <Route element={<SearchLayout />}>
+          <Route element={
+            <RouteWithOverlay>
+              <SearchLayout />
+            </RouteWithOverlay>
+          }>
             <Route path="/" element={<Index />} />
             <Route path="/search-results" element={<SearchResults />} />
             <Route path="/settings" element={<UserSettings />} />
@@ -34,6 +51,7 @@ const App = () => (
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/overview" element={<FacilityOverview />} />
             <Route path="/about" element={<About />} />
+            <Route path="/card-overlay/:facilityId" element={<></>} />
           </Route>
 
           {/* Design Routes */}
@@ -45,9 +63,6 @@ const App = () => (
               <Route path="overview" element={<FacilityOverview />} />
             </Route>
           </Route>
-
-          {/* Overlay Routes */}
-          <Route path="/card-overlay/:facilityId" element={<CardOverlay />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
