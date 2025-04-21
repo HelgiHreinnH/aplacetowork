@@ -30,14 +30,8 @@ const About = () => {
               <CardContent>
                 <p className="text-gray-700 mb-4">
                   A Place to Work is committed to transparency and evidence-based workplace design. 
-                  All data and information in this application are sourced exclusively from:
+                  All data and information in this application are sourced from publicly available research papers and publicly published workplace design reports.
                 </p>
-                <ul className="list-disc pl-5 mb-4 text-gray-700 space-y-2">
-                  <li>Publicly available research papers</li>
-                  <li>Open-access academic publications</li>
-                  <li>Government and institutional workplace studies</li>
-                  <li>Publicly published workplace design reports</li>
-                </ul>
                 <p className="text-gray-700">
                   Our database is dynamic and continuously evolving. We are dedicated to:
                 </p>
