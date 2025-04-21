@@ -1,9 +1,9 @@
+
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
@@ -11,10 +11,16 @@ import { toast } from "sonner";
 import { Loader2, Send } from "lucide-react";
 import TitleContainer from '@/components/containers/TitleContainer';
 
+interface FeedbackMessage {
+  message: string;
+  timestamp: Date;
+}
+
 const ContactUs = () => {
   const [message, setMessage] = useState('');
   const [needsResponse, setNeedsResponse] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [feedbackMessages, setFeedbackMessages] = useState<FeedbackMessage[]>([]);
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -36,16 +42,29 @@ const ContactUs = () => {
     setLoading(true);
     
     try {
-      setTimeout(() => {
-        toast.success("Your feedback has been submitted");
-        setMessage('');
-        setNeedsResponse(false);
-        setLoading(false);
-      }, 500);
-      
+      // Send email via edge function
+      const { error } = await supabase.functions.invoke('send-feedback', {
+        body: {
+          message: message,
+          userEmail: session?.user?.email || 'Anonymous User',
+        },
+      });
+
+      if (error) throw error;
+
+      // Add message to local display
+      setFeedbackMessages(prev => [...prev, {
+        message: message,
+        timestamp: new Date(),
+      }]);
+
+      toast.success("Your feedback has been submitted");
+      setMessage('');
+      setNeedsResponse(false);
     } catch (error) {
       console.error("Error submitting feedback:", error);
       toast.error("Failed to submit feedback");
+    } finally {
       setLoading(false);
     }
   };
@@ -57,7 +76,7 @@ const ContactUs = () => {
         <div className="container mx-auto px-4 py-8 max-w-md">
           <h1 className="text-2xl font-bold mb-6">What are you missing?</h1>
           
-          <Card className="shadow-md">
+          <Card className="shadow-md mb-6">
             <CardHeader>
               <CardTitle>Send us your feedback</CardTitle>
             </CardHeader>
@@ -104,6 +123,22 @@ const ContactUs = () => {
               </form>
             </CardContent>
           </Card>
+
+          {feedbackMessages.length > 0 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">Your Feedback</h2>
+              {feedbackMessages.map((feedback, index) => (
+                <Card key={index} className="shadow-sm">
+                  <CardContent className="pt-4">
+                    <p className="text-gray-700">{feedback.message}</p>
+                    <p className="text-sm text-gray-500 mt-2">
+                      {feedback.timestamp.toLocaleString()}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <div className="flex-none h-20">
