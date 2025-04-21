@@ -71,6 +71,40 @@ const About = () => {
             
             <Card className="shadow-md">
               <CardHeader>
+                <CardTitle>Privacy Policy</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-700 mb-4">
+                  At A Place to Work, we are committed to protecting your privacy. This policy outlines how we collect, use, and safeguard your personal information.
+                </p>
+                
+                <h3 className="font-semibold mb-2">Information We Collect</h3>
+                <ul className="list-disc pl-5 mb-4 text-gray-700">
+                  <li>Email address for account creation and communication</li>
+                  <li>Usage data to improve our service</li>
+                  <li>Facility preferences and interaction data</li>
+                </ul>
+                
+                <h3 className="font-semibold mb-2">How We Use Your Information</h3>
+                <ul className="list-disc pl-5 mb-4 text-gray-700">
+                  <li>To provide and maintain our service</li>
+                  <li>To notify you about changes to our service</li>
+                  <li>To allow you to participate in interactive features</li>
+                </ul>
+                
+                <h3 className="font-semibold mb-2">Data Protection</h3>
+                <p className="text-gray-700 mb-4">
+                  We implement appropriate data collection, storage, and processing practices to protect your personal information against unauthorized access, alteration, disclosure, or destruction.
+                </p>
+                
+                <p className="text-gray-700">
+                  <strong>Last Updated:</strong> April 2025
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="shadow-md">
+              <CardHeader>
                 <CardTitle>Contact Information</CardTitle>
               </CardHeader>
               <CardContent>
