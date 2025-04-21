@@ -15,29 +15,76 @@ interface FeedbackRequest {
 }
 
 const handler = async (req: Request): Promise<Response> => {
+  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { message, userEmail }: FeedbackRequest = await req.json();
+    // Validate request has proper authorization
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized request' }),
+        { 
+          status: 401, 
+          headers: { "Content-Type": "application/json", ...corsHeaders } 
+        }
+      );
+    }
 
+    // Parse the request body
+    const { message, userEmail }: FeedbackRequest = await req.json();
+    
+    // Basic input validation
+    if (!message || message.trim() === '') {
+      return new Response(
+        JSON.stringify({ error: 'Message cannot be empty' }),
+        { 
+          status: 400, 
+          headers: { "Content-Type": "application/json", ...corsHeaders } 
+        }
+      );
+    }
+
+    if (!userEmail || !userEmail.includes('@')) {
+      return new Response(
+        JSON.stringify({ error: 'Valid email is required' }),
+        { 
+          status: 400, 
+          headers: { "Content-Type": "application/json", ...corsHeaders } 
+        }
+      );
+    }
+
+    // Sanitize inputs to prevent injection attacks
+    const sanitizedMessage = message.replace(/<[^>]*>?/gm, '');
+    
+    // Rate limiting check could be added here
+    
+    // Send email with sanitized content
     const emailResponse = await resend.emails.send({
       from: "A Place to Work <onboarding@resend.dev>",
       to: ["support@aplacetowork.dk"],
       subject: `Feedback / Request from ${userEmail}`,
-      text: message,
+      text: sanitizedMessage,
     });
 
     console.log("Email sent successfully:", emailResponse);
 
-    return new Response(JSON.stringify(emailResponse), {
+    return new Response(JSON.stringify({ 
+      success: true,
+      messageId: emailResponse.id 
+    }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   } catch (error) {
     console.error("Error sending feedback:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ 
+      error: "An error occurred processing your request",
+      details: error.message 
+    }), {
       status: 500,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });

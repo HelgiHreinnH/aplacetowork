@@ -39,15 +39,31 @@ const ContactUs = () => {
       return;
     }
     
+    if (!session) {
+      toast.error("You must be logged in to send feedback");
+      return;
+    }
+    
     setLoading(true);
     
     try {
-      // Send email via edge function
-      const { error } = await supabase.functions.invoke('send-feedback', {
+      // Get the user's auth token for secure API calls
+      const { data: authData } = await supabase.auth.getSession();
+      const authToken = authData.session?.access_token;
+      
+      if (!authToken) {
+        throw new Error("Authentication failed");
+      }
+      
+      // Send email via edge function with auth token
+      const { data, error } = await supabase.functions.invoke('send-feedback', {
         body: {
           message: message,
           userEmail: session?.user?.email || 'Anonymous User',
         },
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        }
       });
 
       if (error) throw error;
@@ -108,7 +124,7 @@ const ContactUs = () => {
                 <Button 
                   type="submit" 
                   className="w-full"
-                  disabled={loading || !message.trim()}
+                  disabled={loading || !message.trim() || !session}
                 >
                   {loading ? (
                     <>
@@ -120,6 +136,12 @@ const ContactUs = () => {
                     </>
                   )}
                 </Button>
+                
+                {!session && (
+                  <p className="text-sm text-destructive mt-2">
+                    You must be logged in to send feedback
+                  </p>
+                )}
               </form>
             </CardContent>
           </Card>
