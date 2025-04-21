@@ -1,4 +1,3 @@
-
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -18,16 +17,15 @@ import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
 import CardOverlay from "./components/overlay/CardOverlay";
 import AuthPage from "./pages/AuthPage";
+import LandingPage from "./pages/LandingPage";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 
-// Authenticated route wrapper
 const ProtectedRoute = () => {
   const [session, setSession] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   useEffect(() => {
-    // Subscribe to auth state
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setLoading(false);
@@ -44,13 +42,11 @@ const ProtectedRoute = () => {
   }
 
   if (!session) {
-    // Not authenticated: go to login page, set the current page for after-login redirect
     return <Navigate to="/" state={{ from: location }} replace />;
   }
   return <Outlet />;
 };
 
-// Logout button for authenticated users
 const LogoutButton = () => {
   const [session, setSession] = useState<any | null>(null);
   useEffect(() => {
@@ -73,7 +69,6 @@ const LogoutButton = () => {
   );
 };
 
-// Routing with overlay preserved
 const RouteWithOverlay = () => {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
@@ -82,12 +77,9 @@ const RouteWithOverlay = () => {
   return (
     <>
       <Routes location={state?.backgroundLocation || location}>
-        {/* Landing page */}
-        <Route path="/" element={<AuthPage />} />
-        {/* Secure section */}
+        <Route path="/" element={<LandingPage />} />
         <Route element={<ProtectedRoute />}>
           <Route element={<SearchLayout />}>
-            {/* Set /home to what was previously the index page */}
             <Route path="/home" element={<><LogoutButton /><Index /></>} />
             <Route path="/search-results" element={<SearchResults />} />
             <Route path="/settings" element={<UserSettings />} />
@@ -106,7 +98,6 @@ const RouteWithOverlay = () => {
           </Route>
         </Route>
       </Routes>
-      {/* Overlay for facility detail card */}
       {showOverlay && (
         <Routes>
           <Route path="/card-overlay/:facilityId" element={<CardOverlay />} />
