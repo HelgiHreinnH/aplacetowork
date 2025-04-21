@@ -17,8 +17,10 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700">
-                  Our mission is to help organizations create optimal workspaces that foster productivity, collaboration, and employee wellbeing. 
-                  We believe that the right workplace environment can significantly impact how people work and interact with each other.
+                  Our mission is to inspire organizations create optimal workspaces that foster productivity, collaboration, and employee wellbeing with our database.
+                </p>
+                <p className="text-gray-700 mt-4">
+                  We believe that the right workplace environment can significantly impact how people work and interact with each other and that way foster both employee wellbeing and the organizational results.
                 </p>
               </CardContent>
             </Card>
