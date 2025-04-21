@@ -25,6 +25,32 @@ const About = () => {
             
             <Card className="shadow-md">
               <CardHeader>
+                <CardTitle>Data Sources and Approach</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-700 mb-4">
+                  A Place to Work is committed to transparency and evidence-based workplace design. 
+                  All data and information in this application are sourced exclusively from:
+                </p>
+                <ul className="list-disc pl-5 mb-4 text-gray-700 space-y-2">
+                  <li>Publicly available research papers</li>
+                  <li>Open-access academic publications</li>
+                  <li>Government and institutional workplace studies</li>
+                  <li>Publicly published workplace design reports</li>
+                </ul>
+                <p className="text-gray-700">
+                  Our database is dynamic and continuously evolving. We are dedicated to:
+                </p>
+                <ul className="list-disc pl-5 text-gray-700 space-y-2">
+                  <li>Regularly updating our information with the latest research</li>
+                  <li>Incorporating new workplace design insights</li>
+                  <li>Ensuring our content reflects the most current understanding of workspace optimization</li>
+                </ul>
+              </CardContent>
+            </Card>
+            
+            <Card className="shadow-md">
+              <CardHeader>
                 <CardTitle>The Workplace Library</CardTitle>
               </CardHeader>
               <CardContent>
