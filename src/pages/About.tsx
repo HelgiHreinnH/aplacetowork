@@ -33,13 +33,8 @@ const About = () => {
                   All data and information in this application are sourced from publicly available research papers and publicly published workplace design reports.
                 </p>
                 <p className="text-gray-700">
-                  Our database is dynamic and continuously evolving. We are dedicated to:
+                  Our database is dynamic and continuously evolving. We are dedicated to regularly updating our information with the latest research, incorporating new workplace design insights, and ensuring our content reflects the most current understanding of workspace optimization.
                 </p>
-                <ul className="list-disc pl-5 text-gray-700 space-y-2">
-                  <li>Regularly updating our information with the latest research</li>
-                  <li>Incorporating new workplace design insights</li>
-                  <li>Ensuring our content reflects the most current understanding of workspace optimization</li>
-                </ul>
               </CardContent>
             </Card>
             
