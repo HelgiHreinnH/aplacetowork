@@ -75,30 +75,44 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700 mb-4">
-                  At A Place to Work, we are committed to protecting your privacy. This policy outlines how we collect, use, and safeguard your personal information.
+                  At A Place to Work, we are committed to protecting your privacy. This policy outlines how we collect, use, and safeguard your personal information when you use our workplace interior library service.
                 </p>
                 
                 <h3 className="font-semibold mb-2">Information We Collect</h3>
                 <ul className="list-disc pl-5 mb-4 text-gray-700">
-                  <li>Email address for account creation and communication</li>
-                  <li>Usage data to improve our service</li>
-                  <li>Facility preferences and interaction data</li>
+                  <li>Email address and authentication data for account creation and management</li>
+                  <li>Profile information such as username and company name</li>
+                  <li>Usage data including facility preferences and favorites</li>
+                  <li>Application interaction data to improve user experience</li>
+                  <li>Device information and browser type for service optimization</li>
                 </ul>
                 
                 <h3 className="font-semibold mb-2">How We Use Your Information</h3>
                 <ul className="list-disc pl-5 mb-4 text-gray-700">
-                  <li>To provide and maintain our service</li>
-                  <li>To notify you about changes to our service</li>
-                  <li>To allow you to participate in interactive features</li>
+                  <li>To provide and maintain our workplace interior library service</li>
+                  <li>To personalize your experience with saved preferences and favorites</li>
+                  <li>To authenticate and secure your account</li>
+                  <li>To communicate important updates about our service</li>
+                  <li>To analyze usage patterns and improve our features</li>
                 </ul>
                 
-                <h3 className="font-semibold mb-2">Data Protection</h3>
+                <h3 className="font-semibold mb-2">Data Storage and Security</h3>
                 <p className="text-gray-700 mb-4">
-                  We implement appropriate data collection, storage, and processing practices to protect your personal information against unauthorized access, alteration, disclosure, or destruction.
+                  We use Supabase, a secure cloud platform, to store and process your data. Your information is protected using industry-standard encryption and security practices. We implement appropriate access controls and authentication measures to protect against unauthorized access, alteration, disclosure, or destruction of your personal information.
+                </p>
+
+                <h3 className="font-semibold mb-2">Third-Party Services</h3>
+                <p className="text-gray-700 mb-4">
+                  Our service utilizes Supabase for user authentication and data storage. Your interaction with these services is governed by their respective privacy policies. We encourage you to review Supabase's privacy policy for more information about how they handle your data.
+                </p>
+
+                <h3 className="font-semibold mb-2">Your Rights</h3>
+                <p className="text-gray-700 mb-4">
+                  You have the right to access, update, or delete your personal information at any time through your account settings. You can also contact us to request data export or deletion of your account.
                 </p>
                 
                 <p className="text-gray-700">
-                  <strong>Last Updated:</strong> April 2025
+                  <strong>Last Updated:</strong> April 21, 2025
                 </p>
               </CardContent>
             </Card>
