@@ -1,8 +1,12 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import TitleContainer from '@/components/containers/TitleContainer';
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const About = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
       <TitleContainer />
@@ -139,10 +143,14 @@ const About = () => {
                 <CardTitle>Contact Information</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2 text-gray-700">
-                  <p><strong>Email:</strong> support@workplaceinteriors.com</p>
-                  <p><strong>Phone:</strong> +45 12 34 56 78</p>
-                  <p><strong>Address:</strong> Work Space Innovation Center, Copenhagen, Denmark</p>
+                <div className="space-y-4">
+                  <p className="text-gray-700"><strong>Email:</strong> support@aplacetowork.dk</p>
+                  <Button 
+                    onClick={() => navigate('/contact')}
+                    className="w-full"
+                  >
+                    Send us feedback
+                  </Button>
                 </div>
               </CardContent>
             </Card>
