@@ -64,7 +64,7 @@ const handler = async (req: Request): Promise<Response> => {
     
     // Send email with sanitized content
     const emailResponse = await resend.emails.send({
-      from: "A Place to Work <onboarding@resend.dev>",
+      from: "Feedback <feedback@aplacetowork.dk>",
       to: ["support@aplacetowork.dk"],
       subject: `Feedback / Request from ${userEmail}`,
       text: sanitizedMessage,
