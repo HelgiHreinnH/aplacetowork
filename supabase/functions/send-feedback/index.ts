@@ -60,8 +60,6 @@ const handler = async (req: Request): Promise<Response> => {
     // Sanitize inputs to prevent injection attacks
     const sanitizedMessage = message.replace(/<[^>]*>?/gm, '');
     
-    // Rate limiting check could be added here
-    
     // Send email with sanitized content
     const emailResponse = await resend.emails.send({
       from: "Feedback <feedback@aplacetowork.dk>",
