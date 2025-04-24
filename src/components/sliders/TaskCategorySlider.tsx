@@ -19,7 +19,7 @@ const TaskCategorySlider = ({ value, onChange, showInfo = false }: TaskCategoryS
   };
 
   return (
-    <div className="space-y-4 relative">
+    <div className="space-y-4">
       <div className="flex justify-between items-center mb-4">
         <span className="text-sm font-medium">Concentrated Task</span>
         <span className="text-sm font-medium text-gray-400">Collaborative Task</span>
@@ -38,7 +38,7 @@ const TaskCategorySlider = ({ value, onChange, showInfo = false }: TaskCategoryS
         </div>
       </div>
       {showInfo && (
-        <div className="absolute left-full ml-4 px-2 text-[10px] text-gray-500 w-60 bottom-0 pb-1">
+        <div className="mt-2 px-2 text-sm text-gray-500">
           <p>Just slide the bars to choose whether the space is better for focused work or team collaboration!</p>
         </div>
       )}
@@ -47,3 +47,4 @@ const TaskCategorySlider = ({ value, onChange, showInfo = false }: TaskCategoryS
 };
 
 export default TaskCategorySlider;
+

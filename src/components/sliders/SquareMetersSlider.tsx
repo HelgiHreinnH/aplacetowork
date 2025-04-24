@@ -9,7 +9,7 @@ interface SquareMetersSliderProps {
 }
 
 const SquareMetersSlider = ({ value, onChange, showInfo = false }: SquareMetersSliderProps) => (
-  <div className="space-y-4 relative">
+  <div className="space-y-4">
     <div className="flex justify-between items-center mb-4">
       <label className="text-sm font-medium">Amount of square meters</label>
       <span className="text-2xl font-bold">{value[0]}</span>
@@ -28,7 +28,7 @@ const SquareMetersSlider = ({ value, onChange, showInfo = false }: SquareMetersS
       </div>
     </div>
     {showInfo && (
-      <div className="absolute left-full ml-4 px-2 text-[10px] text-gray-500 w-60 bottom-0 pb-1">
+      <div className="mt-2 px-2 text-sm text-gray-500">
         <p>Just slide to pick how many square meters you want inspiration for!</p>
       </div>
     )}
@@ -36,3 +36,4 @@ const SquareMetersSlider = ({ value, onChange, showInfo = false }: SquareMetersS
 );
 
 export default SquareMetersSlider;
+
