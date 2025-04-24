@@ -1,3 +1,4 @@
+
 import { useNavigate } from 'react-router-dom';
 import { Home, Heart } from 'lucide-react';
 import MenuSheet from './MenuSheet';
@@ -7,12 +8,7 @@ const StandardBottomNav = () => {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
-    const searchParamsString = sessionStorage.getItem('searchParams');
-    if (!searchParamsString) {
-      navigate('/');
-      return;
-    }
-    navigate('/');
+    navigate('/home');
   };
 
   return (

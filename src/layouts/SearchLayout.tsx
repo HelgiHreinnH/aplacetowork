@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import IndexBottomNav from '../components/navigation/IndexBottomNav';
@@ -5,14 +6,14 @@ import StandardBottomNav from '../components/navigation/StandardBottomNav';
 
 const SearchLayout = () => {
   const location = useLocation();
-  const isIndexPage = location.pathname === '/';
+  const isHomePage = location.pathname === '/home';
 
   return (
     <div className="min-h-screen bg-gray-50 pb-16">
       <div className="container mx-auto px-4 py-8">
         <Outlet />
       </div>
-      {isIndexPage ? <IndexBottomNav /> : <StandardBottomNav />}
+      {isHomePage ? <IndexBottomNav /> : <StandardBottomNav />}
     </div>
   );
 };
