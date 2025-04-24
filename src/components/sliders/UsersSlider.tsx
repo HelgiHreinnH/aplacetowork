@@ -12,7 +12,6 @@ const UsersSlider = ({ value, onChange, showInfo = false }: UsersSliderProps) =>
   <div className="space-y-4 relative">
     <div className="flex justify-between items-center mb-4">
       <label className="text-sm font-medium">Amount of Employees</label>
-      <span className="text-2xl font-bold">{value[0]}</span>
     </div>
     <div className="flex">
       <div className="flex-grow">
