@@ -20,8 +20,9 @@ const TaskCategorySlider = ({ value, onChange, showInfo = false }: TaskCategoryS
 
   return (
     <div className="space-y-4 relative">
-      <div className="flex items-center mb-4">
-        <span className="text-sm font-medium flex-grow">Task Category</span>
+      <div className="flex justify-between items-center mb-4">
+        <span className="text-sm font-medium">Concentrated Task</span>
+        <span className="text-sm font-medium text-gray-400">Collaborative Task</span>
       </div>
       <div className="flex">
         <div className="flex-grow">

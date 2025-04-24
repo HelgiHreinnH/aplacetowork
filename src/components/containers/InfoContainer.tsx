@@ -41,8 +41,8 @@ const InfoContainer = ({ isLoading, error, facilities, onSearch }: InfoContainer
   );
 
   return (
-    <div className="flex-1 px-4 flex flex-col items-center pt-0 mt-0">
-      <div className="w-full max-w-5xl flex justify-center mb-4">
+    <div className="flex-1 px-4 flex flex-col items-center pt-0 mt-0"> {/* Removed justify-center, min-height, added pt-0 and mt-0 */}
+      <div className="w-full max-w-5xl flex justify-center mb-4"> {/* Added mb-4 */}
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium mr-2">
             Want to learn more about the way to find the correct facility just push the Info button
@@ -64,19 +64,7 @@ const InfoContainer = ({ isLoading, error, facilities, onSearch }: InfoContainer
         ) : error ? (
           <ErrorState />
         ) : (
-          <div className="space-y-6">
-            <SliderForm facilities={facilities} onSearch={onSearch} showInfo={showInfoText} />
-            {showInfoText && (
-              <div className="w-full text-sm text-gray-500 mt-4 p-4 bg-gray-50 rounded-lg">
-                <p>Just slide the bars to set your preferences:</p>
-                <ul className="list-disc list-inside space-y-2 mt-2">
-                  <li>Choose square meters for your workspace</li>
-                  <li>Select the number of users</li>
-                  <li>Decide between focused work or team collaboration</li>
-                </ul>
-              </div>
-            )}
-          </div>
+          facilities && <SliderForm facilities={facilities} onSearch={onSearch} showInfo={showInfoText} />
         )}
       </div>
     </div>
