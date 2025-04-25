@@ -4,11 +4,19 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";  // Use toast directly from sonner
+import { toast } from "sonner";
+import { Save } from "lucide-react";
 
 type ColorMode = 'standard' | 'dynamic';
 
-const defaultColors = {
+const standardColors = {
+  primary: '#222222',    // Dark Gray
+  secondary: '#8E9196',  // Neutral Gray
+  background: '#FFFFFF', // White
+  text: '#000000',      // Black
+};
+
+const dynamicColors = {
   primary: '#9b87f5',
   secondary: '#7E69AB',
   background: '#FFFFFF',
@@ -17,7 +25,7 @@ const defaultColors = {
 
 export function ColorSettings() {
   const [colorMode, setColorMode] = useState<ColorMode>('standard');
-  const [colors, setColors] = useState(defaultColors);
+  const [colors, setColors] = useState(standardColors);
 
   const updateColors = (newColors: typeof colors) => {
     document.documentElement.style.setProperty('--primary-color', newColors.primary);
@@ -27,15 +35,43 @@ export function ColorSettings() {
     setColors(newColors);
   };
 
+  const handleColorModeChange = (value: ColorMode) => {
+    setColorMode(value);
+    updateColors(value === 'standard' ? standardColors : dynamicColors);
+    toast.success(`Switched to ${value} color mode`);
+  };
+
   const handleReset = () => {
-    updateColors(defaultColors);
-    toast.success("Colors reset to default");  // Use toast from sonner directly
+    updateColors(colorMode === 'standard' ? standardColors : dynamicColors);
+    toast.success("Colors reset to default");
   };
 
   const handleColorChange = (colorKey: keyof typeof colors, value: string) => {
     const newColors = { ...colors, [colorKey]: value };
     updateColors(newColors);
   };
+
+  const handleSaveSettings = () => {
+    // Save to localStorage for persistence
+    localStorage.setItem('colorMode', colorMode);
+    localStorage.setItem('colorSettings', JSON.stringify(colors));
+    toast.success("Color settings saved successfully");
+  };
+
+  // Load saved settings on component mount
+  useState(() => {
+    const savedMode = localStorage.getItem('colorMode') as ColorMode | null;
+    const savedColors = localStorage.getItem('colorSettings');
+    
+    if (savedMode) {
+      setColorMode(savedMode);
+      if (savedColors) {
+        updateColors(JSON.parse(savedColors));
+      } else {
+        updateColors(savedMode === 'standard' ? standardColors : dynamicColors);
+      }
+    }
+  });
 
   return (
     <div className="space-y-6">
@@ -44,7 +80,7 @@ export function ColorSettings() {
         <RadioGroup
           defaultValue="standard"
           value={colorMode}
-          onValueChange={(value: ColorMode) => setColorMode(value)}
+          onValueChange={handleColorModeChange}
           className="grid grid-cols-2 gap-4"
         >
           <div className="flex items-center space-x-2">
@@ -141,7 +177,14 @@ export function ColorSettings() {
           </Button>
         </div>
       )}
+
+      <Button 
+        onClick={handleSaveSettings} 
+        className="w-full flex items-center justify-center gap-2"
+      >
+        <Save className="h-4 w-4" />
+        Save Color Settings
+      </Button>
     </div>
   );
 }
-
