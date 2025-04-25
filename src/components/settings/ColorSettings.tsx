@@ -4,7 +4,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "sonner";
+import { toast } from "sonner";  // Use toast directly from sonner
 
 type ColorMode = 'standard' | 'dynamic';
 
@@ -18,7 +18,6 @@ const defaultColors = {
 export function ColorSettings() {
   const [colorMode, setColorMode] = useState<ColorMode>('standard');
   const [colors, setColors] = useState(defaultColors);
-  const { toast } = useToast();
 
   const updateColors = (newColors: typeof colors) => {
     document.documentElement.style.setProperty('--primary-color', newColors.primary);
@@ -30,7 +29,7 @@ export function ColorSettings() {
 
   const handleReset = () => {
     updateColors(defaultColors);
-    toast.success("Colors reset to default");
+    toast.success("Colors reset to default");  // Use toast from sonner directly
   };
 
   const handleColorChange = (colorKey: keyof typeof colors, value: string) => {
@@ -145,3 +144,4 @@ export function ColorSettings() {
     </div>
   );
 }
+
