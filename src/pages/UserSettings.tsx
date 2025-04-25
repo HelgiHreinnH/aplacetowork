@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 import TitleContainer from '@/components/containers/TitleContainer';
 import { ProfileSettingsForm } from '@/components/settings/ProfileSettingsForm';
 import { LanguageSettings } from '@/components/settings/LanguageSettings';
+import { ColorSettings } from '@/components/settings/ColorSettings';
 
 const UserSettings = () => {
   const { data: session, isLoading: sessionLoading } = useQuery({
@@ -79,6 +80,15 @@ const UserSettings = () => {
               </CardHeader>
               <CardContent>
                 <LanguageSettings currentLanguage={preferences?.language || 'en'} />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Color Settings</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ColorSettings />
               </CardContent>
             </Card>
           </div>
