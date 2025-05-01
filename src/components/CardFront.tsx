@@ -80,7 +80,7 @@ const CardFront: React.FC<CardFrontProps> = ({
           {(description?.length || 0) > 100 && (
             <button
               onClick={toggleDescription}
-              className="w-full text-[#0EA5E9] hover:text-[#0284C7] flex items-center justify-center gap-1 py-1"
+              className="w-full text-primary-color hover:text-secondary-color flex items-center justify-center gap-1 py-1"
             >
               <span className="text-xs font-medium">
                 {isExpanded ? 'Show less' : 'Read more'}
@@ -93,7 +93,7 @@ const CardFront: React.FC<CardFrontProps> = ({
         <div className="space-y-3">
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-600">Amount of m²</span>
-            <span className="text-sm font-medium text-[#F97316]">{sqmApprox}</span>
+            <span className="text-sm font-medium text-[var(--alert-color)]">{sqmApprox}</span>
           </div>
           
           <div className="flex justify-between items-center">
@@ -103,14 +103,14 @@ const CardFront: React.FC<CardFrontProps> = ({
           
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-600">Collab or concentrated</span>
-            <span className="text-sm font-medium text-[#F97316]">{taskCategory}</span>
+            <span className="text-sm font-medium text-[var(--alert-color)]">{taskCategory}</span>
           </div>
         </div>
 
         <div className="mt-auto pt-3">
           <button
             onClick={onFlip}
-            className="w-full bg-[#0EA5E9] text-white py-3 px-6 rounded-full hover:bg-[#0284C7] transition-colors text-sm font-medium uppercase"
+            className="w-full bg-[var(--primary-color)] text-white py-3 px-6 rounded-full hover:bg-[#8B5CF6] transition-colors text-sm font-medium uppercase"
           >
             Show More Details
           </button>

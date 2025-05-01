@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
@@ -44,7 +45,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
             className="p-1 rounded-full bg-white/90 hover:bg-white transition-colors shadow-sm"
           >
             {isSelected ? (
-              <CircleCheck className="h-6 w-6 text-[#F97316]" />
+              <CircleCheck className="h-6 w-6 text-[var(--alert-color)]" />
             ) : (
               <Circle className="h-6 w-6 text-gray-300 hover:text-[#FEC6A1]" />
             )}
@@ -75,7 +76,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           <div className="space-y-2 mb-4">
             <div className="flex justify-between items-center">
               <span className="text-[15px] text-muted-foreground">Amount of m²</span>
-              <span className="text-[15px] font-medium text-[#F97316]">
+              <span className="text-[15px] font-medium text-[var(--alert-color)]">
                 {facility['Approx. Square Meters']}
               </span>
             </div>
@@ -89,7 +90,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
             
             <div className="flex justify-between items-center">
               <span className="text-[15px] text-muted-foreground">Collab or concentrated</span>
-              <span className="text-[15px] font-medium text-[#F97316]">
+              <span className="text-[15px] font-medium text-[var(--alert-color)]">
                 {facility['Task Category']}
               </span>
             </div>
@@ -103,8 +104,8 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
 
           <div className="mt-auto">
             <Button 
-              className="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-full py-2 text-xs"
-              variant="default"
+              className="w-full rounded-full py-2 text-xs"
+              variant="main"
               onClick={(e) => {
                 e.stopPropagation();
                 navigate(`/card-overlay/${facility.facility_id}`);

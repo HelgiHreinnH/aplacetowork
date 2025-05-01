@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import type { Database } from '@/integrations/supabase/types';
@@ -45,7 +46,7 @@ const CardBack: React.FC<CardBackProps> = ({
         <div className="space-y-3">
           <div className="bg-[#F1F0FB] p-3 rounded-xl">
             <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Task Category</h3>
-            <p className="text-[15px] text-[#9b87f5] line-clamp-1">{taskCategory}</p>
+            <p className="text-[15px] text-[var(--primary-color)] line-clamp-1">{taskCategory}</p>
           </div>
           
           <div className="bg-[#F1F0FB] p-3 rounded-xl">

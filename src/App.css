@@ -1,3 +1,4 @@
+
 #root {
   max-width: 100%;
   margin: 0;
@@ -30,16 +31,28 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.text-accent {
-  color: #F97316;
+.text-primary-color {
+  color: var(--primary-color);
 }
 
-.bg-accent {
-  background-color: #F97316;
+.text-secondary-color {
+  color: var(--secondary-color);
 }
 
-.bg-action {
-  background-color: #0EA5E9;
+.text-alert-color {
+  color: var(--alert-color);
+}
+
+.bg-primary-color {
+  background-color: var(--primary-color);
+}
+
+.bg-secondary-color {
+  background-color: var(--secondary-color);
+}
+
+.bg-alert-color {
+  background-color: var(--alert-color);
 }
 
 /* Action button hover effect */
