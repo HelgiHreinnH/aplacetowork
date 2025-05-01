@@ -2,7 +2,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -55,6 +56,20 @@ const handler = async (req: Request): Promise<Response> => {
           headers: { "Content-Type": "application/json", ...corsHeaders } 
         }
       );
+    }
+
+    // Check if Resend API key is available
+    if (!resend) {
+      console.warn("Resend API key not configured. Storing feedback locally only.");
+      // Return success but with a warning
+      return new Response(JSON.stringify({ 
+        success: true,
+        warning: "Email notification not sent due to missing API key",
+        messageId: "local-only" 
+      }), {
+        status: 200,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
     }
 
     // Sanitize inputs to prevent injection attacks

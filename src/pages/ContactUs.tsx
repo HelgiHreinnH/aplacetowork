@@ -10,6 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { Loader2, Send } from "lucide-react";
 import TitleContainer from '@/components/containers/TitleContainer';
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 interface FeedbackMessage {
   message: string;
@@ -21,6 +22,7 @@ const ContactUs = () => {
   const [needsResponse, setNeedsResponse] = useState(false);
   const [loading, setLoading] = useState(false);
   const [feedbackMessages, setFeedbackMessages] = useState<FeedbackMessage[]>([]);
+  const [showLocalWarning, setShowLocalWarning] = useState(false);
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -67,6 +69,11 @@ const ContactUs = () => {
       });
 
       if (error) throw error;
+      
+      // Check if we got a warning (API key not configured)
+      if (data?.warning) {
+        setShowLocalWarning(true);
+      }
 
       // Add message to local display
       setFeedbackMessages(prev => [...prev, {
@@ -79,7 +86,7 @@ const ContactUs = () => {
       setNeedsResponse(false);
     } catch (error) {
       console.error("Error submitting feedback:", error);
-      toast.error("Failed to submit feedback");
+      toast.error("Failed to submit feedback. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -97,6 +104,15 @@ const ContactUs = () => {
               <CardTitle>Send us your feedback</CardTitle>
             </CardHeader>
             <CardContent>
+              {showLocalWarning && (
+                <Alert className="mb-4">
+                  <AlertTitle>Note</AlertTitle>
+                  <AlertDescription>
+                    Your feedback has been recorded locally. Email notifications are currently unavailable.
+                  </AlertDescription>
+                </Alert>
+              )}
+              
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="message">Your message</Label>
