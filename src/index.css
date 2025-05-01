@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -25,10 +26,12 @@
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
 
-    --primary-color: #9b87f5;
-    --secondary-color: #7E69AB;
-    --background-color: #FFFFFF;
-    --text-color: #1A1F2C;
+    /* App-specific custom colors */
+    --primary-color: #9b87f5;      /* Main purple for primary actions */
+    --secondary-color: #7E69AB;    /* Secondary purple for secondary actions */
+    --alert-color: #F97316;        /* Orange for alerts and important actions */
+    --background-color: #FFFFFF;   /* White background */
+    --text-color: #1A1F2C;         /* Dark text */
   }
 
   .dark {
@@ -70,4 +73,17 @@
 
 .slider-track {
   @apply bg-gradient-to-r from-blue-200 to-blue-500;
+}
+
+/* Button color classes */
+.btn-main {
+  @apply bg-[#9b87f5] text-white hover:bg-[#8B5CF6] transition-colors;
+}
+
+.btn-secondary {
+  @apply bg-[#7E69AB] text-white hover:bg-[#6E59A5] transition-colors;
+}
+
+.btn-alert {
+  @apply bg-[#F97316] text-white hover:bg-[#F97316]/90 transition-colors;
 }

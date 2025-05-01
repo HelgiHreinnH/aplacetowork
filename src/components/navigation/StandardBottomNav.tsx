@@ -21,7 +21,8 @@ const StandardBottomNav = () => {
             icon={Home}
             label="Home"
             onClick={handleHomeClick}
-            className="bg-[#F97316] hover:bg-[#F97316]/90 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
+            variant="alert"
+            className="rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
           />
         </div>
 

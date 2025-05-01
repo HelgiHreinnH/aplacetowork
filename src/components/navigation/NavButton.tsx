@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { LucideIcon } from "lucide-react";
@@ -8,7 +9,7 @@ interface NavButtonProps {
   icon: LucideIcon;
   label: string;
   onClick?: () => void;
-  variant?: "ghost" | "default";
+  variant?: "ghost" | "default" | "main" | "secondary" | "alert";
   className?: string;
 }
 

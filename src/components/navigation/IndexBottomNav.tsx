@@ -77,7 +77,8 @@ const IndexBottomNav = () => {
             icon={Search}
             label="Search"
             onClick={handleSearch}
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
+            variant="main"
+            className="rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
           />
         </div>
 
