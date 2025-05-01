@@ -86,7 +86,7 @@ const ContactUs = () => {
       setNeedsResponse(false);
     } catch (error) {
       console.error("Error submitting feedback:", error);
-      toast.error("Failed to submit feedback. Please try again later.");
+      toast.error(`Failed to submit feedback: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setLoading(false);
     }

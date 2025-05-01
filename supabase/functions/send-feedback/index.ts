@@ -2,7 +2,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 
-const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+const RESEND_API_KEY = Deno.env.get("SEND_FEEDBACK_KEY");
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 const corsHeaders = {
@@ -78,8 +78,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Try to verify domain configuration
     try {
       // This is just to check if the domain is configured properly
-      // We're not actually creating a new domain here, just checking configuration
-      await resend.domains.get({ id: 'aplacetowork.dk' });
+      await resend.domains.get({ id: 'support.aplacetowork.dk' });
     } catch (domainError) {
       console.warn("Domain verification error:", domainError);
       // Continue with email sending even if domain check fails
@@ -87,7 +86,7 @@ const handler = async (req: Request): Promise<Response> => {
     
     // Send email with sanitized content
     const emailResponse = await resend.emails.send({
-      from: "Feedback <feedback@aplacetowork.dk>",
+      from: "Feedback <feedback@support.aplacetowork.dk>",
       to: ["support@aplacetowork.dk"],
       subject: `Feedback / Request from ${userEmail}`,
       text: sanitizedMessage,
