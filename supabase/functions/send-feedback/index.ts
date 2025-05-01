@@ -75,6 +75,16 @@ const handler = async (req: Request): Promise<Response> => {
     // Sanitize inputs to prevent injection attacks
     const sanitizedMessage = message.replace(/<[^>]*>?/gm, '');
     
+    // Try to verify domain configuration
+    try {
+      // This is just to check if the domain is configured properly
+      // We're not actually creating a new domain here, just checking configuration
+      await resend.domains.get({ id: 'aplacetowork.dk' });
+    } catch (domainError) {
+      console.warn("Domain verification error:", domainError);
+      // Continue with email sending even if domain check fails
+    }
+    
     // Send email with sanitized content
     const emailResponse = await resend.emails.send({
       from: "Feedback <feedback@aplacetowork.dk>",
