@@ -2,7 +2,7 @@
 import React from 'react'
 import './App.css'
 import { Toaster } from '@/components/ui/toaster'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import WorkplaceSettings from '@/components/workplace/WorkplaceSettings'
 import UserSettings from '@/pages/UserSettings'
 import Index from '@/pages/Index'
@@ -15,11 +15,24 @@ import DesignLayout from '@/layouts/DesignLayout'
 import About from '@/pages/About'
 import ContactUs from '@/pages/ContactUs'
 import CardDesignPage from '@/pages/CardDesignPage'
+import CardOverlay from '@/components/overlay/CardOverlay'
 
 function App() {
   return (
     <Router>
-      <Routes>
+      <RoutesWithOverlay />
+      <Toaster />
+    </Router>
+  );
+}
+
+function RoutesWithOverlay() {
+  const location = useLocation();
+  const background = location.state?.backgroundLocation;
+
+  return (
+    <>
+      <Routes location={background || location}>
         {/* Design System Routes */}
         <Route path="/design" element={<DesignLayout />}>
           <Route index element={<WorkplaceSettings />} />
@@ -40,8 +53,14 @@ function App() {
           <Route path="card-design" element={<CardDesignPage />} />
         </Route>
       </Routes>
-      <Toaster />
-    </Router>
+
+      {/* Show the overlay when a background location exists */}
+      {background && (
+        <Routes>
+          <Route path="/card-overlay/:facilityId" element={<CardOverlay />} />
+        </Routes>
+      )}
+    </>
   );
 }
 

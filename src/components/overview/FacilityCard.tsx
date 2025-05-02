@@ -30,7 +30,9 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
     if (onClick) {
       onClick(facility.facility_id);
     } else {
-      navigate(`/card-overlay/${facility.facility_id}`);
+      navigate(`/card-overlay/${facility.facility_id}`, { 
+        state: { backgroundLocation: location }
+      });
     }
   };
 
@@ -111,7 +113,9 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
               variant="main"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/card-overlay/${facility.facility_id}`);
+                navigate(`/card-overlay/${facility.facility_id}`, {
+                  state: { backgroundLocation: location }
+                });
               }}
             >
               View Details

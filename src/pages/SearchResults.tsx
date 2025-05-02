@@ -141,7 +141,7 @@ const SearchResults = () => {
                   facility={facility}
                   isSelected={favorites?.includes(facility.facility_id) || false}
                   onSelect={handleSelect}
-                  onClick={() => handleCardClick(facility.facility_id)}
+                  onClick={handleCardClick}
                 />
               </div>
             ))}

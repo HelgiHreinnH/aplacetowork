@@ -1,4 +1,5 @@
 
+import { useLocation, useNavigate } from 'react-router-dom';
 import type { Database } from '@/integrations/supabase/types';
 import FacilityCard from './FacilityCard';
 
@@ -17,6 +18,20 @@ const FacilitiesList = ({
   onFacilitySelect,
   onCardClick
 }: FacilitiesListProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleCardClick = (facilityId: string) => {
+    if (onCardClick) {
+      onCardClick(facilityId);
+    } else {
+      // Default behavior is to navigate to the card overlay
+      navigate(`/card-overlay/${facilityId}`, {
+        state: { backgroundLocation: location }
+      });
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
       {facilities.map((facility) => (
@@ -25,7 +40,7 @@ const FacilitiesList = ({
           facility={facility}
           isSelected={selectedFacilities.includes(facility.facility_id)}
           onSelect={onFacilitySelect}
-          onClick={onCardClick ? (facilityId) => onCardClick(facilityId) : undefined}
+          onClick={handleCardClick}
         />
       ))}
     </div>
