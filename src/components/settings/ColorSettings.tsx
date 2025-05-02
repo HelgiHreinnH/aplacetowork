@@ -6,72 +6,49 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Save } from "lucide-react";
-
-type ColorMode = 'standard' | 'dynamic';
-
-const standardColors = {
-  primary: '#222222',    // Dark Gray
-  secondary: '#8E9196',  // Neutral Gray
-  background: '#FFFFFF', // White
-  text: '#000000',      // Black
-};
-
-const dynamicColors = {
-  primary: '#9b87f5',
-  secondary: '#7E69AB',
-  background: '#FFFFFF',
-  text: '#1A1F2C',
-};
+import { useTheme } from '@/providers/ThemeProvider';
+import { designTokens } from '@/styles/design-tokens';
 
 export function ColorSettings() {
-  const [colorMode, setColorMode] = useState<ColorMode>('standard');
-  const [colors, setColors] = useState(standardColors);
+  const { colorMode, setColorMode, colors, updateColors } = useTheme();
+  const [localColors, setLocalColors] = useState(colors);
 
-  const updateColors = (newColors: typeof colors) => {
-    document.documentElement.style.setProperty('--primary-color', newColors.primary);
-    document.documentElement.style.setProperty('--secondary-color', newColors.secondary);
-    document.documentElement.style.setProperty('--background-color', newColors.background);
-    document.documentElement.style.setProperty('--text-color', newColors.text);
-    setColors(newColors);
+  const standardColors = {
+    primary: designTokens.colors.text.dark,    // Dark Gray
+    secondary: designTokens.colors.neutral[600],  // Neutral Gray
+    background: designTokens.colors.neutral[100], // White
+    text: designTokens.colors.neutral[900],      // Black
   };
 
-  const handleColorModeChange = (value: ColorMode) => {
+  const dynamicColors = {
+    primary: designTokens.colors.primary.DEFAULT,
+    secondary: designTokens.colors.secondary.DEFAULT,
+    background: designTokens.colors.background.DEFAULT,
+    text: designTokens.colors.text.DEFAULT,
+  };
+
+  const handleColorModeChange = (value: 'standard' | 'dynamic') => {
     setColorMode(value);
-    updateColors(value === 'standard' ? standardColors : dynamicColors);
+    setLocalColors(value === 'standard' ? standardColors : dynamicColors);
     toast.success(`Switched to ${value} color mode`);
   };
 
   const handleReset = () => {
-    updateColors(colorMode === 'standard' ? standardColors : dynamicColors);
+    const defaultColors = colorMode === 'standard' ? standardColors : dynamicColors;
+    setLocalColors(defaultColors);
+    updateColors(defaultColors);
     toast.success("Colors reset to default");
   };
 
-  const handleColorChange = (colorKey: keyof typeof colors, value: string) => {
-    const newColors = { ...colors, [colorKey]: value };
-    updateColors(newColors);
+  const handleColorChange = (colorKey: keyof typeof localColors, value: string) => {
+    const newColors = { ...localColors, [colorKey]: value };
+    setLocalColors(newColors);
   };
 
   const handleSaveSettings = () => {
-    // Save to localStorage for persistence
-    localStorage.setItem('colorMode', colorMode);
-    localStorage.setItem('colorSettings', JSON.stringify(colors));
+    updateColors(localColors);
     toast.success("Color settings saved successfully");
   };
-
-  // Load saved settings on component mount
-  useState(() => {
-    const savedMode = localStorage.getItem('colorMode') as ColorMode | null;
-    const savedColors = localStorage.getItem('colorSettings');
-    
-    if (savedMode) {
-      setColorMode(savedMode);
-      if (savedColors) {
-        updateColors(JSON.parse(savedColors));
-      } else {
-        updateColors(savedMode === 'standard' ? standardColors : dynamicColors);
-      }
-    }
-  });
 
   return (
     <div className="space-y-6">
@@ -80,7 +57,7 @@ export function ColorSettings() {
         <RadioGroup
           defaultValue="standard"
           value={colorMode}
-          onValueChange={handleColorModeChange}
+          onValueChange={(v) => handleColorModeChange(v as 'standard' | 'dynamic')}
           className="grid grid-cols-2 gap-4"
         >
           <div className="flex items-center space-x-2">
@@ -102,13 +79,13 @@ export function ColorSettings() {
               <Input
                 type="color"
                 id="primary"
-                value={colors.primary}
+                value={localColors.primary}
                 onChange={(e) => handleColorChange('primary', e.target.value)}
                 className="w-12 h-12 p-1 cursor-pointer rounded-lg"
               />
               <Input
                 type="text"
-                value={colors.primary}
+                value={localColors.primary}
                 onChange={(e) => handleColorChange('primary', e.target.value)}
                 className="flex-1 rounded-lg"
               />
@@ -121,13 +98,13 @@ export function ColorSettings() {
               <Input
                 type="color"
                 id="secondary"
-                value={colors.secondary}
+                value={localColors.secondary}
                 onChange={(e) => handleColorChange('secondary', e.target.value)}
                 className="w-12 h-12 p-1 cursor-pointer rounded-lg"
               />
               <Input
                 type="text"
-                value={colors.secondary}
+                value={localColors.secondary}
                 onChange={(e) => handleColorChange('secondary', e.target.value)}
                 className="flex-1 rounded-lg"
               />
@@ -140,13 +117,13 @@ export function ColorSettings() {
               <Input
                 type="color"
                 id="background"
-                value={colors.background}
+                value={localColors.background}
                 onChange={(e) => handleColorChange('background', e.target.value)}
                 className="w-12 h-12 p-1 cursor-pointer rounded-lg"
               />
               <Input
                 type="text"
-                value={colors.background}
+                value={localColors.background}
                 onChange={(e) => handleColorChange('background', e.target.value)}
                 className="flex-1 rounded-lg"
               />
@@ -159,13 +136,13 @@ export function ColorSettings() {
               <Input
                 type="color"
                 id="text"
-                value={colors.text}
+                value={localColors.text}
                 onChange={(e) => handleColorChange('text', e.target.value)}
                 className="w-12 h-12 p-1 cursor-pointer rounded-lg"
               />
               <Input
                 type="text"
-                value={colors.text}
+                value={localColors.text}
                 onChange={(e) => handleColorChange('text', e.target.value)}
                 className="flex-1 rounded-lg"
               />
