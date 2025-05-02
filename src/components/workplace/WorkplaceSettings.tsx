@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { H2 } from '@/components/ui/typography';
+import { H2, H3 } from '@/components/ui/typography';
 
 interface WorkplaceSettingProps {
   title: string;
@@ -24,17 +24,18 @@ const WorkplaceSetting: React.FC<WorkplaceSettingProps> = ({
   area,
   type
 }) => {
+  // Simplified color mapping with fewer colors
   const typeColorMap = {
-    'work-table': 'bg-blue-100 text-blue-800',
-    'lounge-area': 'bg-purple-100 text-purple-800',
-    'meeting-room': 'bg-green-100 text-green-800',
-    'open-area': 'bg-amber-100 text-amber-800'
+    'work-table': 'bg-[#F1F0FB] text-[#9b87f5]',
+    'lounge-area': 'bg-[#F1F0FB] text-[#9b87f5]',
+    'meeting-room': 'bg-[#F1F0FB] text-[#9b87f5]',
+    'open-area': 'bg-[#F1F0FB] text-[#9b87f5]'
   };
 
   const typeColor = typeColorMap[type];
   
   return (
-    <Card className="overflow-hidden flex flex-col">
+    <Card className="overflow-hidden flex flex-col h-full transition-all shadow-sm hover:shadow-md">
       <div className="relative h-48 overflow-hidden">
         {imageUrl ? (
           <img 
@@ -43,8 +44,8 @@ const WorkplaceSetting: React.FC<WorkplaceSettingProps> = ({
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-            <span className="text-gray-400 font-sans">No image available</span>
+          <div className="w-full h-full bg-[#F6F6F7] flex items-center justify-center">
+            <span className="text-[#8E9196] font-sans">No image available</span>
           </div>
         )}
         <div className="absolute top-3 right-3">
@@ -54,45 +55,45 @@ const WorkplaceSetting: React.FC<WorkplaceSettingProps> = ({
         </div>
       </div>
       
-      <CardHeader>
-        <h3 className="text-xl font-display font-semibold">{title}</h3>
+      <CardHeader className="pb-0">
+        <H3 className="mb-0">{title}</H3>
       </CardHeader>
       
-      <CardContent className="flex-grow">
-        <p className="mb-4 text-gray-600 font-sans">{description}</p>
+      <CardContent className="flex-grow pt-2">
+        <p className="mb-4 text-[#8E9196] font-sans text-sm">{description}</p>
         
         <Separator className="my-4" />
         
         <div className="grid grid-cols-2 gap-2 mb-4">
           {capacity && (
             <div>
-              <p className="text-xs text-gray-500 font-sans">Capacity</p>
-              <p className="font-sans">{capacity}</p>
+              <p className="text-xs text-[#8E9196] font-sans">Capacity</p>
+              <p className="font-sans text-[#1A1F2C]">{capacity}</p>
             </div>
           )}
           {area && (
             <div>
-              <p className="text-xs text-gray-500 font-sans">Area</p>
-              <p className="font-sans">{area}</p>
+              <p className="text-xs text-[#8E9196] font-sans">Area</p>
+              <p className="font-sans text-[#1A1F2C]">{area}</p>
             </div>
           )}
         </div>
         
         <div>
-          <p className="text-sm font-medium mb-2 font-sans">Features:</p>
+          <p className="text-sm font-medium mb-2 font-sans text-[#1A1F2C]">Features:</p>
           <ul className="space-y-1">
             {features.map((feature, index) => (
               <li key={index} className="text-sm flex items-start gap-2 font-sans">
                 <span className="text-[#9b87f5] mt-0.5">•</span>
-                <span>{feature}</span>
+                <span className="text-[#8E9196]">{feature}</span>
               </li>
             ))}
           </ul>
         </div>
       </CardContent>
       
-      <CardFooter className="border-t pt-4">
-        <p className="text-sm text-gray-500 font-sans">
+      <CardFooter className="border-t border-[#F1F0FB] pt-4">
+        <p className="text-sm text-[#8E9196] font-sans">
           See more details for complete specifications
         </p>
       </CardFooter>
@@ -162,7 +163,7 @@ export default function WorkplaceSettings() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <H2 className="mb-6">Workplace Interior Settings</H2>
+      <H2 className="mb-6 text-center">Workplace Interior Settings</H2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {settings.map((setting, index) => (
           <WorkplaceSetting 
