@@ -1,7 +1,8 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { H3, H4 } from '@/components/ui/typography';
 import type { Database } from '@/integrations/supabase/types';
 import FacilityDetails from './FacilityDetails';
 
@@ -38,14 +39,14 @@ const CardBack: React.FC<CardBackProps> = ({
   return (
     <Card className="w-full h-full bg-card shadow-none hover:shadow-none transition-shadow duration-300 flex flex-col rounded-lg overflow-hidden">
       <CardHeader className="flex-none py-4 px-6 border-b bg-[#F1F0FB]">
-        <CardTitle className="text-[22px] font-bold tracking-tight text-foreground line-clamp-1">
+        <H3 className="text-[22px] font-bold tracking-tight text-foreground line-clamp-1">
           {display_title || facility}
-        </CardTitle>
+        </H3>
       </CardHeader>
 
       <CardContent className="flex-1 flex flex-col space-y-4 p-6">
         <div className="bg-[#F1F0FB] p-3 rounded-md">
-          <h3 className="text-xs font-display font-medium uppercase tracking-wide text-muted-foreground mb-1">Task Category</h3>
+          <H4 className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Task Category</H4>
           <p className="text-[13px] font-sans font-semibold text-primary line-clamp-1">{taskCategory}</p>
         </div>
         
@@ -60,7 +61,7 @@ const CardBack: React.FC<CardBackProps> = ({
         </div>
         
         <div className="bg-[#F1F0FB] p-3 rounded-md">
-          <h3 className="text-xs font-display font-medium uppercase tracking-wide text-muted-foreground mb-1">Notes</h3>
+          <H4 className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Notes</H4>
           <p className="text-[13px] font-sans font-semibold text-muted-foreground line-clamp-2">{notes || 'Not specified'}</p>
         </div>
 
