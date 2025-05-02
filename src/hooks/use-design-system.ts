@@ -15,7 +15,7 @@ export function useDesignSystem() {
   const getStyles = (component: keyof typeof styles, variant?: string, additionalClasses?: string) => {
     const baseStyle = styles[component].base;
     const variantStyle = variant && styles[component].variant ? 
-      styles[component].variant[variant as keyof (typeof styles[typeof component]['variant'] || {})] : '';
+      styles[component].variant[variant as keyof typeof styles[typeof component]["variant"]] : '';
     
     return cn(baseStyle, variantStyle, additionalClasses);
   };
