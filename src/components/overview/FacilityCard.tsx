@@ -107,9 +107,9 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
             </p>
           )}
 
-          <CardFooter className="mt-auto p-0">
+          <CardFooter className="mt-auto p-0 flex justify-center">
             <Button 
-              className="w-full rounded-md py-2 text-xs"
+              className="rounded-full py-2"
               variant="main"
               onClick={(e) => {
                 e.stopPropagation();

@@ -108,11 +108,11 @@ const CardFront: React.FC<CardFrontProps> = ({
           </div>
         </div>
 
-        <CardFooter className="mt-auto pt-3 p-0">
+        <CardFooter className="mt-auto pt-3 p-0 flex justify-center">
           <Button
             onClick={onFlip}
             variant="main"
-            className="w-full rounded-md py-3 px-6 text-sm font-medium uppercase"
+            className="rounded-full py-3 px-6"
           >
             Show More Details
           </Button>

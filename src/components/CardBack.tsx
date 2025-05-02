@@ -65,10 +65,10 @@ const CardBack: React.FC<CardBackProps> = ({
           <p className="text-sm font-sans font-semibold text-muted-foreground line-clamp-2">{notes || 'Not specified'}</p>
         </div>
 
-        <CardFooter className="mt-auto p-0">
+        <CardFooter className="mt-auto p-0 flex justify-center">
           <Button
             variant="main"
-            className="w-full py-4 px-6 rounded-md text-[15px] font-medium uppercase"
+            className="rounded-full py-4 px-6"
             onClick={onFlip}
           >
             Back to Front
