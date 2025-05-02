@@ -95,7 +95,7 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
         </div>
       </div>
 
-      <Button type="submit" disabled={loading}>
+      <Button type="submit" variant="main" disabled={loading}>
         {loading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

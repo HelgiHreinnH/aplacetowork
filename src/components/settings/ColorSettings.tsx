@@ -180,6 +180,7 @@ export function ColorSettings() {
 
       <Button 
         onClick={handleSaveSettings} 
+        variant="main"
         className="w-full flex items-center justify-center gap-2"
       >
         <Save className="h-4 w-4" />

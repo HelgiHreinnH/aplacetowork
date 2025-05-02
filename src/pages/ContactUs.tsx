@@ -139,6 +139,7 @@ const ContactUs = () => {
                 
                 <Button 
                   type="submit" 
+                  variant="main"
                   className="w-full"
                   disabled={loading || !message.trim() || !session}
                 >

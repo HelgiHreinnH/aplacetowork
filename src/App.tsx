@@ -1,3 +1,4 @@
+
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -59,7 +60,7 @@ const LogoutButton = () => {
   if (!session) return null;
   return (
     <Button
-      variant="outline"
+      variant="secondary"
       size="sm"
       className="absolute right-4 top-4 z-50"
       onClick={() => { supabase.auth.signOut(); window.location.href = "/"; }}
