@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { H3, H4 } from '@/components/ui/typography';
+import { H3, H5 } from '@/components/ui/typography';
 import type { Database } from '@/integrations/supabase/types';
 import FacilityDetails from './FacilityDetails';
 
@@ -46,7 +46,7 @@ const CardBack: React.FC<CardBackProps> = ({
 
       <CardContent className="flex-1 flex flex-col space-y-4 p-6">
         <div className="bg-[#F1F0FB] p-3 rounded-md">
-          <H4 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">Task Category</H4>
+          <H5 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">Task Category</H5>
           <p className="text-sm font-sans font-semibold text-primary line-clamp-1">{taskCategory}</p>
         </div>
         
@@ -61,7 +61,7 @@ const CardBack: React.FC<CardBackProps> = ({
         </div>
         
         <div className="bg-[#F1F0FB] p-3 rounded-md">
-          <H4 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">Notes</H4>
+          <H5 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">Notes</H5>
           <p className="text-sm font-sans font-semibold text-muted-foreground line-clamp-2">{notes || 'Not specified'}</p>
         </div>
 
@@ -80,3 +80,4 @@ const CardBack: React.FC<CardBackProps> = ({
 };
 
 export default CardBack;
+

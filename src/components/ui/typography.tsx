@@ -1,4 +1,3 @@
-
 import { cn } from "@/lib/utils";
 
 interface TypographyProps {
@@ -47,6 +46,17 @@ export function H4({ children, className }: TypographyProps) {
     )}>
       {children}
     </h4>
+  );
+}
+
+export function H5({ children, className }: TypographyProps) {
+  return (
+    <h5 className={cn(
+      "font-display text-xs lg:text-[0.85rem] text-[#1A1F2C] mb-1 font-normal",
+      className
+    )}>
+      {children}
+    </h5>
   );
 }
 
