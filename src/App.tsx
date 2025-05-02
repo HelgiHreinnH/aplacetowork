@@ -31,6 +31,7 @@ function App() {
           <Route path="home" element={<Index />} />
           <Route path="search-results" element={<SearchResults />} />
           <Route path="facility/:id" element={<FacilityOverview />} />
+          <Route path="overview" element={<FacilityOverview />} />
           <Route path="favorites" element={<FavoriteFacilities />} />
           <Route path="settings" element={<UserSettings />} />
           <Route path="workplace-settings" element={<WorkplaceSettings />} />

@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useNavigate, useLocation, Location } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -15,33 +15,9 @@ interface CardOverviewProps {
   currentLocation?: Location;
 }
 
-const fetchFacilities = async () => {
-  const { data, error } = await supabase
-    .from('Facilities')
-    .select('*');
-  
-  if (error) {
-    console.error('Error fetching facilities:', error);
-    throw error;
-  }
-  
-  return data;
-};
+const queryClient = new QueryClient();
 
-const fetchFavorites = async () => {
-  const { data, error } = await supabase
-    .from('facility_favorites')
-    .select('facility_id');
-  
-  if (error) {
-    console.error('Error fetching favorites:', error);
-    throw error;
-  }
-  
-  return data.map(fav => fav.facility_id);
-};
-
-const CardOverview: React.FC<CardOverviewProps> = ({ 
+const CardOverviewContent: React.FC<CardOverviewProps> = ({ 
   facilities,
   currentLocation
 }) => {
@@ -52,12 +28,34 @@ const CardOverview: React.FC<CardOverviewProps> = ({
 
   const { data: supabaseFacilities, isLoading: isLoadingFacilities } = useQuery({
     queryKey: ['facilities'],
-    queryFn: fetchFacilities,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('Facilities')
+        .select('*');
+      
+      if (error) {
+        console.error('Error fetching facilities:', error);
+        throw error;
+      }
+      
+      return data;
+    },
   });
 
   const { data: favorites, isLoading: isLoadingFavorites } = useQuery({
     queryKey: ['favorites'],
-    queryFn: fetchFavorites,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('facility_favorites')
+        .select('facility_id');
+      
+      if (error) {
+        console.error('Error fetching favorites:', error);
+        throw error;
+      }
+      
+      return data.map(fav => fav.facility_id);
+    },
   });
 
   useEffect(() => {
@@ -131,6 +129,15 @@ const CardOverview: React.FC<CardOverviewProps> = ({
         onCardClick={handleCardClick}
       />
     </div>
+  );
+};
+
+// Wrapper component that provides the QueryClient if needed
+const CardOverview: React.FC<CardOverviewProps> = (props) => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <CardOverviewContent {...props} />
+    </QueryClientProvider>
   );
 };
 
