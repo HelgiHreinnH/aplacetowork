@@ -44,18 +44,11 @@ const CardBack: React.FC<CardBackProps> = ({
       </CardHeader>
 
       <CardContent className="flex-1 flex flex-col space-y-4 p-6">
-        <div className="space-y-3">
-          <div className="bg-[#F1F0FB] p-3 rounded-md">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">Task Category</h3>
-            <p className="text-[15px] text-primary line-clamp-1">{taskCategory}</p>
-          </div>
-          
-          <div className="bg-[#F1F0FB] p-3 rounded-md">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">Notes</h3>
-            <p className="text-[15px] text-muted-foreground line-clamp-2">{notes || 'Not specified'}</p>
-          </div>
+        <div className="bg-[#F1F0FB] p-3 rounded-md">
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">Task Category</h3>
+          <p className="text-[15px] text-primary line-clamp-1">{taskCategory}</p>
         </div>
-
+        
         <div className="flex-1">
           <FacilityDetails
             purpose={purpose}
@@ -63,6 +56,7 @@ const CardBack: React.FC<CardBackProps> = ({
             amenities={amenities}
             etiquette={etiquette}
             technology={technology}
+            notes={notes}
           />
         </div>
 
