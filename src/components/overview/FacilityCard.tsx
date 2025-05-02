@@ -35,7 +35,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
 
   return (
     <Card 
-      className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden cursor-pointer rounded-[32px] border-0 transform scale-80 origin-center"
+      className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden cursor-pointer rounded-lg border-0 transform scale-80 origin-center"
       onClick={handleCardClick}
     >
       <div className="relative">
@@ -52,7 +52,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           </button>
         </div>
 
-        <div className="relative aspect-video w-full overflow-hidden rounded-t-[32px]">
+        <div className="relative aspect-video w-full overflow-hidden rounded-t-lg">
           <img
             src={fixedImageUrl}
             alt={facility.display_title || facility.Facility}
@@ -104,7 +104,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
 
           <div className="mt-auto">
             <Button 
-              className="w-full rounded-xl py-2 text-xs"
+              className="w-full rounded-md py-2 text-xs"
               variant="main"
               onClick={(e) => {
                 e.stopPropagation();

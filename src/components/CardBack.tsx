@@ -35,7 +35,7 @@ const CardBack: React.FC<CardBackProps> = ({
   onFlip,
 }) => {
   return (
-    <Card className="w-full h-full bg-white shadow-none hover:shadow-none transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
+    <Card className="w-full h-full bg-white shadow-none hover:shadow-none transition-shadow duration-300 flex flex-col rounded-lg overflow-hidden">
       <div className="flex-none py-4 px-6 border-b bg-[#F1F0FB]">
         <h1 className="text-[22px] font-bold tracking-tight text-[#1A1F2C] line-clamp-1">
           {display_title || facility}
@@ -44,12 +44,12 @@ const CardBack: React.FC<CardBackProps> = ({
 
       <CardContent className="flex-1 flex flex-col space-y-4 p-6">
         <div className="space-y-3">
-          <div className="bg-[#F1F0FB] p-3 rounded-xl">
+          <div className="bg-[#F1F0FB] p-3 rounded-md">
             <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Task Category</h3>
             <p className="text-[15px] text-[var(--primary-color)] line-clamp-1">{taskCategory}</p>
           </div>
           
-          <div className="bg-[#F1F0FB] p-3 rounded-xl">
+          <div className="bg-[#F1F0FB] p-3 rounded-md">
             <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Notes</h3>
             <p className="text-[15px] text-gray-600 line-clamp-2">{notes || 'Not specified'}</p>
           </div>
@@ -67,7 +67,7 @@ const CardBack: React.FC<CardBackProps> = ({
 
         <div className="mt-auto">
           <button
-            className="w-full btn-main py-4 px-6 rounded-full text-[15px] font-medium uppercase"
+            className="w-full btn-main py-4 px-6 rounded-md text-[15px] font-medium uppercase"
             onClick={onFlip}
           >
             Back to Front

@@ -59,7 +59,7 @@ const Card: React.FC<CardProps> = (props) => {
         }}
       >
         <div 
-          className="absolute w-full h-full backface-hidden rounded-[32px] overflow-hidden" 
+          className="absolute w-full h-full backface-hidden rounded-lg overflow-hidden" 
           style={{ 
             backfaceVisibility: 'hidden',
             transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
@@ -73,7 +73,7 @@ const Card: React.FC<CardProps> = (props) => {
         </div>
 
         <div 
-          className="absolute w-full h-full backface-hidden rounded-[32px] overflow-hidden" 
+          className="absolute w-full h-full backface-hidden rounded-lg overflow-hidden" 
           style={{ 
             backfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',

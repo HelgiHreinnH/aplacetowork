@@ -25,7 +25,7 @@
 .card-shadow {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.3s ease;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
 }
 
 .card-shadow:hover {
@@ -60,7 +60,7 @@
 .btn-main {
   background-color: var(--primary-color);
   color: white;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   transition-property: background-color, color;
   transition-duration: 300ms;
 }
@@ -72,7 +72,7 @@
 .btn-secondary {
   background-color: var(--secondary-color);
   color: white;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   transition-property: background-color, color;
   transition-duration: 300ms;
 }
@@ -84,7 +84,7 @@
 .btn-alert {
   background-color: var(--alert-color);
   color: white;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   transition-property: background-color, color;
   transition-duration: 300ms;
 }
@@ -100,7 +100,7 @@
 
 /* Form input styles */
 input, select, textarea {
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
 }
 
 /* Consistent font styling */

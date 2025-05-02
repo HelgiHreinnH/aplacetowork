@@ -48,7 +48,7 @@ const CardFront: React.FC<CardFrontProps> = ({
   const displayImageUrl = imageUrl || fixedImageUrl;
 
   return (
-    <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-[32px] overflow-hidden">
+    <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-lg overflow-hidden">
       <div className="relative h-[280px] flex-shrink-0 flex items-center justify-center">
         <img 
           src={displayImageUrl} 
@@ -110,7 +110,7 @@ const CardFront: React.FC<CardFrontProps> = ({
         <div className="mt-auto pt-3">
           <button
             onClick={onFlip}
-            className="w-full btn-main py-3 px-6 rounded-full text-sm font-medium uppercase"
+            className="w-full btn-main py-3 px-6 rounded-md text-sm font-medium uppercase"
           >
             Show More Details
           </button>
