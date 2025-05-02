@@ -68,13 +68,13 @@ const WorkplaceSetting: React.FC<WorkplaceSettingProps> = ({
           {capacity && (
             <div>
               <p className="text-xs text-[#8E9196] font-sans">Capacity</p>
-              <p className="font-sans text-[#1A1F2C]">{capacity}</p>
+              <p className="font-sans text-[#1A1F2C] font-medium text-[0.875rem]">{capacity}</p>
             </div>
           )}
           {area && (
             <div>
               <p className="text-xs text-[#8E9196] font-sans">Area</p>
-              <p className="font-sans text-[#1A1F2C]">{area}</p>
+              <p className="font-sans text-[#1A1F2C] font-medium text-[0.875rem]">{area}</p>
             </div>
           )}
         </div>
@@ -84,7 +84,7 @@ const WorkplaceSetting: React.FC<WorkplaceSettingProps> = ({
           <ul className="space-y-1">
             {features.map((feature, index) => (
               <li key={index} className="font-sans">
-                <span className="text-[#1A1F2C]">{feature}</span>
+                <span className="text-[#1A1F2C] font-medium text-[0.875rem]">{feature}</span>
               </li>
             ))}
           </ul>
