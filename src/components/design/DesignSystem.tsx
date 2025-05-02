@@ -95,11 +95,21 @@ export function DesignSystem() {
           <Button variant="ghost">Ghost Button</Button>
           <Button variant="link">Link Button</Button>
         </div>
-        <div className="mt-4">
-          <p className="text-sm font-medium mb-2">New Rounded Button Style:</p>
-          <div className="flex flex-wrap gap-4">
-            <Button variant="main">Rounded Button</Button>
-            <Button variant="secondary">Rounded Button</Button>
+        <div className="mt-6">
+          <p className="text-sm font-medium mb-2">Rounded Button Styles:</p>
+          <div className="flex flex-wrap gap-4 items-center">
+            <Button variant="main">Default Size</Button>
+            <Button variant="secondary" size="sm">Small Size</Button>
+            <Button variant="alert" size="lg">Large Size</Button>
+          </div>
+        </div>
+        <div className="mt-6">
+          <p className="text-sm font-medium mb-2">Button Font Styles:</p>
+          <div className="flex flex-wrap gap-4 items-center">
+            <div className="space-y-1 text-center">
+              <Button variant="main">XS Bold Text</Button>
+              <p className="text-xs text-muted-foreground">text-xs font-bold</p>
+            </div>
           </div>
         </div>
       </section>
@@ -114,7 +124,7 @@ export function DesignSystem() {
               <CardTitle>Card Title</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>Card content with new medium radius styling. This demonstrates our card component with standard padding and typography.</p>
+              <p>Card content with medium radius styling. This demonstrates our card component with standard padding and typography.</p>
             </CardContent>
           </Card>
           
@@ -124,6 +134,9 @@ export function DesignSystem() {
             </CardHeader>
             <CardContent>
               <p>Card with medium border radius and custom styling applied, showing how our base components can be extended.</p>
+              <div className="mt-4">
+                <Button variant="main" className="rounded-full">Rounded Button</Button>
+              </div>
             </CardContent>
           </Card>
         </div>

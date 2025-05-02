@@ -31,10 +31,10 @@ const NavButton = ({
     </>
   );
 
-  const searchButtonClassName = cn(
+  // Always ensure rounded-full is applied
+  const buttonClassName = cn(
     className,
-    "rounded-full",
-    label === 'Search' && isIndexPage ? 'animate-bounce' : ''
+    "rounded-full"
   );
 
   if (to) {
@@ -43,7 +43,7 @@ const NavButton = ({
         variant={variant} 
         size="icon"
         asChild
-        className={searchButtonClassName}
+        className={buttonClassName}
       >
         <Link to={to}>
           {buttonContent}
@@ -57,7 +57,7 @@ const NavButton = ({
       variant={variant} 
       size="icon"
       onClick={onClick}
-      className={searchButtonClassName}
+      className={buttonClassName}
     >
       {buttonContent}
     </Button>
