@@ -93,7 +93,7 @@ const WorkplaceSetting: React.FC<WorkplaceSettingProps> = ({
       </CardContent>
       
       <CardFooter className="border-t border-[#F1F0FB] pt-4">
-        <p className="text-sm text-[#8E9196] font-sans">
+        <p className="text-xs text-[#8E9196] font-sans">
           See more details for complete specifications
         </p>
       </CardFooter>
