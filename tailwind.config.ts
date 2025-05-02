@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,6 +19,10 @@ export default {
     },
     extend: {
       fontFamily: {
+        sans: ['Noto Sans', 'sans-serif'],
+        display: ['Noto Sans Display', 'sans-serif'],
+        mono: ['Noto Sans Mono', 'monospace'],
+        // Keep the previous fonts for backward compatibility
         playfair: ['Playfair Display', 'serif'],
         inter: ['Inter', 'sans-serif'],
       },

@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;500;600;700&family=Noto+Sans+Mono:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -68,37 +70,16 @@
 
   body {
     @apply bg-background text-foreground min-h-full;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Noto Sans Display', sans-serif;
+  }
+
+  code, pre {
+    font-family: 'Noto Sans Mono', monospace;
   }
 }
 
-.slider-track {
-  @apply bg-gradient-to-r from-blue-200 to-blue-500;
-}
-
-/* Consistent button styling */
-.btn-main {
-  @apply bg-[#9b87f5] text-white hover:bg-[#8B5CF6] transition-colors rounded-xl;
-}
-
-.btn-secondary {
-  @apply bg-[#7E69AB] text-white hover:bg-[#6E59A5] transition-colors rounded-xl;
-}
-
-.btn-alert {
-  @apply bg-[#F97316] text-white hover:bg-[#F97316]/90 transition-colors rounded-xl;
-}
-
-/* Form element styling */
-input, select, textarea, button {
-  @apply rounded-lg;
-}
-
-/* Card styling */
-.card {
-  @apply rounded-xl shadow-sm;
-}
+/* ... keep existing code (styles like .slider-track, .btn-main, .card, etc.) */

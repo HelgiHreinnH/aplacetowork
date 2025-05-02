@@ -48,8 +48,9 @@ export const designTokens = {
   },
   typography: {
     fontFamily: {
-      heading: '"Playfair Display", serif',
-      body: '"Inter", sans-serif',
+      heading: '"Noto Sans Display", sans-serif',
+      body: '"Noto Sans", sans-serif',
+      mono: '"Noto Sans Mono", monospace',
     },
     fontWeight: {
       normal: '400',

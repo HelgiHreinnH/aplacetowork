@@ -20,8 +20,8 @@ export const styles = {
   card: {
     base: "rounded-lg border bg-card text-card-foreground shadow-sm",
     header: "flex flex-col space-y-1.5 p-6",
-    title: "text-2xl font-playfair font-semibold leading-none tracking-tight",
-    description: "text-sm text-muted-foreground font-inter",
+    title: "text-2xl font-display font-semibold leading-none tracking-tight",
+    description: "text-sm text-muted-foreground font-sans",
     content: "p-6 pt-0",
     footer: "flex items-center p-6 pt-0",
   },
@@ -55,13 +55,14 @@ export const styles = {
    * Typography styles
    */
   typography: {
-    h1: "scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl font-playfair",
-    h2: "scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0 font-playfair",
-    h3: "scroll-m-20 text-2xl font-semibold tracking-tight font-playfair",
-    h4: "scroll-m-20 text-xl font-semibold tracking-tight font-playfair",
-    p: "leading-7 font-inter",
+    h1: "scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl font-display",
+    h2: "scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0 font-display",
+    h3: "scroll-m-20 text-2xl font-semibold tracking-tight font-display",
+    h4: "scroll-m-20 text-xl font-semibold tracking-tight font-display",
+    p: "leading-7 font-sans",
     blockquote: "mt-6 border-l-2 pl-6 italic",
-    list: "my-6 ml-6 list-disc [&>li]:mt-2 font-inter",
+    list: "my-6 ml-6 list-disc [&>li]:mt-2 font-sans",
+    code: "font-mono text-sm font-medium",
   },
   /**
    * Layout styles
