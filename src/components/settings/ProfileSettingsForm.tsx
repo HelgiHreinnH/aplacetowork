@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { Loader2 } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -98,16 +98,21 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
         </div>
       </div>
 
-      <Button type="submit" variant="main" disabled={loading} className="rounded-xl w-full">
-        {loading ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Saving...
-          </>
-        ) : (
-          'Save Changes'
-        )}
-      </Button>
+      <div className="flex justify-end">
+        <Button type="submit" variant="main" disabled={loading} className="rounded-xl">
+          {loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Saving...
+            </>
+          ) : (
+            <>
+              <Save className="mr-2 h-4 w-4" />
+              Save Changes
+            </>
+          )}
+        </Button>
+      </div>
     </form>
   );
 }

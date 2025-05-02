@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -62,6 +62,17 @@ export function LanguageSettings({ currentLanguage }: { currentLanguage: string 
           Updating...
         </div>
       )}
+      
+      <div className="flex justify-end">
+        <Button 
+          variant="main" 
+          onClick={() => toast.success("Language settings saved")}
+          className="rounded-xl"
+        >
+          <Save className="mr-2 h-4 w-4" />
+          Save Settings
+        </Button>
+      </div>
     </div>
   );
 }

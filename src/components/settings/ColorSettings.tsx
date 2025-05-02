@@ -149,20 +149,24 @@ export function ColorSettings() {
             </div>
           </div>
 
-          <Button variant="outline" onClick={handleReset} className="w-full rounded-lg">
-            Reset to Default Colors
-          </Button>
+          <div className="flex justify-end">
+            <Button variant="outline" onClick={handleReset} className="rounded-lg">
+              Reset to Default Colors
+            </Button>
+          </div>
         </div>
       )}
 
-      <Button 
-        onClick={handleSaveSettings} 
-        variant="main"
-        className="w-full flex items-center justify-center gap-2 rounded-xl"
-      >
-        <Save className="h-4 w-4" />
-        Save Color Settings
-      </Button>
+      <div className="flex justify-end">
+        <Button 
+          onClick={handleSaveSettings} 
+          variant="main"
+          className="rounded-xl flex items-center justify-center gap-2"
+        >
+          <Save className="h-4 w-4" />
+          Save Color Settings
+        </Button>
+      </div>
     </div>
   );
 }
