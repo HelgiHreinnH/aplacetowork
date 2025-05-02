@@ -37,8 +37,6 @@ const Card: React.FC<CardProps> = (props) => {
 
   // Using the fixed image URL provided instead of the dynamic one
   const fixedImageUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
-  
-  console.log("Card component using fixed image URL:", fixedImageUrl);
 
   return (
     <div className="relative w-full h-[600px] max-w-[400px] mx-auto bg-transparent" style={{ perspective: '1000px' }}>

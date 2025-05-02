@@ -2,9 +2,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Circle, CircleCheck } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { Database } from '@/integrations/supabase/types';
+import { useDesignSystem } from '@/hooks/use-design-system';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -35,7 +36,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
 
   return (
     <Card 
-      className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden cursor-pointer rounded-lg border-0 transform scale-80 origin-center"
+      className="flex flex-col h-full transition-all duration-300 hover:shadow-lg overflow-hidden cursor-pointer rounded-lg border bg-card"
       onClick={handleCardClick}
     >
       <div className="relative">
@@ -47,7 +48,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
             {isSelected ? (
               <CircleCheck className="h-6 w-6 text-[var(--alert-color)]" />
             ) : (
-              <Circle className="h-6 w-6 text-gray-300 hover:text-[#FEC6A1]" />
+              <Circle className="h-6 w-6 text-gray-300 hover:text-[var(--alert-color)]" />
             )}
           </button>
         </div>
@@ -56,7 +57,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           <img
             src={fixedImageUrl}
             alt={facility.display_title || facility.Facility}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 bg-gray-50"
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 bg-neutral-100"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               console.log("Image error, falling back to default:", target.src);
@@ -65,13 +66,15 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           />
         </div>
 
-        <div className="flex flex-col flex-grow p-6">
-          <h3 className="font-playfair text-[22px] font-bold text-foreground line-clamp-2 mb-2">
-            {facility.display_title || facility.Facility}
-          </h3>
-          <p className="font-inter text-sm text-muted-foreground line-clamp-1 mb-2">
-            Inspiration for the ideal Workspace
-          </p>
+        <CardContent className="flex flex-col flex-grow p-6">
+          <CardHeader className="p-0 mb-2 space-y-1">
+            <CardTitle className="font-display text-[22px] font-bold text-foreground line-clamp-2">
+              {facility.display_title || facility.Facility}
+            </CardTitle>
+            <CardDescription className="font-sans text-sm text-muted-foreground line-clamp-1">
+              Inspiration for the ideal Workspace
+            </CardDescription>
+          </CardHeader>
           
           <div className="space-y-2 mb-4">
             <div className="flex justify-between items-center">
@@ -97,12 +100,12 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           </div>
 
           {facility.Description && (
-            <p className="font-inter text-[15px] text-muted-foreground line-clamp-2 mb-4">
+            <p className="font-sans text-[15px] text-muted-foreground line-clamp-2 mb-4">
               {facility.Description}
             </p>
           )}
 
-          <div className="mt-auto">
+          <CardFooter className="mt-auto p-0">
             <Button 
               className="w-full rounded-md py-2 text-xs"
               variant="main"
@@ -113,8 +116,8 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
             >
               View Details
             </Button>
-          </div>
-        </div>
+          </CardFooter>
+        </CardContent>
       </div>
     </Card>
   );

@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import type { Database } from '@/integrations/supabase/types';
 import FacilityDetails from './FacilityDetails';
 
@@ -35,23 +36,23 @@ const CardBack: React.FC<CardBackProps> = ({
   onFlip,
 }) => {
   return (
-    <Card className="w-full h-full bg-white shadow-none hover:shadow-none transition-shadow duration-300 flex flex-col rounded-lg overflow-hidden">
-      <div className="flex-none py-4 px-6 border-b bg-[#F1F0FB]">
-        <h1 className="text-[22px] font-bold tracking-tight text-[#1A1F2C] line-clamp-1">
+    <Card className="w-full h-full bg-card shadow-none hover:shadow-none transition-shadow duration-300 flex flex-col rounded-lg overflow-hidden">
+      <CardHeader className="flex-none py-4 px-6 border-b bg-[#F1F0FB]">
+        <CardTitle className="text-[22px] font-bold tracking-tight text-foreground line-clamp-1">
           {display_title || facility}
-        </h1>
-      </div>
+        </CardTitle>
+      </CardHeader>
 
       <CardContent className="flex-1 flex flex-col space-y-4 p-6">
         <div className="space-y-3">
           <div className="bg-[#F1F0FB] p-3 rounded-md">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Task Category</h3>
-            <p className="text-[15px] text-[var(--primary-color)] line-clamp-1">{taskCategory}</p>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">Task Category</h3>
+            <p className="text-[15px] text-primary line-clamp-1">{taskCategory}</p>
           </div>
           
           <div className="bg-[#F1F0FB] p-3 rounded-md">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Notes</h3>
-            <p className="text-[15px] text-gray-600 line-clamp-2">{notes || 'Not specified'}</p>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">Notes</h3>
+            <p className="text-[15px] text-muted-foreground line-clamp-2">{notes || 'Not specified'}</p>
           </div>
         </div>
 
@@ -65,14 +66,15 @@ const CardBack: React.FC<CardBackProps> = ({
           />
         </div>
 
-        <div className="mt-auto">
-          <button
-            className="w-full btn-main py-4 px-6 rounded-md text-[15px] font-medium uppercase"
+        <CardFooter className="mt-auto p-0">
+          <Button
+            variant="main"
+            className="w-full py-4 px-6 rounded-md text-[15px] font-medium uppercase"
             onClick={onFlip}
           >
             Back to Front
-          </button>
-        </div>
+          </Button>
+        </CardFooter>
       </CardContent>
     </Card>
   );

@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import type { Database } from '@/integrations/supabase/types';
 
@@ -48,39 +49,39 @@ const CardFront: React.FC<CardFrontProps> = ({
   const displayImageUrl = imageUrl || fixedImageUrl;
 
   return (
-    <Card className="w-full h-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col rounded-lg overflow-hidden">
+    <Card className="w-full h-full bg-card shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col rounded-lg overflow-hidden">
       <div className="relative h-[280px] flex-shrink-0 flex items-center justify-center">
         <img 
           src={displayImageUrl} 
           alt={display_title || facility} 
-          className="w-full h-full object-cover bg-gray-50"
+          className="w-full h-full object-cover bg-neutral-100"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             console.log("Image error, falling back to default:", target.src);
             target.src = defaultImageUrl;
           }}
         />
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white/90 to-transparent">
-          <h1 className="text-xl font-bold tracking-tight text-black line-clamp-1">
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background/90 to-transparent">
+          <CardTitle className="text-xl font-bold font-display tracking-tight text-foreground line-clamp-1">
             {display_title || facility}
-          </h1>
-          <p className="text-sm text-gray-600 line-clamp-1 mt-1">
+          </CardTitle>
+          <CardDescription className="text-sm font-sans text-muted-foreground line-clamp-1 mt-1">
             Inspiration for the ideal Workspace
-          </p>
+          </CardDescription>
         </div>
       </div>
 
       <CardContent className="flex-1 flex flex-col p-4 pt-6">
         <div className="relative mb-3">
           <div className={`transition-all duration-300 ${isExpanded ? 'max-h-none' : 'max-h-16 overflow-hidden'}`}>
-            <p className="text-sm text-gray-600 leading-relaxed">
+            <p className="text-sm font-sans text-muted-foreground leading-relaxed">
               {isExpanded ? description : truncateDescription(description || '', 100)}
             </p>
           </div>
           {(description?.length || 0) > 100 && (
             <button
               onClick={toggleDescription}
-              className="w-full text-primary-color hover:text-secondary-color flex items-center justify-center gap-1 py-1"
+              className="w-full text-primary hover:text-primary/80 flex items-center justify-center gap-1 py-1"
             >
               <span className="text-xs font-medium">
                 {isExpanded ? 'Show less' : 'Read more'}
@@ -92,29 +93,30 @@ const CardFront: React.FC<CardFrontProps> = ({
         
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Amount of m²</span>
+            <span className="text-sm text-muted-foreground">Amount of m²</span>
             <span className="text-sm font-medium text-[var(--alert-color)]">{sqmApprox}</span>
           </div>
           
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Amount of employees</span>
-            <span className="text-sm font-medium text-black">{usersApprox}</span>
+            <span className="text-sm text-muted-foreground">Amount of employees</span>
+            <span className="text-sm font-medium text-foreground">{usersApprox}</span>
           </div>
           
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Collab or concentrated</span>
+            <span className="text-sm text-muted-foreground">Collab or concentrated</span>
             <span className="text-sm font-medium text-[var(--alert-color)]">{taskCategory}</span>
           </div>
         </div>
 
-        <div className="mt-auto pt-3">
-          <button
+        <CardFooter className="mt-auto pt-3 p-0">
+          <Button
             onClick={onFlip}
-            className="w-full btn-main py-3 px-6 rounded-md text-sm font-medium uppercase"
+            variant="main"
+            className="w-full rounded-md py-3 px-6 text-sm font-medium uppercase"
           >
             Show More Details
-          </button>
-        </div>
+          </Button>
+        </CardFooter>
       </CardContent>
     </Card>
   );

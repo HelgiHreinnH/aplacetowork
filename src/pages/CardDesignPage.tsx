@@ -2,6 +2,7 @@
 import React from 'react';
 import Card from '@/components/Card';
 import TitleContainer from '@/components/containers/TitleContainer';
+import { H1, H2, Note } from '@/components/ui/typography';
 
 const CardDesignPage = () => {
   // Sample facility data for demonstration
@@ -31,12 +32,13 @@ const CardDesignPage = () => {
   return (
     <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
       <TitleContainer />
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto bg-[#F6F6F7]">
         <div className="w-full max-w-lg mx-auto py-8 px-4">
+          <H1>Workplace Setting</H1>
+          <Note className="mb-6">
+            This card showcases our design for workplace settings. Click the card to flip between front and back views.
+          </Note>
           <Card {...sampleFacility} />
-          <div className="mt-6 text-center text-sm text-gray-500">
-            Click the card to flip between front and back views
-          </div>
         </div>
       </div>
       <div className="flex-none h-20">
