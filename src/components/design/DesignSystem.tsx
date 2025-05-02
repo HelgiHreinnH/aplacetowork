@@ -65,19 +65,19 @@ export function DesignSystem() {
       <section className="space-y-6">
         <H2>Typography</H2>
         <div className="space-y-4">
-          <H1>Heading 1 - Playfair Display</H1>
-          <H2>Heading 2 - Playfair Display</H2>
-          <H3>Heading 3 - Playfair Display</H3>
-          <H4>Heading 4 - Playfair Display</H4>
-          <p className="font-inter text-base">
-            Body text - Inter Regular. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          <H1>Heading 1 - Noto Sans Display</H1>
+          <H2>Heading 2 - Noto Sans Display</H2>
+          <H3>Heading 3 - Noto Sans Display</H3>
+          <H4>Heading 4 - Noto Sans Display</H4>
+          <p className="font-sans text-base">
+            Body text - Noto Sans Regular. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Nullam euismod, nisl eget ultricies aliquam, nunc nisl aliquet nunc.
           </p>
-          <p className="font-inter text-sm">
-            Small text - Inter Small. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          <p className="font-sans text-sm">
+            Small text - Noto Sans Small. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </p>
-          <p className="font-inter text-xs">
-            Extra small text - Inter Extra Small. Lorem ipsum dolor sit amet.
+          <p className="font-sans text-xs">
+            Extra small text - Noto Sans Extra Small. Lorem ipsum dolor sit amet.
           </p>
         </div>
       </section>
