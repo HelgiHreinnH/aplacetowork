@@ -21,4 +21,3 @@ const InfoSection: React.FC<InfoSectionProps> = ({ title, content }) => (
 );
 
 export default InfoSection;
-

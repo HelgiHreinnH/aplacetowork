@@ -4,6 +4,7 @@ import LoadingSpinner from "@/components/overview/LoadingSpinner";
 import SliderForm from "@/components/SliderForm";
 import type { Database } from '@/integrations/supabase/types';
 import { Info } from "lucide-react";
+import { H5 } from "@/components/ui/typography";
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -41,8 +42,8 @@ const InfoContainer = ({ isLoading, error, facilities, onSearch }: InfoContainer
   );
 
   return (
-    <div className="flex-1 px-4 flex flex-col items-center pt-0 mt-0"> {/* Removed justify-center, min-height, added pt-0 and mt-0 */}
-      <div className="w-full max-w-5xl flex justify-center mb-4"> {/* Added mb-4 */}
+    <div className="flex-1 px-4 flex flex-col items-center pt-0 mt-0">
+      <div className="w-full max-w-5xl flex justify-center mb-4">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium mr-2">
             Want to learn more about the way to find the correct facility just push the Info button

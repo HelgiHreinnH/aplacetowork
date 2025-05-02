@@ -80,4 +80,3 @@ const CardBack: React.FC<CardBackProps> = ({
 };
 
 export default CardBack;
-
