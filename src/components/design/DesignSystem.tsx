@@ -4,7 +4,7 @@ import { designTokens, componentTokens } from '@/styles/design-tokens';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { H1, H2, H3, H4 } from '@/components/ui/typography';
+import { H1, H2, H3, H4, H5 } from '@/components/ui/typography';
 
 export function DesignSystem() {
   // Helper function to convert color hex to a readable name
@@ -69,6 +69,7 @@ export function DesignSystem() {
           <H2>Heading 2 - Noto Sans Display</H2>
           <H3>Heading 3 - Noto Sans Display</H3>
           <H4>Heading 4 - Noto Sans Display</H4>
+          <H5>Heading 5 - Noto Sans Display</H5>
           <p className="font-sans text-base">
             Body text - Noto Sans Regular. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Nullam euismod, nisl eget ultricies aliquam, nunc nisl aliquet nunc.

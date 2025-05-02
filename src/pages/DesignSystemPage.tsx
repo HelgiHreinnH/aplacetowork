@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { H1, H2, H3, H4, Note, Bulletin } from "@/components/ui/typography";
+import { H1, H2, H3, H4, H5, Note, Bulletin } from "@/components/ui/typography";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FontDemo } from '@/components/design/FontDemo';
 import { DesignSystem } from '@/components/design/DesignSystem';
@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FacilityDetails from "@/components/FacilityDetails";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Target, Activity, Package, FileText, Laptop, Check, AlertCircle, Info } from 'lucide-react';
+import InfoSection from "@/components/InfoSection";
 
 const DesignSystemPage = () => {
   return (
@@ -28,6 +29,7 @@ const DesignSystemPage = () => {
           <TabsTrigger value="components">Components</TabsTrigger>
           <TabsTrigger value="cards">Cards</TabsTrigger>
           <TabsTrigger value="colors">Colors & Typography</TabsTrigger>
+          <TabsTrigger value="info">Info Containers</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
@@ -44,6 +46,7 @@ const DesignSystemPage = () => {
               <H2>Heading 2</H2>
               <H3>Heading 3</H3>
               <H4>Heading 4</H4>
+              <H5>Heading 5</H5>
               <p className="text-base">Regular paragraph text</p>
               <p className="text-sm text-muted-foreground">Small text with muted color</p>
               <Note>This is a note component used for important information</Note>
@@ -307,6 +310,88 @@ const DesignSystemPage = () => {
         {/* Colors & Typography Tab */}
         <TabsContent value="colors">
           <FontDemo />
+        </TabsContent>
+
+        {/* New Info Containers Tab */}
+        <TabsContent value="info" className="space-y-8">
+          <section>
+            <H2>Info Section Components</H2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              <div className="space-y-4">
+                <H3>Standard Info Section</H3>
+                <InfoSection 
+                  title="Category" 
+                  content="Collaborative Space"
+                />
+                <InfoSection 
+                  title="Notes" 
+                  content="Ideal for team meetings and collaborative sessions"
+                />
+                <InfoSection 
+                  title="Square Meters" 
+                  content="35 m²"
+                />
+              </div>
+              
+              <div className="space-y-4">
+                <H3>Info Container Examples</H3>
+                <div className="bg-[#F1F0FB] p-3 rounded-md">
+                  <H5 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">
+                    Task Category
+                  </H5>
+                  <p className="text-sm font-sans font-semibold text-primary line-clamp-1">
+                    Collaborative Work
+                  </p>
+                </div>
+                
+                <div className="bg-[#F1F0FB] p-3 rounded-md">
+                  <H5 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">
+                    Room Capacity
+                  </H5>
+                  <p className="text-sm font-sans font-semibold text-gray-600 line-clamp-1">
+                    8-12 people
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <Separator />
+          
+          <section>
+            <H2>Card Back Information Layout</H2>
+            <div className="bg-white p-4 rounded-lg shadow-sm max-w-md mx-auto">
+              <div className="space-y-4">
+                <div className="bg-[#F1F0FB] p-3 rounded-md">
+                  <H5 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">
+                    Category
+                  </H5>
+                  <p className="text-sm font-sans font-semibold text-primary">
+                    Meeting Room
+                  </p>
+                </div>
+                
+                <div className="flex-1">
+                  <FacilityDetails
+                    purpose="Designed for team meetings, presentations, and collaborative sessions"
+                    activities="Team meetings, client presentations, video conferences, workshops"
+                    amenities="75-inch display, video conferencing system, whiteboard wall, adjustable lighting"
+                    etiquette="Clean after use, no food allowed, maintain quiet in surrounding areas"
+                    technology="Built-in AV system, wireless presentation capabilities, high-speed internet"
+                  />
+                </div>
+                
+                <div className="bg-[#F1F0FB] p-3 rounded-md">
+                  <H5 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">
+                    Notes
+                  </H5>
+                  <p className="text-sm font-sans font-semibold text-muted-foreground line-clamp-2">
+                    Booking required for sessions longer than 1 hour. Available Monday-Friday, 8am-6pm.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
         </TabsContent>
       </Tabs>
     </div>
