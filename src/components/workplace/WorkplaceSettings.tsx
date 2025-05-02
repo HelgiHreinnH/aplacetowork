@@ -68,26 +68,29 @@ const WorkplaceSetting: React.FC<WorkplaceSettingProps> = ({
           {capacity && (
             <div>
               <p className="text-xs text-[#8E9196] font-sans">Capacity</p>
-              <p className="font-sans text-[#1A1F2C] font-medium text-[0.875rem]">{capacity}</p>
+              <p className="font-sans text-[#1A1F2C] font-medium text-[0.95rem]">{capacity}</p>
             </div>
           )}
           {area && (
             <div>
               <p className="text-xs text-[#8E9196] font-sans">Area</p>
-              <p className="font-sans text-[#1A1F2C] font-medium text-[0.875rem]">{area}</p>
+              <p className="font-sans text-[#1A1F2C] font-medium text-[0.95rem]">{area}</p>
             </div>
           )}
         </div>
         
         <div>
           <p className="text-xs text-[#8E9196] font-sans mb-2">Features:</p>
-          <ul className="space-y-1">
+          <div className="flex flex-wrap gap-2">
             {features.map((feature, index) => (
-              <li key={index} className="font-sans">
-                <span className="text-[#1A1F2C] font-medium text-[0.875rem]">{feature}</span>
-              </li>
+              <span 
+                key={index} 
+                className="feature-tag inline-flex text-[0.75rem] font-medium px-2 py-1 rounded-md border border-[#E5DEFF] bg-[#F1F0FB] text-[#1A1F2C]"
+              >
+                {feature}
+              </span>
             ))}
-          </ul>
+          </div>
         </div>
       </CardContent>
       
