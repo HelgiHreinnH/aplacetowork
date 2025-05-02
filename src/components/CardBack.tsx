@@ -47,7 +47,7 @@ const CardBack: React.FC<CardBackProps> = ({
       <CardContent className="flex-1 flex flex-col space-y-4 p-6">
         <div className="bg-[#F1F0FB] p-3 rounded-md">
           <H4 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">Task Category</H4>
-          <p className="text-[13px] font-sans font-semibold text-primary line-clamp-1">{taskCategory}</p>
+          <p className="text-sm font-sans font-semibold text-primary line-clamp-1">{taskCategory}</p>
         </div>
         
         <div className="flex-1">
@@ -62,7 +62,7 @@ const CardBack: React.FC<CardBackProps> = ({
         
         <div className="bg-[#F1F0FB] p-3 rounded-md">
           <H4 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">Notes</H4>
-          <p className="text-[13px] font-sans font-semibold text-muted-foreground line-clamp-2">{notes || 'Not specified'}</p>
+          <p className="text-sm font-sans font-semibold text-muted-foreground line-clamp-2">{notes || 'Not specified'}</p>
         </div>
 
         <CardFooter className="mt-auto p-0">
