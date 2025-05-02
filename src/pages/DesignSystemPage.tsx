@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -282,19 +281,20 @@ const DesignSystemPage = () => {
                     <p className="text-[15px] text-primary line-clamp-1">Example Category</p>
                   </div>
                   
-                  <div className="flex-1 bg-gray-50 rounded-xl p-2">
-                    <div className="text-center mb-1">
-                      <h2 className="text-xs font-semibold text-gray-800 uppercase tracking-wide">Details Section</h2>
-                    </div>
-                    <div className="bg-white rounded-lg p-3">
-                      <p className="text-sm">Details content would appear here</p>
-                    </div>
+                  <div className="flex-1">
+                    <FacilityDetails
+                      purpose="Designed for team meetings and discussions"
+                      activities="Team updates, brainstorming, planning sessions"
+                      amenities="Whiteboards, displays, comfortable seating"
+                      etiquette="Clean after use, respect bookings"
+                      technology="Video conferencing, wireless presentation"
+                    />
                   </div>
                   
-                  <div className="bg-[#F1F0FB] p-3 rounded-md">
-                    <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">Notes</h3>
-                    <p className="text-[15px] text-muted-foreground line-clamp-2">Additional notes about this item</p>
-                  </div>
+                  <InfoSection 
+                    title="Notes" 
+                    content="Additional notes about this workspace setting" 
+                  />
                   
                   <CardFooter className="mt-auto p-0">
                     <Button variant="main" className="w-full py-4 px-6 rounded-md text-[15px] font-medium uppercase">
@@ -362,14 +362,10 @@ const DesignSystemPage = () => {
             <H2>Card Back Information Layout</H2>
             <div className="bg-white p-4 rounded-lg shadow-sm max-w-md mx-auto">
               <div className="space-y-4">
-                <div className="bg-[#F1F0FB] p-3 rounded-md">
-                  <H5 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">
-                    Category
-                  </H5>
-                  <p className="text-sm font-sans font-semibold text-primary">
-                    Meeting Room
-                  </p>
-                </div>
+                <InfoSection 
+                  title="Category" 
+                  content="Meeting Room" 
+                />
                 
                 <div className="flex-1">
                   <FacilityDetails
@@ -381,14 +377,10 @@ const DesignSystemPage = () => {
                   />
                 </div>
                 
-                <div className="bg-[#F1F0FB] p-3 rounded-md">
-                  <H5 className="text-xs uppercase tracking-wide text-muted-foreground mb-1 font-normal">
-                    Notes
-                  </H5>
-                  <p className="text-sm font-sans font-semibold text-muted-foreground line-clamp-2">
-                    Booking required for sessions longer than 1 hour. Available Monday-Friday, 8am-6pm.
-                  </p>
-                </div>
+                <InfoSection 
+                  title="Notes" 
+                  content="Booking required for sessions longer than 1 hour. Available Monday-Friday, 8am-6pm." 
+                />
               </div>
             </div>
           </section>
