@@ -18,7 +18,7 @@ export const styles = {
    * Card styles
    */
   card: {
-    base: "rounded-lg border bg-card text-card-foreground shadow-sm",
+    base: "rounded-md border bg-card text-card-foreground shadow-sm",
     header: "flex flex-col space-y-1.5 p-6",
     title: "text-2xl font-display font-semibold leading-none tracking-tight",
     description: "text-sm text-muted-foreground font-sans",
@@ -29,7 +29,7 @@ export const styles = {
    * Button styles
    */
   button: {
-    base: "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+    base: "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
     variant: {
       main: "bg-[var(--primary-color)] text-white hover:bg-opacity-90",
       secondary: "bg-[var(--secondary-color)] text-white hover:bg-opacity-90",
@@ -49,7 +49,7 @@ export const styles = {
    * Input styles
    */
   input: {
-    base: "flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+    base: "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
   },
   /**
    * Typography styles

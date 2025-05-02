@@ -95,6 +95,13 @@ export function DesignSystem() {
           <Button variant="ghost">Ghost Button</Button>
           <Button variant="link">Link Button</Button>
         </div>
+        <div className="mt-4">
+          <p className="text-sm font-medium mb-2">New Rounded Button Style:</p>
+          <div className="flex flex-wrap gap-4">
+            <Button variant="main">Rounded Button</Button>
+            <Button variant="secondary">Rounded Button</Button>
+          </div>
+        </div>
       </section>
 
       <Separator />
@@ -107,7 +114,7 @@ export function DesignSystem() {
               <CardTitle>Card Title</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>Card content with standard styling. This demonstrates our card component with standard padding and typography.</p>
+              <p>Card content with new medium radius styling. This demonstrates our card component with standard padding and typography.</p>
             </CardContent>
           </Card>
           
@@ -116,7 +123,7 @@ export function DesignSystem() {
               <CardTitle>Styled Card</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>Card with custom styling applied, showing how our base components can be extended.</p>
+              <p>Card with medium border radius and custom styling applied, showing how our base components can be extended.</p>
             </CardContent>
           </Card>
         </div>
@@ -153,6 +160,16 @@ export function DesignSystem() {
               <span className="text-xs mt-1">{key}: {value}</span>
             </div>
           ))}
+        </div>
+        <div className="grid grid-cols-2 gap-6 mt-4">
+          <div className="border p-4 rounded-md bg-neutral-50">
+            <p className="font-medium mb-2">Card Border Radius (md)</p>
+            <div className="w-full h-24 bg-primary/10 rounded-md border border-primary/30"></div>
+          </div>
+          <div className="border p-4 rounded-md bg-neutral-50">
+            <p className="font-medium mb-2">Button Border Radius (full)</p>
+            <Button variant="main" className="w-full">Rounded Button</Button>
+          </div>
         </div>
       </section>
     </div>

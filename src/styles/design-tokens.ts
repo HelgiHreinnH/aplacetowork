@@ -131,7 +131,7 @@ export const designTokens = {
  */
 export const componentTokens = {
   card: {
-    borderRadius: designTokens.borderRadius.DEFAULT,
+    borderRadius: designTokens.borderRadius.md,
     padding: designTokens.spacing[6],
     shadow: designTokens.shadows.sm,
     backgroundColor: designTokens.colors.background.DEFAULT,
@@ -139,14 +139,14 @@ export const componentTokens = {
     footerSpacing: designTokens.spacing[4],
   },
   button: {
-    borderRadius: designTokens.borderRadius.DEFAULT,
+    borderRadius: designTokens.borderRadius.full,
     paddingX: designTokens.spacing[4],
     paddingY: designTokens.spacing[2],
     fontSize: designTokens.typography.fontSize.body,
     transition: designTokens.transitions.DEFAULT,
   },
   input: {
-    borderRadius: designTokens.borderRadius.DEFAULT,
+    borderRadius: designTokens.borderRadius.md,
     paddingX: designTokens.spacing[4],
     paddingY: designTokens.spacing[2],
     borderColor: designTokens.colors.neutral[400],
