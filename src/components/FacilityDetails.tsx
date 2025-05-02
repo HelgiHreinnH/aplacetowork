@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Accordion,
@@ -11,8 +10,7 @@ import {
   Activity, 
   Package, 
   FileText, 
-  Laptop,
-  Edit
+  Laptop 
 } from 'lucide-react';
 
 interface FacilityDetailsProps {
@@ -21,7 +19,6 @@ interface FacilityDetailsProps {
   amenities?: string | null;
   etiquette?: string | null;
   technology?: string | null;
-  notes?: string | null;
 }
 
 const FacilityDetails: React.FC<FacilityDetailsProps> = ({
@@ -30,7 +27,6 @@ const FacilityDetails: React.FC<FacilityDetailsProps> = ({
   amenities,
   etiquette,
   technology,
-  notes,
 }) => {
   const categories = [
     { 
@@ -57,11 +53,6 @@ const FacilityDetails: React.FC<FacilityDetailsProps> = ({
       title: 'Technology', 
       content: technology,
       icon: <Laptop className="h-4 w-4" />
-    },
-    { 
-      title: 'Notes', 
-      content: notes,
-      icon: <Edit className="h-4 w-4" />
     },
   ];
 
