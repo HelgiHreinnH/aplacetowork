@@ -46,7 +46,7 @@ export function LanguageSettings({ currentLanguage }: { currentLanguage: string 
           onValueChange={handleLanguageChange}
           disabled={loading}
         >
-          <SelectTrigger>
+          <SelectTrigger className="rounded-lg">
             <SelectValue placeholder="Select language" />
           </SelectTrigger>
           <SelectContent>

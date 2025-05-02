@@ -97,15 +97,15 @@ const ContactUs = () => {
       <TitleContainer />
       <div className="flex-1 overflow-auto">
         <div className="container mx-auto px-4 py-8 max-w-md">
-          <h1 className="text-2xl font-bold mb-6">What are you missing?</h1>
+          <h1 className="font-playfair text-2xl font-bold mb-6">What are you missing?</h1>
           
-          <Card className="shadow-md mb-6">
+          <Card className="shadow-md mb-6 rounded-xl">
             <CardHeader>
-              <CardTitle>Send us your feedback</CardTitle>
+              <CardTitle className="font-playfair">Send us your feedback</CardTitle>
             </CardHeader>
             <CardContent>
               {showLocalWarning && (
-                <Alert className="mb-4">
+                <Alert className="mb-4 rounded-lg">
                   <AlertTitle>Note</AlertTitle>
                   <AlertDescription>
                     Your feedback has been recorded locally. Email notifications are currently unavailable.
@@ -121,7 +121,7 @@ const ContactUs = () => {
                     value={message} 
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Tell us what features or workplace settings you'd like to see added"
-                    className="min-h-[150px]"
+                    className="min-h-[150px] rounded-lg"
                     required
                   />
                 </div>
@@ -140,7 +140,7 @@ const ContactUs = () => {
                 <Button 
                   type="submit" 
                   variant="main"
-                  className="w-full"
+                  className="w-full rounded-xl"
                   disabled={loading || !message.trim() || !session}
                 >
                   {loading ? (
@@ -165,12 +165,12 @@ const ContactUs = () => {
 
           {feedbackMessages.length > 0 && (
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Your Feedback</h2>
+              <h2 className="font-playfair text-xl font-semibold">Your Feedback</h2>
               {feedbackMessages.map((feedback, index) => (
-                <Card key={index} className="shadow-sm">
+                <Card key={index} className="shadow-sm rounded-xl">
                   <CardContent className="pt-4">
-                    <p className="text-gray-700">{feedback.message}</p>
-                    <p className="text-sm text-gray-500 mt-2">
+                    <p className="font-inter text-gray-700">{feedback.message}</p>
+                    <p className="font-inter text-sm text-gray-500 mt-2">
                       {feedback.timestamp.toLocaleString()}
                     </p>
                   </CardContent>

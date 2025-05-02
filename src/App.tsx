@@ -62,7 +62,7 @@ const LogoutButton = () => {
     <Button
       variant="secondary"
       size="sm"
-      className="absolute right-4 top-4 z-50"
+      className="absolute right-4 top-4 z-50 rounded-xl"
       onClick={() => { supabase.auth.signOut(); window.location.href = "/"; }}
     >
       Log out

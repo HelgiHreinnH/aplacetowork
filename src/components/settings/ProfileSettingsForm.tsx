@@ -54,6 +54,7 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
             id="full_name"
             {...register("full_name")}
             placeholder="Enter your full name"
+            className="rounded-lg"
           />
         </div>
 
@@ -64,7 +65,7 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
             defaultValue={initialData.role || 'other'}
             onValueChange={(value) => register("role").onChange({ target: { value } })}
           >
-            <SelectTrigger>
+            <SelectTrigger className="rounded-lg">
               <SelectValue placeholder="Select your role" />
             </SelectTrigger>
             <SelectContent>
@@ -82,6 +83,7 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
             id="company"
             {...register("company")}
             placeholder="Enter your company name"
+            className="rounded-lg"
           />
         </div>
 
@@ -91,11 +93,12 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
             id="country"
             {...register("country")}
             placeholder="Enter your country"
+            className="rounded-lg"
           />
         </div>
       </div>
 
-      <Button type="submit" variant="main" disabled={loading}>
+      <Button type="submit" variant="main" disabled={loading} className="rounded-xl w-full">
         {loading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

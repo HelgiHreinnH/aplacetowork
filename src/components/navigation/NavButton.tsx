@@ -33,6 +33,7 @@ const NavButton = ({
 
   const searchButtonClassName = cn(
     className,
+    "rounded-full",
     label === 'Search' && isIndexPage ? 'animate-bounce' : ''
   );
 

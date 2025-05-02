@@ -66,10 +66,10 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
         </div>
 
         <div className="flex flex-col flex-grow p-6">
-          <h3 className="text-[22px] font-bold text-foreground line-clamp-2 mb-2">
+          <h3 className="font-playfair text-[22px] font-bold text-foreground line-clamp-2 mb-2">
             {facility.display_title || facility.Facility}
           </h3>
-          <p className="text-sm text-muted-foreground line-clamp-1 mb-2">
+          <p className="font-inter text-sm text-muted-foreground line-clamp-1 mb-2">
             Inspiration for the ideal Workspace
           </p>
           
@@ -97,14 +97,14 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
           </div>
 
           {facility.Description && (
-            <p className="text-[15px] text-muted-foreground line-clamp-2 mb-4">
+            <p className="font-inter text-[15px] text-muted-foreground line-clamp-2 mb-4">
               {facility.Description}
             </p>
           )}
 
           <div className="mt-auto">
             <Button 
-              className="w-full rounded-full py-2 text-xs"
+              className="w-full rounded-xl py-2 text-xs"
               variant="main"
               onClick={(e) => {
                 e.stopPropagation();

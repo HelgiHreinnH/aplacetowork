@@ -21,10 +21,11 @@
   backface-visibility: hidden;
 }
 
-/* New design system styles */
+/* Design system styles */
 .card-shadow {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.3s ease;
+  border-radius: 0.75rem;
 }
 
 .card-shadow:hover {
@@ -59,6 +60,7 @@
 .btn-main {
   background-color: var(--primary-color);
   color: white;
+  border-radius: 0.75rem;
   transition-property: background-color, color;
   transition-duration: 300ms;
 }
@@ -70,6 +72,7 @@
 .btn-secondary {
   background-color: var(--secondary-color);
   color: white;
+  border-radius: 0.75rem;
   transition-property: background-color, color;
   transition-duration: 300ms;
 }
@@ -81,6 +84,7 @@
 .btn-alert {
   background-color: var(--alert-color);
   color: white;
+  border-radius: 0.75rem;
   transition-property: background-color, color;
   transition-duration: 300ms;
 }
@@ -92,4 +96,18 @@
 /* Action button hover effect */
 .bg-action:hover {
   background-color: #0284C7;
+}
+
+/* Form input styles */
+input, select, textarea {
+  border-radius: 0.75rem;
+}
+
+/* Consistent font styling */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+body, p, span, div, button, input, select, textarea {
+  font-family: 'Inter', sans-serif;
 }

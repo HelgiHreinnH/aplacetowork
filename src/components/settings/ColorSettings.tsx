@@ -104,13 +104,13 @@ export function ColorSettings() {
                 id="primary"
                 value={colors.primary}
                 onChange={(e) => handleColorChange('primary', e.target.value)}
-                className="w-12 h-12 p-1 cursor-pointer"
+                className="w-12 h-12 p-1 cursor-pointer rounded-lg"
               />
               <Input
                 type="text"
                 value={colors.primary}
                 onChange={(e) => handleColorChange('primary', e.target.value)}
-                className="flex-1"
+                className="flex-1 rounded-lg"
               />
             </div>
           </div>
@@ -123,13 +123,13 @@ export function ColorSettings() {
                 id="secondary"
                 value={colors.secondary}
                 onChange={(e) => handleColorChange('secondary', e.target.value)}
-                className="w-12 h-12 p-1 cursor-pointer"
+                className="w-12 h-12 p-1 cursor-pointer rounded-lg"
               />
               <Input
                 type="text"
                 value={colors.secondary}
                 onChange={(e) => handleColorChange('secondary', e.target.value)}
-                className="flex-1"
+                className="flex-1 rounded-lg"
               />
             </div>
           </div>
@@ -142,13 +142,13 @@ export function ColorSettings() {
                 id="background"
                 value={colors.background}
                 onChange={(e) => handleColorChange('background', e.target.value)}
-                className="w-12 h-12 p-1 cursor-pointer"
+                className="w-12 h-12 p-1 cursor-pointer rounded-lg"
               />
               <Input
                 type="text"
                 value={colors.background}
                 onChange={(e) => handleColorChange('background', e.target.value)}
-                className="flex-1"
+                className="flex-1 rounded-lg"
               />
             </div>
           </div>
@@ -161,18 +161,18 @@ export function ColorSettings() {
                 id="text"
                 value={colors.text}
                 onChange={(e) => handleColorChange('text', e.target.value)}
-                className="w-12 h-12 p-1 cursor-pointer"
+                className="w-12 h-12 p-1 cursor-pointer rounded-lg"
               />
               <Input
                 type="text"
                 value={colors.text}
                 onChange={(e) => handleColorChange('text', e.target.value)}
-                className="flex-1"
+                className="flex-1 rounded-lg"
               />
             </div>
           </div>
 
-          <Button variant="outline" onClick={handleReset} className="w-full">
+          <Button variant="outline" onClick={handleReset} className="w-full rounded-lg">
             Reset to Default Colors
           </Button>
         </div>
@@ -181,7 +181,7 @@ export function ColorSettings() {
       <Button 
         onClick={handleSaveSettings} 
         variant="main"
-        className="w-full flex items-center justify-center gap-2"
+        className="w-full flex items-center justify-center gap-2 rounded-xl"
       >
         <Save className="h-4 w-4" />
         Save Color Settings
