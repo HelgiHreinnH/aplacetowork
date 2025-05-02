@@ -67,7 +67,7 @@ const CardBack: React.FC<CardBackProps> = ({
 
         <div className="mt-auto">
           <button
-            className="w-full bg-[#D3E4FD] text-[#1A1F2C] py-4 px-6 rounded-full hover:bg-[#B3D4FD] transition-colors text-[15px] font-medium uppercase"
+            className="w-full btn-main py-4 px-6 rounded-full text-[15px] font-medium uppercase"
             onClick={onFlip}
           >
             Back to Front

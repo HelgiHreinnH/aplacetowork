@@ -110,7 +110,7 @@ const CardFront: React.FC<CardFrontProps> = ({
         <div className="mt-auto pt-3">
           <button
             onClick={onFlip}
-            className="w-full bg-[var(--primary-color)] text-white py-3 px-6 rounded-full hover:bg-[#8B5CF6] transition-colors text-sm font-medium uppercase"
+            className="w-full btn-main py-3 px-6 rounded-full text-sm font-medium uppercase"
           >
             Show More Details
           </button>

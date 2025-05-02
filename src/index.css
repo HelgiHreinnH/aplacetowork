@@ -75,7 +75,7 @@
   @apply bg-gradient-to-r from-blue-200 to-blue-500;
 }
 
-/* Button color classes */
+/* Button color classes - consistent naming */
 .btn-main {
   @apply bg-[#9b87f5] text-white hover:bg-[#8B5CF6] transition-colors;
 }
