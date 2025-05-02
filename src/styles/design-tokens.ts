@@ -142,7 +142,8 @@ export const componentTokens = {
     borderRadius: designTokens.borderRadius.full,
     paddingX: designTokens.spacing[4],
     paddingY: designTokens.spacing[2],
-    fontSize: designTokens.typography.fontSize.body,
+    fontSize: designTokens.typography.fontSize.xs,
+    fontWeight: designTokens.typography.fontWeight.bold,
     transition: designTokens.transitions.DEFAULT,
   },
   input: {

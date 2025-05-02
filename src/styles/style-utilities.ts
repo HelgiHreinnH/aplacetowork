@@ -29,7 +29,7 @@ export const styles = {
    * Button styles
    */
   button: {
-    base: "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+    base: "inline-flex items-center justify-center whitespace-nowrap rounded-full text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
     variant: {
       main: "bg-[var(--primary-color)] text-white hover:bg-opacity-90",
       secondary: "bg-[var(--secondary-color)] text-white hover:bg-opacity-90",
