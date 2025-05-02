@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,9 +8,13 @@ import TitleContainer from '@/components/containers/TitleContainer';
 import { ProfileSettingsForm } from '@/components/settings/ProfileSettingsForm';
 import { LanguageSettings } from '@/components/settings/LanguageSettings';
 import { ColorSettings } from '@/components/settings/ColorSettings';
+import { toast } from "sonner";
 
 const UserSettings = () => {
-  const { data: session, isLoading: sessionLoading } = useQuery({
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+
+  // Only fetch the session once
+  const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
       const { data } = await supabase.auth.getSession();
@@ -18,40 +22,76 @@ const UserSettings = () => {
     },
   });
 
+  // Better error handling and timeout for profile data
   const { data: profile, isLoading: profileLoading } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .single();
-      
-      if (error) throw error;
-      return data;
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .maybeSingle();
+        
+        if (error && error.code !== 'PGRST116') {
+          console.error('Error fetching profile:', error);
+          toast.error("Failed to load profile data");
+          throw error;
+        }
+        return data || {};
+      } catch (err) {
+        return {};
+      }
     },
     enabled: !!session?.user,
+    retry: 1,
+    staleTime: 300000, // 5 minutes
   });
 
+  // Better error handling and timeout for preferences data
   const { data: preferences, isLoading: preferencesLoading } = useQuery({
     queryKey: ['preferences'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('user_preferences')
-        .select('*')
-        .single();
-      
-      if (error) throw error;
-      return data;
+      try {
+        const { data, error } = await supabase
+          .from('user_preferences')
+          .select('*')
+          .maybeSingle();
+        
+        if (error && error.code !== 'PGRST116') {
+          console.error('Error fetching preferences:', error);
+          toast.error("Failed to load preference data");
+          throw error;
+        }
+        return data || { language: 'en' };
+      } catch (err) {
+        return { language: 'en' };
+      }
     },
     enabled: !!session?.user,
+    retry: 1,
+    staleTime: 300000, // 5 minutes
   });
 
-  if (sessionLoading || profileLoading || preferencesLoading) {
+  // Set initial load complete after a timeout if loading takes too long
+  useState(() => {
+    const timer = setTimeout(() => {
+      if (profileLoading || preferencesLoading) {
+        setInitialLoadComplete(true);
+      }
+    }, 3000); // Show content after 3 seconds even if still loading
+    return () => clearTimeout(timer);
+  });
+
+  // Show loading state, but only briefly
+  if ((profileLoading || preferencesLoading) && !initialLoadComplete) {
     return (
       <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
         <TitleContainer />
         <div className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin" />
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+            <p className="text-sm text-muted-foreground">Loading settings...</p>
+          </div>
         </div>
       </div>
     );
@@ -65,7 +105,7 @@ const UserSettings = () => {
           <h1 className="text-2xl font-bold mb-6">Settings</h1>
           
           <div className="space-y-6">
-            <Card>
+            <Card className="shadow-sm">
               <CardHeader>
                 <CardTitle>Profile Settings</CardTitle>
               </CardHeader>
@@ -74,7 +114,7 @@ const UserSettings = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="shadow-sm">
               <CardHeader>
                 <CardTitle>Language Settings</CardTitle>
               </CardHeader>
@@ -83,7 +123,7 @@ const UserSettings = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="shadow-sm">
               <CardHeader>
                 <CardTitle>Color Settings</CardTitle>
               </CardHeader>
