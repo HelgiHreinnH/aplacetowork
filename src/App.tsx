@@ -16,6 +16,7 @@ import About from '@/pages/About'
 import ContactUs from '@/pages/ContactUs'
 import CardDesignPage from '@/pages/CardDesignPage'
 import CardOverlay from '@/components/overlay/CardOverlay'
+import DesignSystemPage from '@/pages/DesignSystemPage'
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function RoutesWithOverlay() {
         {/* Design System Routes */}
         <Route path="/design" element={<DesignLayout />}>
           <Route index element={<WorkplaceSettings />} />
+          <Route path="system" element={<DesignSystemPage />} />
         </Route>
 
         {/* Main Application Routes */}
@@ -51,6 +53,7 @@ function RoutesWithOverlay() {
           <Route path="about" element={<About />} />
           <Route path="contact" element={<ContactUs />} />
           <Route path="card-design" element={<CardDesignPage />} />
+          <Route path="design-system" element={<DesignSystemPage />} />
         </Route>
       </Routes>
 
