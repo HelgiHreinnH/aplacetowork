@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { H2, H3 } from '@/components/ui/typography';
+import { Tag } from 'lucide-react';
 
 interface WorkplaceSettingProps {
   title: string;
@@ -24,7 +25,7 @@ const WorkplaceSetting: React.FC<WorkplaceSettingProps> = ({
   area,
   type
 }) => {
-  // Simplified color mapping with fewer colors
+  // Color mapping for different workplace types
   const typeColorMap = {
     'work-table': 'bg-[#F1F0FB] text-[#9b87f5]',
     'lounge-area': 'bg-[#F1F0FB] text-[#9b87f5]',
