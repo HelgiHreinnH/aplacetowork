@@ -83,9 +83,9 @@ const WorkplaceSetting: React.FC<WorkplaceSettingProps> = ({
           <p className="text-xs text-[#8E9196] font-sans mb-2">Features:</p>
           <ul className="space-y-1">
             {features.map((feature, index) => (
-              <li key={index} className="text-sm flex items-start gap-2 font-sans">
+              <li key={index} className="flex items-start gap-2 font-sans">
                 <span className="text-[#9b87f5] mt-0.5">•</span>
-                <span className="text-[#8E9196]">{feature}</span>
+                <span className="text-[#1A1F2C]">{feature}</span>
               </li>
             ))}
           </ul>
