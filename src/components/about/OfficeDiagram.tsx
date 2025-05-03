@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Tooltip,
   TooltipContent,
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from '@tanstack/react-query';
 import { Database } from '@/integrations/supabase/types';
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -99,35 +100,74 @@ const OfficeDiagram = () => {
     return facility?.Description || `Information about ${searchTerm}`;
   };
 
+  // Format the area info from square meters data
+  const formatAreaInfo = (facility: Facility | null | undefined) => {
+    if (!facility) return "Not available";
+    
+    if (facility["Approx. Square Meters"]) {
+      return `${facility["Approx. Square Meters"]}`;
+    } else if (facility["Sq M Min"] && facility["Sq M Max"]) {
+      return `${facility["Sq M Min"]}-${facility["Sq M Max"]} m²`;
+    } else {
+      return "Not specified";
+    }
+  };
+
+  // Format the capacity info from users data
+  const formatCapacityInfo = (facility: Facility | null | undefined) => {
+    if (!facility) return "Not available";
+    
+    if (facility["Approx. Users"]) {
+      return facility["Approx. Users"];
+    } else if (facility["Users Min"] && facility["Users Max"]) {
+      return `${facility["Users Min"]}-${facility["Users Max"]} users`;
+    } else {
+      return "Not specified";
+    }
+  };
+
+  // Extract features from amenities text
+  const getFeaturesList = (facility: Facility | null | undefined) => {
+    if (!facility || !facility["Amenities & Features"]) return [];
+    
+    // Try to split by commas, semicolons, or line breaks
+    const features = facility["Amenities & Features"]
+      .split(/[,;\n]/)
+      .map(item => item.trim())
+      .filter(item => item.length > 0);
+    
+    return features.length > 0 ? features : ["Standard amenities"];
+  };
+
   return (
     <div className="w-full mt-4">
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-1 flex-shrink-0">
-          <div className="flex mb-4 space-x-2">
+          <div className="flex mb-4 space-x-2 flex-wrap">
             <Button 
               variant={selectedArea === "workTable" ? "main" : "outline"}
-              className="rounded-full text-xs"
+              className="rounded-full text-xs mb-2"
               onClick={() => handleAreaClick("workTable")}
             >
               Work Table
             </Button>
             <Button 
               variant={selectedArea === "lounge" ? "main" : "outline"}
-              className="rounded-full text-xs"
+              className="rounded-full text-xs mb-2"
               onClick={() => handleAreaClick("lounge")}
             >
               Lounge Area
             </Button>
             <Button 
               variant={selectedArea === "meeting" ? "main" : "outline"}
-              className="rounded-full text-xs"
+              className="rounded-full text-xs mb-2"
               onClick={() => handleAreaClick("meeting")}
             >
               Meeting Room
             </Button>
             <Button 
               variant={selectedArea === "open" ? "main" : "outline"}
-              className="rounded-full text-xs"
+              className="rounded-full text-xs mb-2"
               onClick={() => handleAreaClick("open")}
             >
               Open Area
@@ -222,9 +262,23 @@ const OfficeDiagram = () => {
         
         <div className="flex-1 bg-[#F1F0FB] p-4 rounded-lg">
           {isLoading ? (
-            <p className="text-center text-gray-500">Loading facility information...</p>
+            <div className="space-y-4">
+              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
+              <div className="mt-6">
+                <Skeleton className="h-4 w-1/3 mb-2" />
+                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="h-4 w-2/3 mt-4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+            </div>
           ) : error ? (
-            <p className="text-center text-red-500">Error loading facility data</p>
+            <div className="text-center text-red-500">
+              <p>Error loading facility data</p>
+              <p className="text-sm mt-1">Please try again later</p>
+            </div>
           ) : (
             <>
               <h3 className="text-lg font-semibold mb-2">
@@ -241,21 +295,31 @@ const OfficeDiagram = () => {
                     <p className="mb-2">{selectedFacility.Description || "No description available."}</p>
                     <ul className="list-disc pl-5 space-y-1">
                       <li>
-                        Typical space: {selectedFacility["Approx. Square Meters"] || 
-                        `${selectedFacility["Sq M Min"] || '?'}-${selectedFacility["Sq M Max"] || '?'} m²`}
+                        Typical space: {formatAreaInfo(selectedFacility)}
+                      </li>
+                      <li>
+                        Typical capacity: {formatCapacityInfo(selectedFacility)}
                       </li>
                       <li>
                         Best for: {selectedFacility["Purpose of the Facility"] || "Various activities"}
                       </li>
-                      <li>
-                        Features: {selectedFacility["Amenities & Features"] || "Standard workplace amenities"}
-                      </li>
                     </ul>
+                    
+                    {getFeaturesList(selectedFacility).length > 0 && (
+                      <div className="mt-4">
+                        <p className="font-medium mb-1">Key features:</p>
+                        <ul className="list-disc pl-5 space-y-1">
+                          {getFeaturesList(selectedFacility).map((feature, index) => (
+                            <li key={index}>{feature}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </>
                 ) : !selectedArea ? (
                   <p>Click on any area of the office diagram to learn more about different workplace settings.</p>
                 ) : (
-                  <p>No information available for the selected area.</p>
+                  <p>No information available for the selected area. Please check the database for complete details.</p>
                 )}
               </div>
             </>
