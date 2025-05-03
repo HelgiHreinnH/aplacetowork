@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { 
@@ -40,7 +39,7 @@ import SquareMetersSlider from '@/components/sliders/SquareMetersSlider';
 import UsersSlider from '@/components/sliders/UsersSlider';
 import TaskCategorySlider from '@/components/sliders/TaskCategorySlider';
 import OfficeDiagram from '@/components/about/OfficeDiagram';
-import { Info, CheckCircle, CirclePlus, CircleHelp, SliderHorizontal } from 'lucide-react';
+import { Info, CheckCircle, CirclePlus, CircleHelp, SlidersHorizontal } from 'lucide-react';
 
 const About = () => {
   const navigate = useNavigate();
@@ -87,7 +86,7 @@ const About = () => {
                 <TabsContent value="size" className="mt-4 p-4 bg-[#F1F0FB] rounded-md">
                   <div className="flex flex-col md:flex-row items-center gap-6">
                     <div className="flex-shrink-0 w-40 h-40 flex items-center justify-center bg-[#E5DEFF] rounded-full">
-                      <SliderHorizontal size={64} className="text-[#9b87f5]" />
+                      <SlidersHorizontal size={64} className="text-[#9b87f5]" />
                     </div>
                     <div>
                       <H3>Find the Perfect Space Dimensions</H3>
