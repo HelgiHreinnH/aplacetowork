@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Tooltip,
   TooltipContent,
@@ -7,6 +7,11 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from '@tanstack/react-query';
+import { Database } from '@/integrations/supabase/types';
+
+type Facility = Database['public']['Tables']['Facilities']['Row'];
 
 interface HotspotProps {
   x: string;
@@ -41,8 +46,57 @@ const Hotspot: React.FC<HotspotProps> = ({ x, y, label, description }) => {
 const OfficeDiagram = () => {
   const [selectedArea, setSelectedArea] = useState<string | null>(null);
   
+  // Map workplace types to facility search terms
+  const facilityTypeMap: Record<string, string> = {
+    "workTable": "Work Table",
+    "lounge": "Lounge",
+    "meeting": "Meeting Room",
+    "open": "Open Area"
+  };
+  
+  // Fetch facilities data from Supabase
+  const { data: facilities, isLoading, error } = useQuery({
+    queryKey: ['facilities'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('Facilities')
+        .select('*');
+      
+      if (error) {
+        console.error("Error fetching facilities:", error);
+        throw error;
+      }
+      
+      return data as Facility[];
+    }
+  });
+  
+  // Get facility data for the selected area
+  const getSelectedFacilityData = () => {
+    if (!selectedArea || !facilities) return null;
+    
+    const searchTerm = facilityTypeMap[selectedArea];
+    return facilities.find(facility => 
+      facility.Facility && facility.Facility.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
+  
+  const selectedFacility = getSelectedFacilityData();
+  
   const handleAreaClick = (area: string) => {
     setSelectedArea(area === selectedArea ? null : area);
+  };
+
+  // Create hotspot descriptions from facilities data
+  const getHotspotDescription = (type: string): string => {
+    if (!facilities) return "Loading...";
+    
+    const searchTerm = facilityTypeMap[type];
+    const facility = facilities.find(f => 
+      f.Facility && f.Facility.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    return facility?.Description || `Information about ${searchTerm}`;
   };
 
   return (
@@ -138,28 +192,28 @@ const OfficeDiagram = () => {
                   x="25%" 
                   y="25%" 
                   label="Work Tables" 
-                  description="Individual or shared desks optimized for focused work." 
+                  description={getHotspotDescription("workTable")} 
                 />
                 
                 <Hotspot 
                   x="80%" 
                   y="15%" 
                   label="Lounge Area" 
-                  description="Comfortable seating for informal meetings and breaks." 
+                  description={getHotspotDescription("lounge")} 
                 />
                 
                 <Hotspot 
                   x="20%" 
                   y="75%" 
                   label="Meeting Room" 
-                  description="Enclosed space for presentations and discussions." 
+                  description={getHotspotDescription("meeting")} 
                 />
                 
                 <Hotspot 
                   x="75%" 
                   y="65%" 
                   label="Open Area" 
-                  description="Flexible space for collaboration and events." 
+                  description={getHotspotDescription("open")} 
                 />
               </div>
             </div>
@@ -167,63 +221,45 @@ const OfficeDiagram = () => {
         </div>
         
         <div className="flex-1 bg-[#F1F0FB] p-4 rounded-lg">
-          <h3 className="text-lg font-semibold mb-2">
-            {selectedArea === "workTable" && "Work Tables"}
-            {selectedArea === "lounge" && "Lounge Area"}
-            {selectedArea === "meeting" && "Meeting Room"}
-            {selectedArea === "open" && "Open Area"}
-            {!selectedArea && "Select an Area"}
-          </h3>
-          
-          <div className="text-sm text-gray-700">
-            {selectedArea === "workTable" && (
-              <>
-                <p className="mb-2">Work tables provide dedicated spaces for employees to focus on individual tasks.</p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Typical space: 4-8 m² per person</li>
-                  <li>Best for: Concentrated work, detailed tasks</li>
-                  <li>Features: Good lighting, ergonomic seating</li>
-                </ul>
-              </>
-            )}
-            
-            {selectedArea === "lounge" && (
-              <>
-                <p className="mb-2">Lounge areas create comfortable spaces for relaxation, casual meetings, and breaks.</p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Typical space: 10-15 m² total</li>
-                  <li>Best for: Informal discussions, breaks</li>
-                  <li>Features: Comfortable seating, coffee tables</li>
-                </ul>
-              </>
-            )}
-            
-            {selectedArea === "meeting" && (
-              <>
-                <p className="mb-2">Meeting rooms provide enclosed spaces for formal discussions and presentations.</p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Typical space: 2-3 m² per person</li>
-                  <li>Best for: Team meetings, client presentations</li>
-                  <li>Features: Conference table, display screen</li>
-                </ul>
-              </>
-            )}
-            
-            {selectedArea === "open" && (
-              <>
-                <p className="mb-2">Open areas offer flexible multi-purpose spaces for various activities and events.</p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Typical space: 3-5 m² per person</li>
-                  <li>Best for: Collaboration, workshops, events</li>
-                  <li>Features: Movable furniture, whiteboard walls</li>
-                </ul>
-              </>
-            )}
-            
-            {!selectedArea && (
-              <p>Click on any area of the office diagram to learn more about different workplace settings.</p>
-            )}
-          </div>
+          {isLoading ? (
+            <p className="text-center text-gray-500">Loading facility information...</p>
+          ) : error ? (
+            <p className="text-center text-red-500">Error loading facility data</p>
+          ) : (
+            <>
+              <h3 className="text-lg font-semibold mb-2">
+                {selectedArea === "workTable" && "Work Tables"}
+                {selectedArea === "lounge" && "Lounge Area"}
+                {selectedArea === "meeting" && "Meeting Room"}
+                {selectedArea === "open" && "Open Area"}
+                {!selectedArea && "Select an Area"}
+              </h3>
+              
+              <div className="text-sm text-gray-700">
+                {selectedFacility ? (
+                  <>
+                    <p className="mb-2">{selectedFacility.Description || "No description available."}</p>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>
+                        Typical space: {selectedFacility["Approx. Square Meters"] || 
+                        `${selectedFacility["Sq M Min"] || '?'}-${selectedFacility["Sq M Max"] || '?'} m²`}
+                      </li>
+                      <li>
+                        Best for: {selectedFacility["Purpose of the Facility"] || "Various activities"}
+                      </li>
+                      <li>
+                        Features: {selectedFacility["Amenities & Features"] || "Standard workplace amenities"}
+                      </li>
+                    </ul>
+                  </>
+                ) : !selectedArea ? (
+                  <p>Click on any area of the office diagram to learn more about different workplace settings.</p>
+                ) : (
+                  <p>No information available for the selected area.</p>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
