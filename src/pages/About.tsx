@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import TitleContainer from '@/components/containers/TitleContainer';
@@ -26,6 +27,21 @@ const About = () => {
                 <p className="text-gray-700 mt-4">
                   We believe that the right workplace environment can significantly impact how people work and interact with each other and that way foster both employee wellbeing and the organizational results.
                 </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="shadow-md">
+              <CardHeader>
+                <CardTitle>How to Use This Library</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ol className="list-decimal pl-5 space-y-2 text-gray-700">
+                  <li>Use the search feature to find facilities based on square meters, number of users, and activity type</li>
+                  <li>Browse the complete catalog in the Overview section</li>
+                  <li>Save your favorite facilities for quick access later</li>
+                  <li>Click on facility cards to see detailed specifications and guidelines</li>
+                  <li>Submit feedback if you can't find what you're looking for</li>
+                </ol>
               </CardContent>
             </Card>
             
@@ -72,21 +88,6 @@ const About = () => {
                     <p className="text-sm text-gray-600">Multi-purpose spaces that can be reconfigured for various activities and events.</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="shadow-md">
-              <CardHeader>
-                <CardTitle>How to Use This Library</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ol className="list-decimal pl-5 space-y-2 text-gray-700">
-                  <li>Use the search feature to find facilities based on square meters, number of users, and activity type</li>
-                  <li>Browse the complete catalog in the Overview section</li>
-                  <li>Save your favorite facilities for quick access later</li>
-                  <li>Click on facility cards to see detailed specifications and guidelines</li>
-                  <li>Submit feedback if you can't find what you're looking for</li>
-                </ol>
               </CardContent>
             </Card>
             
@@ -147,7 +148,7 @@ const About = () => {
                   <p className="text-gray-700"><strong>Email:</strong> support@aplacetowork.dk</p>
                   <Button 
                     onClick={() => navigate('/contact')}
-                    className="w-full"
+                    className="rounded-full"
                   >
                     Send us feedback
                   </Button>
