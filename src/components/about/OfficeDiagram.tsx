@@ -99,8 +99,8 @@ const OfficeDiagram = () => {
 
   return (
     <div className="w-full mt-4">
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="flex-1 flex-shrink-0">
+      <div className="flex flex-col gap-4">
+        <div className="flex-1">
           <div className="flex mb-4 space-x-2 flex-wrap">
             <Button 
               variant={selectedArea === "workTable" ? "main" : "outline"}
@@ -133,7 +133,7 @@ const OfficeDiagram = () => {
           </div>
         </div>
         
-        <div className="flex-1 bg-[#F1F0FB] p-4 rounded-lg">
+        <div className="bg-[#F1F0FB] p-4 rounded-lg">
           {isLoading ? (
             <div className="space-y-4">
               <Skeleton className="h-6 w-3/4" />

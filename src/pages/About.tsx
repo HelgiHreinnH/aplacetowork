@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { 
@@ -78,15 +79,15 @@ const About = () => {
               </p>
               
               <Tabs defaultValue="productivity" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
+                <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 gap-2">
                   <TabsTrigger value="size">Find the Right Size</TabsTrigger>
                   <TabsTrigger value="productivity">Boost Productivity</TabsTrigger>
                   <TabsTrigger value="collaboration">Support Collaboration</TabsTrigger>
                 </TabsList>
                 <TabsContent value="size" className="mt-4 p-4 bg-[#F1F0FB] rounded-md">
                   <div className="flex flex-col md:flex-row items-center gap-6">
-                    <div className="flex-shrink-0 w-40 h-40 flex items-center justify-center bg-[#E5DEFF] rounded-full">
-                      <SlidersHorizontal size={64} className="text-[#9b87f5]" />
+                    <div className="flex-shrink-0 w-24 h-24 md:w-40 md:h-40 flex items-center justify-center bg-[#E5DEFF] rounded-full">
+                      <SlidersHorizontal size={36} className="text-[#9b87f5] md:text-6xl" />
                     </div>
                     <div>
                       <H3>Find the Perfect Space Dimensions</H3>
@@ -98,8 +99,8 @@ const About = () => {
                 </TabsContent>
                 <TabsContent value="productivity" className="mt-4 p-4 bg-[#F1F0FB] rounded-md">
                   <div className="flex flex-col md:flex-row items-center gap-6">
-                    <div className="flex-shrink-0 w-40 h-40 flex items-center justify-center bg-[#F2FCE2] rounded-full">
-                      <CheckCircle size={64} className="text-[#7E69AB]" />
+                    <div className="flex-shrink-0 w-24 h-24 md:w-40 md:h-40 flex items-center justify-center bg-[#F2FCE2] rounded-full">
+                      <CheckCircle size={36} className="text-[#7E69AB] md:text-6xl" />
                     </div>
                     <div>
                       <H3>Optimize for Maximum Productivity</H3>
@@ -111,8 +112,8 @@ const About = () => {
                 </TabsContent>
                 <TabsContent value="collaboration" className="mt-4 p-4 bg-[#F1F0FB] rounded-md">
                   <div className="flex flex-col md:flex-row items-center gap-6">
-                    <div className="flex-shrink-0 w-40 h-40 flex items-center justify-center bg-[#D3E4FD] rounded-full">
-                      <CirclePlus size={64} className="text-[#0EA5E9]" />
+                    <div className="flex-shrink-0 w-24 h-24 md:w-40 md:h-40 flex items-center justify-center bg-[#D3E4FD] rounded-full">
+                      <CirclePlus size={36} className="text-[#0EA5E9] md:text-6xl" />
                     </div>
                     <div>
                       <H3>Foster Team Collaboration</H3>
@@ -182,9 +183,9 @@ const About = () => {
                         </div>
                       </div>
                       <div className="flex-shrink-0 flex items-center justify-center">
-                        <div className="relative w-48 h-48 bg-[#E5DEFF] rounded-lg flex items-center justify-center">
+                        <div className="relative w-32 h-32 md:w-48 md:h-48 bg-[#E5DEFF] rounded-lg flex items-center justify-center">
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <p className="text-4xl font-bold text-[#9b87f5]">{sqmValue[0]}m²</p>
+                            <p className="text-3xl md:text-4xl font-bold text-[#9b87f5]">{sqmValue[0]}m²</p>
                           </div>
                           <TooltipProvider>
                             <Tooltip>
@@ -197,7 +198,7 @@ const About = () => {
                                   <Info size={16} />
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent side="right">
+                              <TooltipContent side="top" className="max-w-[200px] md:max-w-none">
                                 <p className="max-w-56">Each workplace setting has minimum space requirements to function effectively.</p>
                               </TooltipContent>
                             </Tooltip>
@@ -241,10 +242,10 @@ const About = () => {
                         </div>
                       </div>
                       <div className="flex-shrink-0 flex items-center justify-center">
-                        <div className="relative w-48 h-48 bg-[#FDE1D3] rounded-lg flex items-center justify-center">
+                        <div className="relative w-32 h-32 md:w-48 md:h-48 bg-[#FDE1D3] rounded-lg flex items-center justify-center">
                           <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <p className="text-4xl font-bold text-[#F97316]">{usersValue[0]}</p>
-                            <p className="text-lg text-[#F97316]">Users</p>
+                            <p className="text-3xl md:text-4xl font-bold text-[#F97316]">{usersValue[0]}</p>
+                            <p className="text-md md:text-lg text-[#F97316]">Users</p>
                           </div>
                           <TooltipProvider>
                             <Tooltip>
@@ -257,7 +258,7 @@ const About = () => {
                                   <Info size={16} />
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent side="right">
+                              <TooltipContent side="top" className="max-w-[200px] md:max-w-none">
                                 <p className="max-w-56">Different workplace settings support different numbers of users effectively.</p>
                               </TooltipContent>
                             </Tooltip>
@@ -301,9 +302,9 @@ const About = () => {
                         </div>
                       </div>
                       <div className="flex-shrink-0 flex items-center justify-center">
-                        <div className="relative w-48 h-48 bg-[#E5DEFF] rounded-lg flex items-center justify-center">
+                        <div className="relative w-32 h-32 md:w-48 md:h-48 bg-[#E5DEFF] rounded-lg flex items-center justify-center">
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <p className="text-xl font-bold text-[#7E69AB] text-center max-w-40 px-2">
+                            <p className="text-sm md:text-xl font-bold text-[#7E69AB] text-center max-w-24 md:max-w-40 px-2">
                               {taskValue[0] < -50 ? "Focused Individual Work" : 
                                taskValue[0] > 50 ? "Team Collaboration" : 
                                "Balanced Activities"}
@@ -320,7 +321,7 @@ const About = () => {
                                   <Info size={16} />
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent side="right">
+                              <TooltipContent side="top" className="max-w-[200px] md:max-w-none">
                                 <p className="max-w-56">The type of work activity determines the optimal environmental conditions.</p>
                               </TooltipContent>
                             </Tooltip>
@@ -352,7 +353,7 @@ const About = () => {
                     <div>
                       <H3>Search for Facilities</H3>
                       <p className="mt-2">Use the search feature to find workplace settings based on your specific requirements:</p>
-                      <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                         <div className="bg-white p-3 rounded-md shadow-sm flex items-center gap-2">
                           <div className="w-6 h-6 rounded-full bg-[#9b87f5] flex items-center justify-center">
                             <span className="text-white text-xs font-bold">m²</span>
@@ -385,7 +386,7 @@ const About = () => {
                           <CircleHelp size={16} />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent side="left">
+                      <TooltipContent side="left" className="max-w-[200px] md:max-w-none">
                         <p>Use the sliders to specify your exact requirements</p>
                       </TooltipContent>
                     </Tooltip>
@@ -449,15 +450,15 @@ const About = () => {
               <Carousel className="w-full">
                 <CarouselContent>
                   <CarouselItem>
-                    <div className="p-6 bg-[#F1F0FB] rounded-lg">
+                    <div className="p-4 sm:p-6 bg-[#F1F0FB] rounded-lg">
                       <H3>Creative Agency Team</H3>
                       <div className="mt-3 flex flex-col md:flex-row gap-6">
-                        <div className="flex-shrink-0 w-32 h-32 bg-[#D3E4FD] rounded-lg flex items-center justify-center">
-                          <div className="w-20 h-20 rounded-full bg-[#0EA5E9] flex items-center justify-center">
+                        <div className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 bg-[#D3E4FD] rounded-lg flex items-center justify-center mx-auto md:mx-0">
+                          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#0EA5E9] flex items-center justify-center">
                             <span className="text-white font-bold">CASE 1</span>
                           </div>
                         </div>
-                        <div>
+                        <div className="flex-1">
                           <p className="font-semibold">Problem:</p>
                           <p className="text-gray-700 mb-2">A 15-person creative team needed a space that balanced focused design work with collaborative brainstorming.</p>
                           
@@ -471,15 +472,15 @@ const About = () => {
                     </div>
                   </CarouselItem>
                   <CarouselItem>
-                    <div className="p-6 bg-[#F1F0FB] rounded-lg">
+                    <div className="p-4 sm:p-6 bg-[#F1F0FB] rounded-lg">
                       <H3>Software Development Startup</H3>
                       <div className="mt-3 flex flex-col md:flex-row gap-6">
-                        <div className="flex-shrink-0 w-32 h-32 bg-[#F2FCE2] rounded-lg flex items-center justify-center">
-                          <div className="w-20 h-20 rounded-full bg-[#7E69AB] flex items-center justify-center">
+                        <div className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 bg-[#F2FCE2] rounded-lg flex items-center justify-center mx-auto md:mx-0">
+                          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#7E69AB] flex items-center justify-center">
                             <span className="text-white font-bold">CASE 2</span>
                           </div>
                         </div>
-                        <div>
+                        <div className="flex-1">
                           <p className="font-semibold">Problem:</p>
                           <p className="text-gray-700 mb-2">A growing startup with 8 developers needed to maximize their limited 40m² office for coding and daily standups.</p>
                           
@@ -493,15 +494,15 @@ const About = () => {
                     </div>
                   </CarouselItem>
                   <CarouselItem>
-                    <div className="p-6 bg-[#F1F0FB] rounded-lg">
+                    <div className="p-4 sm:p-6 bg-[#F1F0FB] rounded-lg">
                       <H3>Financial Services Team</H3>
                       <div className="mt-3 flex flex-col md:flex-row gap-6">
-                        <div className="flex-shrink-0 w-32 h-32 bg-[#FFDEE2] rounded-lg flex items-center justify-center">
-                          <div className="w-20 h-20 rounded-full bg-[#F97316] flex items-center justify-center">
+                        <div className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 bg-[#FFDEE2] rounded-lg flex items-center justify-center mx-auto md:mx-0">
+                          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#F97316] flex items-center justify-center">
                             <span className="text-white font-bold">CASE 3</span>
                           </div>
                         </div>
-                        <div>
+                        <div className="flex-1">
                           <p className="font-semibold">Problem:</p>
                           <p className="text-gray-700 mb-2">A team of 12 financial analysts needed a space that prioritized focused work with occasional client meetings.</p>
                           
@@ -597,11 +598,11 @@ const About = () => {
                 <p className="text-gray-700 mb-6">
                   Start exploring our extensive database of workplace settings tailored to your specific needs.
                 </p>
-                <div className="space-y-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <Button 
                     onClick={() => navigate('/search')}
                     variant="main"
-                    className="w-full md:w-auto"
+                    className="w-full sm:w-auto"
                     size="lg"
                   >
                     Start searching now
@@ -609,7 +610,7 @@ const About = () => {
                   <Button 
                     onClick={() => navigate('/contact')}
                     variant="outline"
-                    className="w-full md:w-auto"
+                    className="w-full sm:w-auto"
                     size="lg"
                   >
                     Send us feedback
