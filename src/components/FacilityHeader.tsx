@@ -10,7 +10,7 @@ interface FacilityHeaderProps {
 const FacilityHeader: React.FC<FacilityHeaderProps> = ({ facility }) => {
   return (
     <CardHeader className="flex-none">
-      <h1 className="text-2xl font-bold tracking-tight text-[#9b87f5]">{facility}</h1>
+      <h1 className="text-2xl font-bold tracking-tight text-[#3f00ff]">{facility}</h1>
       <p className="text-sm tracking-[0.2em] text-[#8E9196] uppercase">Inspiration for the ideal Workspace</p>
     </CardHeader>
   );
