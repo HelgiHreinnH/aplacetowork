@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import MenuSheet from './MenuSheet';
 import NavButton from './NavButton';
 import { calculateFacilityScore, type TaskValue } from '../../utils/facilityScoring';
+import { designTokens } from "@/styles/design-tokens";
 
 const IndexBottomNav = () => {
   const navigate = useNavigate();
@@ -77,8 +78,8 @@ const IndexBottomNav = () => {
             icon={Search}
             label="Search"
             onClick={handleSearch}
-            variant="main"
-            className="rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
+            variant="alert"
+            className="rounded-full w-12 h-12 flex items-center justify-center shadow-lg bg-[#ff8600] hover:bg-[#cc6d00]"
           />
         </div>
 
