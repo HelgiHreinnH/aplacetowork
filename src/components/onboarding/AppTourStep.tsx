@@ -1,0 +1,56 @@
+
+import React from 'react';
+import { motion } from 'framer-motion';
+
+interface TourStep {
+  title: string;
+  description: string;
+  image: string;
+}
+
+interface AppTourStepProps {
+  step: TourStep;
+}
+
+const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
+  return (
+    <div className="flex flex-col items-center h-full max-w-lg mx-auto">
+      <motion.div 
+        className="mb-4 text-center"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <h2 className="text-2xl font-bold text-[#3f00ff] mb-2">{step.title}</h2>
+      </motion.div>
+      
+      <motion.div 
+        className="w-full aspect-video mb-6 rounded-lg overflow-hidden bg-white shadow-md"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+      >
+        <img 
+          src={step.image} 
+          alt={step.title} 
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            // Fallback image if the provided one fails to load
+            e.currentTarget.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=640";
+          }}
+        />
+      </motion.div>
+      
+      <motion.p 
+        className="text-[#8E9196] text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+      >
+        {step.description}
+      </motion.p>
+    </div>
+  );
+};
+
+export default AppTourStep;

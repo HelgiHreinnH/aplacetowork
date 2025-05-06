@@ -17,6 +17,7 @@ import ContactUs from '@/pages/ContactUs'
 import CardDesignPage from '@/pages/CardDesignPage'
 import CardOverlay from '@/components/overlay/CardOverlay'
 import DesignSystemPage from '@/pages/DesignSystemPage'
+import OnboardingFlow from '@/components/onboarding/OnboardingFlow'
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function RoutesWithOverlay() {
           <Route path="contact" element={<ContactUs />} />
           <Route path="card-design" element={<CardDesignPage />} />
           <Route path="design-system" element={<DesignSystemPage />} />
+          <Route path="onboarding" element={<OnboardingFlow />} />
         </Route>
       </Routes>
 
