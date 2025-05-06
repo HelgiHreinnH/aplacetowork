@@ -127,7 +127,7 @@ const About = () => {
             </CardContent>
           </Card>
           
-          {/* Interactive Office Diagram */}
+          {/* Interactive Office Diagram - UPDATED BACKGROUND COLOR HERE */}
           <Card className="shadow-md mb-8">
             <CardHeader>
               <CardTitle>Explore Workplace Settings</CardTitle>
@@ -135,7 +135,7 @@ const About = () => {
                 Click on different areas to learn about each workplace setting
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="bg-[#E3F0FF]">
               <OfficeDiagram />
             </CardContent>
           </Card>
