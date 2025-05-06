@@ -133,7 +133,7 @@ const OfficeDiagram = () => {
           </div>
         </div>
         
-        <div className="bg-[#F1F0FB] p-4 rounded-lg">
+        <div className="bg-[#E3F0FF] p-4 rounded-lg">
           {isLoading ? (
             <div className="space-y-4">
               <Skeleton className="h-6 w-3/4" />
