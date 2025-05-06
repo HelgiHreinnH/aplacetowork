@@ -7,7 +7,8 @@ const Header = () => {
   const [iconError, setIconError] = useState(false);
   
   useEffect(() => {
-    const iconUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//Icon.png";
+    // Updated to use Icon_blue from Supabase
+    const iconUrl = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/Icon_blue.png";
     
     const img = new Image();
     img.onload = () => {
