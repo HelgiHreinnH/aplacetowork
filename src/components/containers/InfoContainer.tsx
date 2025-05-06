@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import LoadingSpinner from "@/components/overview/LoadingSpinner";
 import SliderForm from "@/components/SliderForm";
 import type { Database } from '@/integrations/supabase/types';
-import { Info } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 import { H5 } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 
@@ -62,11 +62,11 @@ const InfoContainer = ({ isLoading, error, facilities, onSearch }: InfoContainer
           </p>
           <Button 
             variant="invisible"
-            className={`p-1 ${showInfoText ? 'text-primary' : 'text-gray-800'}`}
+            className={`p-1 ${showInfoText ? 'text-jordyBlue-DEFAULT' : 'text-gray-800'}`}
             onClick={toggleInfoText}
             aria-pressed={showInfoText}
           >
-            <Info className="h-5 w-5" />
+            <HelpCircle className="h-5 w-5" />
             <span className="sr-only">Information about finding the correct facility</span>
           </Button>
         </div>
