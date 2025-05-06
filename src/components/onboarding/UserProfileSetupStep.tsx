@@ -1,0 +1,225 @@
+
+import { useState, useEffect } from 'react';
+import { useForm } from "react-hook-form";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { motion } from 'framer-motion';
+
+type ProfileFormData = {
+  full_name: string;
+  role: string;
+  company: string;
+  country: string;
+  custom_role?: string;
+};
+
+interface UserProfileSetupStepProps {
+  onComplete: (data: ProfileFormData) => void;
+  initialData?: Partial<ProfileFormData>;
+}
+
+const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete, initialData = {} }) => {
+  const [loading, setLoading] = useState(false);
+  const [customRoles, setCustomRoles] = useState<{id: string, role_name: string}[]>([]);
+  const [roleType, setRoleType] = useState<'predefined' | 'custom'>(
+    initialData.role && !['facility_manager', 'hr_professional', 'knowledge_worker', 'other'].includes(initialData.role) 
+      ? 'custom' 
+      : 'predefined'
+  );
+  
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<ProfileFormData>({
+    defaultValues: initialData
+  });
+
+  const selectedRole = watch('role');
+
+  useEffect(() => {
+    // Fetch custom roles from the database
+    const fetchCustomRoles = async () => {
+      const { data, error } = await supabase
+        .from('custom_roles')
+        .select('id, role_name')
+        .order('usage_count', { ascending: false })
+        .limit(10);
+
+      if (error) {
+        console.error('Error fetching custom roles:', error);
+      } else {
+        setCustomRoles(data || []);
+      }
+    };
+
+    fetchCustomRoles();
+  }, []);
+
+  const onSubmit = async (data: ProfileFormData) => {
+    setLoading(true);
+    try {
+      // Handle custom role if the user selected "other" and provided a custom role
+      if (data.role === 'other' && data.custom_role) {
+        // Check if custom role already exists
+        const { data: existingRole, error: searchError } = await supabase
+          .from('custom_roles')
+          .select('id, usage_count')
+          .eq('role_name', data.custom_role)
+          .maybeSingle();
+
+        if (searchError) {
+          console.error('Error checking for existing custom role:', searchError);
+        } else if (existingRole) {
+          // Update existing custom role's usage count
+          const { error: updateError } = await supabase
+            .from('custom_roles')
+            .update({ usage_count: (existingRole.usage_count || 0) + 1 })
+            .eq('id', existingRole.id);
+          
+          if (updateError) console.error('Error updating custom role usage count:', updateError);
+          
+          // Use the existing custom role
+          data.role = data.custom_role;
+        } else {
+          // Create new custom role
+          const { error: insertError } = await supabase
+            .from('custom_roles')
+            .insert({ 
+              role_name: data.custom_role,
+              created_by: (await supabase.auth.getUser()).data.user?.id
+            });
+          
+          if (insertError) {
+            console.error('Error inserting custom role:', insertError);
+          } else {
+            // Use the new custom role
+            data.role = data.custom_role;
+          }
+        }
+      }
+      
+      // Pass the data to the parent component to handle the completion
+      onComplete(data);
+      
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      toast.error("Failed to save profile");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <motion.div
+      className="flex flex-col h-full max-w-lg mx-auto"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <h2 className="text-2xl font-bold text-[#3f00ff] mb-2">Tell us about yourself</h2>
+      <p className="text-[#8E9196] mb-6">
+        This helps us personalize your experience
+      </p>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 flex-1">
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="full_name" className="block text-sm font-medium mb-1">Full Name</label>
+            <Input
+              id="full_name"
+              {...register("full_name", { required: "Name is required" })}
+              placeholder="Enter your full name"
+              className="rounded-lg"
+            />
+            {errors.full_name && (
+              <p className="text-xs text-red-500 mt-1">{errors.full_name.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="role" className="block text-sm font-medium mb-1">Role</label>
+            <Select 
+              onValueChange={(value) => {
+                setValue('role', value);
+                setRoleType(value === 'other' ? 'custom' : 'predefined');
+              }}
+              defaultValue={initialData.role || 'knowledge_worker'}
+            >
+              <SelectTrigger className="rounded-lg">
+                <SelectValue placeholder="Select your role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="facility_manager">Facility Manager</SelectItem>
+                <SelectItem value="hr_professional">HR Professional</SelectItem>
+                <SelectItem value="knowledge_worker">Knowledge Worker</SelectItem>
+                <SelectItem value="other">Other (specify)</SelectItem>
+                {customRoles.map(role => (
+                  <SelectItem key={role.id} value={role.role_name}>{role.role_name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {selectedRole === 'other' && (
+            <div>
+              <label htmlFor="custom_role" className="block text-sm font-medium mb-1">Specify Your Role</label>
+              <Input
+                id="custom_role"
+                {...register("custom_role", { 
+                  required: selectedRole === 'other' ? "Please specify your role" : false 
+                })}
+                placeholder="Enter your specific role"
+                className="rounded-lg"
+              />
+              {errors.custom_role && (
+                <p className="text-xs text-red-500 mt-1">{errors.custom_role.message}</p>
+              )}
+            </div>
+          )}
+
+          <div>
+            <label htmlFor="company" className="block text-sm font-medium mb-1">Company</label>
+            <Input
+              id="company"
+              {...register("company")}
+              placeholder="Enter your company name"
+              className="rounded-lg"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="country" className="block text-sm font-medium mb-1">Country</label>
+            <Input
+              id="country"
+              {...register("country")}
+              placeholder="Enter your country"
+              className="rounded-lg"
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-end pt-4">
+          <Button type="submit" variant="main" disabled={loading} className="rounded-xl w-full">
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              'Continue'
+            )}
+          </Button>
+        </div>
+      </form>
+    </motion.div>
+  );
+};
+
+export default UserProfileSetupStep;

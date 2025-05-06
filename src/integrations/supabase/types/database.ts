@@ -1,3 +1,4 @@
+
 import type { Facility, FacilityIndexValues, FacilityTaskValues } from './facility';
 
 export type Database = {
@@ -17,6 +18,29 @@ export type Database = {
         Row: FacilityTaskValues;
         Insert: Omit<FacilityTaskValues, 'facility_id'> & { facility_id?: string };
         Update: Partial<FacilityTaskValues>;
+      };
+      'custom_roles': {
+        Row: {
+          id: string;
+          role_name: string;
+          created_at: string;
+          created_by: string | null;
+          usage_count: number;
+        };
+        Insert: {
+          id?: string;
+          role_name: string;
+          created_at?: string;
+          created_by?: string | null;
+          usage_count?: number;
+        };
+        Update: {
+          id?: string;
+          role_name?: string;
+          created_at?: string;
+          created_by?: string | null;
+          usage_count?: number;
+        };
       };
     };
     Views: Record<string, never>;

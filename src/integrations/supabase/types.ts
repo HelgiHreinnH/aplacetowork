@@ -9,6 +9,30 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      custom_roles: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          role_name: string
+          usage_count: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          role_name: string
+          usage_count?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          role_name?: string
+          usage_count?: number
+        }
+        Relationships: []
+      }
       Facilities: {
         Row: {
           "Amenities & Features": string | null

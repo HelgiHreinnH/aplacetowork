@@ -4,42 +4,50 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import WelcomeStep from './WelcomeStep';
-import RoleSelectionStep from './RoleSelectionStep';
+import UserProfileSetupStep from './UserProfileSetupStep';
 import AppTourStep from './AppTourStep';
 
-// Define the user role types
-export type UserRole = 'facility_manager' | 'hr_professional' | 'knowledge_worker';
-
-// Tour steps data
-const tourSteps = [
-  {
-    title: "Browse Workplace Settings",
-    description: "Explore different workplace settings from the home screen, including Work Tables, Lounge Areas, Meeting Rooms, and Open Areas.",
-    image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-browse.png",
-  },
-  {
-    title: "View Setting Details",
-    description: "Tap on any setting to view detailed information, images, and specifications that help you understand the space better.",
-    image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-details.png",
-  },
-  {
-    title: "Adjust Parameters",
-    description: "Use the sliders to adjust parameters like square meters, number of users, and task categories to find the perfect setting for your needs.",
-    image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-sliders.png",
-  },
-  {
-    title: "Save Favorites",
-    description: "Mark settings as favorites to easily access them later from your favorites page.",
-    image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-favorites.png",
-  }
-];
+// Define the user profile data type
+type UserProfileData = {
+  full_name: string;
+  role: string;
+  company?: string;
+  country?: string;
+  custom_role?: string;
+};
 
 const OnboardingFlow = () => {
   const [step, setStep] = useState(0);
-  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
   const [tourStep, setTourStep] = useState(0);
   const navigate = useNavigate();
+
+  // Tour steps data
+  const tourSteps = [
+    {
+      title: "Browse Workplace Settings",
+      description: "Explore different workplace settings from the home screen, including Work Tables, Lounge Areas, Meeting Rooms, and Open Areas.",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-browse.png",
+    },
+    {
+      title: "View Setting Details",
+      description: "Tap on any setting to view detailed information, images, and specifications that help you understand the space better.",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-details.png",
+    },
+    {
+      title: "Adjust Parameters",
+      description: "Use the sliders to adjust parameters like square meters, number of users, and task categories to find the perfect setting for your needs.",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-sliders.png",
+    },
+    {
+      title: "Save Favorites",
+      description: "Mark settings as favorites to easily access them later from your favorites page.",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-favorites.png",
+    }
+  ];
 
   // Calculate max steps (2 initial steps + tour steps)
   const totalSteps = 2 + tourSteps.length;
@@ -60,11 +68,9 @@ const OnboardingFlow = () => {
   };
 
   const handleComplete = () => {
-    // Save onboarding completion status and user preferences to localStorage
+    // Save onboarding completion status to localStorage
     localStorage.setItem('onboardingCompleted', 'true');
-    if (selectedRole) {
-      localStorage.setItem('userRole', selectedRole);
-    }
+    
     // Navigate to home page
     navigate('/home');
   };
@@ -75,8 +81,40 @@ const OnboardingFlow = () => {
     navigate('/home');
   };
 
-  const handleRoleSelect = (role: UserRole) => {
-    setSelectedRole(role);
+  const handleProfileComplete = async (profileData: UserProfileData) => {
+    setUserProfile(profileData);
+    
+    try {
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast.error("No authenticated user found");
+        return;
+      }
+      
+      // Save profile data to Supabase
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({
+          full_name: profileData.full_name,
+          role: profileData.role,
+          company: profileData.company,
+          country: profileData.country
+        })
+        .eq('id', user.id);
+        
+      if (profileError) {
+        console.error('Error updating profile:', profileError);
+        toast.error("Failed to save profile information");
+      } else {
+        toast.success("Profile saved successfully");
+        handleNext();
+      }
+    } catch (error) {
+      console.error('Error in profile completion:', error);
+      toast.error("An error occurred while saving your profile");
+    }
   };
 
   // Determine which step content to show
@@ -84,7 +122,7 @@ const OnboardingFlow = () => {
     if (step === 0) {
       return <WelcomeStep />;
     } else if (step === 1) {
-      return <RoleSelectionStep selectedRole={selectedRole} onRoleSelect={handleRoleSelect} />;
+      return <UserProfileSetupStep onComplete={handleProfileComplete} initialData={userProfile || undefined} />;
     } else {
       // Calculate which tour step to show (step - 2 because we have 2 initial steps)
       const currentTourStep = tourSteps[step - 2];
@@ -120,7 +158,7 @@ const OnboardingFlow = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
-            className="flex-1 flex flex-col px-6 py-4"
+            className="flex-1 flex flex-col px-6 py-4 overflow-y-auto"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
@@ -146,15 +184,17 @@ const OnboardingFlow = () => {
           <div></div> // Empty div to maintain layout
         )}
         
-        <Button 
-          variant="main" 
-          onClick={handleNext}
-          className="flex items-center gap-2"
-          disabled={step === 1 && !selectedRole} // Disable if on role selection step with no role selected
-        >
-          {step === totalSteps - 1 ? 'Get Started' : 'Next'}
-          {step !== totalSteps - 1 && <ChevronRight size={16} />}
-        </Button>
+        {step !== 1 && (
+          <Button 
+            variant="main" 
+            onClick={handleNext}
+            className="flex items-center gap-2"
+          >
+            {step === totalSteps - 1 ? 'Get Started' : 'Next'}
+            {step !== totalSteps - 1 && <ChevronRight size={16} />}
+          </Button>
+        )}
+        {/* Step 1 has its own submit button inside the form */}
       </div>
     </div>
   );
