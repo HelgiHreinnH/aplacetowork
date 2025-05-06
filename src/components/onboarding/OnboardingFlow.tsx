@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import UserProfileSetupStep from './UserProfileSetupStep';
+import IntroductionStep from './IntroductionStep';
 import AppTourStep from './AppTourStep';
 import { Database } from "@/integrations/supabase/types/database";
 
@@ -48,8 +49,8 @@ const OnboardingFlow = () => {
     }
   ];
 
-  // Calculate max steps (1 initial profile step + tour steps)
-  const totalSteps = 1 + tourSteps.length;
+  // Calculate max steps (1 profile step + 1 intro step + tour steps)
+  const totalSteps = 2 + tourSteps.length;
 
   const handleNext = () => {
     if (step < totalSteps - 1) {
@@ -126,9 +127,11 @@ const OnboardingFlow = () => {
   const renderStepContent = () => {
     if (step === 0) {
       return <UserProfileSetupStep onComplete={handleProfileComplete} initialData={userProfile || undefined} />;
+    } else if (step === 1) {
+      return <IntroductionStep />;
     } else {
-      // Calculate which tour step to show (step - 1 because we have 1 initial step)
-      const currentTourStep = tourSteps[step - 1];
+      // Calculate which tour step to show (step - 2 because we have 2 initial steps)
+      const currentTourStep = tourSteps[step - 2];
       return <AppTourStep step={currentTourStep} />;
     }
   };
