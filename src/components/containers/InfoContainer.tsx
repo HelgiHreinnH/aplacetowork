@@ -44,7 +44,18 @@ const InfoContainer = ({ isLoading, error, facilities, onSearch }: InfoContainer
 
   return (
     <div className="flex-1 px-4 flex flex-col items-center pt-0 mt-0">
-      <div className="w-full max-w-5xl flex justify-center mb-4">
+      <div className="bg-white/50 backdrop-blur-sm rounded-lg shadow-sm p-6 w-full max-w-md relative">
+        {isLoading ? (
+          <LoadingState />
+        ) : error ? (
+          <ErrorState />
+        ) : (
+          facilities && <SliderForm facilities={facilities} onSearch={onSearch} showInfo={showInfoText} />
+        )}
+      </div>
+
+      {/* Moved the info text below the slider container */}
+      <div className="w-full max-w-md flex justify-center mt-4 mb-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium mr-2">
             Want to learn more about the way to find the correct facility just push the Info button
@@ -59,16 +70,6 @@ const InfoContainer = ({ isLoading, error, facilities, onSearch }: InfoContainer
             <span className="sr-only">Information about finding the correct facility</span>
           </Button>
         </div>
-      </div>
-      
-      <div className="bg-white/50 backdrop-blur-sm rounded-lg shadow-sm p-6 w-full max-w-md relative">
-        {isLoading ? (
-          <LoadingState />
-        ) : error ? (
-          <ErrorState />
-        ) : (
-          facilities && <SliderForm facilities={facilities} onSearch={onSearch} showInfo={showInfoText} />
-        )}
       </div>
     </div>
   );
