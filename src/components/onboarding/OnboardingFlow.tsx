@@ -6,7 +6,6 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import WelcomeStep from './WelcomeStep';
 import UserProfileSetupStep from './UserProfileSetupStep';
 import AppTourStep from './AppTourStep';
 import { Database } from "@/integrations/supabase/types/database";
@@ -23,7 +22,6 @@ type UserProfileData = {
 const OnboardingFlow = () => {
   const [step, setStep] = useState(0);
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
-  const [tourStep, setTourStep] = useState(0);
   const navigate = useNavigate();
 
   // Tour steps data
@@ -50,8 +48,8 @@ const OnboardingFlow = () => {
     }
   ];
 
-  // Calculate max steps (2 initial steps + tour steps)
-  const totalSteps = 2 + tourSteps.length;
+  // Calculate max steps (1 initial profile step + tour steps)
+  const totalSteps = 1 + tourSteps.length;
 
   const handleNext = () => {
     if (step < totalSteps - 1) {
@@ -127,12 +125,10 @@ const OnboardingFlow = () => {
   // Determine which step content to show
   const renderStepContent = () => {
     if (step === 0) {
-      return <WelcomeStep />;
-    } else if (step === 1) {
       return <UserProfileSetupStep onComplete={handleProfileComplete} initialData={userProfile || undefined} />;
     } else {
-      // Calculate which tour step to show (step - 2 because we have 2 initial steps)
-      const currentTourStep = tourSteps[step - 2];
+      // Calculate which tour step to show (step - 1 because we have 1 initial step)
+      const currentTourStep = tourSteps[step - 1];
       return <AppTourStep step={currentTourStep} />;
     }
   };
@@ -191,7 +187,7 @@ const OnboardingFlow = () => {
           <div></div> // Empty div to maintain layout
         )}
         
-        {step !== 1 && (
+        {step !== 0 && (
           <Button 
             variant="main" 
             onClick={handleNext}
@@ -201,7 +197,7 @@ const OnboardingFlow = () => {
             {step !== totalSteps - 1 && <ChevronRight size={16} />}
           </Button>
         )}
-        {/* Step 1 has its own submit button inside the form */}
+        {/* Step 0 has its own submit button inside the form */}
       </div>
     </div>
   );
