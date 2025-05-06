@@ -5,6 +5,7 @@ import SliderForm from "@/components/SliderForm";
 import type { Database } from '@/integrations/supabase/types';
 import { Info } from "lucide-react";
 import { H5 } from "@/components/ui/typography";
+import { Button } from "@/components/ui/button";
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -48,14 +49,15 @@ const InfoContainer = ({ isLoading, error, facilities, onSearch }: InfoContainer
           <p className="text-sm font-medium mr-2">
             Want to learn more about the way to find the correct facility just push the Info button
           </p>
-          <button 
-            className={`inline-flex items-center justify-center rounded-full h-8 w-8 border-2 border-black ${showInfoText ? 'bg-gray-200' : ''}`}
+          <Button 
+            variant="invisible"
+            className={`p-1 ${showInfoText ? 'text-primary' : 'text-gray-800'}`}
             onClick={toggleInfoText}
             aria-pressed={showInfoText}
           >
-            <Info className="h-4 w-4" />
+            <Info className="h-5 w-5" />
             <span className="sr-only">Information about finding the correct facility</span>
-          </button>
+          </Button>
         </div>
       </div>
       

@@ -37,6 +37,7 @@ export const styles = {
       outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
       ghost: "hover:bg-accent hover:text-accent-foreground",
       link: "text-primary underline-offset-4 hover:underline",
+      invisible: "bg-transparent hover:bg-transparent focus:ring-0 focus:ring-offset-0",
     },
     size: {
       sm: "h-8 px-3 text-xs",

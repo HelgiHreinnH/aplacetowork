@@ -1,4 +1,3 @@
-
 /**
  * Design Tokens
  * 
@@ -205,6 +204,11 @@ export const componentTokens = {
     fontSize: designTokens.typography.fontSize.xs,
     fontWeight: designTokens.typography.fontWeight.bold,
     transition: designTokens.transitions.DEFAULT,
+    invisible: {
+      background: 'transparent',
+      hover: 'transparent',
+      focusRing: 'none',
+    }
   },
   input: {
     borderRadius: designTokens.borderRadius.md,
