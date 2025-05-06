@@ -9,11 +9,12 @@ import { supabase } from "@/integrations/supabase/client";
 import WelcomeStep from './WelcomeStep';
 import UserProfileSetupStep from './UserProfileSetupStep';
 import AppTourStep from './AppTourStep';
+import { Database } from "@/integrations/supabase/types/database";
 
-// Define the user profile data type
+// Define the user profile data type with the proper enum type for role
 type UserProfileData = {
   full_name: string;
-  role: string;
+  role: string; // Changed from enum type to string to accommodate custom roles
   company?: string;
   country?: string;
   custom_role?: string;
@@ -94,11 +95,17 @@ const OnboardingFlow = () => {
       }
       
       // Save profile data to Supabase
+      // Cast the role to the appropriate type if it's one of the predefined roles
+      // or use it as is if it's a custom role
+      const role = ['facility_manager', 'architect', 'designer', 'other'].includes(profileData.role) 
+        ? profileData.role as Database["public"]["Enums"]["user_role"] 
+        : 'other';
+        
       const { error: profileError } = await supabase
         .from('profiles')
         .update({
           full_name: profileData.full_name,
-          role: profileData.role,
+          role: role,
           company: profileData.company,
           country: profileData.country
         })

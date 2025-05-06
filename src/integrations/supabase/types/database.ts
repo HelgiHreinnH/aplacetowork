@@ -45,7 +45,9 @@ export type Database = {
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
-    Enums: Record<string, never>;
+    Enums: {
+      user_role: 'facility_manager' | 'architect' | 'designer' | 'other';
+    };
     CompositeTypes: Record<string, never>;
   };
 };
