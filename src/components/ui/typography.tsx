@@ -64,7 +64,7 @@ export function H5({ children, className }: TypographyProps) {
 export function Note({ children, className }: TypographyProps) {
   return (
     <div className={cn(
-      "font-sans text-sm sm:text-base lg:text-body bg-[#F1F0FB] border-l-4 border-[#9b87f5] p-3 sm:p-4 rounded-r-lg my-3 sm:my-4 text-[#8E9196] font-semibold",
+      "font-sans text-sm sm:text-base lg:text-body bg-[#F1F0FB] border-l-4 border-[#3f00ff] p-3 sm:p-4 rounded-r-lg my-3 sm:my-4 text-[#8E9196] font-semibold",
       className
     )}>
       {children}
@@ -78,7 +78,7 @@ export function Bulletin({ children, className }: TypographyProps) {
       "font-sans text-sm sm:text-base lg:text-body-lg flex items-start gap-2 mb-2 font-semibold",
       className
     )}>
-      <span className="text-[#9b87f5] mt-1">•</span>
+      <span className="text-[#3f00ff] mt-1">•</span>
       <span>{children}</span>
     </div>
   );

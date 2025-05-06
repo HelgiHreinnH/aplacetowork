@@ -21,7 +21,7 @@ type ThemeContextType = {
 };
 
 const standardColors = {
-  primary: designTokens.colors.raisinBlack.dark,    // Dark Raisin Black
+  primary: designTokens.colors.raisinBlack[300],    // Use raisinBlack[300] instead of .dark
   secondary: designTokens.colors.jordyBlue.DEFAULT,  // Jordy Blue
   background: designTokens.colors.neutral[100], // White
   text: designTokens.colors.raisinBlack.DEFAULT,      // Raisin Black
