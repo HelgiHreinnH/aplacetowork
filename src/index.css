@@ -29,11 +29,11 @@
     --radius: 0.75rem;
 
     /* App-specific custom colors */
-    --primary-color: #9b87f5;      /* Main purple for primary actions */
-    --secondary-color: #7E69AB;    /* Secondary purple for secondary actions */
-    --alert-color: #F97316;        /* Orange for alerts and important actions */
+    --primary-color: #3f00ff;      /* Blue for primary actions */
+    --secondary-color: #3185fc;    /* Azure for secondary actions */
+    --alert-color: #ff8600;        /* UT Orange for alerts and important actions */
     --background-color: #FFFFFF;   /* White background */
-    --text-color: #1A1F2C;         /* Dark text */
+    --text-color: #242331;         /* Raisin Black for text */
   }
 
   .dark {

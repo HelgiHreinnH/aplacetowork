@@ -66,7 +66,7 @@
 }
 
 .btn-main:hover {
-  background-color: #8B5CF6;
+  background-color: #6633ff;
 }
 
 .btn-secondary {
@@ -78,7 +78,7 @@
 }
 
 .btn-secondary:hover {
-  background-color: #6E59A5;
+  background-color: #5a9efc;
 }
 
 .btn-alert {
@@ -90,12 +90,12 @@
 }
 
 .btn-alert:hover {
-  background-color: rgba(249, 115, 22, 0.9);
+  background-color: rgba(255, 134, 0, 0.9);
 }
 
 /* Action button hover effect */
 .bg-action:hover {
-  background-color: #0284C7;
+  background-color: #023277;
 }
 
 /* Form input styles */

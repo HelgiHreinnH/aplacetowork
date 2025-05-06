@@ -33,7 +33,7 @@ export const styles = {
     variant: {
       main: "bg-[var(--primary-color)] text-white hover:bg-opacity-90",
       secondary: "bg-[var(--secondary-color)] text-white hover:bg-opacity-90",
-      alert: "bg-[#F97316] text-white hover:bg-opacity-90",
+      alert: "bg-[#ff8600] text-white hover:bg-opacity-90",
       outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
       ghost: "hover:bg-accent hover:text-accent-foreground",
       link: "text-primary underline-offset-4 hover:underline",

@@ -21,15 +21,15 @@ type ThemeContextType = {
 };
 
 const standardColors = {
-  primary: designTokens.colors.text.dark,    // Dark Gray
-  secondary: designTokens.colors.neutral[600],  // Neutral Gray
+  primary: designTokens.colors.raisinBlack.dark,    // Dark Raisin Black
+  secondary: designTokens.colors.jordyBlue.DEFAULT,  // Jordy Blue
   background: designTokens.colors.neutral[100], // White
-  text: designTokens.colors.neutral[900],      // Black
+  text: designTokens.colors.raisinBlack.DEFAULT,      // Raisin Black
 };
 
 const dynamicColors = {
-  primary: designTokens.colors.primary.DEFAULT,
-  secondary: designTokens.colors.secondary.DEFAULT,
+  primary: designTokens.colors.blue.DEFAULT,
+  secondary: designTokens.colors.azure.DEFAULT,
   background: designTokens.colors.background.DEFAULT,
   text: designTokens.colors.text.DEFAULT,
 };
