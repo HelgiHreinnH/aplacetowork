@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { Loader2, Send } from "lucide-react";
 import TitleContainer from '@/components/containers/TitleContainer';
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { designTokens } from "@/styles/design-tokens";
 
 interface FeedbackMessage {
   message: string;
@@ -97,15 +98,15 @@ const ContactUs = () => {
       <TitleContainer />
       <div className="flex-1 overflow-auto">
         <div className="container mx-auto px-4 py-8 max-w-md">
-          <h1 className="font-playfair text-2xl font-bold mb-6">What are you missing?</h1>
+          <h1 className="font-display text-2xl font-bold mb-6">What are you missing?</h1>
           
           <Card className="shadow-md mb-6 rounded-xl">
-            <CardHeader>
-              <CardTitle className="font-playfair">Send us your feedback</CardTitle>
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-t-xl">
+              <CardTitle className="font-display">Send us your feedback</CardTitle>
             </CardHeader>
             <CardContent>
               {showLocalWarning && (
-                <Alert className="mb-4 rounded-lg">
+                <Alert className="mb-4 rounded-lg bg-blue-50 border-blue-200">
                   <AlertTitle>Note</AlertTitle>
                   <AlertDescription>
                     Your feedback has been recorded locally. Email notifications are currently unavailable.
@@ -121,7 +122,7 @@ const ContactUs = () => {
                     value={message} 
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Tell us what features or workplace settings you'd like to see added"
-                    className="min-h-[150px] rounded-lg"
+                    className="min-h-[150px] rounded-lg border-blue-200 focus:border-blue-400 focus:ring-blue-400"
                     required
                   />
                 </div>
@@ -131,6 +132,7 @@ const ContactUs = () => {
                     id="needs-response"
                     checked={needsResponse}
                     onCheckedChange={setNeedsResponse}
+                    className="data-[state=checked]:bg-blue-600"
                   />
                   <Label htmlFor="needs-response">
                     I'd like to be notified when this feature is added
@@ -140,7 +142,7 @@ const ContactUs = () => {
                 <Button 
                   type="submit" 
                   variant="main"
-                  className="w-full rounded-xl"
+                  className="w-full rounded-xl bg-blue-600 hover:bg-blue-700"
                   disabled={loading || !message.trim() || !session}
                 >
                   {loading ? (
@@ -165,12 +167,12 @@ const ContactUs = () => {
 
           {feedbackMessages.length > 0 && (
             <div className="space-y-4">
-              <h2 className="font-playfair text-xl font-semibold">Your Feedback</h2>
+              <h2 className="font-display text-xl font-semibold">Your Feedback</h2>
               {feedbackMessages.map((feedback, index) => (
-                <Card key={index} className="shadow-sm rounded-xl">
-                  <CardContent className="pt-4">
-                    <p className="font-inter text-gray-700">{feedback.message}</p>
-                    <p className="font-inter text-sm text-gray-500 mt-2">
+                <Card key={index} className="shadow-sm rounded-xl border-blue-100">
+                  <CardContent className="pt-4 bg-gradient-to-r from-white to-blue-50">
+                    <p className="font-sans text-gray-700">{feedback.message}</p>
+                    <p className="font-sans text-sm text-blue-500 mt-2">
                       {feedback.timestamp.toLocaleString()}
                     </p>
                   </CardContent>
