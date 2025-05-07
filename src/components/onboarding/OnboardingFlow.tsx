@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,7 +30,7 @@ const OnboardingFlow = () => {
     {
       title: "Understand Space Parameters",
       description: "Each slider represents important workspace parameters like square meters, user capacity, and task types.",
-      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Info_Sliders.png",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Sliders.png",
     },
     {
       title: "Easy Navigation",
