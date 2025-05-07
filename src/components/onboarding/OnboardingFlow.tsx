@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -42,7 +43,10 @@ const OnboardingFlow = () => {
     {
       title: "Be Part of Our Evolution",
       description: "Your feedback influences future updates and workplace setting recommendations.",
-      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Notify.png",
+      images: [
+        "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Feedback.png",
+        "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Notify.png"
+      ],
       footer: "Your feedback is crucial to help us make 'A Place to Work' even better. We're committed to providing the most useful resource for workplace design, and your insights are essential."
     }
   ];
