@@ -26,22 +26,20 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
       </motion.div>
       
       <motion.div 
-        className="w-full max-w-md mb-6 rounded-lg overflow-hidden bg-white shadow-md"
+        className="w-full aspect-video mb-6 rounded-lg overflow-hidden bg-white shadow-md"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
-        <div className="relative">
-          <img 
-            src={step.image} 
-            alt={step.title} 
-            className="w-full h-auto object-contain"
-            onError={(e) => {
-              // Fallback image if the provided one fails to load
-              e.currentTarget.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=640";
-            }}
-          />
-        </div>
+        <img 
+          src={step.image} 
+          alt={step.title} 
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            // Fallback image if the provided one fails to load
+            e.currentTarget.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=640";
+          }}
+        />
       </motion.div>
       
       <motion.p 
