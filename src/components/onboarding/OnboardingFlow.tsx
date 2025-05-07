@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,7 +24,7 @@ const OnboardingFlow = () => {
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
   const navigate = useNavigate();
 
-  // Tour steps data
+  // Tour steps data - Removed pages 3, 4, and 7
   const tourSteps = [
     {
       title: "Browse Workplace Settings",
@@ -37,39 +36,27 @@ const OnboardingFlow = () => {
       description: "Tap on any setting to view detailed information, images, and specifications that help you understand the space better.",
       image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-details.png",
     },
-    // New slider steps - Step 3
-    {
-      title: "Personalize Your Search",
-      description: "Use sliders to adjust and fine-tune your workspace requirements exactly to your needs.",
-      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Sliders.png",
-    },
-    {
-      title: "Understand Space Parameters",
-      description: "Each slider represents important workspace parameters like square meters, user capacity, and task types.",
-      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Info_Sliders.png",
-    },
+    // Removed "Personalize Your Search" step (3)
+    // Removed "Understand Space Parameters" step (4)
     {
       title: "Get Instant Recommendations",
       description: "As you adjust sliders, our system intelligently finds the most suitable workplace settings for your specific requirements.",
       image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Sliders_Info.png",
     },
-    // Navigation steps - Step 4
+    // "Easy Navigation" step included (6)
     {
       title: "Easy Navigation",
       description: "Use the menu bar at the bottom of the screen to navigate between different sections of the app.",
       image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menubar.png",
     },
-    {
-      title: "Access All Features",
-      description: "Open the menu to access your favorites, profile settings, and additional resources about workplace design.",
-      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menu_Open.png",
-    },
-    // Feedback steps - Step 5
+    // Removed "Access All Features" step (7)
+    // "Share Your Thoughts" step included (8)
     {
       title: "Share Your Thoughts",
       description: "Help us improve by sharing your feedback on workplace settings and app features.",
       image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Feedback.png",
     },
+    // "Be Part of Our Evolution" step included (9)
     {
       title: "Be Part of Our Evolution",
       description: "Your feedback influences future updates and workplace setting recommendations.",
