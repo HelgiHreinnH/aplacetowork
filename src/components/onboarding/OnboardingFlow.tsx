@@ -146,7 +146,7 @@ const OnboardingFlow = () => {
   const isSliderDemoStep = step === 2;
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#F6F6F7] flex flex-col">
+    <div className="fixed inset-0 z-[1000] bg-[#F6F6F7] flex flex-col">
       {/* Header with progress and close button */}
       <div className="p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
