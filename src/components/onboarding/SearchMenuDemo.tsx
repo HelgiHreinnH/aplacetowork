@@ -12,7 +12,7 @@ const SearchMenuDemo: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        Search and menu
+        Search and Menu Features
       </motion.h2>
       
       <motion.div
@@ -21,7 +21,9 @@ const SearchMenuDemo: React.FC = () => {
         transition={{ delay: 0.2, duration: 0.4 }}
         className="w-full flex flex-col items-center"
       >
-        <p className="text-sm text-gray-500 text-center mb-4">subline</p>
+        <p className="text-sm text-gray-500 text-center mb-4">
+          Use the search and menu for quick access to all features
+        </p>
         
         {/* Added image under the title */}
         <img
@@ -29,6 +31,18 @@ const SearchMenuDemo: React.FC = () => {
           alt="Menu Open Screenshot"
           className="w-full max-w-xs rounded-lg shadow-md mb-8"
         />
+      </motion.div>
+
+      {/* Description for "Access All Features" */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.4 }}
+        className="px-4"
+      >
+        <p className="text-center text-gray-600 mb-8">
+          Open the menu to access your favorites, profile settings, and additional resources about workplace design.
+        </p>
       </motion.div>
 
       {/* Search Bar Demo */}
@@ -49,7 +63,7 @@ const SearchMenuDemo: React.FC = () => {
             <Heart size={20} className="text-gray-400 mr-1" />
           </div>
         </div>
-        <div className="text-xs text-gray-400 mt-2 text-center">Text on search</div>
+        <div className="text-xs text-gray-400 mt-2 text-center">Use search to find workplace settings</div>
       </motion.div>
 
       {/* Menu Demo */}
@@ -99,7 +113,7 @@ const SearchMenuDemo: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="text-xs text-gray-400 mt-2 text-center">Text on menu</div>
+        <div className="text-xs text-gray-400 mt-2 text-center">Access all features through the menu</div>
       </motion.div>
     </div>
   );

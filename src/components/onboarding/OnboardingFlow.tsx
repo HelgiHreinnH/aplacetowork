@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,7 +24,7 @@ const OnboardingFlow = () => {
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
   const navigate = useNavigate();
 
-  // Tour steps data - with updated step 3 to use interactive component and step 4 for search & menu
+  // Tour steps data - with combined steps for search & menu
   const tourSteps = [
     {
       title: "Understand Space Parameters",
@@ -36,11 +35,6 @@ const OnboardingFlow = () => {
       title: "Easy Navigation",
       description: "Use the menu bar at the bottom of the screen to navigate between different sections of the app.",
       image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menubar.png",
-    },
-    {
-      title: "Access All Features",
-      description: "Open the menu to access your favorites, profile settings, and additional resources about workplace design.",
-      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menu_Open.png",
     },
     {
       customComponent: "SearchMenuDemo",
@@ -142,10 +136,10 @@ const OnboardingFlow = () => {
     }
   };
 
-  // Determine if we're showing step 3/7 (which is the first tour step, index 0)
+  // Determine if we're showing step 3/6 (which is the first tour step, index 0)
   const isSliderDemoStep = step === 2;
-  // Determine if we're showing step 6/7 (which is the search menu step, index 3)
-  const isSearchMenuStep = step === 5;
+  // Determine if we're showing step 4/6 (which is the search menu step, index 3)
+  const isSearchMenuStep = step === 4;
 
   return (
     <div className="fixed inset-0 z-[1000] bg-[#F6F6F7] flex flex-col">
