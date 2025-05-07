@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -26,7 +25,7 @@ const OnboardingFlow = () => {
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
   const navigate = useNavigate();
 
-  // Tour steps data - removed the SearchMenuDemo step
+  // Tour steps data
   const tourSteps = [
     {
       title: "Understand Space Parameters",
@@ -40,6 +39,7 @@ const OnboardingFlow = () => {
         "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menubar.png",
         "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Menu_Open.png"
       ],
+      caption: "Navigate effortlessly with our intuitive menu system",
     },
     {
       title: "Be Part of Our Evolution",
@@ -48,6 +48,7 @@ const OnboardingFlow = () => {
         "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Feedback.png",
         "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Notify.png"
       ],
+      caption: "Share your thoughts to shape the future of the app",
       footer: "Your feedback is crucial to help us make 'A Place to Work' even better. We're committed to providing the most useful resource for workplace design, and your insights are essential."
     },
     {
@@ -194,7 +195,7 @@ const OnboardingFlow = () => {
           <Button 
             variant="outline" 
             onClick={handleBack}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 rounded-full"
           >
             <ChevronLeft size={16} />
             Back
@@ -204,24 +205,26 @@ const OnboardingFlow = () => {
         )}
         
         {step !== 0 && (
-          isSliderDemoStep ? (
-            <Button 
-              variant="main" 
-              onClick={handleNext}
-              className="h-14 w-14 p-0 rounded-full shadow-md"
-            >
-              <ArrowRight size={24} />
-            </Button>
-          ) : (
-            <Button 
-              variant="main" 
-              onClick={handleNext}
-              className="flex items-center gap-2"
-            >
-              {step === totalSteps - 1 ? 'Get Started' : 'Next'}
-              {step !== totalSteps - 1 && <ChevronRight size={16} />}
-            </Button>
-          )
+          <>
+            {isSliderDemoStep || step > 1 ? (
+              <Button 
+                variant="main" 
+                onClick={handleNext}
+                className="h-14 w-14 p-0 rounded-full shadow-md"
+              >
+                <ArrowRight size={24} />
+              </Button>
+            ) : (
+              <Button 
+                variant="main" 
+                onClick={handleNext}
+                className="flex items-center gap-2 rounded-full"
+              >
+                {step === totalSteps - 1 ? 'Get Started' : 'Next'}
+                {step !== totalSteps - 1 && <ChevronRight size={16} />}
+              </Button>
+            )}
+          </>
         )}
         {/* Step 0 has its own submit button inside the form */}
       </div>

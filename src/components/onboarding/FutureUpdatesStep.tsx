@@ -2,7 +2,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Bulletin, H3, Note } from "@/components/ui/typography";
-import InfoSection from "@/components/InfoSection";
 import { Card, CardContent } from "@/components/ui/card";
 
 const FutureUpdatesStep: React.FC = () => {
@@ -15,8 +14,8 @@ const FutureUpdatesStep: React.FC = () => {
         transition={{ delay: 0.2, duration: 0.5 }}
       >
         <div className="mb-6 text-center">
-          <H3 className="text-2xl font-bold text-[#3f00ff] mb-4">What is to Come</H3>
-          <p className="text-[#8E9196]">
+          <H3 className="text-2xl font-bold text-[#3f00ff] mb-2">What is to Come</H3>
+          <p className="text-[#8E9196] mb-4">
             We're constantly working to improve your experience. Here are some exciting updates coming in the future weeks:
           </p>
         </div>

@@ -3,14 +3,16 @@ import React from 'react';
 import { H2, H3 } from "@/components/ui/typography";
 import { Inbox, ArrowDownToLine } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { designTokens } from '@/styles/design-tokens';
 
 const IntroductionStep = () => {
   return (
-    <div className="flex flex-col items-center w-full max-w-2xl mx-auto">
-      <H2 className="mb-8 text-center">Welcome to A Place to Work</H2>
+    <div className="flex flex-col items-center w-full max-w-lg mx-auto">
+      <H2 className="mb-2 text-center text-[#3f00ff]">Welcome to A Place to Work</H2>
+      <p className="text-[#8E9196] mb-6 text-center">
+        Your guide to discovering the perfect workplace setting
+      </p>
       
-      <Card className="w-full mb-8 overflow-hidden border-[#3f00ff]/20">
+      <Card className="w-full mb-6 overflow-hidden border-[#3f00ff]/20">
         <div className="p-6 bg-white">
           <div className="flex items-center justify-center mb-4">
             <div className="p-3 bg-[#F1F0FB] rounded-full shadow-md">
@@ -37,12 +39,13 @@ const IntroductionStep = () => {
               </p>
             </div>
           </CardContent>
+          <div className="mt-4 text-center">
+            <p className="text-xs text-gray-500">
+              Explore workplace possibilities based on your specific needs
+            </p>
+          </div>
         </div>
       </Card>
-      
-      <p className="text-sm text-center text-[#8E9196]">
-        Continue to explore our app tour to learn more about the features
-      </p>
     </div>
   );
 };

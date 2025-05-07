@@ -12,16 +12,16 @@ const SpaceParametersDemo: React.FC = () => {
   const [taskValue, setTaskValue] = useState<number[]>([-128]); // Default to concentrated task
 
   return (
-    <div className="w-full max-w-xl mx-auto">
-      <div className="text-center mb-12">
-        <h2 className="text-[#3f00ff] text-3xl font-bold mb-2">How to use the app</h2>
-        <p className="text-gray-500">
+    <div className="w-full max-w-lg mx-auto">
+      <div className="text-center mb-6">
+        <h2 className="text-[#3f00ff] text-2xl font-bold mb-2">How to use the app</h2>
+        <p className="text-[#8E9196] mb-4">
           Use these sliders to find the perfect workplace setting
         </p>
       </div>
       
       {/* Single column for sliders */}
-      <div className="bg-white rounded-lg shadow-sm p-6 space-y-8">
+      <div className="bg-white rounded-lg shadow-sm p-6 space-y-8 mb-6">
         <SquareMetersSlider 
           value={squareMeters} 
           onChange={setSquareMeters} 
@@ -38,7 +38,7 @@ const SpaceParametersDemo: React.FC = () => {
         />
       </div>
       
-      <div className="mt-10 bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white rounded-lg shadow-sm p-6">
         <div className="flex items-start gap-3 text-left">
           <Info size={20} className="text-[#3f00ff] mt-0.5" />
           <div>
@@ -54,9 +54,12 @@ const SpaceParametersDemo: React.FC = () => {
           <img 
             src="https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Sliders_info.png"
             alt="Info button demonstration" 
-            className="w-full max-w-md mx-auto h-auto object-contain"
+            className="w-full h-auto object-contain"
+            style={{ maxHeight: '280px' }}
           />
-          <p className="text-sm text-center text-gray-500 mt-2">Text on info button</p>
+          <p className="text-xs text-center text-gray-500 mt-2">
+            Tap the info button for detailed guidance on facility selection
+          </p>
         </div>
       </div>
     </div>

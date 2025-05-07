@@ -12,6 +12,7 @@ interface TourStep {
   images?: string[];
   footer?: string;
   customComponent?: string;
+  caption?: string;
 }
 
 interface AppTourStepProps {
@@ -49,14 +50,19 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
           <FutureUpdatesStep />
         </motion.div>
       ) : (
-        <motion.div className="flex flex-col items-center max-w-lg">
+        <motion.div className="flex flex-col items-center w-full max-w-lg mx-auto">
           <motion.div 
-            className="mb-4 text-center"
+            className="mb-6 text-center w-full"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
             <h2 className="text-2xl font-bold text-[#3f00ff] mb-2">{step.title}</h2>
+            {step.description && (
+              <p className="text-[#8E9196] text-center">
+                {step.description}
+              </p>
+            )}
           </motion.div>
           
           {step.images ? (
@@ -65,7 +71,7 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
               {step.images.map((image, index) => (
                 <motion.div 
                   key={index}
-                  className="w-full max-w-md mx-auto rounded-lg overflow-hidden bg-white shadow-md"
+                  className="w-full mx-auto rounded-lg overflow-hidden bg-white shadow-md"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
@@ -82,13 +88,18 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
                       }}
                     />
                   </div>
+                  <div className="py-2 px-3 bg-gray-50 border-t border-gray-100">
+                    <p className="text-xs text-center text-gray-500">
+                      {step.caption || `${step.title} - Image ${index + 1}`}
+                    </p>
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
           ) : step.image ? (
-            // Single image case (existing code)
+            // Single image case
             <motion.div 
-              className="w-full max-w-md mb-6 rounded-lg overflow-hidden bg-white shadow-md"
+              className="w-full mx-auto mb-6 rounded-lg overflow-hidden bg-white shadow-md"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
@@ -104,6 +115,11 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
                     e.currentTarget.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=640";
                   }}
                 />
+              </div>
+              <div className="py-2 px-3 bg-gray-50 border-t border-gray-100">
+                <p className="text-xs text-center text-gray-500">
+                  {step.caption || step.title}
+                </p>
               </div>
             </motion.div>
           ) : null}
@@ -121,7 +137,7 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
           
           {step.footer && (
             <motion.div
-              className="mt-auto pt-6"
+              className="mt-auto pt-6 w-full"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.5 }}
