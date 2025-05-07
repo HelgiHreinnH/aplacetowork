@@ -80,8 +80,8 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
                     <img 
                       src={image} 
                       alt={`${step.title} - Image ${index + 1}`} 
-                      className="w-full h-auto object-cover"
-                      style={{ maxHeight: '280px' }}
+                      className="w-full h-auto"
+                      style={{ maxHeight: 'none' }}
                       onError={(e) => {
                         // Fallback image if the provided one fails to load
                         e.currentTarget.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=640";
@@ -103,8 +103,8 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
                 <img 
                   src={step.image} 
                   alt={step.title} 
-                  className="w-full h-auto object-cover"
-                  style={{ maxHeight: '280px' }}
+                  className="w-full h-auto"
+                  style={{ maxHeight: 'none' }}
                   onError={(e) => {
                     // Fallback image if the provided one fails to load
                     e.currentTarget.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=640";

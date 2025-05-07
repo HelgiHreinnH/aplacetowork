@@ -55,8 +55,8 @@ const SpaceParametersDemo: React.FC = () => {
             <img 
               src="https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Sliders_info.png"
               alt="Info button demonstration" 
-              className="w-full h-auto object-cover"
-              style={{ maxHeight: '280px' }}
+              className="w-full h-auto"
+              style={{ maxHeight: 'none' }}
             />
           </div>
         </div>
