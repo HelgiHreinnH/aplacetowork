@@ -6,6 +6,7 @@ interface TourStep {
   title: string;
   description: string;
   image: string;
+  footer?: string;
 }
 
 interface AppTourStepProps {
@@ -49,6 +50,19 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
       >
         {step.description}
       </motion.p>
+      
+      {step.footer && (
+        <motion.div
+          className="mt-auto pt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          <p className="text-sm italic text-center text-[#474562] font-medium px-4 border-t border-gray-100 pt-4">
+            {step.footer}
+          </p>
+        </motion.div>
+      )}
     </div>
   );
 };

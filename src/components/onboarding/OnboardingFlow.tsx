@@ -37,15 +37,44 @@ const OnboardingFlow = () => {
       description: "Tap on any setting to view detailed information, images, and specifications that help you understand the space better.",
       image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-details.png",
     },
+    // New slider steps - Step 3
     {
-      title: "Adjust Parameters",
-      description: "Use the sliders to adjust parameters like square meters, number of users, and task categories to find the perfect setting for your needs.",
-      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-sliders.png",
+      title: "Personalize Your Search",
+      description: "Use sliders to adjust and fine-tune your workspace requirements exactly to your needs.",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Sliders.png",
     },
     {
-      title: "Save Favorites",
-      description: "Mark settings as favorites to easily access them later from your favorites page.",
-      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage/tour-favorites.png",
+      title: "Understand Space Parameters",
+      description: "Each slider represents important workspace parameters like square meters, user capacity, and task types.",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Info_Sliders.png",
+    },
+    {
+      title: "Get Instant Recommendations",
+      description: "As you adjust sliders, our system intelligently finds the most suitable workplace settings for your specific requirements.",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Sliders_Info.png",
+    },
+    // Navigation steps - Step 4
+    {
+      title: "Easy Navigation",
+      description: "Use the menu bar at the bottom of the screen to navigate between different sections of the app.",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menubar.png",
+    },
+    {
+      title: "Access All Features",
+      description: "Open the menu to access your favorites, profile settings, and additional resources about workplace design.",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menu_Open.png",
+    },
+    // Feedback steps - Step 5
+    {
+      title: "Share Your Thoughts",
+      description: "Help us improve by sharing your feedback on workplace settings and app features.",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Feedback.png",
+    },
+    {
+      title: "Be Part of Our Evolution",
+      description: "Your feedback influences future updates and workplace setting recommendations.",
+      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Notify.png",
+      footer: "Your feedback is crucial to help us make 'A Place to Work' even better. We're committed to providing the most useful resource for workplace design, and your insights are essential."
     }
   ];
 
