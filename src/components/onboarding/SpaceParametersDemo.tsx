@@ -20,34 +20,22 @@ const SpaceParametersDemo: React.FC = () => {
         </p>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Left side: Sliders image */}
-        <div className="bg-white rounded-lg shadow-sm p-6 h-full">
-          <img 
-            src="https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Sliders.png" 
-            alt="Sliders Demo" 
-            className="w-full h-auto object-contain mb-4"
-          />
-          <p className="text-sm text-center text-gray-500">Text on sliders</p>
-        </div>
+      {/* Single column for sliders */}
+      <div className="bg-white rounded-lg shadow-sm p-6 space-y-8">
+        <SquareMetersSlider 
+          value={squareMeters} 
+          onChange={setSquareMeters} 
+        />
         
-        {/* Right side: Sliders component */}
-        <div className="bg-white rounded-lg shadow-sm p-6 space-y-8">
-          <SquareMetersSlider 
-            value={squareMeters} 
-            onChange={setSquareMeters} 
-          />
-          
-          <UsersSlider 
-            value={users} 
-            onChange={setUsers} 
-          />
-          
-          <TaskCategorySlider 
-            value={taskValue} 
-            onChange={setTaskValue} 
-          />
-        </div>
+        <UsersSlider 
+          value={users} 
+          onChange={setUsers} 
+        />
+        
+        <TaskCategorySlider 
+          value={taskValue} 
+          onChange={setTaskValue} 
+        />
       </div>
       
       <div className="mt-10 bg-white rounded-lg shadow-sm p-6">
