@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,7 +24,7 @@ const OnboardingFlow = () => {
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
   const navigate = useNavigate();
 
-  // Tour steps data - with combined steps for search & menu
+  // Tour steps data - removed the SearchMenuDemo step
   const tourSteps = [
     {
       title: "Understand Space Parameters",
@@ -39,11 +38,6 @@ const OnboardingFlow = () => {
         "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menubar.png",
         "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Menu_Open.png"
       ],
-    },
-    {
-      customComponent: "SearchMenuDemo",
-      title: "", // The component has its own title
-      description: "", // The component has its own description
     },
     {
       title: "Be Part of Our Evolution",
@@ -140,10 +134,10 @@ const OnboardingFlow = () => {
     }
   };
 
-  // Determine if we're showing step 3/6 (which is the first tour step, index 0)
+  // Determine if we're showing the first tour step (which is the slider demo step)
   const isSliderDemoStep = step === 2;
-  // Determine if we're showing step 4/6 (which is the search menu step, index 3)
-  const isSearchMenuStep = step === 4;
+  // Determine if we're showing the final step
+  const isFinalStep = step === totalSteps - 1;
 
   return (
     <div className="fixed inset-0 z-[1000] bg-[#F6F6F7] flex flex-col">
@@ -200,7 +194,7 @@ const OnboardingFlow = () => {
         )}
         
         {step !== 0 && (
-          isSliderDemoStep || isSearchMenuStep ? (
+          isSliderDemoStep ? (
             <Button 
               variant="main" 
               onClick={handleNext}
