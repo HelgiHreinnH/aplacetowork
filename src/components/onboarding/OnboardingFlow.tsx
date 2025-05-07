@@ -1,79 +1,22 @@
-import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
-import UserProfileSetupStep from './UserProfileSetupStep';
-import IntroductionStep from './IntroductionStep';
-import AppTourStep from './AppTourStep';
-import FutureUpdatesStep from './FutureUpdatesStep';
-import { Database } from "@/integrations/supabase/types/database";
-
-// Define the user profile data type with the proper enum type for role
-type UserProfileData = {
-  full_name: string;
-  role: string; // Changed from enum type to string to accommodate custom roles
-  company?: string;
-  country?: string;
-  custom_role?: string;
-};
+import { OnboardingProvider } from './context/OnboardingContext';
+import OnboardingNavigation from './OnboardingNavigation';
+import StepContent from './StepContent';
+import { useTourSteps } from './hooks/useTourSteps';
+import { saveUserProfile } from './utils/profileUtils';
+import { UserProfileData } from './types';
 
 const OnboardingFlow = () => {
-  const [step, setStep] = useState(0);
-  const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
   const navigate = useNavigate();
-
-  // Tour steps data
-  const tourSteps = [
-    {
-      title: "Understand Space Parameters",
-      customComponent: "SpaceParametersDemo",
-      description: "", // Empty as the component contains its own description
-    },
-    {
-      title: "Easy Navigation",
-      description: "Use the menu bar at the bottom of the screen to navigate between different sections of the app.",
-      images: [
-        "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menubar.png",
-        "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Menu_Open.png"
-      ]
-    },
-    {
-      title: "Be Part of Our Evolution",
-      description: "Your feedback influences future updates and workplace setting recommendations.",
-      images: [
-        "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Feedback.png",
-        "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Notify.png"
-      ],
-      footer: "Your feedback is crucial to help us make 'A Place to Work' even better. We're committed to providing the most useful resource for workplace design, and your insights are essential."
-    },
-    {
-      title: "What is to Come",
-      customComponent: "FutureUpdates",
-      description: "", // Empty as the component contains its own description
-    }
-  ];
-
-  // Calculate max steps (1 profile step + 1 intro step + tour steps)
+  const tourSteps = useTourSteps();
+  
+  // Calculate total steps (1 profile step + 1 intro step + tour steps)
   const totalSteps = 2 + tourSteps.length;
 
-  const handleNext = () => {
-    if (step < totalSteps - 1) {
-      setStep(step + 1);
-    } else {
-      // Complete onboarding and navigate to main app
-      handleComplete();
-    }
-  };
-
-  const handleBack = () => {
-    if (step > 0) {
-      setStep(step - 1);
-    }
-  };
-
+  // Handle complete onboarding 
   const handleComplete = () => {
     // Save onboarding completion status to localStorage
     localStorage.setItem('onboardingCompleted', 'true');
@@ -82,151 +25,26 @@ const OnboardingFlow = () => {
     navigate('/home');
   };
 
-  const handleSkip = () => {
-    // Mark as completed but skip the rest of onboarding
-    localStorage.setItem('onboardingCompleted', 'true');
-    navigate('/home');
-  };
-
+  // Handle profile completion
   const handleProfileComplete = async (profileData: UserProfileData) => {
-    setUserProfile(profileData);
-    
     try {
-      // Get current user
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        toast.error("No authenticated user found");
-        return;
-      }
-      
-      // Save profile data to Supabase
-      // Cast the role to the appropriate type if it's one of the predefined roles
-      // or use it as is if it's a custom role
-      const role = ['facility_manager', 'architect', 'designer', 'other'].includes(profileData.role) 
-        ? profileData.role as Database["public"]["Enums"]["user_role"] 
-        : 'other';
-        
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({
-          full_name: profileData.full_name,
-          role: role,
-          company: profileData.company,
-          country: profileData.country
-        })
-        .eq('id', user.id);
-        
-      if (profileError) {
-        console.error('Error updating profile:', profileError);
-        toast.error("Failed to save profile information");
-      } else {
-        toast.success("Profile saved successfully");
-        handleNext();
-      }
+      await saveUserProfile(profileData);
     } catch (error) {
       console.error('Error in profile completion:', error);
       toast.error("An error occurred while saving your profile");
     }
   };
 
-  // Determine which step content to show
-  const renderStepContent = () => {
-    if (step === 0) {
-      return <UserProfileSetupStep onComplete={handleProfileComplete} initialData={userProfile || undefined} />;
-    } else if (step === 1) {
-      return <IntroductionStep />;
-    } else {
-      // Calculate which tour step to show (step - 2 because we have 2 initial steps)
-      const currentTourStep = tourSteps[step - 2];
-      return <AppTourStep step={currentTourStep} />;
-    }
-  };
-
   // Determine if we're showing the first tour step (which is the slider demo step)
-  const isSliderDemoStep = step === 2;
-  // Determine if we're showing the final step
-  const isFinalStep = step === totalSteps - 1;
+  const isSliderDemoStep = (step: number) => step === 2;
 
   return (
-    <div className="fixed inset-0 z-[1000] bg-[#F6F6F7] flex flex-col">
-      {/* Header with progress and close button */}
-      <div className="p-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-[#8E9196]">
-            Step {step + 1}/{totalSteps}
-          </span>
-          <div className="w-32 h-1 bg-gray-200 rounded-full">
-            <div 
-              className="h-full bg-[#3f00ff] rounded-full transition-all" 
-              style={{ width: `${((step + 1) / totalSteps) * 100}%` }}
-            />
-          </div>
-        </div>
-        <button 
-          onClick={handleSkip} 
-          className="p-2 rounded-full hover:bg-gray-100"
-        >
-          <X size={18} className="text-[#8E9196]" />
-        </button>
+    <OnboardingProvider totalSteps={totalSteps} onComplete={handleComplete}>
+      <div className="fixed inset-0 z-[1000] bg-[#F6F6F7] flex flex-col">
+        <OnboardingNavigation isSliderDemoStep={isSliderDemoStep(2)} />
+        <StepContent onProfileComplete={handleProfileComplete} />
       </div>
-
-      {/* Main content with animation */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step}
-            className="flex-1 flex flex-col px-6 py-4 overflow-y-auto"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {renderStepContent()}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Footer with navigation buttons */}
-      <div className="p-4 flex justify-between border-t border-gray-100">
-        {step > 0 ? (
-          <Button 
-            variant="outline" 
-            onClick={handleBack}
-            className="flex items-center gap-2 rounded-full"
-          >
-            <ChevronLeft size={16} />
-            Back
-          </Button>
-        ) : (
-          <div></div> // Empty div to maintain layout
-        )}
-        
-        {step !== 0 && (
-          <>
-            {isSliderDemoStep || step > 1 ? (
-              <Button 
-                variant="main" 
-                onClick={handleNext}
-                className="h-14 w-14 p-0 rounded-full shadow-md"
-              >
-                <ArrowRight size={24} />
-              </Button>
-            ) : (
-              <Button 
-                variant="main" 
-                onClick={handleNext}
-                className="flex items-center gap-2 rounded-full"
-              >
-                {step === totalSteps - 1 ? 'Get Started' : 'Next'}
-                {step !== totalSteps - 1 && <ChevronRight size={16} />}
-              </Button>
-            )}
-          </>
-        )}
-        {/* Step 0 has its own submit button inside the form */}
-      </div>
-    </div>
+    </OnboardingProvider>
   );
 };
 
