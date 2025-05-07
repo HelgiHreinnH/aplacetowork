@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -141,6 +142,9 @@ const OnboardingFlow = () => {
     }
   };
 
+  // Determine if we're showing step 3/7 (which is the first tour step, index 0)
+  const isSliderDemoStep = step === 2;
+
   return (
     <div className="fixed inset-0 z-50 bg-[#F6F6F7] flex flex-col">
       {/* Header with progress and close button */}
@@ -196,14 +200,24 @@ const OnboardingFlow = () => {
         )}
         
         {step !== 0 && (
-          <Button 
-            variant="main" 
-            onClick={handleNext}
-            className="flex items-center gap-2"
-          >
-            {step === totalSteps - 1 ? 'Get Started' : 'Next'}
-            {step !== totalSteps - 1 && <ChevronRight size={16} />}
-          </Button>
+          isSliderDemoStep ? (
+            <Button 
+              variant="main" 
+              onClick={handleNext}
+              className="h-14 w-14 p-0 rounded-full shadow-md"
+            >
+              <ArrowRight size={24} />
+            </Button>
+          ) : (
+            <Button 
+              variant="main" 
+              onClick={handleNext}
+              className="flex items-center gap-2"
+            >
+              {step === totalSteps - 1 ? 'Get Started' : 'Next'}
+              {step !== totalSteps - 1 && <ChevronRight size={16} />}
+            </Button>
+          )
         )}
         {/* Step 0 has its own submit button inside the form */}
       </div>
