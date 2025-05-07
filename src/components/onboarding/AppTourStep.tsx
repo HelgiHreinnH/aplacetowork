@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import SpaceParametersDemo from './SpaceParametersDemo';
 import SearchMenuDemo from './SearchMenuDemo';
+import FutureUpdatesStep from './FutureUpdatesStep';
 
 interface TourStep {
   title: string;
@@ -37,6 +38,15 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
           transition={{ delay: 0.2, duration: 0.5 }}
         >
           <SearchMenuDemo />
+        </motion.div>
+      ) : step.customComponent === 'FutureUpdates' ? (
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          <FutureUpdatesStep />
         </motion.div>
       ) : (
         <motion.div className="flex flex-col items-center max-w-lg">

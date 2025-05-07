@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import UserProfileSetupStep from './UserProfileSetupStep';
 import IntroductionStep from './IntroductionStep';
 import AppTourStep from './AppTourStep';
+import FutureUpdatesStep from './FutureUpdatesStep';
 import { Database } from "@/integrations/supabase/types/database";
 
 // Define the user profile data type with the proper enum type for role
@@ -48,6 +49,11 @@ const OnboardingFlow = () => {
         "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Notify.png"
       ],
       footer: "Your feedback is crucial to help us make 'A Place to Work' even better. We're committed to providing the most useful resource for workplace design, and your insights are essential."
+    },
+    {
+      title: "What is to Come",
+      customComponent: "FutureUpdates",
+      description: "", // Empty as the component contains its own description
     }
   ];
 
