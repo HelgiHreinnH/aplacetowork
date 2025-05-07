@@ -25,7 +25,7 @@ const OnboardingFlow = () => {
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
   const navigate = useNavigate();
 
-  // Tour steps data - with updated step 3 to use interactive component
+  // Tour steps data - with updated step 3 to use interactive component and step 4 for search & menu
   const tourSteps = [
     {
       title: "Understand Space Parameters",
@@ -43,9 +43,9 @@ const OnboardingFlow = () => {
       image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menu_Open.png",
     },
     {
-      title: "Share Your Thoughts",
-      description: "Help us improve by sharing your feedback on workplace settings and app features.",
-      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Feedback.png",
+      customComponent: "SearchMenuDemo",
+      title: "", // The component has its own title
+      description: "", // The component has its own description
     },
     {
       title: "Be Part of Our Evolution",
@@ -144,6 +144,8 @@ const OnboardingFlow = () => {
 
   // Determine if we're showing step 3/7 (which is the first tour step, index 0)
   const isSliderDemoStep = step === 2;
+  // Determine if we're showing step 6/7 (which is the search menu step, index 3)
+  const isSearchMenuStep = step === 5;
 
   return (
     <div className="fixed inset-0 z-[1000] bg-[#F6F6F7] flex flex-col">
@@ -200,7 +202,7 @@ const OnboardingFlow = () => {
         )}
         
         {step !== 0 && (
-          isSliderDemoStep ? (
+          isSliderDemoStep || isSearchMenuStep ? (
             <Button 
               variant="main" 
               onClick={handleNext}

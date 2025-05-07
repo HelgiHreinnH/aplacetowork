@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import SpaceParametersDemo from './SpaceParametersDemo';
+import SearchMenuDemo from './SearchMenuDemo';
 
 interface TourStep {
   title: string;
@@ -26,6 +27,15 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
           transition={{ delay: 0.2, duration: 0.5 }}
         >
           <SpaceParametersDemo />
+        </motion.div>
+      ) : step.customComponent === 'SearchMenuDemo' ? (
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          <SearchMenuDemo />
         </motion.div>
       ) : (
         <motion.div className="flex flex-col items-center max-w-lg">
