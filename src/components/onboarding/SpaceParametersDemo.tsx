@@ -57,9 +57,6 @@ const SpaceParametersDemo: React.FC = () => {
             className="w-full h-auto object-contain"
             style={{ maxHeight: '280px' }}
           />
-          <p className="text-xs text-center text-gray-500 mt-2">
-            Tap the info button for detailed guidance on facility selection
-          </p>
         </div>
       </div>
     </div>

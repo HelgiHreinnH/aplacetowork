@@ -38,8 +38,7 @@ const OnboardingFlow = () => {
       images: [
         "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menubar.png",
         "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Menu_Open.png"
-      ],
-      caption: "Navigate effortlessly with our intuitive menu system",
+      ]
     },
     {
       title: "Be Part of Our Evolution",
@@ -48,7 +47,6 @@ const OnboardingFlow = () => {
         "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Feedback.png",
         "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Notify.png"
       ],
-      caption: "Share your thoughts to shape the future of the app",
       footer: "Your feedback is crucial to help us make 'A Place to Work' even better. We're committed to providing the most useful resource for workplace design, and your insights are essential."
     },
     {

@@ -88,11 +88,6 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
                       }}
                     />
                   </div>
-                  <div className="py-2 px-3 bg-gray-50 border-t border-gray-100">
-                    <p className="text-xs text-center text-gray-500">
-                      {step.caption || `${step.title} - Image ${index + 1}`}
-                    </p>
-                  </div>
                 </motion.div>
               ))}
             </motion.div>
@@ -115,11 +110,6 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
                     e.currentTarget.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=640";
                   }}
                 />
-              </div>
-              <div className="py-2 px-3 bg-gray-50 border-t border-gray-100">
-                <p className="text-xs text-center text-gray-500">
-                  {step.caption || step.title}
-                </p>
               </div>
             </motion.div>
           ) : null}
