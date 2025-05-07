@@ -15,14 +15,21 @@ const SearchMenuDemo: React.FC = () => {
         Search and menu
       </motion.h2>
       
-      <motion.p 
-        className="text-sm text-gray-500 text-center"
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.4 }}
+        className="w-full flex flex-col items-center"
       >
-        subline
-      </motion.p>
+        <p className="text-sm text-gray-500 text-center mb-4">subline</p>
+        
+        {/* Added image under the title */}
+        <img
+          src="https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Menu_Open.png"
+          alt="Menu Open Screenshot"
+          className="w-full max-w-xs rounded-lg shadow-md mb-8"
+        />
+      </motion.div>
 
       {/* Search Bar Demo */}
       <motion.div
