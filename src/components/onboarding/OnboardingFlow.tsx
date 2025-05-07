@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,12 +24,12 @@ const OnboardingFlow = () => {
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
   const navigate = useNavigate();
 
-  // Tour steps data - removed the 3 specified pages
+  // Tour steps data - with updated step 3 to use interactive component
   const tourSteps = [
     {
       title: "Understand Space Parameters",
-      description: "Each slider represents important workspace parameters like square meters, user capacity, and task types.",
-      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Sliders.png",
+      customComponent: "SpaceParametersDemo",
+      description: "", // Empty as the component contains its own description
     },
     {
       title: "Easy Navigation",
