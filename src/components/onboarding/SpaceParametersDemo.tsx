@@ -50,13 +50,15 @@ const SpaceParametersDemo: React.FC = () => {
             </p>
           </div>
         </div>
-        <div className="mt-4 text-center">
-          <img 
-            src="https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Sliders_info.png"
-            alt="Info button demonstration" 
-            className="w-full h-auto object-contain"
-            style={{ maxHeight: '280px' }}
-          />
+        <div className="mt-4 text-center w-full">
+          <div className="w-full flex items-center justify-center">
+            <img 
+              src="https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Sliders_info.png"
+              alt="Info button demonstration" 
+              className="w-full h-auto object-cover"
+              style={{ maxHeight: '280px' }}
+            />
+          </div>
         </div>
       </div>
     </div>

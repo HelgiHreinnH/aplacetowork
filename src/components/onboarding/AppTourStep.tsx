@@ -76,11 +76,11 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
                 >
-                  <div className="flex items-center justify-center">
+                  <div className="w-full h-full flex items-center justify-center">
                     <img 
                       src={image} 
                       alt={`${step.title} - Image ${index + 1}`} 
-                      className="w-full h-auto object-contain"
+                      className="w-full h-auto object-cover"
                       style={{ maxHeight: '280px' }}
                       onError={(e) => {
                         // Fallback image if the provided one fails to load
@@ -99,11 +99,11 @@ const AppTourStep: React.FC<AppTourStepProps> = ({ step }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <div className="flex items-center justify-center">
+              <div className="w-full h-full flex items-center justify-center">
                 <img 
                   src={step.image} 
                   alt={step.title} 
-                  className="w-full h-auto object-contain"
+                  className="w-full h-auto object-cover"
                   style={{ maxHeight: '280px' }}
                   onError={(e) => {
                     // Fallback image if the provided one fails to load
