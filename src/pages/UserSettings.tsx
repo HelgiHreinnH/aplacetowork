@@ -29,15 +29,19 @@ const UserSettings = () => {
         const { data, error } = await supabase
           .from('profiles')
           .select('*')
-          .maybeSingle();
+          .eq('id', session?.user.id)
+          .single();
         
-        if (error && error.code !== 'PGRST116') {
+        if (error) {
           console.error('Error fetching profile:', error);
           toast.error("Failed to load profile data");
           throw error;
         }
+        
+        console.log("Retrieved profile data:", data);
         return data || {};
       } catch (err) {
+        console.error('Error in profile query:', err);
         return {};
       }
     },
@@ -54,9 +58,10 @@ const UserSettings = () => {
         const { data, error } = await supabase
           .from('user_preferences')
           .select('*')
-          .maybeSingle();
+          .eq('id', session?.user.id)
+          .single();
         
-        if (error && error.code !== 'PGRST116') {
+        if (error) {
           console.error('Error fetching preferences:', error);
           toast.error("Failed to load preference data");
           throw error;

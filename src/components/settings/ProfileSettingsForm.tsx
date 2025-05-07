@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { Loader2, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -23,9 +23,17 @@ type ProfileFormData = {
 
 export function ProfileSettingsForm({ initialData }: { initialData: Partial<ProfileFormData> }) {
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm<ProfileFormData>({
-    defaultValues: initialData
+  const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<ProfileFormData>({
+    defaultValues: initialData || {}
   });
+
+  // Update form when initialData changes
+  useEffect(() => {
+    if (initialData) {
+      console.log("Setting form values with:", initialData);
+      reset(initialData);
+    }
+  }, [initialData, reset]);
 
   const onSubmit = async (data: ProfileFormData) => {
     setLoading(true);
@@ -45,6 +53,11 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
     }
   };
 
+  // Selection handler for the role dropdown
+  const handleRoleChange = (value: string) => {
+    setValue('role', value as 'facility_manager' | 'architect' | 'designer' | 'other');
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-4">
@@ -61,11 +74,10 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
         <div>
           <label htmlFor="role" className="block text-sm font-medium mb-1">Role</label>
           <Select 
-            {...register("role")}
-            defaultValue={initialData.role || 'other'}
-            onValueChange={(value) => register("role").onChange({ target: { value } })}
+            value={initialData.role || 'other'}
+            onValueChange={handleRoleChange}
           >
-            <SelectTrigger className="rounded-lg">
+            <SelectTrigger className="rounded-lg" id="role">
               <SelectValue placeholder="Select your role" />
             </SelectTrigger>
             <SelectContent>
@@ -75,6 +87,7 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
               <SelectItem value="other">Other</SelectItem>
             </SelectContent>
           </Select>
+          <input type="hidden" {...register("role")} />
         </div>
 
         <div>
