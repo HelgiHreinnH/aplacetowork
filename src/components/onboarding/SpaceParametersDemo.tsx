@@ -52,7 +52,7 @@ const SpaceParametersDemo: React.FC = () => {
         </div>
         <div className="mt-4 text-center">
           <img 
-            src="Info_Sliders.png"
+            src="https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Sliders_info.png"
             alt="Info button demonstration" 
             className="w-full max-w-md mx-auto h-auto object-contain"
           />
