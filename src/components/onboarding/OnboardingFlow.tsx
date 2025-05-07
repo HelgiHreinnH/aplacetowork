@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -34,7 +35,10 @@ const OnboardingFlow = () => {
     {
       title: "Easy Navigation",
       description: "Use the menu bar at the bottom of the screen to navigate between different sections of the app.",
-      image: "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menubar.png",
+      images: [
+        "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide/Menubar.png",
+        "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/userguide//Menu_Open.png"
+      ],
     },
     {
       customComponent: "SearchMenuDemo",
