@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -114,22 +115,61 @@ const LandingPage = () => {
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    if (view === "login") {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) {
-        toast.error(error.message || "Failed to login.");
+    
+    try {
+      if (view === "login") {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          toast.error(error.message || "Failed to login.");
+        } else {
+          toast.success("Logged in!");
+        }
       } else {
-        toast.success("Logged in!");
+        // Enhanced signup process with additional metadata
+        const { error, data } = await supabase.auth.signUp({ 
+          email, 
+          password,
+          options: {
+            data: {
+              signup_initiated_at: new Date().toISOString(),
+              onboarding_required: true
+            },
+            emailRedirectTo: window.location.origin + '/home'
+          }
+        });
+        
+        if (error) {
+          console.error("Signup error:", error);
+          toast.error(error.message || "Failed to register.");
+        } else {
+          console.log("Signup successful:", data);
+          
+          // Send welcome email through edge function if available
+          try {
+            const { error: welcomeEmailError } = await supabase.functions.invoke('send-welcome-email', {
+              body: { email, redirectUrl: window.location.origin + '/home' }
+            });
+            
+            if (welcomeEmailError) {
+              console.warn("Welcome email could not be sent:", welcomeEmailError);
+              // Don't block signup process if welcome email fails
+            }
+          } catch (emailError) {
+            console.warn("Error calling welcome email function:", emailError);
+            // Don't block signup process if welcome email fails
+          }
+          
+          toast.success(
+            "Account created! Please check your email to confirm your registration."
+          );
+        }
       }
-    } else {
-      const { error } = await supabase.auth.signUp({ email, password });
-      if (error) {
-        toast.error(error.message || "Failed to register.");
-      } else {
-        toast.success("Check your email to confirm your account.");
-      }
+    } catch (error) {
+      console.error("Auth process error:", error);
+      toast.error("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   // If still checking status, show a minimal loading state

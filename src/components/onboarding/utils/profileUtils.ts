@@ -54,6 +54,8 @@ export async function saveUserProfile(profileData: UserProfileData): Promise<boo
         : 'other';
     
     // CRITICAL PART - First update the user metadata (most important)
+    console.log("Updating user metadata with onboarding completed");
+    
     const { error: metadataError } = await supabase.auth.updateUser({
       data: {
         full_name: profileData.full_name,
@@ -62,7 +64,9 @@ export async function saveUserProfile(profileData: UserProfileData): Promise<boo
         country: profileData.country,
         onboarding_step_completed: 1,
         has_completed_profile: true,
-        profile_completed_at: new Date().toISOString()
+        profile_completed_at: new Date().toISOString(),
+        onboarding_completed: true,
+        onboarding_completed_at: new Date().toISOString()
       }
     });
     
@@ -73,19 +77,37 @@ export async function saveUserProfile(profileData: UserProfileData): Promise<boo
     
     console.log("Successfully updated user metadata");
 
+    // Store onboarding completion flag in localStorage as backup
+    localStorage.setItem('onboardingCompleted', 'true');
+
     // Then try to save to profiles table (less critical)
     try {
-      await supabase
+      console.log("Updating profile table with data:", {
+        id: user.id,
+        full_name: profileData.full_name,
+        role: roleEnum,
+        company: profileData.company,
+        country: profileData.country,
+        onboarding_completed: true
+      });
+      
+      const { error: profileError } = await supabase
         .from('profiles')
         .upsert({
           id: user.id,
           full_name: profileData.full_name,
           role: roleEnum,
           company: profileData.company,
-          country: profileData.country
+          country: profileData.country,
+          onboarding_completed: true
         }, {
           onConflict: 'id'
         });
+        
+      if (profileError) {
+        console.error('Error updating profile table:', profileError);
+        // If metadata succeeded, we can still return success
+      }
     } catch (profileError) {
       console.error('Error updating profile table:', profileError);
       // If metadata succeeded, we can still return success

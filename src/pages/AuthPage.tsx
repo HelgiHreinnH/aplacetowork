@@ -48,14 +48,47 @@ const AuthPage = () => {
           toast.success("Logged in!");
         }
       } else {
-        const { error } = await supabase.auth.signUp({ email, password });
+        // Enhanced signup process with additional metadata
+        const { error, data } = await supabase.auth.signUp({ 
+          email, 
+          password,
+          options: {
+            data: {
+              signup_initiated_at: new Date().toISOString(),
+              onboarding_required: true
+            },
+            emailRedirectTo: window.location.origin + '/home'
+          }
+        });
+        
         if (error) {
+          console.error("Signup error:", error);
           toast.error(error.message || "Failed to register.");
         } else {
-          toast.success("Check your email to confirm your account.");
+          console.log("Signup successful:", data);
+          
+          // Send welcome email through edge function if available
+          try {
+            const { error: welcomeEmailError } = await supabase.functions.invoke('send-welcome-email', {
+              body: { email, redirectUrl: window.location.origin + '/home' }
+            });
+            
+            if (welcomeEmailError) {
+              console.warn("Welcome email could not be sent:", welcomeEmailError);
+              // Don't block signup if welcome email fails
+            }
+          } catch (emailError) {
+            console.warn("Error calling welcome email function:", emailError);
+            // Don't block signup if welcome email fails
+          }
+          
+          toast.success(
+            "Account created! Please check your email to confirm your registration."
+          );
         }
       }
     } catch (error) {
+      console.error("Auth process error:", error);
       toast.error("An unexpected error occurred.");
     } finally {
       setLoading(false);
@@ -66,6 +99,9 @@ const AuthPage = () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
+        options: {
+          redirectTo: window.location.origin + '/home'
+        }
       });
       if (error) toast.error(error.message);
     } catch (error) {
@@ -77,6 +113,9 @@ const AuthPage = () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'linkedin_oidc',
+        options: {
+          redirectTo: window.location.origin + '/home'
+        }
       });
       if (error) toast.error(error.message);
     } catch (error) {

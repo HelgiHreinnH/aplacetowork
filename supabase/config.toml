@@ -1,1 +1,38 @@
+
 project_id = "klcfyohkhmhmuisiawjz"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage"]
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://localhost"
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+
+[auth]
+enabled = true
+site_url = "https://test.aplacetowork.dk"
+additional_redirect_urls = ["https://test.aplacetowork.dk/home", "https://aplacetowork.dk/home"]
+jwt_expiry = 3600
+enable_confirmations = true
+
+[realtime]
+enabled = true
+
+[edge_functions]
+[edge_functions.send-welcome-email]
+verify_jwt = false
