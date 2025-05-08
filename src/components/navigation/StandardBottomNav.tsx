@@ -15,7 +15,10 @@ const StandardBottomNav = () => {
   return (
     <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-lg px-8 py-3 w-[85%] max-w-md z-50">
       <div className="flex items-center justify-between gap-4">
-        <MenuSheet />
+        {/* Menu section with taller buttons */}
+        <div className="flex items-center">
+          <MenuSheet />
+        </div>
         
         <div className="relative">
           <NavButton 

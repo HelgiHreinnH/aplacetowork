@@ -32,9 +32,9 @@ const MenuSheet = () => {
         <Button 
           variant="ghost" 
           size="icon"
-          className="text-gray-500 hover:text-gray-900"
+          className="text-gray-500 hover:text-gray-900 h-14 w-14" // Increased height and width
         >
-          <Menu className="h-6 w-6" />
+          <Menu className="h-7 w-7" /> {/* Increased icon size */}
           <span className="sr-only">Menu</span>
         </Button>
       </SheetTrigger>
