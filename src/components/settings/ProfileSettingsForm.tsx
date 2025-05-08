@@ -22,7 +22,12 @@ type ProfileFormData = {
   country: string;
 };
 
-export function ProfileSettingsForm({ initialData }: { initialData: Partial<ProfileFormData> }) {
+interface ProfileSettingsFormProps {
+  initialData: Partial<ProfileFormData>;
+  onProfileUpdated?: () => void;
+}
+
+export function ProfileSettingsForm({ initialData, onProfileUpdated }: ProfileSettingsFormProps) {
   const [loading, setLoading] = useState(false);
   const [customRoles, setCustomRoles] = useState<{id: string, role_name: string}[]>([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -40,9 +45,9 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
       const { data } = await supabase.auth.getSession();
       if (data.session?.user?.id) {
         setCurrentUserId(data.session.user.id);
-        console.log("Authenticated user found:", data.session.user.id);
+        console.log("ProfileSettingsForm: Authenticated user found:", data.session.user.id);
       } else {
-        console.log("No authenticated user found");
+        console.log("ProfileSettingsForm: No authenticated user found");
       }
     };
     
@@ -71,7 +76,7 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
   // Update form when initialData changes
   useEffect(() => {
     if (initialData) {
-      console.log("Setting form values with:", initialData);
+      console.log("ProfileSettingsForm: Setting form values with:", initialData);
       reset(initialData);
     }
   }, [initialData, reset]);
@@ -79,7 +84,7 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
   const onSubmit = async (data: ProfileFormData) => {
     setLoading(true);
     try {
-      console.log('Submitting updated profile data:', data);
+      console.log('ProfileSettingsForm: Submitting updated profile data:', data);
       
       // Check if we have the current user ID
       if (!currentUserId) {
@@ -147,8 +152,15 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
         }
       }
       
-      console.log("Profile updated successfully!");
-      toast.success("Profile updated successfully");
+      console.log("ProfileSettingsForm: Profile updated successfully!");
+      
+      // Call the onProfileUpdated callback if provided
+      if (onProfileUpdated) {
+        onProfileUpdated();
+      } else {
+        toast.success("Profile updated successfully");
+      }
+      
       setIsEditing(false);
     } catch (error) {
       console.error('Error updating profile:', error);

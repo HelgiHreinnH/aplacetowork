@@ -8,6 +8,7 @@ import AppTourStep from './AppTourStep';
 import { useTourSteps } from './hooks/useTourSteps';
 import { saveUserProfile } from './utils/profileUtils';
 import { UserProfileData } from './types';
+import { toast } from "sonner";
 
 interface StepContentProps {
   onProfileComplete: (profileData: UserProfileData) => Promise<void>;
@@ -19,9 +20,21 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete }) => {
 
   // Handle profile completion
   const handleProfileComplete = async (profileData: UserProfileData) => {
-    setUserProfile(profileData);
-    await onProfileComplete(profileData);
-    handleNext();
+    try {
+      setUserProfile(profileData);
+      
+      // Save profile data to Supabase
+      await saveUserProfile(profileData);
+      
+      // Call the onProfileComplete callback to notify parent component
+      await onProfileComplete(profileData);
+      
+      // Move to next step
+      handleNext();
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      toast.error("Failed to save your profile. Please try again.");
+    }
   };
 
   // Determine which step content to show

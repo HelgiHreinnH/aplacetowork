@@ -28,20 +28,24 @@ const OnboardingFlow = () => {
   // Handle profile completion
   const handleProfileComplete = async (profileData: UserProfileData) => {
     try {
-      await saveUserProfile(profileData);
+      console.log("Onboarding: Saving profile data", profileData);
+      
+      // Save user profile data to Supabase
+      const result = await saveUserProfile(profileData);
+      
+      if (result) {
+        console.log("Onboarding: Profile data saved successfully");
+      }
     } catch (error) {
       console.error('Error in profile completion:', error);
       toast.error("An error occurred while saving your profile");
     }
   };
 
-  // Determine if we're showing the first tour step (which is the slider demo step)
-  const isSliderDemoStep = (step: number) => step === 2;
-
   return (
     <OnboardingProvider totalSteps={totalSteps} onComplete={handleComplete}>
       <div className="fixed inset-0 z-[1000] bg-[#F6F6F7] flex flex-col">
-        <OnboardingNavigation isSliderDemoStep={isSliderDemoStep(2)} />
+        <OnboardingNavigation />
         <StepContent onProfileComplete={handleProfileComplete} />
       </div>
     </OnboardingProvider>

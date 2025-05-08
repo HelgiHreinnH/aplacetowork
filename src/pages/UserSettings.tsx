@@ -29,7 +29,7 @@ const UserSettings = () => {
         return null;
       }
     },
-    staleTime: 60000, // 1 minute
+    staleTime: 30000, // 30 seconds to ensure we get fresh data
   });
 
   // Better error handling and timeout for profile data
@@ -91,11 +91,11 @@ const UserSettings = () => {
     },
     enabled: !!session?.user?.id,
     retry: 1,
-    staleTime: 60000, // 1 minute
+    staleTime: 0, // Always refresh to ensure we have the latest data
   });
 
   // Better error handling and timeout for preferences data
-  const { data: preferences, isLoading: preferencesLoading } = useQuery({
+  const { data: preferences, isLoading: preferencesLoading, refetch: refetchPreferences } = useQuery({
     queryKey: ['preferences', session?.user?.id],
     queryFn: async () => {
       try {
@@ -133,15 +133,20 @@ const UserSettings = () => {
     },
     enabled: !!session?.user?.id,
     retry: 1,
-    staleTime: 60000, // 1 minute
+    staleTime: 0, // Always refresh
   });
 
   // Set up a listener for authentication changes
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-          refetchSession();
+          console.log("Auth state changed:", event);
+          await refetchSession();
+          if (session?.user?.id) {
+            await refetchProfile();
+            await refetchPreferences();
+          }
         }
         if (event === 'SIGNED_OUT') {
           console.log('User signed out');
@@ -152,7 +157,20 @@ const UserSettings = () => {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, [refetchSession]);
+  }, [refetchSession, refetchProfile, refetchPreferences]);
+
+  // Force a refetch of profile data when the component mounts
+  useEffect(() => {
+    const fetchLatestData = async () => {
+      if (session?.user?.id) {
+        console.log("UserSettings: Forcing profile data refresh");
+        await refetchProfile();
+        await refetchPreferences();
+      }
+    };
+    
+    fetchLatestData();
+  }, [session?.user?.id, refetchProfile, refetchPreferences]);
 
   // Set initial load complete after a timeout if loading takes too long
   useEffect(() => {
@@ -199,7 +217,13 @@ const UserSettings = () => {
                 <CardTitle>Profile Settings</CardTitle>
               </CardHeader>
               <CardContent>
-                <ProfileSettingsForm initialData={profile || {}} />
+                <ProfileSettingsForm 
+                  initialData={profile || {}} 
+                  onProfileUpdated={() => {
+                    refetchProfile();
+                    toast.success("Profile updated successfully");
+                  }} 
+                />
               </CardContent>
             </Card>
 
