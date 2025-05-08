@@ -60,16 +60,16 @@ export async function saveUserProfile(profileData: UserProfileData) {
       ? profileData.role as Database["public"]["Enums"]["user_role"] 
       : 'other';
       
-    // Save profile data to Supabase
+    // Save profile data to Supabase - use upsert to ensure we create or update as needed
     const { error: profileError } = await supabase
       .from('profiles')
-      .update({
+      .upsert({
+        id: user.id,
         full_name: profileData.full_name,
         role: role,
         company: profileData.company,
         country: profileData.country
-      })
-      .eq('id', user.id);
+      });
       
     if (profileError) {
       console.error('Error updating profile:', profileError);
@@ -77,6 +77,7 @@ export async function saveUserProfile(profileData: UserProfileData) {
       throw profileError;
     } 
     
+    console.log('Profile saved successfully:', profileData);
     toast.success("Profile saved successfully");
     return true;
   } catch (error) {

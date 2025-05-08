@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,24 +12,31 @@ import { toast } from "sonner";
 const UserSettings = () => {
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
-  // Only fetch the session once
-  const { data: session } = useQuery({
+  // Fetch the current session
+  const { data: session, isLoading: sessionLoading } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
       const { data } = await supabase.auth.getSession();
+      console.log("Session data:", data.session);
       return data.session;
     },
   });
 
   // Better error handling and timeout for profile data
   const { data: profile, isLoading: profileLoading } = useQuery({
-    queryKey: ['profile'],
+    queryKey: ['profile', session?.user?.id],
     queryFn: async () => {
       try {
+        if (!session?.user?.id) {
+          console.log("No user ID available to fetch profile");
+          return {};
+        }
+
+        console.log("Fetching profile for user:", session.user.id);
         const { data, error } = await supabase
           .from('profiles')
           .select('*')
-          .eq('id', session?.user.id)
+          .eq('id', session.user.id)
           .single();
         
         if (error) {
@@ -45,20 +52,24 @@ const UserSettings = () => {
         return {};
       }
     },
-    enabled: !!session?.user,
+    enabled: !!session?.user?.id,
     retry: 1,
     staleTime: 300000, // 5 minutes
   });
 
   // Better error handling and timeout for preferences data
   const { data: preferences, isLoading: preferencesLoading } = useQuery({
-    queryKey: ['preferences'],
+    queryKey: ['preferences', session?.user?.id],
     queryFn: async () => {
       try {
+        if (!session?.user?.id) {
+          return { language: 'en' };
+        }
+
         const { data, error } = await supabase
           .from('user_preferences')
           .select('*')
-          .eq('id', session?.user.id)
+          .eq('id', session.user.id)
           .single();
         
         if (error) {
@@ -71,23 +82,23 @@ const UserSettings = () => {
         return { language: 'en' };
       }
     },
-    enabled: !!session?.user,
+    enabled: !!session?.user?.id,
     retry: 1,
     staleTime: 300000, // 5 minutes
   });
 
   // Set initial load complete after a timeout if loading takes too long
-  useState(() => {
+  useEffect(() => {
     const timer = setTimeout(() => {
-      if (profileLoading || preferencesLoading) {
+      if (sessionLoading || profileLoading || preferencesLoading) {
         setInitialLoadComplete(true);
       }
     }, 3000); // Show content after 3 seconds even if still loading
     return () => clearTimeout(timer);
-  });
+  }, [sessionLoading, profileLoading, preferencesLoading]);
 
   // Show loading state, but only briefly
-  if ((profileLoading || preferencesLoading) && !initialLoadComplete) {
+  if ((sessionLoading || profileLoading || preferencesLoading) && !initialLoadComplete) {
     return (
       <div className="h-[100dvh] w-full fixed inset-0 flex flex-col overflow-hidden">
         <TitleContainer />

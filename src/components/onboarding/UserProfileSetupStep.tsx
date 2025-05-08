@@ -14,18 +14,11 @@ import {
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from 'framer-motion';
-
-type ProfileFormData = {
-  full_name: string;
-  role: string;
-  company: string;
-  country: string;
-  custom_role?: string;
-};
+import { UserProfileData } from './types';
 
 interface UserProfileSetupStepProps {
-  onComplete: (data: ProfileFormData) => void;
-  initialData?: Partial<ProfileFormData>;
+  onComplete: (data: UserProfileData) => void;
+  initialData?: Partial<UserProfileData>;
 }
 
 const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete, initialData = {} }) => {
@@ -37,7 +30,7 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
       : 'predefined'
   );
   
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<ProfileFormData>({
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<UserProfileData>({
     defaultValues: initialData
   });
 
@@ -62,52 +55,11 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
     fetchCustomRoles();
   }, []);
 
-  const onSubmit = async (data: ProfileFormData) => {
+  const onSubmit = async (data: UserProfileData) => {
     setLoading(true);
     try {
-      // Handle custom role if the user selected "other" and provided a custom role
-      if (data.role === 'other' && data.custom_role) {
-        // Check if custom role already exists
-        const { data: existingRole, error: searchError } = await supabase
-          .from('custom_roles')
-          .select('id, usage_count')
-          .eq('role_name', data.custom_role)
-          .maybeSingle();
-
-        if (searchError) {
-          console.error('Error checking for existing custom role:', searchError);
-        } else if (existingRole) {
-          // Update existing custom role's usage count
-          const { error: updateError } = await supabase
-            .from('custom_roles')
-            .update({ usage_count: (existingRole.usage_count || 0) + 1 })
-            .eq('id', existingRole.id);
-          
-          if (updateError) console.error('Error updating custom role usage count:', updateError);
-          
-          // Use the existing custom role
-          data.role = data.custom_role;
-        } else {
-          // Create new custom role
-          const { error: insertError } = await supabase
-            .from('custom_roles')
-            .insert({ 
-              role_name: data.custom_role,
-              created_by: (await supabase.auth.getUser()).data.user?.id
-            });
-          
-          if (insertError) {
-            console.error('Error inserting custom role:', insertError);
-          } else {
-            // Use the new custom role
-            data.role = data.custom_role;
-          }
-        }
-      }
-      
-      // Pass the data to the parent component to handle the completion
+      console.log('Submitting profile data:', data);
       onComplete(data);
-      
     } catch (error) {
       console.error('Error saving profile:', error);
       toast.error("Failed to save profile");
@@ -150,15 +102,15 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
                 setValue('role', value);
                 setRoleType(value === 'other' ? 'custom' : 'predefined');
               }}
-              defaultValue={initialData.role || 'knowledge_worker'}
+              defaultValue={initialData.role || 'facility_manager'}
             >
               <SelectTrigger className="rounded-lg">
                 <SelectValue placeholder="Select your role" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="facility_manager">Facility Manager</SelectItem>
-                <SelectItem value="hr_professional">HR Professional</SelectItem>
-                <SelectItem value="knowledge_worker">Knowledge Worker</SelectItem>
+                <SelectItem value="architect">Architect</SelectItem>
+                <SelectItem value="designer">Designer</SelectItem>
                 <SelectItem value="other">Other (specify)</SelectItem>
                 {customRoles.map(role => (
                   <SelectItem key={role.id} value={role.role_name}>{role.role_name}</SelectItem>

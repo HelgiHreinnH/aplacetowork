@@ -16,16 +16,38 @@ import { supabase } from "@/integrations/supabase/client";
 
 type ProfileFormData = {
   full_name: string;
-  role: 'facility_manager' | 'architect' | 'designer' | 'other';
+  role: string;
   company: string;
   country: string;
 };
 
 export function ProfileSettingsForm({ initialData }: { initialData: Partial<ProfileFormData> }) {
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<ProfileFormData>({
+  const [customRoles, setCustomRoles] = useState<{id: string, role_name: string}[]>([]);
+  const { register, handleSubmit, formState: { errors }, setValue, reset, watch } = useForm<ProfileFormData>({
     defaultValues: initialData || {}
   });
+
+  const selectedRole = watch('role');
+
+  // Fetch custom roles when component mounts
+  useEffect(() => {
+    const fetchCustomRoles = async () => {
+      const { data, error } = await supabase
+        .from('custom_roles')
+        .select('id, role_name')
+        .order('usage_count', { ascending: false })
+        .limit(10);
+
+      if (error) {
+        console.error('Error fetching custom roles:', error);
+      } else {
+        setCustomRoles(data || []);
+      }
+    };
+
+    fetchCustomRoles();
+  }, []);
 
   // Update form when initialData changes
   useEffect(() => {
@@ -38,10 +60,33 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
   const onSubmit = async (data: ProfileFormData) => {
     setLoading(true);
     try {
+      console.log('Submitting updated profile data:', data);
+      
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast.error("No authenticated user found");
+        throw new Error("No authenticated user found");
+      }
+      
+      // Handle custom role if the user selected "other" and provided a custom role
+      if (data.role === 'other') {
+        // In the settings form, we don't have a separate custom_role field
+        // We'll need to handle this differently or update the form structure
+        console.log("Note: 'other' role selected but no custom role input available in settings form");
+      }
+      
+      // Update profile in Supabase
       const { error } = await supabase
         .from('profiles')
-        .update(data)
-        .eq('id', (await supabase.auth.getUser()).data.user?.id);
+        .update({
+          full_name: data.full_name,
+          role: data.role,
+          company: data.company,
+          country: data.country
+        })
+        .eq('id', user.id);
 
       if (error) throw error;
       toast.success("Profile updated successfully");
@@ -51,11 +96,6 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
     } finally {
       setLoading(false);
     }
-  };
-
-  // Selection handler for the role dropdown
-  const handleRoleChange = (value: string) => {
-    setValue('role', value as 'facility_manager' | 'architect' | 'designer' | 'other');
   };
 
   return (
@@ -74,8 +114,8 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
         <div>
           <label htmlFor="role" className="block text-sm font-medium mb-1">Role</label>
           <Select 
-            value={initialData.role || 'other'}
-            onValueChange={handleRoleChange}
+            value={selectedRole || 'facility_manager'}
+            onValueChange={(value) => setValue('role', value)}
           >
             <SelectTrigger className="rounded-lg" id="role">
               <SelectValue placeholder="Select your role" />
@@ -85,9 +125,11 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
               <SelectItem value="architect">Architect</SelectItem>
               <SelectItem value="designer">Designer</SelectItem>
               <SelectItem value="other">Other</SelectItem>
+              {customRoles.map(role => (
+                <SelectItem key={role.id} value={role.role_name}>{role.role_name}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
-          <input type="hidden" {...register("role")} />
         </div>
 
         <div>
