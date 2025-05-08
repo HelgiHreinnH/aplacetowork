@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { OnboardingProvider } from './context/OnboardingContext';
@@ -12,6 +12,7 @@ import { UserProfileData } from './types';
 const OnboardingFlow = () => {
   const navigate = useNavigate();
   const tourSteps = useTourSteps();
+  const [isSliderDemoStep, setIsSliderDemoStep] = useState(false);
   
   // Calculate total steps (1 profile step + 1 intro step + tour steps)
   const totalSteps = 2 + tourSteps.length;
@@ -42,11 +43,19 @@ const OnboardingFlow = () => {
     }
   };
 
+  // Update slider demo state based on current step
+  const handleSliderDemoStep = (isSliderStep: boolean) => {
+    setIsSliderDemoStep(isSliderStep);
+  };
+
   return (
     <OnboardingProvider totalSteps={totalSteps} onComplete={handleComplete}>
       <div className="fixed inset-0 z-[1000] bg-[#F6F6F7] flex flex-col">
-        <OnboardingNavigation />
-        <StepContent onProfileComplete={handleProfileComplete} />
+        <OnboardingNavigation isSliderDemoStep={isSliderDemoStep} />
+        <StepContent 
+          onProfileComplete={handleProfileComplete} 
+          onSliderDemoStep={handleSliderDemoStep}
+        />
       </div>
     </OnboardingProvider>
   );

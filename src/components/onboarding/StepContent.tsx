@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { useOnboarding } from './context/OnboardingContext';
 import UserProfileSetupStep from './UserProfileSetupStep';
@@ -12,11 +12,21 @@ import { toast } from "sonner";
 
 interface StepContentProps {
   onProfileComplete: (profileData: UserProfileData) => Promise<void>;
+  onSliderDemoStep?: (isSliderStep: boolean) => void;
 }
 
-const StepContent: React.FC<StepContentProps> = ({ onProfileComplete }) => {
+const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDemoStep }) => {
   const { step, userProfile, setUserProfile, handleNext } = useOnboarding();
   const tourSteps = useTourSteps();
+
+  // Check if current step is a slider demo step
+  useEffect(() => {
+    if (onSliderDemoStep) {
+      // Check if current tour step involves sliders
+      const isSliderStep = step > 1 && tourSteps[step - 2]?.customComponent === 'SpaceParametersDemo';
+      onSliderDemoStep(isSliderStep);
+    }
+  }, [step, tourSteps, onSliderDemoStep]);
 
   // Handle profile completion
   const handleProfileComplete = async (profileData: UserProfileData) => {
