@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,18 +10,49 @@ import { useTourSteps } from './hooks/useTourSteps';
 import { saveUserProfile } from './utils/profileUtils';
 import { UserProfileData } from './types';
 
-const OnboardingFlow = () => {
+const OnboardingFlow: React.FC = () => {
   const navigate = useNavigate();
   const tourSteps = useTourSteps();
   const [isSliderDemoStep, setIsSliderDemoStep] = useState(false);
+  const [isCompleting, setIsCompleting] = useState(false);
   
   // Calculate total steps (1 profile step + 1 intro step + tour steps)
   const totalSteps = 2 + tourSteps.length;
 
+  // Effect to check if onboarding was previously completed
+  useEffect(() => {
+    const checkOnboardingStatus = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session?.user) {
+          // Check user metadata first (most reliable source)
+          if (session.user.user_metadata?.onboarding_completed === true) {
+            console.log("User metadata shows onboarding completed, redirecting to home");
+            navigate("/home", { replace: true });
+            return;
+          }
+          
+          // Check localStorage as fallback
+          if (localStorage.getItem("onboardingCompleted") === "true") {
+            console.log("localStorage shows onboarding completed, redirecting to home");
+            navigate("/home", { replace: true });
+          }
+        }
+      } catch (error) {
+        console.error("Error checking initial onboarding status:", error);
+      }
+    };
+    
+    checkOnboardingStatus();
+  }, [navigate]);
+
   // Handle complete onboarding 
   const handleComplete = async () => {
     try {
+      setIsCompleting(true);
       console.log("Completing onboarding...");
+      
       // Save onboarding completion status to localStorage
       localStorage.setItem('onboardingCompleted', 'true');
       
@@ -29,14 +60,24 @@ const OnboardingFlow = () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user?.id) {
         console.log("Setting onboarding_completed to true in database for user:", session.user.id);
+        
+        // Update user metadata first (this is crucial as it doesn't depend on RLS)
+        await supabase.auth.updateUser({
+          data: {
+            onboarding_completed: true,
+            onboarding_completed_at: new Date().toISOString()
+          }
+        });
+        
+        // Also try to update the profiles table
         const { error } = await supabase
           .from('profiles')
           .update({ onboarding_completed: true })
           .eq('id', session.user.id);
         
         if (error) {
-          console.error('Error updating onboarding status:', error);
-          // Continue despite error - localStorage will serve as fallback
+          console.error('Error updating onboarding status in profiles table:', error);
+          // Continue despite error - localStorage and user metadata will serve as fallback
         } else {
           console.log("Successfully updated onboarding status in database");
         }
@@ -48,10 +89,12 @@ const OnboardingFlow = () => {
       console.error('Error completing onboarding:', err);
       // Continue despite error
       navigate('/home');
+    } finally {
+      setIsCompleting(false);
     }
   };
 
-  // Handle profile completion - now properly handling the Promise<boolean> return type
+  // Handle profile completion
   const handleProfileComplete = async (profileData: UserProfileData) => {
     try {
       console.log("Onboarding: Saving profile data", profileData);

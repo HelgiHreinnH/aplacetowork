@@ -51,64 +51,53 @@ const LandingPage = () => {
     try {
       console.log("Checking onboarding status for user:", userId);
       
-      // First check if user has onboarding flag in their metadata
+      // First check if user has onboarding flag in their metadata - MOST RELIABLE SOURCE
       const { data: { user } } = await supabase.auth.getUser();
-      if (user?.user_metadata?.has_completed_profile === true && 
-          localStorage.getItem('onboardingCompleted') === 'true') {
+      
+      console.log("User metadata:", user?.user_metadata);
+      
+      if (user?.user_metadata?.onboarding_completed === true) {
         console.log("User metadata confirms completed onboarding, redirecting to home");
-        navigate("/home", { replace: true });
-        return;
-      }
-
-      // If no metadata flag, check the profiles table
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('onboarding_completed')
-        .eq('id', userId)
-        .maybeSingle();
-      
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error checking onboarding status in profiles:', error);
-      }
-      
-      // If profile exists and onboarding is completed, redirect to home
-      if (data?.onboarding_completed) {
-        console.log("Database confirms onboarding completed, redirecting to home");
+        // Ensure localStorage is in sync
         localStorage.setItem('onboardingCompleted', 'true');
         navigate("/home", { replace: true });
         return;
       }
       
-      // Check localStorage as a fallback
+      // Check localStorage as a secondary source
       const localOnboardingCompleted = localStorage.getItem('onboardingCompleted');
       
       if (localOnboardingCompleted === 'true') {
-        console.log("localStorage shows onboarding completed, syncing with database");
-        // Update the database to match localStorage
+        console.log("localStorage shows onboarding completed, syncing with user metadata");
+        // Update user metadata to match localStorage
         try {
+          // Update user metadata first (critical)
+          await supabase.auth.updateUser({
+            data: {
+              onboarding_completed: true,
+              onboarding_completed_at: new Date().toISOString()
+            }
+          });
+          
+          // Try to update profiles table (non-critical)
           await supabase
             .from('profiles')
             .update({ onboarding_completed: true })
             .eq('id', userId);
-          
-          // Also update user metadata
-          await supabase.auth.updateUser({
-            data: {
-              has_completed_profile: true,
-              onboarding_completed: true
-            }
-          });
+            
         } catch (syncError) {
-          console.warn("Failed to sync onboarding status with database:", syncError);
+          console.warn("Failed to sync onboarding status:", syncError);
         }
+        
         // Redirect to home
         navigate("/home", { replace: true });
         return;
       }
-      
+
       // If we get here, user needs to go through onboarding
       console.log("Onboarding not completed, showing onboarding flow");
       setShowOnboarding(true);
+      
     } catch (err) {
       console.error('Error in onboarding check:', err);
       // In case of error, check localStorage as fallback

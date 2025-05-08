@@ -30,10 +30,10 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDe
   // Handle profile completion
   const handleProfileComplete = async (profileData: UserProfileData) => {
     try {
+      console.log("StepContent: Starting profile completion process");
+      
       // Update the user profile in context
       setUserProfile(profileData);
-      
-      console.log("StepContent: Saving profile data", profileData);
       
       // Save profile data and notify parent component
       await onProfileComplete(profileData);
@@ -41,8 +41,12 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDe
       // Show success toast
       toast.success(`Profile saved successfully! Proceeding to step 2/${totalSteps}`);
       
-      // Move to next step
-      handleNext();
+      console.log(`StepContent: Profile saved, advancing to step ${step + 1}/${totalSteps}`);
+      
+      // Move to next step - critical to progress past step 1
+      setTimeout(() => {
+        handleNext();
+      }, 100);
     } catch (error) {
       console.error("Critical error saving profile:", error);
       toast.error("Failed to save your profile. Please try again.");
@@ -51,6 +55,8 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDe
 
   // Determine which step content to show
   const renderStepContent = () => {
+    console.log(`StepContent: Rendering step ${step}/${totalSteps}`);
+    
     if (step === 0) {
       return <UserProfileSetupStep onComplete={handleProfileComplete} initialData={userProfile || undefined} />;
     } else if (step === 1) {

@@ -71,7 +71,8 @@ export async function saveUserProfile(profileData: UserProfileData) {
           company: profileData.company,
           country: profileData.country,
           onboarding_step_completed: 1, // Mark first step as completed
-          has_completed_profile: true   // Flag to indicate profile completion
+          has_completed_profile: true,   // Flag to indicate profile completion
+          profile_completed_at: new Date().toISOString() // Add timestamp for when profile was completed
         }
       });
       
@@ -97,7 +98,7 @@ export async function saveUserProfile(profileData: UserProfileData) {
           role: roleEnum,
           company: profileData.company,
           country: profileData.country,
-          onboarding_completed: false // Initially set to false until onboarding is completed
+          onboarding_completed: false // Initially set to false until full onboarding is completed
         }, {
           onConflict: 'id'
         });
@@ -110,14 +111,7 @@ export async function saveUserProfile(profileData: UserProfileData) {
         // The auth metadata is still saved, which is the most important part
         console.log('Continuing despite profile table error - auth metadata was saved');
       } else {
-        console.log('Profile saved successfully:', {
-          id: user.id,
-          full_name: profileData.full_name,
-          role: roleEnum,
-          company: profileData.company,
-          country: profileData.country,
-          onboarding_completed: false
-        });
+        console.log('Profile saved successfully in profiles table');
       }
     } catch (profileErr) {
       // Log error but don't throw - we'll continue with the flow
