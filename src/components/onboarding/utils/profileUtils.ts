@@ -2,7 +2,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { UserProfileData } from "../types";
 import { toast } from "sonner";
-import { Database } from "@/integrations/supabase/types/database";
 
 export async function saveUserProfile(profileData: UserProfileData): Promise<boolean> {
   try {
@@ -48,12 +47,12 @@ export async function saveUserProfile(profileData: UserProfileData): Promise<boo
     }
     
     // Cast role to enum type if it's a predefined role
-    const roleEnum: Database["public"]["Enums"]["user_role"] = 
+    const roleEnum = 
       ['facility_manager', 'architect', 'designer', 'other'].includes(finalRole) 
         ? finalRole as Database["public"]["Enums"]["user_role"] 
         : 'other';
     
-    // CRITICAL: First update the user metadata
+    // CRITICAL: First update the user metadata - this is the most important part
     const { error: metadataError } = await supabase.auth.updateUser({
       data: {
         full_name: profileData.full_name,
@@ -68,10 +67,10 @@ export async function saveUserProfile(profileData: UserProfileData): Promise<boo
     
     if (metadataError) {
       console.error('Error updating user metadata:', metadataError);
-      // Even with error, we'll try profiles table as fallback
-    } else {
-      console.log("Successfully updated user metadata");
+      return false;
     }
+    
+    console.log("Successfully updated user metadata");
 
     // Save to profiles table
     const { error: profileError } = await supabase
@@ -89,7 +88,7 @@ export async function saveUserProfile(profileData: UserProfileData): Promise<boo
     if (profileError) {
       console.error('Error updating profile table:', profileError);
       // If metadata succeeded, we can still return success
-      return !metadataError;
+      return true;
     }
     
     return true;

@@ -27,8 +27,10 @@ const OnboardingFlow: React.FC = () => {
         
         if (session?.user) {
           // Check user metadata first (most reliable source)
+          console.log("Checking onboarding status - user metadata:", session.user.user_metadata);
+          
           if (session.user.user_metadata?.onboarding_completed === true) {
-            console.log("User metadata shows onboarding completed");
+            console.log("User metadata shows onboarding completed, redirecting to home");
             navigate("/home", { replace: true });
             return;
           }
@@ -36,7 +38,24 @@ const OnboardingFlow: React.FC = () => {
           // Check localStorage as fallback
           if (localStorage.getItem("onboardingCompleted") === "true") {
             console.log("localStorage shows onboarding completed");
-            navigate("/home", { replace: true });
+            
+            // Update user metadata to match localStorage to avoid future mismatches
+            try {
+              await supabase.auth.updateUser({
+                data: {
+                  onboarding_completed: true,
+                  onboarding_completed_at: new Date().toISOString()
+                }
+              });
+              
+              console.log("Updated user metadata based on localStorage value");
+              navigate("/home", { replace: true });
+            } catch (error) {
+              console.error("Error syncing onboarding status:", error);
+              navigate("/home", { replace: true });
+            }
+            
+            return;
           }
         }
       } catch (error) {
@@ -67,11 +86,15 @@ const OnboardingFlow: React.FC = () => {
           }
         });
         
+        console.log("Updated user metadata with onboarding_completed: true");
+        
         // Update profiles table
         await supabase
           .from('profiles')
           .update({ onboarding_completed: true })
           .eq('id', session.user.id);
+          
+        console.log("Updated profiles table with onboarding_completed: true");
       }
       
       // Navigate to home page
