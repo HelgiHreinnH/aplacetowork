@@ -40,34 +40,34 @@ const MenuSheet = () => {
       </SheetTrigger>
       <SheetContent 
         side="bottom" 
-        className="fixed inset-x-0 bottom-0 w-[90%] max-w-md mx-auto h-[40vh] rounded-t-3xl border-t-0 pb-6 origin-bottom animate-slide-up z-40 bg-white"
+        className="fixed inset-x-0 bottom-0 w-[90%] max-w-md mx-auto h-[50vh] rounded-t-3xl border-t-0 pb-8 origin-bottom animate-slide-up z-40 bg-white overflow-y-auto"
       >
-        <nav className="flex flex-col gap-1.5 mt-2">
-          <Link to="/overview" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
+        <nav className="flex flex-col gap-2 mt-3">
+          <Link to="/overview" className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-md hover:bg-accent/10 transition-colors">
             <Grid className="h-5 w-5" />
             <span>All Facilities</span>
           </Link>
-          <Link to="/favorites" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
+          <Link to="/favorites" className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-md hover:bg-accent/10 transition-colors">
             <Heart className="h-5 w-5" />
             <span>Favourites</span>
           </Link>
-          <Link to="/contact" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
+          <Link to="/contact" className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-md hover:bg-accent/10 transition-colors">
             <MessageSquare className="h-5 w-5" />
             <span>What are you missing?</span>
           </Link>
-          <Link to="/settings" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
+          <Link to="/settings" className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-md hover:bg-accent/10 transition-colors">
             <Settings className="h-5 w-5" />
             <span>Settings</span>
           </Link>
-          <Link to="/about" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
+          <Link to="/about" className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-md hover:bg-accent/10 transition-colors">
             <Info className="h-5 w-5" />
             <span>About</span>
           </Link>
           
-          <div className="mt-4 border-t pt-4">
+          <div className="mt-6 border-t pt-4">
             <Button
               variant="ghost"
-              className="flex w-full items-center justify-start gap-3 px-4 py-3 text-sm rounded-md hover:bg-accent/10 transition-colors text-red-600"
+              className="flex w-full items-center justify-start gap-3 px-4 py-3.5 text-sm rounded-md hover:bg-accent/10 transition-colors text-red-600"
               onClick={handleLogout}
               disabled={isLoggingOut}
             >
