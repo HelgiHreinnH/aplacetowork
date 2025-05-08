@@ -25,11 +25,13 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
   const [loading, setLoading] = useState(false);
   const [customRoles, setCustomRoles] = useState<{id: string, role_name: string}[]>([]);
   
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<UserProfileData>({
-    defaultValues: initialData
+  const { register, handleSubmit, watch, setValue, formState: { errors, isValid } } = useForm<UserProfileData>({
+    defaultValues: initialData,
+    mode: "onChange" // Enable validation on change
   });
 
   const selectedRole = watch('role');
+  const fullName = watch('full_name');
 
   useEffect(() => {
     // Fetch custom roles from the database
@@ -123,7 +125,7 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
             <label htmlFor="role" className="block text-sm font-medium mb-1">Role</label>
             <Select 
               onValueChange={(value) => {
-                setValue('role', value);
+                setValue('role', value, { shouldValidate: true });
               }}
               defaultValue={initialData.role || 'facility_manager'}
             >
@@ -181,7 +183,12 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
         </div>
 
         <div className="flex justify-end pt-4">
-          <Button type="submit" variant="main" disabled={loading} className="rounded-xl w-full">
+          <Button 
+            type="submit" 
+            variant="main" 
+            disabled={loading || !fullName} 
+            className="rounded-xl w-full"
+          >
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

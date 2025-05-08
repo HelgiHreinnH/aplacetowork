@@ -31,13 +31,19 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDe
   // Handle profile completion
   const handleProfileComplete = async (profileData: UserProfileData) => {
     try {
+      // Update the user profile in context
       setUserProfile(profileData);
+      
+      console.log("StepContent: Saving profile data", profileData);
       
       // Save profile data to Supabase
       await saveUserProfile(profileData);
       
       // Call the onProfileComplete callback to notify parent component
       await onProfileComplete(profileData);
+      
+      // Show success toast
+      toast.success("Profile saved successfully");
       
       // Move to next step
       handleNext();
