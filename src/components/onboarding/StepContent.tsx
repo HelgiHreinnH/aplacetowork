@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { useOnboarding } from './context/OnboardingContext';
 import UserProfileSetupStep from './UserProfileSetupStep';
@@ -18,51 +18,49 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDe
   const { step, totalSteps, userProfile, setUserProfile, handleNext } = useOnboarding();
   const tourSteps = useTourSteps();
 
+  // Handle profile completion with simplified flow
+  const handleProfileComplete = async (profileData: UserProfileData) => {
+    try {
+      console.log("StepContent: Starting profile completion", profileData);
+      
+      // Update user profile in context
+      setUserProfile(profileData);
+      
+      // Save profile data
+      await onProfileComplete(profileData);
+      
+      // Show success message
+      toast.success("Profile saved successfully!");
+      
+      console.log("StepContent: Profile saved successfully, advancing to next step");
+      
+      // Ensure we move to the next step
+      handleNext();
+      
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      toast.error("Failed to save your profile. Please try again.");
+    }
+  };
+
   // Check if current step is a slider demo step
-  useEffect(() => {
+  React.useEffect(() => {
     if (onSliderDemoStep) {
-      // Check if current tour step involves sliders
       const isSliderStep = step > 1 && tourSteps[step - 2]?.customComponent === 'SpaceParametersDemo';
       onSliderDemoStep(isSliderStep);
     }
   }, [step, tourSteps, onSliderDemoStep]);
 
-  // Handle profile completion
-  const handleProfileComplete = async (profileData: UserProfileData) => {
-    try {
-      console.log("StepContent: Starting profile completion process");
-      
-      // Update the user profile in context
-      setUserProfile(profileData);
-      
-      // Save profile data and notify parent component
-      await onProfileComplete(profileData);
-      
-      // Show success toast
-      toast.success(`Profile saved successfully! Proceeding to step 2/${totalSteps}`);
-      
-      console.log(`StepContent: Profile saved, advancing to step ${step + 1}/${totalSteps}`);
-      
-      // Move to next step - critical to progress past step 1
-      setTimeout(() => {
-        handleNext();
-      }, 100);
-    } catch (error) {
-      console.error("Critical error saving profile:", error);
-      toast.error("Failed to save your profile. Please try again.");
-    }
-  };
-
-  // Determine which step content to show
+  // Render appropriate step content
   const renderStepContent = () => {
-    console.log(`StepContent: Rendering step ${step}/${totalSteps}`);
+    console.log(`Rendering onboarding step ${step}/${totalSteps}`);
     
     if (step === 0) {
       return <UserProfileSetupStep onComplete={handleProfileComplete} initialData={userProfile || undefined} />;
     } else if (step === 1) {
       return <IntroductionStep />;
     } else {
-      // Calculate which tour step to show (step - 2 because we have 2 initial steps)
+      // Calculate which tour step to show
       const currentTourStep = tourSteps[step - 2];
       return <AppTourStep step={currentTourStep} />;
     }

@@ -19,7 +19,7 @@ const OnboardingFlow: React.FC = () => {
   // Calculate total steps (1 profile step + 1 intro step + tour steps)
   const totalSteps = 2 + tourSteps.length;
 
-  // Effect to check if onboarding was previously completed
+  // Check if onboarding was previously completed on load
   useEffect(() => {
     const checkOnboardingStatus = async () => {
       try {
@@ -28,40 +28,38 @@ const OnboardingFlow: React.FC = () => {
         if (session?.user) {
           // Check user metadata first (most reliable source)
           if (session.user.user_metadata?.onboarding_completed === true) {
-            console.log("User metadata shows onboarding completed, redirecting to home");
+            console.log("User metadata shows onboarding completed");
             navigate("/home", { replace: true });
             return;
           }
           
           // Check localStorage as fallback
           if (localStorage.getItem("onboardingCompleted") === "true") {
-            console.log("localStorage shows onboarding completed, redirecting to home");
+            console.log("localStorage shows onboarding completed");
             navigate("/home", { replace: true });
           }
         }
       } catch (error) {
-        console.error("Error checking initial onboarding status:", error);
+        console.error("Error checking onboarding status:", error);
       }
     };
     
     checkOnboardingStatus();
   }, [navigate]);
 
-  // Handle complete onboarding 
+  // Handle completing the entire onboarding flow
   const handleComplete = async () => {
     try {
       setIsCompleting(true);
-      console.log("Completing onboarding...");
+      console.log("Completing onboarding process");
       
-      // Save onboarding completion status to localStorage
+      // Save completion status to localStorage
       localStorage.setItem('onboardingCompleted', 'true');
       
-      // Save onboarding completion status to user's profile
+      // Save completion status to user profile
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user?.id) {
-        console.log("Setting onboarding_completed to true in database for user:", session.user.id);
-        
-        // Update user metadata first (this is crucial as it doesn't depend on RLS)
+        // Update user metadata (most important)
         await supabase.auth.updateUser({
           data: {
             onboarding_completed: true,
@@ -69,49 +67,42 @@ const OnboardingFlow: React.FC = () => {
           }
         });
         
-        // Also try to update the profiles table
-        const { error } = await supabase
+        // Update profiles table
+        await supabase
           .from('profiles')
           .update({ onboarding_completed: true })
           .eq('id', session.user.id);
-        
-        if (error) {
-          console.error('Error updating onboarding status in profiles table:', error);
-          // Continue despite error - localStorage and user metadata will serve as fallback
-        } else {
-          console.log("Successfully updated onboarding status in database");
-        }
       }
       
       // Navigate to home page
-      navigate('/home');
+      navigate('/home', { replace: true });
     } catch (err) {
       console.error('Error completing onboarding:', err);
-      // Continue despite error
-      navigate('/home');
-    } finally {
-      setIsCompleting(false);
+      // Use localStorage as fallback
+      localStorage.setItem('onboardingCompleted', 'true');
+      navigate('/home', { replace: true });
     }
   };
 
   // Handle profile completion
   const handleProfileComplete = async (profileData: UserProfileData) => {
     try {
-      console.log("Onboarding: Saving profile data", profileData);
+      console.log("OnboardingFlow: Saving profile data", profileData);
       
-      // Save user profile data to Supabase
-      await saveUserProfile(profileData);
-      console.log("Onboarding: Profile data saved successfully");
+      // Save profile data to database
+      const success = await saveUserProfile(profileData);
+      
+      if (!success) {
+        throw new Error("Failed to save profile data");
+      }
+      
+      console.log("OnboardingFlow: Profile saved successfully");
+      return Promise.resolve();
     } catch (error) {
-      console.error('Error in profile completion:', error);
-      toast.error("An error occurred while saving your profile");
-      throw error; // Re-throw to allow caller to handle
+      console.error('Error saving profile:', error);
+      toast.error("Failed to save your profile");
+      throw error;
     }
-  };
-
-  // Update slider demo state based on current step
-  const handleSliderDemoStep = (isSliderStep: boolean) => {
-    setIsSliderDemoStep(isSliderStep);
   };
 
   return (
@@ -120,7 +111,7 @@ const OnboardingFlow: React.FC = () => {
         <OnboardingNavigation isSliderDemoStep={isSliderDemoStep} />
         <StepContent 
           onProfileComplete={handleProfileComplete} 
-          onSliderDemoStep={handleSliderDemoStep}
+          onSliderDemoStep={setIsSliderDemoStep}
         />
       </div>
     </OnboardingProvider>

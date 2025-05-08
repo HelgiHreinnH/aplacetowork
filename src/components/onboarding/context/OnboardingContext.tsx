@@ -23,21 +23,25 @@ export const OnboardingProvider: React.FC<{
   const [step, setStep] = useState(0);
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
 
+  // Handle navigation to next step
   const handleNext = () => {
+    console.log(`Moving from step ${step} to ${step + 1}/${totalSteps - 1}`);
     if (step < totalSteps - 1) {
       setStep(step + 1);
     } else {
-      // Complete onboarding
+      // Complete onboarding if we're at the last step
       onComplete();
     }
   };
 
+  // Handle navigation to previous step
   const handleBack = () => {
     if (step > 0) {
       setStep(step - 1);
     }
   };
 
+  // Handle skipping onboarding
   const handleSkip = () => {
     // Skip to the end
     onComplete();

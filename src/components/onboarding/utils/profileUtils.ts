@@ -4,125 +4,97 @@ import { UserProfileData } from "../types";
 import { toast } from "sonner";
 import { Database } from "@/integrations/supabase/types/database";
 
-export async function saveUserProfile(profileData: UserProfileData) {
+export async function saveUserProfile(profileData: UserProfileData): Promise<boolean> {
   try {
     // Get current user
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) {
-      toast.error("No authenticated user found");
       throw new Error("No authenticated user found");
     }
     
     console.log("Saving user profile data:", profileData);
     
-    // Handle custom role if the user selected "other" and provided a custom role
+    // Prepare the role value
     let finalRole = profileData.role;
-    
     if (profileData.role === 'other' && profileData.custom_role) {
       finalRole = profileData.custom_role;
       
-      // Check if custom role already exists
-      const { data: existingRole, error: searchError } = await supabase
-        .from('custom_roles')
-        .select('id, usage_count')
-        .eq('role_name', profileData.custom_role)
-        .maybeSingle();
+      // Handle custom role in the database if needed
+      try {
+        const { data: existingRole } = await supabase
+          .from('custom_roles')
+          .select('id, usage_count')
+          .eq('role_name', profileData.custom_role)
+          .maybeSingle();
 
-      if (searchError) {
-        console.error('Error checking for existing custom role:', searchError);
-      } else if (existingRole) {
-        // Update existing custom role's usage count
-        const { error: updateError } = await supabase
-          .from('custom_roles')
-          .update({ usage_count: (existingRole.usage_count || 0) + 1 })
-          .eq('id', existingRole.id);
-        
-        if (updateError) console.error('Error updating custom role usage count:', updateError);
-      } else {
-        // Create new custom role
-        const { error: insertError } = await supabase
-          .from('custom_roles')
-          .insert({ 
-            role_name: profileData.custom_role,
-            created_by: user.id
-          });
-        
-        if (insertError) {
-          console.error('Error inserting custom role:', insertError);
+        if (existingRole) {
+          await supabase
+            .from('custom_roles')
+            .update({ usage_count: (existingRole.usage_count || 0) + 1 })
+            .eq('id', existingRole.id);
+        } else {
+          await supabase
+            .from('custom_roles')
+            .insert({ 
+              role_name: profileData.custom_role,
+              created_by: user.id
+            });
         }
+      } catch (error) {
+        // Non-critical error, we can continue
+        console.error('Error handling custom role:', error);
       }
     }
     
-    // Cast the role to the appropriate type if it's one of the predefined roles
-    // or use 'other' if it's a custom role
+    // Cast role to enum type if it's a predefined role
     const roleEnum: Database["public"]["Enums"]["user_role"] = 
       ['facility_manager', 'architect', 'designer', 'other'].includes(finalRole) 
         ? finalRole as Database["public"]["Enums"]["user_role"] 
         : 'other';
-      
-    // CRITICAL: First update the user metadata as this doesn't rely on RLS
-    try {
-      console.log("Updating user metadata for user:", user.id);
-      const { error: metadataError } = await supabase.auth.updateUser({
-        data: {
-          full_name: profileData.full_name,
-          role: finalRole,
-          company: profileData.company,
-          country: profileData.country,
-          onboarding_step_completed: 1, // Mark first step as completed
-          has_completed_profile: true,   // Flag to indicate profile completion
-          profile_completed_at: new Date().toISOString() // Add timestamp for when profile was completed
-        }
-      });
-      
-      if (metadataError) {
-        console.error('Error updating user metadata:', metadataError);
-        // Even with error, continue to next step - critical path
-      } else {
-        console.log("Successfully updated user metadata");
+    
+    // CRITICAL: First update the user metadata
+    const { error: metadataError } = await supabase.auth.updateUser({
+      data: {
+        full_name: profileData.full_name,
+        role: finalRole,
+        company: profileData.company,
+        country: profileData.country,
+        onboarding_step_completed: 1,
+        has_completed_profile: true,
+        profile_completed_at: new Date().toISOString()
       }
-    } catch (metadataErr) {
-      console.error('Exception in metadata update:', metadataErr);
-      // Continue despite error - we'll try to save to profile table next
+    });
+    
+    if (metadataError) {
+      console.error('Error updating user metadata:', metadataError);
+      // Even with error, we'll try profiles table as fallback
+    } else {
+      console.log("Successfully updated user metadata");
     }
 
-    // Try to save profile data to Supabase - use upsert to ensure we create or update as needed
-    try {
-      console.log("Attempting to upsert profile with id:", user.id);
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .upsert({
-          id: user.id,
-          full_name: profileData.full_name,
-          role: roleEnum,
-          company: profileData.company,
-          country: profileData.country,
-          onboarding_completed: false // Initially set to false until full onboarding is completed
-        }, {
-          onConflict: 'id'
-        });
-        
-      if (profileError) {
-        // Log the error but don't throw - we'll continue with the flow
-        console.error('Error updating profile - may be RLS issue:', profileError);
-        
-        // Continue without failing the whole process
-        // The auth metadata is still saved, which is the most important part
-        console.log('Continuing despite profile table error - auth metadata was saved');
-      } else {
-        console.log('Profile saved successfully in profiles table');
-      }
-    } catch (profileErr) {
-      // Log error but don't throw - we'll continue with the flow
-      console.error('Exception in profile update - continuing anyway:', profileErr);
+    // Save to profiles table
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .upsert({
+        id: user.id,
+        full_name: profileData.full_name,
+        role: roleEnum,
+        company: profileData.company,
+        country: profileData.country
+      }, {
+        onConflict: 'id'
+      });
+      
+    if (profileError) {
+      console.error('Error updating profile table:', profileError);
+      // If metadata succeeded, we can still return success
+      return !metadataError;
     }
     
-    // Return success since auth metadata was saved
     return true;
   } catch (error) {
-    console.error('Error in profile completion:', error);
-    toast.error("An error occurred while saving your profile");
+    console.error('Fatal error saving profile:', error);
     throw error;
   }
 }
