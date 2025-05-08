@@ -2,6 +2,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import { UserProfileData } from "../types";
 import { toast } from "sonner";
+import { Database } from "@/integrations/supabase/types/database";
 
 export async function saveUserProfile(profileData: UserProfileData): Promise<boolean> {
   try {
