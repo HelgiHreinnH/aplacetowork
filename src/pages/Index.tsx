@@ -1,7 +1,33 @@
 
 import React from 'react';
+import SliderForm from '@/components/SliderForm';
+import { useNavigate } from 'react-router-dom';
+import InfoContainer from '@/components/containers/InfoContainer';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/integrations/supabase/types';
+
+type Facility = Database['public']['Tables']['Facilities']['Row'];
 
 const Index = () => {
+  const navigate = useNavigate();
+  
+  const { data: facilities, isLoading, error } = useQuery({
+    queryKey: ['facilities'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('Facilities')
+        .select('*');
+        
+      if (error) throw error;
+      return data as Facility[];
+    }
+  });
+
+  const handleSearch = () => {
+    navigate('/search-results');
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
@@ -12,7 +38,22 @@ const Index = () => {
             for various work activities and team needs.
           </p>
           
-          {/* Content will be added here in future updates */}
+          {/* Slider section */}
+          <div className="mt-8 mb-8">
+            <InfoContainer
+              isLoading={isLoading}
+              error={error as Error}
+              facilities={facilities}
+              onSearch={handleSearch}
+            />
+          </div>
+
+          {/* Additional content placeholder */}
+          <div className="mt-12 text-center">
+            <p className="text-sm text-muted-foreground">
+              Adjust the sliders above to find your ideal workplace setting
+            </p>
+          </div>
         </div>
       </main>
     </div>
