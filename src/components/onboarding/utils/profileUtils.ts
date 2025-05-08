@@ -70,7 +70,8 @@ export async function saveUserProfile(profileData: UserProfileData) {
           full_name: profileData.full_name,
           role: roleEnum,
           company: profileData.company,
-          country: profileData.country
+          country: profileData.country,
+          onboarding_completed: false // Initially set to false until onboarding is completed
         });
         
       if (profileError) {
@@ -86,7 +87,8 @@ export async function saveUserProfile(profileData: UserProfileData) {
           full_name: profileData.full_name,
           role: roleEnum,
           company: profileData.company,
-          country: profileData.country
+          country: profileData.country,
+          onboarding_completed: false
         });
       }
     } catch (profileErr) {

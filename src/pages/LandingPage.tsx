@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -81,7 +80,7 @@ const LandingPage = () => {
     if (view === "login") {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
-        toast({ variant: "destructive", description: error.message || "Failed to login." });
+        toast.error(error.message || "Failed to login.");
       } else {
         toast.success("Logged in!");
       }
