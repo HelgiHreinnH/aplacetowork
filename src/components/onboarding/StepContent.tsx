@@ -16,7 +16,7 @@ interface StepContentProps {
 }
 
 const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDemoStep }) => {
-  const { step, userProfile, setUserProfile, handleNext } = useOnboarding();
+  const { step, totalSteps, userProfile, setUserProfile, handleNext } = useOnboarding();
   const tourSteps = useTourSteps();
 
   // Check if current step is a slider demo step
@@ -37,13 +37,13 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDe
       console.log("StepContent: Saving profile data", profileData);
       
       // Save profile data to Supabase
-      const result = await saveUserProfile(profileData);
+      await saveUserProfile(profileData);
       
       // Call the onProfileComplete callback to notify parent component
       await onProfileComplete(profileData);
       
       // Show success toast
-      toast.success("Profile saved successfully");
+      toast.success(`Profile saved successfully! Proceeding to step 2/${totalSteps}`);
       
       // Move to next step
       handleNext();

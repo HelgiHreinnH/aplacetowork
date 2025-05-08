@@ -91,11 +91,26 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
     setLoading(true);
     try {
       console.log('Submitting profile data:', data);
+      
+      // Update user metadata in auth
+      const { data: { user }, error: userUpdateError } = await supabase.auth.updateUser({
+        data: {
+          full_name: data.full_name,
+          role: data.role === 'other' ? data.custom_role : data.role,
+          company: data.company,
+          country: data.country
+        }
+      });
+      
+      if (userUpdateError) {
+        throw userUpdateError;
+      }
+      
+      // Proceed with saving profile
       await onComplete(data);
     } catch (error) {
       console.error('Error saving profile:', error);
       toast.error("Failed to save profile");
-    } finally {
       setLoading(false);
     }
   };
@@ -194,6 +209,7 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
             variant="main" 
             disabled={loading || !fullName} 
             className="rounded-xl w-full"
+            aria-label="Save your profile and continue"
           >
             {loading ? (
               <>
