@@ -51,19 +51,14 @@ const OnboardingFlow = () => {
     }
   };
 
-  // Handle profile completion
+  // Handle profile completion - now properly handling the Promise<boolean> return type
   const handleProfileComplete = async (profileData: UserProfileData) => {
     try {
       console.log("Onboarding: Saving profile data", profileData);
       
       // Save user profile data to Supabase
-      const result = await saveUserProfile(profileData);
-      
-      if (result) {
-        console.log("Onboarding: Profile data saved successfully");
-      }
-      
-      return result;
+      await saveUserProfile(profileData);
+      console.log("Onboarding: Profile data saved successfully");
     } catch (error) {
       console.error('Error in profile completion:', error);
       toast.error("An error occurred while saving your profile");

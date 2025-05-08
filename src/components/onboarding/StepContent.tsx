@@ -6,7 +6,6 @@ import UserProfileSetupStep from './UserProfileSetupStep';
 import IntroductionStep from './IntroductionStep';
 import AppTourStep from './AppTourStep';
 import { useTourSteps } from './hooks/useTourSteps';
-import { saveUserProfile } from './utils/profileUtils';
 import { UserProfileData } from './types';
 import { toast } from "sonner";
 
@@ -36,22 +35,13 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDe
       
       console.log("StepContent: Saving profile data", profileData);
       
-      // Save profile data to Supabase - this function now handles RLS errors internally
-      const profileSaved = await saveUserProfile(profileData);
-      console.log("Profile saved result:", profileSaved);
-      
-      try {
-        // Call the onProfileComplete callback to notify parent component
-        await onProfileComplete(profileData);
-      } catch (callbackError) {
-        console.error("Error in profile completion callback:", callbackError);
-        // Continue despite error in callback
-      }
+      // Save profile data and notify parent component
+      await onProfileComplete(profileData);
       
       // Show success toast
       toast.success(`Profile saved successfully! Proceeding to step 2/${totalSteps}`);
       
-      // Move to next step - we do this even if there were non-critical errors
+      // Move to next step
       handleNext();
     } catch (error) {
       console.error("Critical error saving profile:", error);

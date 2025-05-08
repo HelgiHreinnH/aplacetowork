@@ -61,6 +61,31 @@ export async function saveUserProfile(profileData: UserProfileData) {
         ? finalRole as Database["public"]["Enums"]["user_role"] 
         : 'other';
       
+    // CRITICAL: First update the user metadata as this doesn't rely on RLS
+    try {
+      console.log("Updating user metadata for user:", user.id);
+      const { error: metadataError } = await supabase.auth.updateUser({
+        data: {
+          full_name: profileData.full_name,
+          role: finalRole,
+          company: profileData.company,
+          country: profileData.country,
+          onboarding_step_completed: 1, // Mark first step as completed
+          has_completed_profile: true   // Flag to indicate profile completion
+        }
+      });
+      
+      if (metadataError) {
+        console.error('Error updating user metadata:', metadataError);
+        // Even with error, continue to next step - critical path
+      } else {
+        console.log("Successfully updated user metadata");
+      }
+    } catch (metadataErr) {
+      console.error('Exception in metadata update:', metadataErr);
+      // Continue despite error - we'll try to save to profile table next
+    }
+
     // Try to save profile data to Supabase - use upsert to ensure we create or update as needed
     try {
       console.log("Attempting to upsert profile with id:", user.id);
@@ -97,25 +122,6 @@ export async function saveUserProfile(profileData: UserProfileData) {
     } catch (profileErr) {
       // Log error but don't throw - we'll continue with the flow
       console.error('Exception in profile update - continuing anyway:', profileErr);
-    }
-    
-    // We'll also update the user metadata as a backup mechanism
-    try {
-      const { error: metadataError } = await supabase.auth.updateUser({
-        data: {
-          full_name: profileData.full_name,
-          role: finalRole,
-          company: profileData.company,
-          country: profileData.country,
-          onboarding_step_completed: 1 // Mark first step as completed
-        }
-      });
-      
-      if (metadataError) {
-        console.error('Error updating user metadata:', metadataError);
-      }
-    } catch (metadataErr) {
-      console.error('Exception in metadata update:', metadataErr);
     }
     
     // Return success since auth metadata was saved

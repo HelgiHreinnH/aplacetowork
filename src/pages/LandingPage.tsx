@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -21,6 +20,7 @@ const LandingPage = () => {
   useEffect(() => {
     // Set up auth state listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("Auth state changed:", _event, session?.user?.id);
       setSession(session);
       if (session) {
         // Check if onboarding is completed
@@ -33,6 +33,7 @@ const LandingPage = () => {
     });
     
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("Initial session check:", session?.user?.id);
       setSession(session);
       if (session) {
         // Check if onboarding is completed
@@ -48,47 +49,66 @@ const LandingPage = () => {
   const checkOnboardingStatus = async (userId: string) => {
     setCheckingStatus(true);
     try {
-      // First check if user has completed onboarding in their profile
+      console.log("Checking onboarding status for user:", userId);
+      
+      // First check if user has onboarding flag in their metadata
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user?.user_metadata?.has_completed_profile === true && 
+          localStorage.getItem('onboardingCompleted') === 'true') {
+        console.log("User metadata confirms completed onboarding, redirecting to home");
+        navigate("/home", { replace: true });
+        return;
+      }
+
+      // If no metadata flag, check the profiles table
       const { data, error } = await supabase
         .from('profiles')
         .select('onboarding_completed')
         .eq('id', userId)
-        .single();
+        .maybeSingle();
       
       if (error && error.code !== 'PGRST116') {
-        console.error('Error checking onboarding status:', error);
-        setCheckingStatus(false);
-        return;
+        console.error('Error checking onboarding status in profiles:', error);
       }
       
+      // If profile exists and onboarding is completed, redirect to home
       if (data?.onboarding_completed) {
-        // User has completed onboarding according to database, set localStorage and redirect
         console.log("Database confirms onboarding completed, redirecting to home");
         localStorage.setItem('onboardingCompleted', 'true');
         navigate("/home", { replace: true });
-      } else {
-        // Check localStorage as a fallback
-        const localOnboardingCompleted = localStorage.getItem('onboardingCompleted');
-        
-        if (localOnboardingCompleted === 'true') {
-          console.log("localStorage shows onboarding completed, syncing with database");
-          // Update the database to match localStorage
-          try {
-            await supabase
-              .from('profiles')
-              .update({ onboarding_completed: true })
-              .eq('id', userId);
-          } catch (syncError) {
-            console.warn("Failed to sync onboarding status with database:", syncError);
-          }
-          // Redirect to home
-          navigate("/home", { replace: true });
-        } else {
-          // User needs to go through onboarding
-          console.log("Onboarding not completed, showing onboarding flow");
-          setShowOnboarding(true);
-        }
+        return;
       }
+      
+      // Check localStorage as a fallback
+      const localOnboardingCompleted = localStorage.getItem('onboardingCompleted');
+      
+      if (localOnboardingCompleted === 'true') {
+        console.log("localStorage shows onboarding completed, syncing with database");
+        // Update the database to match localStorage
+        try {
+          await supabase
+            .from('profiles')
+            .update({ onboarding_completed: true })
+            .eq('id', userId);
+          
+          // Also update user metadata
+          await supabase.auth.updateUser({
+            data: {
+              has_completed_profile: true,
+              onboarding_completed: true
+            }
+          });
+        } catch (syncError) {
+          console.warn("Failed to sync onboarding status with database:", syncError);
+        }
+        // Redirect to home
+        navigate("/home", { replace: true });
+        return;
+      }
+      
+      // If we get here, user needs to go through onboarding
+      console.log("Onboarding not completed, showing onboarding flow");
+      setShowOnboarding(true);
     } catch (err) {
       console.error('Error in onboarding check:', err);
       // In case of error, check localStorage as fallback
