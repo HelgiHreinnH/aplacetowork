@@ -37,7 +37,8 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDe
       console.log("StepContent: Saving profile data", profileData);
       
       // Save profile data to Supabase - this function now handles RLS errors internally
-      await saveUserProfile(profileData);
+      const profileSaved = await saveUserProfile(profileData);
+      console.log("Profile saved result:", profileSaved);
       
       try {
         // Call the onProfileComplete callback to notify parent component

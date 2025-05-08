@@ -63,6 +63,7 @@ export async function saveUserProfile(profileData: UserProfileData) {
       
     // Try to save profile data to Supabase - use upsert to ensure we create or update as needed
     try {
+      console.log("Attempting to upsert profile with id:", user.id);
       const { error: profileError } = await supabase
         .from('profiles')
         .upsert({
@@ -72,6 +73,8 @@ export async function saveUserProfile(profileData: UserProfileData) {
           company: profileData.company,
           country: profileData.country,
           onboarding_completed: false // Initially set to false until onboarding is completed
+        }, {
+          onConflict: 'id'
         });
         
       if (profileError) {
@@ -94,6 +97,25 @@ export async function saveUserProfile(profileData: UserProfileData) {
     } catch (profileErr) {
       // Log error but don't throw - we'll continue with the flow
       console.error('Exception in profile update - continuing anyway:', profileErr);
+    }
+    
+    // We'll also update the user metadata as a backup mechanism
+    try {
+      const { error: metadataError } = await supabase.auth.updateUser({
+        data: {
+          full_name: profileData.full_name,
+          role: finalRole,
+          company: profileData.company,
+          country: profileData.country,
+          onboarding_step_completed: 1 // Mark first step as completed
+        }
+      });
+      
+      if (metadataError) {
+        console.error('Error updating user metadata:', metadataError);
+      }
+    } catch (metadataErr) {
+      console.error('Exception in metadata update:', metadataErr);
     }
     
     // Return success since auth metadata was saved

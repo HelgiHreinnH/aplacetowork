@@ -21,12 +21,14 @@ const OnboardingFlow = () => {
   // Handle complete onboarding 
   const handleComplete = async () => {
     try {
+      console.log("Completing onboarding...");
       // Save onboarding completion status to localStorage
       localStorage.setItem('onboardingCompleted', 'true');
       
       // Save onboarding completion status to user's profile
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user?.id) {
+        console.log("Setting onboarding_completed to true in database for user:", session.user.id);
         const { error } = await supabase
           .from('profiles')
           .update({ onboarding_completed: true })
@@ -35,6 +37,8 @@ const OnboardingFlow = () => {
         if (error) {
           console.error('Error updating onboarding status:', error);
           // Continue despite error - localStorage will serve as fallback
+        } else {
+          console.log("Successfully updated onboarding status in database");
         }
       }
       
@@ -58,9 +62,12 @@ const OnboardingFlow = () => {
       if (result) {
         console.log("Onboarding: Profile data saved successfully");
       }
+      
+      return result;
     } catch (error) {
       console.error('Error in profile completion:', error);
       toast.error("An error occurred while saving your profile");
+      throw error; // Re-throw to allow caller to handle
     }
   };
 

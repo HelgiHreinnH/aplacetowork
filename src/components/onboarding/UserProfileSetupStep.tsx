@@ -43,15 +43,17 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
       
       console.log("Auth metadata updated successfully:", user);
       
-      // Proceed with saving profile - this may fail due to RLS but we'll continue anyway
+      // Proceed with saving profile and moving to next step
       await onComplete(data);
+      
+      // onComplete will handle navigation to the next step
     } catch (error) {
       console.error('Error saving profile:', error);
       toast.error("Failed to save profile");
       setLoading(false);
     }
-    // We don't set loading to false here because if onComplete succeeds, 
-    // the component will unmount as we navigate to the next step
+    // We don't set loading to false here if onComplete succeeds
+    // The component will unmount as we navigate to the next step
   };
 
   return (
