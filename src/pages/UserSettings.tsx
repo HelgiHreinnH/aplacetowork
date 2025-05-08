@@ -23,13 +23,13 @@ const UserSettings = () => {
   });
 
   // Better error handling and timeout for profile data
-  const { data: profile, isLoading: profileLoading } = useQuery({
+  const { data: profile, isLoading: profileLoading, refetch: refetchProfile } = useQuery({
     queryKey: ['profile', session?.user?.id],
     queryFn: async () => {
       try {
         if (!session?.user?.id) {
           console.log("No user ID available to fetch profile");
-          return {};
+          return null;
         }
 
         console.log("Fetching profile for user:", session.user.id);
@@ -40,16 +40,43 @@ const UserSettings = () => {
           .single();
         
         if (error) {
-          console.error('Error fetching profile:', error);
-          toast.error("Failed to load profile data");
-          throw error;
+          if (error.code === 'PGRST116') {
+            console.log("No profile found for user, creating one...");
+            const { error: insertError } = await supabase
+              .from('profiles')
+              .insert({ id: session.user.id });
+            
+            if (insertError) {
+              console.error("Error creating profile:", insertError);
+              toast.error("Failed to create user profile");
+              throw insertError;
+            }
+            
+            // Fetch the newly created profile
+            const { data: newProfile, error: fetchError } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('id', session.user.id)
+              .single();
+              
+            if (fetchError) {
+              console.error("Error fetching new profile:", fetchError);
+              throw fetchError;
+            }
+            
+            return newProfile;
+          } else {
+            console.error('Error fetching profile:', error);
+            toast.error("Failed to load profile data");
+            throw error;
+          }
         }
         
         console.log("Retrieved profile data:", data);
-        return data || {};
+        return data;
       } catch (err) {
         console.error('Error in profile query:', err);
-        return {};
+        return null;
       }
     },
     enabled: !!session?.user?.id,
@@ -73,9 +100,21 @@ const UserSettings = () => {
           .single();
         
         if (error) {
+          if (error.code === 'PGRST116') {
+            console.log("No preferences found for user, creating default...");
+            const { error: insertError } = await supabase
+              .from('user_preferences')
+              .insert({ id: session.user.id, language: 'en' });
+            
+            if (insertError) {
+              console.error("Error creating preferences:", insertError);
+            }
+            
+            return { language: 'en' };
+          }
+          
           console.error('Error fetching preferences:', error);
-          toast.error("Failed to load preference data");
-          throw error;
+          return { language: 'en' };
         }
         return data || { language: 'en' };
       } catch (err) {

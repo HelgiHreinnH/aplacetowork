@@ -14,8 +14,14 @@ export async function saveUserProfile(profileData: UserProfileData) {
       throw new Error("No authenticated user found");
     }
     
+    console.log("Saving user profile data:", profileData);
+    
     // Handle custom role if the user selected "other" and provided a custom role
+    let finalRole = profileData.role;
+    
     if (profileData.role === 'other' && profileData.custom_role) {
+      finalRole = profileData.custom_role;
+      
       // Check if custom role already exists
       const { data: existingRole, error: searchError } = await supabase
         .from('custom_roles')
@@ -33,9 +39,6 @@ export async function saveUserProfile(profileData: UserProfileData) {
           .eq('id', existingRole.id);
         
         if (updateError) console.error('Error updating custom role usage count:', updateError);
-        
-        // Use the existing custom role
-        profileData.role = profileData.custom_role;
       } else {
         // Create new custom role
         const { error: insertError } = await supabase
@@ -47,18 +50,16 @@ export async function saveUserProfile(profileData: UserProfileData) {
         
         if (insertError) {
           console.error('Error inserting custom role:', insertError);
-        } else {
-          // Use the new custom role
-          profileData.role = profileData.custom_role;
         }
       }
     }
     
     // Cast the role to the appropriate type if it's one of the predefined roles
-    // or use it as is if it's a custom role
-    const role = ['facility_manager', 'architect', 'designer', 'other'].includes(profileData.role) 
-      ? profileData.role as Database["public"]["Enums"]["user_role"] 
-      : 'other';
+    // or use 'other' if it's a custom role
+    const roleEnum: Database["public"]["Enums"]["user_role"] = 
+      ['facility_manager', 'architect', 'designer', 'other'].includes(finalRole) 
+        ? finalRole as Database["public"]["Enums"]["user_role"] 
+        : 'other';
       
     // Save profile data to Supabase - use upsert to ensure we create or update as needed
     const { error: profileError } = await supabase
@@ -66,7 +67,7 @@ export async function saveUserProfile(profileData: UserProfileData) {
       .upsert({
         id: user.id,
         full_name: profileData.full_name,
-        role: role,
+        role: roleEnum,
         company: profileData.company,
         country: profileData.country
       });
@@ -77,7 +78,14 @@ export async function saveUserProfile(profileData: UserProfileData) {
       throw profileError;
     } 
     
-    console.log('Profile saved successfully:', profileData);
+    console.log('Profile saved successfully:', {
+      id: user.id,
+      full_name: profileData.full_name,
+      role: roleEnum,
+      company: profileData.company,
+      country: profileData.country
+    });
+    
     toast.success("Profile saved successfully");
     return true;
   } catch (error) {

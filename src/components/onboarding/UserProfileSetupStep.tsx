@@ -24,11 +24,6 @@ interface UserProfileSetupStepProps {
 const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete, initialData = {} }) => {
   const [loading, setLoading] = useState(false);
   const [customRoles, setCustomRoles] = useState<{id: string, role_name: string}[]>([]);
-  const [roleType, setRoleType] = useState<'predefined' | 'custom'>(
-    initialData.role && !['facility_manager', 'hr_professional', 'knowledge_worker', 'other'].includes(initialData.role) 
-      ? 'custom' 
-      : 'predefined'
-  );
   
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<UserProfileData>({
     defaultValues: initialData
@@ -52,8 +47,37 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
       }
     };
 
+    // Also check if user already has profile data that should be pre-filled
+    const checkExistingProfile = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session?.user?.id) {
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .maybeSingle();
+            
+          if (error && error.code !== 'PGRST116') {
+            console.error('Error fetching existing profile:', error);
+          } else if (data) {
+            // Pre-fill form with existing data
+            console.log("Found existing profile data:", data);
+            setValue('full_name', data.full_name || '');
+            setValue('role', data.role || 'facility_manager');
+            setValue('company', data.company || '');
+            setValue('country', data.country || '');
+          }
+        }
+      } catch (err) {
+        console.error('Error checking existing profile:', err);
+      }
+    };
+
     fetchCustomRoles();
-  }, []);
+    checkExistingProfile();
+  }, [setValue]);
 
   const onSubmit = async (data: UserProfileData) => {
     setLoading(true);
@@ -100,7 +124,6 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
             <Select 
               onValueChange={(value) => {
                 setValue('role', value);
-                setRoleType(value === 'other' ? 'custom' : 'predefined');
               }}
               defaultValue={initialData.role || 'facility_manager'}
             >
