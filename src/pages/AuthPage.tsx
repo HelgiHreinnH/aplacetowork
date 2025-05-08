@@ -43,12 +43,13 @@ const AuthPage = () => {
       if (view === "login") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
+          console.error("Login error:", error);
           toast.error(error.message || "Failed to login.");
         } else {
           toast.success("Logged in!");
         }
       } else {
-        // Enhanced signup process with additional metadata
+        // Enhanced signup process with additional metadata for a complete user record
         const { error, data } = await supabase.auth.signUp({ 
           email, 
           password,
@@ -67,19 +68,20 @@ const AuthPage = () => {
         } else {
           console.log("Signup successful:", data);
           
-          // Send welcome email through edge function if available
+          // Send welcome email through edge function
           try {
             const { error: welcomeEmailError } = await supabase.functions.invoke('send-welcome-email', {
-              body: { email, redirectUrl: window.location.origin + '/home' }
+              body: { 
+                email, 
+                redirectUrl: window.location.origin + '/home'
+              }
             });
             
             if (welcomeEmailError) {
               console.warn("Welcome email could not be sent:", welcomeEmailError);
-              // Don't block signup if welcome email fails
             }
           } catch (emailError) {
             console.warn("Error calling welcome email function:", emailError);
-            // Don't block signup if welcome email fails
           }
           
           toast.success(

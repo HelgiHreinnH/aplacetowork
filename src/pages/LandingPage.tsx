@@ -144,19 +144,20 @@ const LandingPage = () => {
         } else {
           console.log("Signup successful:", data);
           
-          // Send welcome email through edge function if available
+          // Send welcome email through edge function
           try {
             const { error: welcomeEmailError } = await supabase.functions.invoke('send-welcome-email', {
-              body: { email, redirectUrl: window.location.origin + '/home' }
+              body: { 
+                email, 
+                redirectUrl: window.location.origin + '/home'
+              }
             });
             
             if (welcomeEmailError) {
               console.warn("Welcome email could not be sent:", welcomeEmailError);
-              // Don't block signup process if welcome email fails
             }
           } catch (emailError) {
             console.warn("Error calling welcome email function:", emailError);
-            // Don't block signup process if welcome email fails
           }
           
           toast.success(
