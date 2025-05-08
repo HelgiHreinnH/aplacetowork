@@ -1,5 +1,5 @@
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, Heart } from 'lucide-react';
 import { toast } from "sonner";
 import MenuSheet from './MenuSheet';
@@ -9,6 +9,13 @@ import { designTokens } from "@/styles/design-tokens";
 
 const IndexBottomNav = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Don't render bottom nav on auth pages
+  const authPaths = ['/', '/auth'];
+  if (authPaths.includes(location.pathname)) {
+    return null;
+  }
 
   const handleSearch = () => {
     const searchParamsString = sessionStorage.getItem('searchParams');

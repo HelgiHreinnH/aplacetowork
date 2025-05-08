@@ -1,5 +1,5 @@
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, Heart } from 'lucide-react';
 import MenuSheet from './MenuSheet';
 import NavButton from './NavButton';
@@ -7,6 +7,13 @@ import { designTokens } from "@/styles/design-tokens";
 
 const StandardBottomNav = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Don't render bottom nav on auth pages
+  const authPaths = ['/', '/auth'];
+  if (authPaths.includes(location.pathname)) {
+    return null;
+  }
 
   const handleHomeClick = () => {
     navigate('/home');
