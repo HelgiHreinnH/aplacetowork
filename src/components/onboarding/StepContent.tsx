@@ -37,7 +37,7 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDe
       console.log("StepContent: Saving profile data", profileData);
       
       // Save profile data to Supabase
-      await saveUserProfile(profileData);
+      const result = await saveUserProfile(profileData);
       
       // Call the onProfileComplete callback to notify parent component
       await onProfileComplete(profileData);

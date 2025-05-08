@@ -26,7 +26,13 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
   const [customRoles, setCustomRoles] = useState<{id: string, role_name: string}[]>([]);
   
   const { register, handleSubmit, watch, setValue, formState: { errors, isValid } } = useForm<UserProfileData>({
-    defaultValues: initialData,
+    defaultValues: {
+      full_name: initialData.full_name || '',
+      role: initialData.role || 'facility_manager',
+      company: initialData.company || '',
+      country: initialData.country || '',
+      custom_role: initialData.custom_role || ''
+    },
     mode: "onChange" // Enable validation on change
   });
 
@@ -85,7 +91,7 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
     setLoading(true);
     try {
       console.log('Submitting profile data:', data);
-      onComplete(data);
+      await onComplete(data);
     } catch (error) {
       console.error('Error saving profile:', error);
       toast.error("Failed to save profile");
