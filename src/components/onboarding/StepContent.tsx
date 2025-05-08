@@ -36,19 +36,24 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDe
       
       console.log("StepContent: Saving profile data", profileData);
       
-      // Save profile data to Supabase
+      // Save profile data to Supabase - this function now handles RLS errors internally
       await saveUserProfile(profileData);
       
-      // Call the onProfileComplete callback to notify parent component
-      await onProfileComplete(profileData);
+      try {
+        // Call the onProfileComplete callback to notify parent component
+        await onProfileComplete(profileData);
+      } catch (callbackError) {
+        console.error("Error in profile completion callback:", callbackError);
+        // Continue despite error in callback
+      }
       
       // Show success toast
       toast.success(`Profile saved successfully! Proceeding to step 2/${totalSteps}`);
       
-      // Move to next step
+      // Move to next step - we do this even if there were non-critical errors
       handleNext();
     } catch (error) {
-      console.error("Error saving profile:", error);
+      console.error("Critical error saving profile:", error);
       toast.error("Failed to save your profile. Please try again.");
     }
   };

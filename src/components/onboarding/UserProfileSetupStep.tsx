@@ -92,7 +92,7 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
     try {
       console.log('Submitting profile data:', data);
       
-      // Update user metadata in auth
+      // Update user metadata in auth - this is critical and must succeed
       const { data: { user }, error: userUpdateError } = await supabase.auth.updateUser({
         data: {
           full_name: data.full_name,
@@ -103,16 +103,23 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
       });
       
       if (userUpdateError) {
-        throw userUpdateError;
+        console.error("Error updating user metadata:", userUpdateError);
+        toast.error("Failed to update profile information");
+        setLoading(false);
+        return;
       }
       
-      // Proceed with saving profile
+      console.log("Auth metadata updated successfully:", user);
+      
+      // Proceed with saving profile - this may fail due to RLS but we'll continue anyway
       await onComplete(data);
     } catch (error) {
       console.error('Error saving profile:', error);
       toast.error("Failed to save profile");
       setLoading(false);
     }
+    // We don't set loading to false here because if onComplete succeeds, 
+    // the component will unmount as we navigate to the next step
   };
 
   return (
