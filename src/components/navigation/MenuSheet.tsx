@@ -2,9 +2,30 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Grid, Heart, Settings, MessageSquare, Info } from "lucide-react";
+import { Menu, Grid, Heart, Settings, MessageSquare, Info, LogOut } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useState } from "react";
 
 const MenuSheet = () => {
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        throw error;
+      }
+      toast.success("Successfully logged out");
+    } catch (error) {
+      console.error("Error logging out:", error);
+      toast.error("Failed to log out");
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
   return (
     <Sheet modal={false}>
       <SheetTrigger asChild>
@@ -42,6 +63,18 @@ const MenuSheet = () => {
             <Info className="h-5 w-5" />
             <span>About</span>
           </Link>
+          
+          <div className="mt-2 border-t pt-2">
+            <Button
+              variant="ghost"
+              className="flex w-full items-center justify-start gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors text-red-600"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+            >
+              <LogOut className="h-5 w-5" />
+              <span>{isLoggingOut ? "Logging out..." : "Log out"}</span>
+            </Button>
+          </div>
         </nav>
       </SheetContent>
     </Sheet>
