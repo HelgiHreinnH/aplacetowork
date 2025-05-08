@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ const LandingPage = () => {
   const [loading, setLoading] = useState(false);
   const [session, setSession] = useState<any>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [checkingStatus, setCheckingStatus] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +25,10 @@ const LandingPage = () => {
       if (session) {
         // Check if onboarding is completed
         checkOnboardingStatus(session.user.id);
+      } else {
+        // If not logged in, make sure we're not showing onboarding
+        setShowOnboarding(false);
+        setCheckingStatus(false);
       }
     });
     
@@ -31,6 +37,8 @@ const LandingPage = () => {
       if (session) {
         // Check if onboarding is completed
         checkOnboardingStatus(session.user.id);
+      } else {
+        setCheckingStatus(false);
       }
     });
     
@@ -38,17 +46,9 @@ const LandingPage = () => {
   }, [navigate]);
 
   const checkOnboardingStatus = async (userId: string) => {
-    // First check localStorage
-    const onboardingCompleted = localStorage.getItem('onboardingCompleted');
-    
-    if (onboardingCompleted === 'true') {
-      // User has already completed onboarding locally
-      navigate("/home", { replace: true });
-      return;
-    }
-    
+    setCheckingStatus(true);
     try {
-      // Check if user has completed onboarding in their profile
+      // First check if user has completed onboarding in their profile
       const { data, error } = await supabase
         .from('profiles')
         .select('onboarding_completed')
@@ -57,20 +57,48 @@ const LandingPage = () => {
       
       if (error && error.code !== 'PGRST116') {
         console.error('Error checking onboarding status:', error);
+        setCheckingStatus(false);
+        return;
       }
       
       if (data?.onboarding_completed) {
-        // User has completed onboarding according to profile, update localStorage and redirect
+        // User has completed onboarding according to database, set localStorage and redirect
+        console.log("Database confirms onboarding completed, redirecting to home");
         localStorage.setItem('onboardingCompleted', 'true');
         navigate("/home", { replace: true });
       } else {
-        // User needs to go through onboarding
-        setShowOnboarding(true);
+        // Check localStorage as a fallback
+        const localOnboardingCompleted = localStorage.getItem('onboardingCompleted');
+        
+        if (localOnboardingCompleted === 'true') {
+          console.log("localStorage shows onboarding completed, syncing with database");
+          // Update the database to match localStorage
+          try {
+            await supabase
+              .from('profiles')
+              .update({ onboarding_completed: true })
+              .eq('id', userId);
+          } catch (syncError) {
+            console.warn("Failed to sync onboarding status with database:", syncError);
+          }
+          // Redirect to home
+          navigate("/home", { replace: true });
+        } else {
+          // User needs to go through onboarding
+          console.log("Onboarding not completed, showing onboarding flow");
+          setShowOnboarding(true);
+        }
       }
     } catch (err) {
       console.error('Error in onboarding check:', err);
-      // In case of error, default to showing onboarding
-      setShowOnboarding(true);
+      // In case of error, check localStorage as fallback
+      if (localStorage.getItem('onboardingCompleted') === 'true') {
+        navigate("/home", { replace: true });
+      } else {
+        setShowOnboarding(true);
+      }
+    } finally {
+      setCheckingStatus(false);
     }
   };
 
@@ -94,6 +122,18 @@ const LandingPage = () => {
     }
     setLoading(false);
   };
+
+  // If still checking status, show a minimal loading state
+  if (checkingStatus) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#f8f7fe] via-[#eceefd] to-[#f1f0fb]">
+        <div className="text-center">
+          <H1 className="!mb-4 !text-[#3f00ff] drop-shadow">Loading...</H1>
+          <p className="text-[#8E9196]">Please wait while we check your account status</p>
+        </div>
+      </div>
+    );
+  }
 
   // If onboarding should be shown, render it
   if (showOnboarding) {
