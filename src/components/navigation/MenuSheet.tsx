@@ -32,15 +32,15 @@ const MenuSheet = () => {
         <Button 
           variant="ghost" 
           size="icon"
-          className="text-gray-500 hover:text-gray-900 h-14 w-14" // Increased height and width
+          className="text-gray-500 hover:text-gray-900 h-14 w-14" 
         >
-          <Menu className="h-7 w-7" /> {/* Increased icon size */}
+          <Menu className="h-7 w-7" />
           <span className="sr-only">Menu</span>
         </Button>
       </SheetTrigger>
       <SheetContent 
         side="bottom" 
-        className="fixed inset-x-0 bottom-0 w-[90%] max-w-md mx-auto h-[35vh] rounded-t-3xl border-t-0 pb-4 origin-bottom animate-slide-up z-40 bg-white"
+        className="fixed inset-x-0 bottom-0 w-[90%] max-w-md mx-auto h-[40vh] rounded-t-3xl border-t-0 pb-6 origin-bottom animate-slide-up z-40 bg-white"
       >
         <nav className="flex flex-col gap-1.5 mt-2">
           <Link to="/overview" className="flex items-center gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors">
@@ -64,10 +64,10 @@ const MenuSheet = () => {
             <span>About</span>
           </Link>
           
-          <div className="mt-2 border-t pt-2">
+          <div className="mt-4 border-t pt-4">
             <Button
               variant="ghost"
-              className="flex w-full items-center justify-start gap-3 px-4 py-2 text-sm rounded-md hover:bg-accent/10 transition-colors text-red-600"
+              className="flex w-full items-center justify-start gap-3 px-4 py-3 text-sm rounded-md hover:bg-accent/10 transition-colors text-red-600"
               onClick={handleLogout}
               disabled={isLoggingOut}
             >
