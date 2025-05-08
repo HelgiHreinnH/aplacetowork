@@ -1,14 +1,16 @@
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Grid, Heart, Settings, MessageSquare, Info, LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const MenuSheet = () => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -23,6 +25,12 @@ const MenuSheet = () => {
       localStorage.removeItem('onboardingCompleted');
       
       toast.success("Successfully logged out");
+      
+      // Close the menu sheet
+      setIsOpen(false);
+      
+      // Navigate back to landing page
+      navigate("/", { replace: true });
     } catch (error) {
       console.error("Error logging out:", error);
       toast.error("Failed to log out");
@@ -31,8 +39,20 @@ const MenuSheet = () => {
     }
   };
 
+  // Handle escape key to cancel logout if in progress
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isLoggingOut) {
+        setIsLoggingOut(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscKey);
+    return () => window.removeEventListener('keydown', handleEscKey);
+  }, [isLoggingOut]);
+
   return (
-    <Sheet modal={false}>
+    <Sheet modal={false} open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button 
           variant="ghost" 
@@ -45,7 +65,7 @@ const MenuSheet = () => {
       </SheetTrigger>
       <SheetContent 
         side="bottom" 
-        className="fixed inset-x-0 bottom-0 w-[90%] max-w-md mx-auto h-[60vh] rounded-t-3xl border-t-0 pb-10 origin-bottom animate-slide-up z-40 bg-white overflow-y-auto"
+        className="fixed inset-x-0 bottom-0 w-[90%] max-w-md mx-auto h-[65vh] rounded-t-3xl border-t-0 pb-10 origin-bottom animate-slide-up z-40 bg-white overflow-y-auto"
       >
         <nav className="flex flex-col gap-2 mt-3">
           <Link to="/overview" className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-md hover:bg-accent/10 transition-colors">
