@@ -136,6 +136,13 @@ const UserSettings = () => {
     return () => clearTimeout(timer);
   }, [sessionLoading, profileLoading, preferencesLoading]);
 
+  // Also set initial load complete when loading finishes
+  useEffect(() => {
+    if (!sessionLoading && !profileLoading && !preferencesLoading) {
+      setInitialLoadComplete(true);
+    }
+  }, [sessionLoading, profileLoading, preferencesLoading]);
+
   // Show loading state, but only briefly
   if ((sessionLoading || profileLoading || preferencesLoading) && !initialLoadComplete) {
     return (

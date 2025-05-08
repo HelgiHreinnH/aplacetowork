@@ -27,7 +27,7 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
   const [customRoles, setCustomRoles] = useState<{id: string, role_name: string}[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   
-  const { register, handleSubmit, formState: { errors }, setValue, reset, watch } = useForm<ProfileFormData>({
+  const { register, handleSubmit, formState: { errors, isDirty }, setValue, reset, watch } = useForm<ProfileFormData>({
     defaultValues: initialData || {}
   });
 
@@ -156,18 +156,21 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
           <label htmlFor="full_name" className="block text-sm font-medium mb-1">Full Name</label>
           <Input
             id="full_name"
-            {...register("full_name")}
+            {...register("full_name", { required: "Full name is required" })}
             placeholder="Enter your full name"
             className="rounded-lg"
             disabled={!isEditing}
           />
+          {errors.full_name && (
+            <p className="text-sm text-red-500 mt-1">{errors.full_name.message}</p>
+          )}
         </div>
 
         <div>
           <label htmlFor="role" className="block text-sm font-medium mb-1">Role</label>
           <Select 
             value={selectedRole || 'facility_manager'}
-            onValueChange={(value) => setValue('role', value)}
+            onValueChange={(value) => setValue('role', value, { shouldDirty: true })}
             disabled={!isEditing}
           >
             <SelectTrigger className="rounded-lg" id="role">
@@ -221,7 +224,12 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
           >
             Cancel
           </Button>
-          <Button type="submit" variant="main" disabled={loading} className="rounded-xl">
+          <Button 
+            type="submit" 
+            variant="main" 
+            disabled={loading || !isDirty} 
+            className={`rounded-xl ${!isDirty && 'opacity-50'}`}
+          >
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
