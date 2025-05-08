@@ -13,13 +13,23 @@ const UserSettings = () => {
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
   // Fetch the current session
-  const { data: session, isLoading: sessionLoading } = useQuery({
+  const { data: session, isLoading: sessionLoading, refetch: refetchSession } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
-      const { data } = await supabase.auth.getSession();
-      console.log("Session data:", data.session);
-      return data.session;
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) {
+          console.error("Error getting session:", error);
+          return null;
+        }
+        console.log("Session data:", data.session);
+        return data.session;
+      } catch (err) {
+        console.error("Error in session query:", err);
+        return null;
+      }
     },
+    staleTime: 60000, // 1 minute
   });
 
   // Better error handling and timeout for profile data
@@ -81,7 +91,7 @@ const UserSettings = () => {
     },
     enabled: !!session?.user?.id,
     retry: 1,
-    staleTime: 300000, // 5 minutes
+    staleTime: 60000, // 1 minute
   });
 
   // Better error handling and timeout for preferences data
@@ -123,8 +133,26 @@ const UserSettings = () => {
     },
     enabled: !!session?.user?.id,
     retry: 1,
-    staleTime: 300000, // 5 minutes
+    staleTime: 60000, // 1 minute
   });
+
+  // Set up a listener for authentication changes
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+          refetchSession();
+        }
+        if (event === 'SIGNED_OUT') {
+          console.log('User signed out');
+        }
+      }
+    );
+    
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, [refetchSession]);
 
   // Set initial load complete after a timeout if loading takes too long
   useEffect(() => {

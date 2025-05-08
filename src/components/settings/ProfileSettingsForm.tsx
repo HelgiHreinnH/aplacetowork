@@ -26,12 +26,28 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
   const [loading, setLoading] = useState(false);
   const [customRoles, setCustomRoles] = useState<{id: string, role_name: string}[]>([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   
   const { register, handleSubmit, formState: { errors, isDirty }, setValue, reset, watch } = useForm<ProfileFormData>({
     defaultValues: initialData || {}
   });
 
   const selectedRole = watch('role');
+
+  // Check authentication status when component mounts
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session?.user?.id) {
+        setCurrentUserId(data.session.user.id);
+        console.log("Authenticated user found:", data.session.user.id);
+      } else {
+        console.log("No authenticated user found");
+      }
+    };
+    
+    checkAuth();
+  }, []);
 
   // Fetch custom roles when component mounts
   useEffect(() => {
@@ -65,12 +81,14 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
     try {
       console.log('Submitting updated profile data:', data);
       
-      // Get current user
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        toast.error("No authenticated user found");
-        throw new Error("No authenticated user found");
+      // Check if we have the current user ID
+      if (!currentUserId) {
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (!sessionData.session?.user?.id) {
+          toast.error("You must be logged in to update your profile");
+          throw new Error("No authenticated user found");
+        }
+        setCurrentUserId(sessionData.session.user.id);
       }
       
       // Determine the role type
@@ -89,9 +107,13 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
           company: data.company,
           country: data.country
         })
-        .eq('id', user.id);
+        .eq('id', currentUserId);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error updating profile:', error);
+        toast.error("Failed to update profile: " + error.message);
+        throw error;
+      }
       
       // If using a custom role and it's not one of the enum values
       if (!['facility_manager', 'architect', 'designer', 'other'].includes(data.role)) {
@@ -118,13 +140,14 @@ export function ProfileSettingsForm({ initialData }: { initialData: Partial<Prof
             .from('custom_roles')
             .insert({ 
               role_name: data.role,
-              created_by: user.id
+              created_by: currentUserId
             });
           
           if (insertError) console.error('Error inserting custom role:', insertError);
         }
       }
       
+      console.log("Profile updated successfully!");
       toast.success("Profile updated successfully");
       setIsEditing(false);
     } catch (error) {
