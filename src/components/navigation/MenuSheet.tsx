@@ -15,25 +15,52 @@ const MenuSheet = () => {
   const handleLogout = async () => {
     try {
       setIsLoggingOut(true);
-      const { error } = await supabase.auth.signOut();
       
-      if (error) {
-        throw error;
+      // First clear local storage regardless of API success
+      localStorage.removeItem('onboardingCompleted');
+      
+      try {
+        // Attempt to sign out via the API
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+          console.warn("API logout error:", error);
+          // Continue with local logout even if API fails
+        }
+      } catch (signOutError) {
+        // Log the error but continue with local logout
+        console.warn("Failed API logout:", signOutError);
       }
       
-      // Clear onboarding state from localStorage on logout
-      localStorage.removeItem('onboardingCompleted');
+      // Always close the menu sheet
+      setIsOpen(false);
+      
+      // Clear any auth state from localStorage that might be cached by Supabase
+      try {
+        // Force clear any auth data that might be in localStorage
+        const authKeys = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && (key.includes('supabase.auth') || key.includes('sb-'))) {
+            authKeys.push(key);
+          }
+        }
+        
+        // Remove all auth-related keys
+        authKeys.forEach(key => localStorage.removeItem(key));
+      } catch (storageError) {
+        console.warn("Error clearing auth storage:", storageError);
+      }
       
       toast.success("Successfully logged out");
       
-      // Close the menu sheet
-      setIsOpen(false);
-      
-      // Navigate back to landing page
+      // Always navigate back to landing page regardless of API success
       navigate("/", { replace: true });
     } catch (error) {
-      console.error("Error logging out:", error);
-      toast.error("Failed to log out");
+      console.error("Error in logout flow:", error);
+      toast.error("Failed to log out completely");
+      
+      // Even if there was an error, try to navigate back to login
+      navigate("/", { replace: true });
     } finally {
       setIsLoggingOut(false);
     }
