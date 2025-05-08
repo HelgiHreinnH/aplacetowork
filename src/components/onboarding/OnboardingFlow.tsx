@@ -68,11 +68,13 @@ const OnboardingFlow: React.FC = () => {
 
   // Handle completing the entire onboarding flow
   const handleComplete = async () => {
+    if (isCompleting) return; // Prevent multiple completion attempts
+    
     try {
       setIsCompleting(true);
       console.log("Completing onboarding process");
       
-      // Save completion status to localStorage
+      // Save completion status to localStorage FIRST (as a fallback)
       localStorage.setItem('onboardingCompleted', 'true');
       
       // Save completion status to user profile
@@ -88,21 +90,24 @@ const OnboardingFlow: React.FC = () => {
         
         console.log("Updated user metadata with onboarding_completed: true");
         
-        // Update profiles table
-        await supabase
-          .from('profiles')
-          .update({ onboarding_completed: true })
-          .eq('id', session.user.id);
-          
-        console.log("Updated profiles table with onboarding_completed: true");
+        // Update profiles table (less critical)
+        try {
+          await supabase
+            .from('profiles')
+            .update({ onboarding_completed: true })
+            .eq('id', session.user.id);
+            
+          console.log("Updated profiles table with onboarding_completed: true");
+        } catch (err) {
+          console.warn("Non-critical: Could not update profiles table:", err);
+        }
       }
       
       // Navigate to home page
       navigate('/home', { replace: true });
     } catch (err) {
       console.error('Error completing onboarding:', err);
-      // Use localStorage as fallback
-      localStorage.setItem('onboardingCompleted', 'true');
+      // Still navigate to home page using localStorage as fallback
       navigate('/home', { replace: true });
     }
   };

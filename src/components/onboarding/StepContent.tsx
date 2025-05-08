@@ -34,11 +34,11 @@ const StepContent: React.FC<StepContentProps> = ({ onProfileComplete, onSliderDe
       
       console.log("StepContent: Profile saved successfully, advancing to next step");
       
-      // Ensure we move to the next step - with setTimeout to break any potential loops
+      // Ensure we move to the next step using setTimeout to break any potential loops
       setTimeout(() => {
+        console.log("StepContent: Executing handleNext after timeout");
         handleNext();
-      }, 0);
-      
+      }, 100);
     } catch (error) {
       console.error("Error saving profile:", error);
       toast.error("Failed to save your profile. Please try again.");

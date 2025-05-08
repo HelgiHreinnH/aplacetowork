@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { toast } from "sonner";
 import { motion } from 'framer-motion';
@@ -19,11 +20,12 @@ const UserProfileSetupStep: React.FC<UserProfileSetupStepProps> = ({ onComplete,
     console.log('Profile form submitted with data:', data);
     
     try {
-      // Keep it simple - just call onComplete with the form data
+      // Simply call onComplete with the form data
       await onComplete(data);
+      // Note: We don't set loading=false here because we're transitioning to the next step
     } catch (error) {
       console.error('Error in profile submission:', error);
-      toast.error("Failed to save profile");
+      toast.error("Failed to save profile. Please try again.");
       setLoading(false);
     }
   };

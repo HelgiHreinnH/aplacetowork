@@ -53,7 +53,7 @@ export async function saveUserProfile(profileData: UserProfileData): Promise<boo
         ? finalRole as Database["public"]["Enums"]["user_role"] 
         : 'other';
     
-    // CRITICAL: First update the user metadata - this is the most important part
+    // CRITICAL PART - First update the user metadata (most important)
     const { error: metadataError } = await supabase.auth.updateUser({
       data: {
         full_name: profileData.full_name,
@@ -73,23 +73,22 @@ export async function saveUserProfile(profileData: UserProfileData): Promise<boo
     
     console.log("Successfully updated user metadata");
 
-    // Save to profiles table
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .upsert({
-        id: user.id,
-        full_name: profileData.full_name,
-        role: roleEnum,
-        company: profileData.company,
-        country: profileData.country
-      }, {
-        onConflict: 'id'
-      });
-      
-    if (profileError) {
+    // Then try to save to profiles table (less critical)
+    try {
+      await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          full_name: profileData.full_name,
+          role: roleEnum,
+          company: profileData.company,
+          country: profileData.country
+        }, {
+          onConflict: 'id'
+        });
+    } catch (profileError) {
       console.error('Error updating profile table:', profileError);
       // If metadata succeeded, we can still return success
-      return true;
     }
     
     return true;

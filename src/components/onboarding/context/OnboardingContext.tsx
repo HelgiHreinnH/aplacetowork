@@ -28,8 +28,11 @@ export const OnboardingProvider: React.FC<{
     console.log(`Moving from step ${step} to ${step + 1}/${totalSteps - 1}`);
     
     if (step < totalSteps - 1) {
-      // Important: use a function to ensure we get the latest state
-      setStep(currentStep => currentStep + 1);
+      // Use functional update to ensure we get the latest state
+      setStep(prevStep => {
+        console.log(`Updating step from ${prevStep} to ${prevStep + 1}`);
+        return prevStep + 1;
+      });
     } else {
       // Complete onboarding if we're at the last step
       onComplete();
@@ -39,8 +42,7 @@ export const OnboardingProvider: React.FC<{
   // Handle navigation to previous step
   const handleBack = () => {
     if (step > 0) {
-      // Important: use a function to ensure we get the latest state
-      setStep(currentStep => currentStep - 1);
+      setStep(prevStep => prevStep - 1);
     }
   };
 
