@@ -1,8 +1,9 @@
+
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { H1 } from "@/components/ui/typography";
 import OnboardingFlow from "@/components/onboarding/OnboardingFlow";
@@ -22,28 +23,57 @@ const LandingPage = () => {
       setSession(session);
       if (session) {
         // Check if onboarding is completed
-        const onboardingCompleted = localStorage.getItem('onboardingCompleted');
-        if (onboardingCompleted === 'true') {
-          navigate("/home", { replace: true });
-        } else {
-          setShowOnboarding(true);
-        }
+        checkOnboardingStatus(session.user.id);
       }
     });
+    
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session) {
         // Check if onboarding is completed
-        const onboardingCompleted = localStorage.getItem('onboardingCompleted');
-        if (onboardingCompleted === 'true') {
-          navigate("/home", { replace: true });
-        } else {
-          setShowOnboarding(true);
-        }
+        checkOnboardingStatus(session.user.id);
       }
     });
+    
     return () => subscription.unsubscribe();
   }, [navigate]);
+
+  const checkOnboardingStatus = async (userId: string) => {
+    // First check localStorage
+    const onboardingCompleted = localStorage.getItem('onboardingCompleted');
+    
+    if (onboardingCompleted === 'true') {
+      // User has already completed onboarding locally
+      navigate("/home", { replace: true });
+      return;
+    }
+    
+    try {
+      // Check if user has completed onboarding in their profile
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('onboarding_completed')
+        .eq('id', userId)
+        .single();
+      
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error checking onboarding status:', error);
+      }
+      
+      if (data?.onboarding_completed) {
+        // User has completed onboarding according to profile, update localStorage and redirect
+        localStorage.setItem('onboardingCompleted', 'true');
+        navigate("/home", { replace: true });
+      } else {
+        // User needs to go through onboarding
+        setShowOnboarding(true);
+      }
+    } catch (err) {
+      console.error('Error in onboarding check:', err);
+      // In case of error, default to showing onboarding
+      setShowOnboarding(true);
+    }
+  };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,14 +83,14 @@ const LandingPage = () => {
       if (error) {
         toast({ variant: "destructive", description: error.message || "Failed to login." });
       } else {
-        toast({ description: "Logged in!" });
+        toast.success("Logged in!");
       }
     } else {
       const { error } = await supabase.auth.signUp({ email, password });
       if (error) {
-        toast({ variant: "destructive", description: error.message || "Failed to register." });
+        toast.error(error.message || "Failed to register.");
       } else {
-        toast({ description: "Check your email to confirm your account." });
+        toast.success("Check your email to confirm your account.");
       }
     }
     setLoading(false);

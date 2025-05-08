@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { OnboardingProvider } from './context/OnboardingContext';
 import OnboardingNavigation from './OnboardingNavigation';
 import StepContent from './StepContent';
@@ -18,12 +19,32 @@ const OnboardingFlow = () => {
   const totalSteps = 2 + tourSteps.length;
 
   // Handle complete onboarding 
-  const handleComplete = () => {
-    // Save onboarding completion status to localStorage
-    localStorage.setItem('onboardingCompleted', 'true');
-    
-    // Navigate to home page
-    navigate('/home');
+  const handleComplete = async () => {
+    try {
+      // Save onboarding completion status to localStorage
+      localStorage.setItem('onboardingCompleted', 'true');
+      
+      // Save onboarding completion status to user's profile
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user?.id) {
+        const { error } = await supabase
+          .from('profiles')
+          .update({ onboarding_completed: true })
+          .eq('id', session.user.id);
+        
+        if (error) {
+          console.error('Error updating onboarding status:', error);
+          // Continue despite error - localStorage will serve as fallback
+        }
+      }
+      
+      // Navigate to home page
+      navigate('/home');
+    } catch (err) {
+      console.error('Error completing onboarding:', err);
+      // Continue despite error
+      navigate('/home');
+    }
   };
 
   // Handle profile completion

@@ -14,9 +14,14 @@ const MenuSheet = () => {
     try {
       setIsLoggingOut(true);
       const { error } = await supabase.auth.signOut();
+      
       if (error) {
         throw error;
       }
+      
+      // Clear onboarding state from localStorage on logout
+      localStorage.removeItem('onboardingCompleted');
+      
       toast.success("Successfully logged out");
     } catch (error) {
       console.error("Error logging out:", error);
@@ -40,7 +45,7 @@ const MenuSheet = () => {
       </SheetTrigger>
       <SheetContent 
         side="bottom" 
-        className="fixed inset-x-0 bottom-0 w-[90%] max-w-md mx-auto h-[50vh] rounded-t-3xl border-t-0 pb-8 origin-bottom animate-slide-up z-40 bg-white overflow-y-auto"
+        className="fixed inset-x-0 bottom-0 w-[90%] max-w-md mx-auto h-[60vh] rounded-t-3xl border-t-0 pb-10 origin-bottom animate-slide-up z-40 bg-white overflow-y-auto"
       >
         <nav className="flex flex-col gap-2 mt-3">
           <Link to="/overview" className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-md hover:bg-accent/10 transition-colors">
@@ -64,10 +69,10 @@ const MenuSheet = () => {
             <span>About</span>
           </Link>
           
-          <div className="mt-6 border-t pt-4">
+          <div className="mt-8 border-t pt-6">
             <Button
               variant="ghost"
-              className="flex w-full items-center justify-start gap-3 px-4 py-3.5 text-sm rounded-md hover:bg-accent/10 transition-colors text-red-600"
+              className="flex w-full items-center justify-start gap-3 px-4 py-4 text-sm rounded-md hover:bg-accent/10 transition-colors text-red-600"
               onClick={handleLogout}
               disabled={isLoggingOut}
             >
