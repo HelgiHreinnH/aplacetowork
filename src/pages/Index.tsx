@@ -6,6 +6,7 @@ import InfoContainer from '@/components/containers/InfoContainer';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
+import { Button } from '@/components/ui/button';
 
 type Facility = Database['public']['Tables']['Facilities']['Row'];
 
@@ -46,6 +47,18 @@ const Index = () => {
               facilities={facilities}
               onSearch={handleSearch}
             />
+          </div>
+
+          {/* Library shortcut */}
+          <div className="mt-8 text-center">
+            <h2 className="text-xl font-semibold mb-4">Browse Our Workplace Settings Library</h2>
+            <Button 
+              variant="main" 
+              className="rounded-full"
+              onClick={() => navigate('/workplace-library')}
+            >
+              View Workplace Settings Library
+            </Button>
           </div>
 
           {/* Additional content placeholder */}
