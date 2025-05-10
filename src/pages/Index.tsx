@@ -52,13 +52,22 @@ const Index = () => {
           {/* Library shortcut */}
           <div className="mt-8 text-center">
             <h2 className="text-xl font-semibold mb-4">Browse Our Workplace Settings Library</h2>
-            <Button 
-              variant="main" 
-              className="rounded-full"
-              onClick={() => navigate('/workplace-library')}
-            >
-              View Workplace Settings Library
-            </Button>
+            <div className="flex justify-center gap-4 flex-wrap">
+              <Button 
+                variant="main" 
+                className="rounded-full"
+                onClick={() => navigate('/workplace-library')}
+              >
+                View Workplace Settings Library
+              </Button>
+              <Button 
+                variant="outline" 
+                className="rounded-full"
+                onClick={() => navigate('/card-design-system')}
+              >
+                Explore Card Design System
+              </Button>
+            </div>
           </div>
 
           {/* Additional content placeholder */}
