@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { H1, H2, H3, H4 } from '@/components/ui/typography';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -6,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import CardFront from '@/components/CardFront';
 import CardBack from '@/components/CardBack';
-import Card as FlippableCard from '@/components/Card';
+import FlippableCard from '@/components/Card';
 import { SettingCard } from '@/components/design-system/SettingCard';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
