@@ -77,25 +77,31 @@ export const SettingCard: React.FC<SettingCardProps> = ({
       </CardHeader>
       
       <CardContent className="flex-grow" style={{ padding: cardPadding, paddingTop: 0 }}>
-        <div className="grid grid-cols-3 gap-2 mb-4">
+        <div className="grid grid-cols-3 gap-4 mb-4">
           <div className="text-center">
-            <p className="text-xs text-muted-foreground">Area</p>
-            <p className="font-medium text-lg">{area}</p>
-            <p className="text-xs">m²</p>
-          </div>
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground">Capacity</p>
-            <p className="font-medium text-lg">{capacity}</p>
-            <p className="text-xs">colleagues</p>
-          </div>
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground">Type</p>
-            <div className="flex justify-center pt-1">
-              <div className="h-6 w-6 bg-[#F1F0FB] rounded-full flex items-center justify-center">
-                <span className="text-[#9b87f5] text-xs">W</span>
-              </div>
+            <div className="border border-gray-200 rounded-lg p-3 shadow-sm">
+              <p className="text-xs text-muted-foreground">Area</p>
+              <p className="font-medium text-lg text-[#ff8600] w-full">{area}</p>
+              <p className="text-xs">m²</p>
             </div>
-            <p className="text-xs">work</p>
+          </div>
+          <div className="text-center">
+            <div className="border border-gray-200 rounded-lg p-3 shadow-sm">
+              <p className="text-xs text-muted-foreground">Capacity</p>
+              <p className="font-medium text-lg text-[#ff8600] w-full">{capacity}</p>
+              <p className="text-xs">colleagues</p>
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="border border-gray-200 rounded-lg p-3 shadow-sm">
+              <p className="text-xs text-muted-foreground">Type</p>
+              <div className="flex justify-center pt-1">
+                <div className="h-6 w-6 bg-[#F1F0FB] rounded-full flex items-center justify-center">
+                  <span className="text-[#9b87f5] text-xs">W</span>
+                </div>
+              </div>
+              <p className="text-xs">work</p>
+            </div>
           </div>
         </div>
       </CardContent>
