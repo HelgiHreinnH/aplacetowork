@@ -53,48 +53,43 @@ export const SettingCard: React.FC<SettingCardProps> = ({
     }
   };
 
-  // Mobile layout with horizontal orientation (image left)
+  // Mobile layout with horizontal orientation (no image, tag on right)
   if (isMobile) {
     return (
       <Card 
-        className="overflow-hidden flex flex-row h-full hover:shadow-lg transition-all duration-300 cursor-pointer"
+        className="overflow-hidden flex flex-col h-full hover:shadow-lg transition-all duration-300 cursor-pointer"
         onClick={onClick}
       >
-        {/* Left side image */}
-        <div className="relative w-1/3 min-w-[100px]">
-          <img 
-            src={imageUrl || defaultImage} 
-            alt={title} 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute top-2 right-2">
-            <Badge className={`${badge.color} text-[10px] px-1.5 py-0.5`}>
+        {/* Header with title and badge */}
+        <div className="flex justify-between items-start p-3">
+          <div className="flex-1 pr-2">
+            <h3 className="text-sm font-semibold line-clamp-1">{title}</h3>
+            <p className="text-xs text-muted-foreground line-clamp-1">{description}</p>
+          </div>
+          
+          <div>
+            <Badge className={`${badge.color} text-[10px] px-1.5 py-0.5 whitespace-nowrap`}>
               {badge.label}
             </Badge>
           </div>
         </div>
         
-        {/* Right side content */}
-        <div className="flex-1 flex flex-col p-3">
-          <div>
-            <h3 className="text-sm font-semibold line-clamp-1">{title}</h3>
-            <p className="text-xs text-muted-foreground line-clamp-1">{description}</p>
-          </div>
-          
-          <div className="mt-2 flex justify-between items-center">
-            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[28%]">
+        {/* Card content */}
+        <div className="px-3 pb-3">          
+          <div className="mt-1 flex justify-between items-center">
+            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[30%]">
               <p className="text-[10px] text-muted-foreground mb-0.5">Area</p>
               <p className="font-medium text-sm text-[#ff8600]">{area}</p>
               <p className="text-[10px]">m²</p>
             </div>
             
-            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[28%]">
+            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[30%]">
               <p className="text-[10px] text-muted-foreground mb-0.5">Capacity</p>
               <p className="font-medium text-sm text-[#ff8600]">{capacity}</p>
               <p className="text-[10px]">colleagues</p>
             </div>
             
-            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[28%]">
+            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[30%]">
               <p className="text-[10px] text-muted-foreground mb-0.5">Type</p>
               <div className="flex justify-center pb-1">
                 <div className="h-5 w-5 bg-[#F1F0FB] rounded-full flex items-center justify-center">
