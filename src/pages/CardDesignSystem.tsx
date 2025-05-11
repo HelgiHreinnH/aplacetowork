@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { H1, H2, H3, H4 } from '@/components/ui/typography';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -46,8 +45,8 @@ const CardDesignSystem = () => {
         'Task lighting',
         'Cable management'
       ],
-      capacity: '1 person',
-      area: '4-6 sq meters'
+      capacity: '1',
+      area: '4-6'
     },
     {
       type: 'lounge-area' as const,
@@ -59,8 +58,54 @@ const CardDesignSystem = () => {
         'Power outlets',
         'Acoustic paneling'
       ],
-      capacity: '4-8 people',
-      area: '15-20 sq meters'
+      capacity: '4-8',
+      area: '15-20'
+    }
+  ];
+
+  // Add new workplace settings for responsive cards demonstration
+  const responsiveCardSettings = [
+    {
+      type: 'meeting-room' as const,
+      title: 'Conference Room A',
+      description: 'A large meeting room with video conferencing equipment and presentation facilities for team meetings and client presentations.',
+      features: [
+        'Video conferencing',
+        'Digital whiteboard',
+        'Adjustable lighting',
+        'Sound insulation'
+      ],
+      capacity: '10-12',
+      area: '25-30',
+      imageUrl: 'https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png'
+    },
+    {
+      type: 'open-area' as const,
+      title: 'Collaborative Space',
+      description: 'Open area designed for spontaneous meetings and cross-departmental collaboration with flexible furniture arrangements.',
+      features: [
+        'Movable furniture',
+        'Writable walls',
+        'Charging stations',
+        'Natural lighting'
+      ],
+      capacity: '15-20',
+      area: '40-50',
+      imageUrl: 'https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png'
+    },
+    {
+      type: 'work-table' as const,
+      title: 'Focus Pod',
+      description: 'Private workspace designed for concentrated individual work requiring minimal distractions.',
+      features: [
+        'Sound insulation',
+        'Ergonomic chair',
+        'Adjustable lighting',
+        'Privacy screen'
+      ],
+      capacity: '1',
+      area: '3-4',
+      imageUrl: 'https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png'
     }
   ];
 
@@ -77,10 +122,11 @@ const CardDesignSystem = () => {
           </div>
 
           <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid grid-cols-5 mb-8">
+            <TabsList className="grid grid-cols-6 mb-8">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="base">Base Cards</TabsTrigger>
               <TabsTrigger value="settings">Setting Cards</TabsTrigger>
+              <TabsTrigger value="responsive">Responsive Cards</TabsTrigger>
               <TabsTrigger value="flippable">Flippable Cards</TabsTrigger>
               <TabsTrigger value="variants">Card Variants</TabsTrigger>
             </TabsList>
@@ -277,6 +323,90 @@ const CardDesignSystem = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+              </section>
+            </TabsContent>
+            
+            {/* New Responsive Cards Tab */}
+            <TabsContent value="responsive" className="space-y-8">
+              <section>
+                <H2 className="mb-4">Responsive Cards</H2>
+                <p className="max-w-3xl mb-6">
+                  These cards adapt to different screen sizes with specialized behaviors. On desktop, they display 
+                  a "Learn more" button in the footer. On mobile and tablet, the entire card becomes clickable
+                  without showing the button.
+                </p>
+                
+                <div className="mb-8">
+                  <H3 className="mb-4">Responsive Behavior</H3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                    <div className="p-6 bg-white rounded-lg shadow-sm">
+                      <H4 className="mb-2">Desktop View</H4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>Button visible in footer</li>
+                        <li>Card body not clickable</li>
+                        <li>Optimized for mouse interaction</li>
+                        <li>Larger display area for content</li>
+                      </ul>
+                    </div>
+                    <div className="p-6 bg-white rounded-lg shadow-sm">
+                      <H4 className="mb-2">Mobile/Tablet View</H4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>No button visible</li>
+                        <li>Entire card is clickable</li>
+                        <li>Optimized for touch interaction</li>
+                        <li>Condensed layout for smaller screens</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                
+                <H3 className="mb-4">Examples</H3>
+                <p className="mb-6 text-sm text-muted-foreground">
+                  Resize your browser window to see how these cards adapt to different screen sizes.
+                  On desktop sizes, you'll see the "Learn more" button. On mobile/tablet sizes, the button 
+                  disappears and the entire card becomes clickable.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {responsiveCardSettings.map((setting, index) => (
+                    <div key={index} className="flex flex-col">
+                      <SettingCard 
+                        {...setting} 
+                        onClick={() => alert(`Card clicked: ${setting.title}`)}
+                      />
+                      <div className="mt-4 text-sm">
+                        <p className="font-semibold">{setting.title}</p>
+                        <p className="text-muted-foreground">Type: {setting.type}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-8">
+                  <H3 className="mb-4">Implementation</H3>
+                  <div className="bg-slate-100 p-4 rounded-md">
+                    <pre className="text-xs overflow-x-auto">
+                      {`// Responsive behavior using the useResponsive hook
+const { isMobile, isTablet } = useResponsive();
+const isWholeCardClickable = isMobile || isTablet;
+
+// Conditional rendering of the button
+{!isWholeCardClickable && (
+  <CardFooter>
+    <Button onClick={onClick}>Learn more</Button>
+  </CardFooter>
+)}
+
+// Making the whole card clickable on mobile/tablet
+<Card
+  className={\`\${isWholeCardClickable ? 'cursor-pointer' : ''}\`}
+  onClick={isWholeCardClickable ? onClick : undefined}
+>
+  {/* Card content */}
+</Card>`}
+                    </pre>
+                  </div>
                 </div>
               </section>
             </TabsContent>
