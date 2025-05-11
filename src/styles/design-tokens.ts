@@ -1,3 +1,4 @@
+
 /**
  * Design Tokens
  * 
@@ -6,7 +7,47 @@
  * consistency across the application.
  */
 
+// Screen breakpoints
+export const breakpoints = {
+  mobile: '640px',    // Mobile devices
+  tablet: '768px',    // Tablets
+  laptop: '1024px',   // Small laptops
+  desktop: '1280px',  // Desktop monitors
+  wide: '1536px'      // Large/wide screens
+};
+
 export const designTokens = {
+  // Responsive layout tokens
+  layout: {
+    container: {
+      mobile: '100%',
+      tablet: '90%',
+      desktop: '1200px',
+    },
+    spacing: {
+      mobile: {
+        page: '16px',
+        section: '24px',
+        component: '12px',
+      },
+      tablet: {
+        page: '24px',
+        section: '32px',
+        component: '16px',
+      },
+      desktop: {
+        page: '32px',
+        section: '48px',
+        component: '24px',
+      },
+    },
+    cardGrid: {
+      mobile: 'repeat(1, 1fr)',
+      tablet: 'repeat(2, 1fr)',
+      desktop: 'repeat(3, 1fr)',
+    },
+  },
+  
   colors: {
     primary: {
       DEFAULT: '#3f00ff',
@@ -117,16 +158,53 @@ export const designTokens = {
       semibold: '600',
       bold: '700',
     },
+    // Base font sizes with responsive variants
     fontSize: {
-      display: ['4rem', { lineHeight: '1.2' }],
-      h1: ['2.5rem', { lineHeight: '1.3' }],
-      h2: ['2rem', { lineHeight: '1.35' }],
-      h3: ['1.5rem', { lineHeight: '1.4' }],
-      h4: ['1.25rem', { lineHeight: '1.4' }],
-      'body-lg': ['1.125rem', { lineHeight: '1.5' }],
-      body: ['1rem', { lineHeight: '1.5' }],
-      small: ['0.875rem', { lineHeight: '1.5' }],
-      xs: ['0.75rem', { lineHeight: '1.5' }],
+      display: {
+        mobile: ['2.5rem', { lineHeight: '1.2' }],
+        tablet: ['3rem', { lineHeight: '1.2' }],
+        desktop: ['4rem', { lineHeight: '1.2' }],
+      },
+      h1: {
+        mobile: ['1.875rem', { lineHeight: '1.3' }],
+        tablet: ['2.25rem', { lineHeight: '1.3' }],
+        desktop: ['2.5rem', { lineHeight: '1.3' }],
+      },
+      h2: {
+        mobile: ['1.5rem', { lineHeight: '1.35' }],
+        tablet: ['1.75rem', { lineHeight: '1.35' }],
+        desktop: ['2rem', { lineHeight: '1.35' }],
+      },
+      h3: {
+        mobile: ['1.25rem', { lineHeight: '1.4' }],
+        tablet: ['1.375rem', { lineHeight: '1.4' }],
+        desktop: ['1.5rem', { lineHeight: '1.4' }],
+      },
+      h4: {
+        mobile: ['1.125rem', { lineHeight: '1.4' }],
+        tablet: ['1.25rem', { lineHeight: '1.4' }],
+        desktop: ['1.25rem', { lineHeight: '1.4' }],
+      },
+      'body-lg': {
+        mobile: ['1rem', { lineHeight: '1.5' }],
+        tablet: ['1.125rem', { lineHeight: '1.5' }],
+        desktop: ['1.125rem', { lineHeight: '1.5' }],
+      },
+      body: {
+        mobile: ['0.9375rem', { lineHeight: '1.5' }],
+        tablet: ['1rem', { lineHeight: '1.5' }],
+        desktop: ['1rem', { lineHeight: '1.5' }],
+      },
+      small: {
+        mobile: ['0.8125rem', { lineHeight: '1.5' }],
+        tablet: ['0.875rem', { lineHeight: '1.5' }],
+        desktop: ['0.875rem', { lineHeight: '1.5' }],
+      },
+      xs: {
+        mobile: ['0.6875rem', { lineHeight: '1.5' }],
+        tablet: ['0.75rem', { lineHeight: '1.5' }],
+        desktop: ['0.75rem', { lineHeight: '1.5' }],
+      },
     }
   },
   spacing: {
@@ -191,17 +269,46 @@ export const designTokens = {
 export const componentTokens = {
   card: {
     borderRadius: designTokens.borderRadius.md,
-    padding: designTokens.spacing[6],
+    padding: {
+      mobile: designTokens.spacing[3],
+      tablet: designTokens.spacing[4],
+      desktop: designTokens.spacing[6],
+    },
     shadow: designTokens.shadows.sm,
     backgroundColor: designTokens.colors.background.DEFAULT,
-    headerSpacing: designTokens.spacing[4],
-    footerSpacing: designTokens.spacing[4],
+    headerSpacing: {
+      mobile: designTokens.spacing[3],
+      tablet: designTokens.spacing[3],
+      desktop: designTokens.spacing[4],
+    },
+    footerSpacing: {
+      mobile: designTokens.spacing[3],
+      tablet: designTokens.spacing[3],
+      desktop: designTokens.spacing[4],
+    },
+    imageHeight: {
+      mobile: '120px',
+      tablet: '160px',
+      desktop: '200px',
+    },
   },
   button: {
     borderRadius: designTokens.borderRadius.full,
-    paddingX: designTokens.spacing[4],
-    paddingY: designTokens.spacing[2],
-    fontSize: designTokens.typography.fontSize.xs,
+    paddingX: {
+      mobile: designTokens.spacing[3],
+      tablet: designTokens.spacing[4],
+      desktop: designTokens.spacing[4],
+    },
+    paddingY: {
+      mobile: designTokens.spacing[1],
+      tablet: designTokens.spacing[1.5],
+      desktop: designTokens.spacing[2],
+    },
+    fontSize: {
+      mobile: designTokens.typography.fontSize.xs.mobile,
+      tablet: designTokens.typography.fontSize.xs.tablet,
+      desktop: designTokens.typography.fontSize.xs.desktop,
+    },
     fontWeight: designTokens.typography.fontWeight.bold,
     transition: designTokens.transitions.DEFAULT,
     invisible: {
@@ -212,10 +319,40 @@ export const componentTokens = {
   },
   input: {
     borderRadius: designTokens.borderRadius.md,
-    paddingX: designTokens.spacing[4],
-    paddingY: designTokens.spacing[2],
+    paddingX: {
+      mobile: designTokens.spacing[3],
+      tablet: designTokens.spacing[4],
+      desktop: designTokens.spacing[4],
+    },
+    paddingY: {
+      mobile: designTokens.spacing[1.5],
+      tablet: designTokens.spacing[2],
+      desktop: designTokens.spacing[2],
+    },
     borderColor: designTokens.colors.neutral[400],
     focusBorderColor: designTokens.colors.primary.DEFAULT,
     backgroundColor: designTokens.colors.background.DEFAULT,
   }
+};
+
+// Helper function to get responsive values based on current screen size
+export const getResponsiveValue = (values: {
+  mobile: any;
+  tablet?: any;
+  desktop?: any;
+}, defaultValue?: any) => {
+  // This function would be used in a useEffect or similar to get the right value
+  // based on screen size. For server-side or static rendering, it starts with mobile.
+  
+  // Note: In a real implementation, this would check window.innerWidth
+  // We're returning a function that can be called to get the current value
+  return () => {
+    // Default implementation with basic window check
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      if (width >= parseInt(breakpoints.desktop)) return values.desktop || values.tablet || values.mobile || defaultValue;
+      if (width >= parseInt(breakpoints.tablet)) return values.tablet || values.mobile || defaultValue;
+    }
+    return values.mobile || defaultValue;
+  };
 };

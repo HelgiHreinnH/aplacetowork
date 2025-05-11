@@ -3,6 +3,8 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useResponsive } from '@/hooks/use-responsive';
+import { componentTokens } from '@/styles/design-tokens';
 
 interface SettingCardProps {
   title: string;
@@ -23,6 +25,7 @@ export const SettingCard: React.FC<SettingCardProps> = ({
   features,
   imageUrl 
 }) => {
+  const { getValue } = useResponsive();
   const defaultImage = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
   
   // Type badges with styling
@@ -34,10 +37,14 @@ export const SettingCard: React.FC<SettingCardProps> = ({
   };
   
   const badge = typeBadges[type];
+  
+  // Get responsive card styling
+  const imageHeight = getValue(componentTokens.card.imageHeight);
+  const cardPadding = getValue(componentTokens.card.padding);
 
   return (
     <Card className="overflow-hidden flex flex-col h-full hover:shadow-lg transition-all duration-300">
-      <div className="relative h-48">
+      <div className="relative" style={{ height: imageHeight }}>
         <img 
           src={imageUrl || defaultImage} 
           alt={title} 
@@ -50,12 +57,12 @@ export const SettingCard: React.FC<SettingCardProps> = ({
         </div>
       </div>
       
-      <CardHeader>
+      <CardHeader style={{ padding: cardPadding }}>
         <CardTitle>{title}</CardTitle>
         <CardDescription className="line-clamp-2">{description}</CardDescription>
       </CardHeader>
       
-      <CardContent className="flex-grow">
+      <CardContent className="flex-grow" style={{ padding: cardPadding, paddingTop: 0 }}>
         <div className="grid grid-cols-2 gap-2 mb-4">
           <div>
             <p className="text-xs text-muted-foreground">Capacity</p>
@@ -84,9 +91,10 @@ export const SettingCard: React.FC<SettingCardProps> = ({
         </div>
       </CardContent>
       
-      <CardFooter>
+      <CardFooter style={{ padding: cardPadding }}>
         <Button variant="main" className="w-full rounded-full">View Details</Button>
       </CardFooter>
     </Card>
   );
 };
+
