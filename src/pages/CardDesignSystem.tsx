@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { H1, H2, H3, H4 } from '@/components/ui/typography';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -36,7 +37,7 @@ const CardDesignSystem = () => {
 
   const workplaceSettings = [
     {
-      type: 'work-table',
+      type: 'work-table' as const,
       title: 'Individual Work Station',
       description: 'Ergonomic desk setup for focused individual work with adjustable components.',
       features: [
@@ -49,7 +50,7 @@ const CardDesignSystem = () => {
       area: '4-6 sq meters'
     },
     {
-      type: 'lounge-area',
+      type: 'lounge-area' as const,
       title: 'Casual Collaboration Zone',
       description: 'Comfortable seating arrangement for informal meetings and relaxed work.',
       features: [
