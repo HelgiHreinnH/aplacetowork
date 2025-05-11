@@ -14,6 +14,7 @@ interface SettingCardProps {
   area: string;
   features: string[];
   imageUrl?: string;
+  onClick?: () => void;
 }
 
 export const SettingCard: React.FC<SettingCardProps> = ({ 
@@ -23,9 +24,10 @@ export const SettingCard: React.FC<SettingCardProps> = ({
   capacity, 
   area, 
   features,
-  imageUrl 
+  imageUrl,
+  onClick
 }) => {
-  const { getValue } = useResponsive();
+  const { getValue, isMobile, isTablet } = useResponsive();
   const defaultImage = "https://klcfyohkhmhmuisiawjz.supabase.co/storage/v1/object/public/facilitytempimage//facilitytemp.png";
   
   // Type badges with styling
@@ -42,8 +44,20 @@ export const SettingCard: React.FC<SettingCardProps> = ({
   const imageHeight = getValue(componentTokens.card.imageHeight);
   const cardPadding = getValue(componentTokens.card.padding);
 
+  // Determine if the whole card is clickable (mobile/tablet) or just the button (desktop)
+  const isWholeCardClickable = isMobile || isTablet;
+
+  const handleCardClick = () => {
+    if (isWholeCardClickable && onClick) {
+      onClick();
+    }
+  };
+
   return (
-    <Card className="overflow-hidden flex flex-col h-full hover:shadow-lg transition-all duration-300">
+    <Card 
+      className={`overflow-hidden flex flex-col h-full hover:shadow-lg transition-all duration-300 ${isWholeCardClickable ? 'cursor-pointer' : ''}`}
+      onClick={handleCardClick}
+    >
       <div className="relative" style={{ height: imageHeight }}>
         <img 
           src={imageUrl || defaultImage} 
@@ -63,38 +77,40 @@ export const SettingCard: React.FC<SettingCardProps> = ({
       </CardHeader>
       
       <CardContent className="flex-grow" style={{ padding: cardPadding, paddingTop: 0 }}>
-        <div className="grid grid-cols-2 gap-2 mb-4">
-          <div>
-            <p className="text-xs text-muted-foreground">Capacity</p>
-            <p className="font-medium">{capacity}</p>
-          </div>
-          <div>
+        <div className="grid grid-cols-3 gap-2 mb-4">
+          <div className="text-center">
             <p className="text-xs text-muted-foreground">Area</p>
-            <p className="font-medium">{area}</p>
+            <p className="font-medium text-lg">{area}</p>
+            <p className="text-xs">m²</p>
           </div>
-        </div>
-        
-        <div>
-          <p className="text-xs text-muted-foreground mb-2">Key Features:</p>
-          <div className="flex flex-wrap gap-1">
-            {features.slice(0, 3).map((feature, index) => (
-              <span key={index} className="text-xs px-2 py-1 bg-[#F1F0FB] rounded-full">
-                {feature}
-              </span>
-            ))}
-            {features.length > 3 && (
-              <span className="text-xs px-2 py-1 bg-[#F1F0FB] rounded-full">
-                +{features.length - 3} more
-              </span>
-            )}
+          <div className="text-center">
+            <p className="text-xs text-muted-foreground">Capacity</p>
+            <p className="font-medium text-lg">{capacity}</p>
+            <p className="text-xs">colleagues</p>
+          </div>
+          <div className="text-center">
+            <p className="text-xs text-muted-foreground">Type</p>
+            <div className="flex justify-center pt-1">
+              <div className="h-6 w-6 bg-[#F1F0FB] rounded-full flex items-center justify-center">
+                <span className="text-[#9b87f5] text-xs">W</span>
+              </div>
+            </div>
+            <p className="text-xs">work</p>
           </div>
         </div>
       </CardContent>
       
-      <CardFooter style={{ padding: cardPadding }}>
-        <Button variant="main" className="w-full rounded-full">View Details</Button>
-      </CardFooter>
+      {!isWholeCardClickable && (
+        <CardFooter style={{ padding: cardPadding }}>
+          <Button 
+            variant="main" 
+            className="w-full rounded-full" 
+            onClick={onClick}
+          >
+            Learn more
+          </Button>
+        </CardFooter>
+      )}
     </Card>
   );
 };
-
