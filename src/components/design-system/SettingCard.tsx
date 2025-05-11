@@ -77,25 +77,26 @@ export const SettingCard: React.FC<SettingCardProps> = ({
         {/* Card content */}
         <div className="px-3 pb-3">          
           <div className="mt-1 flex justify-between items-center">
-            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[30%]">
-              <p className="text-[10px] text-muted-foreground mb-0.5">Area</p>
+            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[30%] h-[70px] flex flex-col justify-between">
+              <p className="text-[10px] text-muted-foreground">Area</p>
               <p className="font-medium text-sm text-[#ff8600]">{area}</p>
               <p className="text-[10px]">m²</p>
             </div>
             
-            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[30%]">
-              <p className="text-[10px] text-muted-foreground mb-0.5">Capacity</p>
+            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[30%] h-[70px] flex flex-col justify-between">
+              <p className="text-[10px] text-muted-foreground">Capacity</p>
               <p className="font-medium text-sm text-[#ff8600]">{capacity}</p>
               <p className="text-[10px]">colleagues</p>
             </div>
             
-            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[30%]">
-              <p className="text-[10px] text-muted-foreground mb-0.5">Type</p>
-              <div className="flex justify-center pb-1">
+            <div className="border border-gray-200 rounded-md p-1.5 shadow-sm text-center w-[30%] h-[70px] flex flex-col justify-between">
+              <p className="text-[10px] text-muted-foreground">Type</p>
+              <div className="flex justify-center">
                 <div className="h-5 w-5 bg-[#F1F0FB] rounded-full flex items-center justify-center">
                   <span className="text-[#9b87f5] text-[10px]">W</span>
                 </div>
               </div>
+              <p className="text-[10px]">work</p>
             </div>
           </div>
         </div>
@@ -130,23 +131,23 @@ export const SettingCard: React.FC<SettingCardProps> = ({
       <CardContent className="flex-grow" style={{ padding: cardPadding, paddingTop: 0 }}>
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div className="text-center">
-            <div className="border border-gray-200 rounded-lg p-3 shadow-sm">
+            <div className="border border-gray-200 rounded-lg p-3 shadow-sm h-[100px] flex flex-col justify-between">
               <p className="text-xs text-muted-foreground">Area</p>
               <p className="font-medium text-lg text-[#ff8600] w-full">{area}</p>
               <p className="text-xs">m²</p>
             </div>
           </div>
           <div className="text-center">
-            <div className="border border-gray-200 rounded-lg p-3 shadow-sm">
+            <div className="border border-gray-200 rounded-lg p-3 shadow-sm h-[100px] flex flex-col justify-between">
               <p className="text-xs text-muted-foreground">Capacity</p>
               <p className="font-medium text-lg text-[#ff8600] w-full">{capacity}</p>
               <p className="text-xs">colleagues</p>
             </div>
           </div>
           <div className="text-center">
-            <div className="border border-gray-200 rounded-lg p-3 shadow-sm">
+            <div className="border border-gray-200 rounded-lg p-3 shadow-sm h-[100px] flex flex-col justify-between">
               <p className="text-xs text-muted-foreground">Type</p>
-              <div className="flex justify-center pt-1">
+              <div className="flex justify-center">
                 <div className="h-6 w-6 bg-[#F1F0FB] rounded-full flex items-center justify-center">
                   <span className="text-[#9b87f5] text-xs">W</span>
                 </div>
