@@ -12,9 +12,11 @@ import { Badge } from '@/components/ui/badge';
 import TitleContainer from '@/components/containers/TitleContainer';
 import ColorPalette from '@/components/design-system/ColorPalette';
 import CardVariants from '@/components/design-system/CardVariants';
+import { useResponsive } from '@/hooks/use-responsive';
 
 const CardDesignSystem = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const { isMobile } = useResponsive();
 
   // Sample facility data for demonstration
   const sampleFacility = {
@@ -122,14 +124,46 @@ const CardDesignSystem = () => {
           </div>
 
           <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid grid-cols-6 mb-8">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="base">Base Cards</TabsTrigger>
-              <TabsTrigger value="settings">Setting Cards</TabsTrigger>
-              <TabsTrigger value="responsive">Responsive Cards</TabsTrigger>
-              <TabsTrigger value="flippable">Flippable Cards</TabsTrigger>
-              <TabsTrigger value="variants">Card Variants</TabsTrigger>
-            </TabsList>
+            <div className="mb-8 overflow-x-auto">
+              <TabsList className={`${isMobile ? 'grid-cols-3 w-[600px]' : 'grid-cols-6'} grid`}>
+                <TabsTrigger 
+                  value="overview" 
+                  className={isMobile ? 'text-sm py-3 px-4' : ''}
+                >
+                  Overview
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="base" 
+                  className={isMobile ? 'text-sm py-3 px-4' : ''}
+                >
+                  Base Cards
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="settings" 
+                  className={isMobile ? 'text-sm py-3 px-4' : ''}
+                >
+                  Setting Cards
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="responsive" 
+                  className={isMobile ? 'text-sm py-3 px-4' : ''}
+                >
+                  Responsive Cards
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="flippable" 
+                  className={isMobile ? 'text-sm py-3 px-4' : ''}
+                >
+                  Flippable Cards
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="variants" 
+                  className={isMobile ? 'text-sm py-3 px-4' : ''}
+                >
+                  Card Variants
+                </TabsTrigger>
+              </TabsList>
+            </div>
             
             {/* Overview Tab */}
             <TabsContent value="overview" className="space-y-8">
