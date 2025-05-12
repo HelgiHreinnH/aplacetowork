@@ -60,9 +60,9 @@ export const SettingCard: React.FC<SettingCardProps> = ({
         className="overflow-hidden flex flex-col h-full hover:shadow-lg transition-all duration-300 cursor-pointer"
         onClick={onClick}
       >
-        {/* Header with title and badge */}
+        {/* Header with title and badge - modified for left alignment */}
         <div className="flex justify-between items-start p-3">
-          <div className="flex-1 pr-2">
+          <div className="flex-1 pr-2 text-left">
             <h3 className="text-sm font-semibold line-clamp-1">{title}</h3>
             <p className="text-xs text-muted-foreground line-clamp-1">{description}</p>
           </div>
