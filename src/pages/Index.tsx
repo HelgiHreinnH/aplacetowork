@@ -6,13 +6,13 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Redirect to the Card Design System page
-    navigate('/design/cards');
+    // Redirect to the workplace library page (search parameters)
+    navigate('/workplace-library');
   }, [navigate]);
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <p>Redirecting to Card Design System...</p>
+      <p>Redirecting to Workplace Library...</p>
     </div>
   );
 };

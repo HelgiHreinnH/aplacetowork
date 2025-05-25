@@ -103,7 +103,7 @@ const OnboardingFlow: React.FC = () => {
         }
       }
       
-      // Navigate to home page
+      // Navigate to home page (which will redirect to workplace library)
       navigate('/home', { replace: true });
     } catch (err) {
       console.error('Error completing onboarding:', err);
